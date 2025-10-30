@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="@color/background_color"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/ic_game_logo"
+        android:contentDescription="Game Logo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PVP GAME"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary_color"
+        android:layout_marginBottom="48dp" />
+
+    <Button
+        android:id="@+id/btnFindMatch"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Tìm Trận + Tạo Phòng"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_primary_background"
+        android:layout_marginBottom="16dp"
+        android:elevation="4dp" />
+
+    <Button
+        android:id="@+id/btnFriends"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Bạn Bè + Bảng Xếp Hạng"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_secondary_background"
+        android:elevation="4dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chọn chế độ chơi"
+        android:textSize="14sp"
+        android:textColor="@color/text_secondary"
+        android:layout_marginTop="32dp" />
+
+</LinearLayout>

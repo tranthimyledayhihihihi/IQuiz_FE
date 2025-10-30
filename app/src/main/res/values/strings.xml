@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PVP Game</string>
+
+    <!-- Main Activity -->
+    <string name="find_match">Tìm Trận + Tạo Phòng</string>
+    <string name="friends_leaderboard">Bạn Bè + Bảng Xếp Hạng</string>
+    <string name="choose_game_mode">Chọn chế độ chơi</string>
+
+    <!-- Find Match Activity -->
+    <string name="find_match_title">Tìm Trận + Tạo Phòng</string>
+    <string name="create_room">Tạo Phòng Mới</string>
+    <string name="room_name">Tên phòng</string>
+    <string name="game_type">Loại game (VD: Cờ vua, Cờ tướng)</string>
+    <string name="create_room_btn">Tạo Phòng</string>
+    <string name="quick_match">Tìm Trận Nhanh</string>
+    <string name="waiting_rooms">Phòng Đang Chờ</string>
+    <string name="room_code">Mã: %1$s</string>
+    <string name="waiting_for_players">Chờ người chơi</string>
+    <string name="playing">Đang chơi</string>
+    <string name="player_count">Số lượng: %1$d/%2$d</string>
+    <string name="refresh">Làm mới</string>
+
+    <!-- Lobby Activity -->
+    <string name="lobby_title">Sảnh Chờ Phòng</string>
+    <string name="room_info">Thông tin phòng</string>
+    <string name="room_code_label">Mã phòng: %1$s</string>
+    <string name="game_type_label">Loại game: %1$s</string>
+    <string name="players_in_room">Người Chơi Trong Phòng</string>
+    <string name="invite_friend">Mời Bạn</string>
+    <string name="leave_room">Rời Phòng</string>
+    <string name="start_game">Bắt Đầu</string>
+    <string name="online">Trực tuyến</string>
+    <string name="offline">Ngoại tuyến</string>
+    <string name="room_owner">Chủ phòng</string>
+    <string name="back_button">Quay lại</string>
+
+    <!-- Battle Activity -->
+    <string name="battle_title">Thi Đấu Trực Tiếp</string>
+    <string name="player1">Người chơi 1</string>
+    <string name="player2">Người chơi 2</string>
+    <string name="score">Điểm: %1$d</string>
+    <string name="time_remaining">Thời gian còn lại: %1$s</string>
+    <string name="surrender">Đầu hàng</string>
+
+    <!-- Results Activity -->
+    <string name="results_title">Kết Quả Trận Đấu</string>
+    <string name="winner">Người thắng: %1$s</string>
+    <string name="final_score">Điểm cuối: %1$d - %2$d</string>
+    <string name="play_again">Chơi lại</string>
+    <string name="back_to_lobby">Về sảnh chờ</string>
+    <string name="share_result">Chia sẻ kết quả</string>
+
+    <!-- Friends Activity -->
+    <string name="friends_title">Bạn Bè + Bảng Xếp Hạng</string>
+    <string name="friends_list">Danh sách bạn bè</string>
+    <string name="friend_requests">Lời mời kết bạn</string>
+    <string name="leaderboard">Bảng xếp hạng</string>
+    <string name="weekly_rank">Xếp hạng tuần</string>
+    <string name="monthly_rank">Xếp hạng tháng</string>
+    <string name="total_rank">Xếp hạng tổng</string>
+    <string name="add_friend">Thêm bạn</string>
+    <string name="accept">Chấp nhận</string>
+    <string name="reject">Từ chối</string>
+    <string name="rank">Hạng %1$d</string>
+    <string name="points">%1$d điểm</string>
+
+    <!-- Common -->
+    <string name="loading">Đang tải...</string>
+    <string name="error">Có lỗi xảy ra</string>
+    <string name="retry">Thử lại</string>
+    <string name="cancel">Hủy</string>
+    <string name="ok">OK</string>
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
+</resources>

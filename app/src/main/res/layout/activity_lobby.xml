@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_color"
+    tools:context=".ui.lobby.LobbyActivity">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@color/primary_color"
+        android:elevation="4dp">
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Back"
+            android:onClick="onBackClick" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sảnh Chờ Phòng"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_settings"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Settings" />
+
+    </LinearLayout>
+
+    <!-- Thông tin phòng -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/card_background"
+        android:layout_margin="8dp"
+        android:elevation="2dp">
+
+        <TextView
+            android:id="@+id/tvTenPhong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phòng Game 1"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary" />
+
+        <TextView
+            android:id="@+id/tvMaPhong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mã phòng: ABC12345"
+            android:textSize="14sp"
+            android:textColor="@color/text_secondary"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/tvLoaiGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loại game: Cờ vua"
+            android:textSize="14sp"
+            android:textColor="@color/text_secondary" />
+
+    </LinearLayout>
+
+    <!-- Danh sách người chơi -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Người Chơi Trong Phòng"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:layout_marginBottom="16dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewNguoiChoi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false" />
+
+    </LinearLayout>
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@color/card_background"
+        android:elevation="4dp">
+
+        <Button
+            android:id="@+id/btnInviteFriend"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Mời Bạn"
+            android:textColor="@color/primary_color"
+            android:background="@drawable/button_outline_background"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnRoiPhong"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Rời Phòng"
+            android:textColor="@color/error_color"
+            android:background="@drawable/button_outline_background"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnBatDau"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Bắt Đầu"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_primary_background"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

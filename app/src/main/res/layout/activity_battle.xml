@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_color"
+    tools:context=".ui.battle.BattleActivity">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@color/primary_color"
+        android:elevation="4dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back_button"
+            android:onClick="onBackClick" />
+
+        <TextView
+            android:id="@+id/tvTenPhong"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Phòng Game 1"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tvThoiGian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="05:00"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/timer_background"
+            android:padding="8dp" />
+
+    </LinearLayout>
+
+    <!-- Game Board -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center">
+
+        <!-- Player 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@drawable/player_area_background"
+            android:padding="16dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvNguoiChoi2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Người chơi 2"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvDiem2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Điểm: 0"
+                android:textSize="16sp"
+                android:textColor="@color/primary_color"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Game pieces or board for player 2 -->
+            <View
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/game_board_background" />
+
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/primary_color"
+            android:layout_margin="8dp" />
+
+        <!-- Player 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@drawable/player_area_background"
+            android:padding="16dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvNguoiChoi1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Người chơi 1"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvDiem1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Điểm: 0"
+                android:textSize="16sp"
+                android:textColor="@color/primary_color"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Game pieces or board for player 1 -->
+            <View
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/game_board_background" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Controls -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@color/card_background"
+        android:elevation="4dp">
+
+        <Button
+            android:id="@+id/btnMove1"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Nước đi 1"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_primary_background"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnMove2"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Nước đi 2"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_secondary_background"
+            android:layout_marginHorizontal="8dp" />
+
+        <Button
+            android:id="@+id/btnDauHang"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Đầu hàng"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_error_background" />
+
+    </LinearLayout>
+
+</LinearLayout>

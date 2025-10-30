@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_color"
+    tools:context=".ui.findmatch.FindMatchActivity">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@color/primary_color"
+        android:elevation="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/find_match_title"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_refresh"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/refresh" />
+    </LinearLayout>
+
+    <!-- Tạo phòng section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/card_background"
+        android:layout_margin="8dp"
+        android:elevation="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_room"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_color"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/edtTenPhong"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/room_name"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/edtLoaiGame"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/game_type"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnTaoPhong"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/create_room_btn"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_primary_background"
+            android:elevation="2dp" />
+    </LinearLayout>
+
+    <!-- Tìm trận nhanh -->
+    <Button
+        android:id="@+id/btnTimTrận"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/quick_match"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_secondary_background"
+        android:layout_margin="8dp"
+        android:elevation="2dp" />
+
+    <!-- Danh sách phòng -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/waiting_rooms"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:layout_marginBottom="16dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewPhongChoi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false" />
+    </LinearLayout>
+
+</LinearLayout>
