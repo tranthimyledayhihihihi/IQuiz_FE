@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "248120861327",
+    "project_id": "iquizapp-f58a7",
+    "storage_bucket": "iquizapp-f58a7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248120861327:android:3e451182736d66b10786fa",
+        "android_client_info": {
+          "package_name": "com.example.iquiz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYbK1gKkhaInUg_qWe140OisnUbkBG6-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

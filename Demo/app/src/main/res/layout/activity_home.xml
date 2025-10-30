@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FF"
+    android:padding="16dp">
+
+    <!-- Thanh trên: Avatar + Cài đặt -->
+    <ImageView
+        android:id="@+id/btnProfile"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/ic_user_placeholder"
+        android:background="@drawable/circle_bg"
+        android:padding="8dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:contentDescription="Avatar người dùng"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="10dp" />
+
+
+    <ImageView
+        android:id="@+id/btnSettings"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_settings"
+        android:background="@drawable/circle_bg"
+        android:padding="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:contentDescription="Cài đặt" />
+
+    <!-- Logo và tiêu đề -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_below="@id/btnProfile"
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="IQUIZ"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="#673AB7"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Đấu trường tri thức"
+            android:textSize="16sp"
+            android:textColor="#555"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!-- Các nút chức năng chính -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_below="@id/header"
+        android:layout_marginTop="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="Chủ đề Quiz"
+            android:id="@+id/btnQuiz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#7E57C2"
+            android:textColor="#FFF" />
+
+        <Button
+            android:text="Chơi hằng ngày"
+            android:id="@+id/btnDaily"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#FFB74D"
+            android:textColor="#FFF" />
+
+        <Button
+            android:text="Đấu trực tiếp"
+            android:id="@+id/btnBattle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#4DB6AC"
+            android:textColor="#FFF" />
+    </LinearLayout>
+
+    <!-- Nút đăng xuất -->
+    <Button
+        android:id="@+id/btnLogout"
+        android:text="Đăng xuất"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="#E57373"
+        android:textColor="#FFF"
+        android:layout_marginBottom="16dp" />
+</RelativeLayout>
