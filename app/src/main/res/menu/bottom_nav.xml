@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_quiz" android:title="@string/nav_quiz" android:icon="@android:drawable/ic_menu_info_details"/>
+    <item android:id="@+id/nav_mistake" android:title="@string/nav_mistake" android:icon="@android:drawable/ic_menu_recent_history"/>
+    <item android:id="@+id/nav_challenge" android:title="@string/nav_challenge" android:icon="@android:drawable/ic_media_play"/>
+    <item android:id="@+id/nav_custom" android:title="@string/nav_custom" android:icon="@android:drawable/ic_menu_edit"/>
+    <item android:id="@+id/nav_search" android:title="@string/nav_search" android:icon="@android:drawable/ic_menu_search"/>
+</menu>
