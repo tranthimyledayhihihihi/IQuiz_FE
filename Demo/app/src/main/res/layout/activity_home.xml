@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FF"
+    android:background="@color/bg_home"
     android:padding="16dp">
 
     <!-- Thanh trên: Avatar + Cài đặt -->
@@ -19,7 +19,6 @@
         android:clickable="true"
         android:focusable="true"
         android:elevation="10dp" />
-
 
     <ImageView
         android:id="@+id/btnSettings"
@@ -40,13 +39,15 @@
         android:layout_below="@id/btnProfile"
         android:layout_marginTop="24dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_splash_gradient"
+        android:padding="16dp">
 
         <TextView
             android:text="IQUIZ"
+            style="@style/TextWhite"
             android:textSize="32sp"
             android:textStyle="bold"
-            android:textColor="#673AB7"
             android:gravity="center"
             android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
@@ -54,8 +55,8 @@
 
         <TextView
             android:text="Đấu trường tri thức"
+            style="@style/TextWhite"
             android:textSize="16sp"
-            android:textColor="#555"
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -72,39 +73,27 @@
         <Button
             android:text="Chủ đề Quiz"
             android:id="@+id/btnQuiz"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:backgroundTint="#7E57C2"
-            android:textColor="#FFF" />
+            style="@style/ButtonPrimary"
+            android:layout_marginBottom="12dp" />
 
         <Button
             android:text="Chơi hằng ngày"
             android:id="@+id/btnDaily"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:backgroundTint="#FFB74D"
-            android:textColor="#FFF" />
+            style="@style/ButtonCyan"
+            android:layout_marginBottom="12dp" />
 
         <Button
             android:text="Đấu trực tiếp"
             android:id="@+id/btnBattle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:backgroundTint="#4DB6AC"
-            android:textColor="#FFF" />
+            style="@style/ButtonSecondary"
+            android:layout_marginBottom="12dp" />
     </LinearLayout>
 
     <!-- Nút đăng xuất -->
     <Button
         android:id="@+id/btnLogout"
         android:text="Đăng xuất"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/ButtonDanger"
         android:layout_alignParentBottom="true"
-        android:backgroundTint="#E57373"
-        android:textColor="#FFF"
         android:layout_marginBottom="16dp" />
 </RelativeLayout>

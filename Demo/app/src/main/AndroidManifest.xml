@@ -12,9 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IQuiz">
 
-        <!-- LoginActivity (Launcher) -->
+        <!-- SplashActivity (Launcher) -->
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -22,6 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- LoginActivity -->
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
 
         <!-- Các Activity khác -->
         <activity android:name=".activities.HomeActivity"
@@ -37,5 +43,6 @@
             android:screenOrientation="portrait" />
 
     </application>
+
 
 </manifest>

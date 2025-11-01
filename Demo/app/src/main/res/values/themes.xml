@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 🌙 Dark Mode Theme -->
+    <!-- 🌞 Light Mode Theme -->
     <style name="Theme.IQuiz" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Màu chính -->
-        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/text_white</item>
-        <item name="colorPrimaryContainer">@color/colorPrimary</item>
+        <item name="colorPrimaryContainer">@color/colorPrimaryDark</item>
 
         <!-- Màu phụ -->
         <item name="colorSecondary">@color/colorAccent</item>
@@ -14,7 +14,7 @@
         <item name="colorSecondaryContainer">@color/button_cyan</item>
 
         <!-- Nền & thanh trạng thái -->
-        <item name="android:statusBarColor">@color/bg_secondary</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:navigationBarColor">@color/bg_primary</item>
         <item name="android:windowBackground">@color/bg_primary</item>
 
