@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- 🌈 CORE COLORS -->
+    <!-- CORE COLORS -->
     <color name="purple_primary">#6C4FFF</color>
     <color name="purple_dark">#5A3FE6</color>
     <color name="purple_light">#E8E3FF</color>
@@ -10,35 +10,39 @@
     <color name="pink_gradient_middle">#FFA8C5</color>
     <color name="purple_gradient_end">#9747FF</color>
 
-    <!-- 🧩 BỔ SUNG CÁC MÀU THIẾU ĐỂ FIX LỖI -->
+    <!-- FUNCTIONAL COLORS -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-
-    <!-- Màu tab / bottom nav -->
-    <color name="tab_active">@color/purple_primary</color>
-    <color name="bottom_nav_inactive">#B0B0B0</color> <!-- xám nhạt -->
-
-    <!-- Màu nền -->
-    <color name="bg_home">@color/purple_light</color>
-    <item name="bg_splash" type="drawable">@drawable/bg_gradient_banner</item>
-    <!-- ⚙️ FUNCTIONAL COLORS -->
-    <color name="text_white">#FFFFFF</color>
+    <color name="textWhite">#FFFFFF</color>
     <color name="text_primary">#000000</color>
     <color name="text_secondary">#808080</color>
     <color name="bg_primary">@color/purple_light</color>
-    <color name="bg_secondary">#FFFFFF</color>
+    <color name="bg_secondary">@color/white</color>
     <color name="input_border">#E5E5EA</color>
 
-    <!-- 🟪 BUTTON COLORS -->
+    <!-- BUTTON COLORS -->
     <color name="button_primary">@color/purple_primary</color>
     <color name="button_pressed">@color/purple_dark</color>
     <color name="button_cyan">@color/cyan_accent</color>
     <color name="button_danger">#FF3B30</color>
 
-    <!-- 💠 BRAND COLOR SHORTCUT -->
+    <!-- TAB / NAV -->
+    <color name="tab_active">@color/purple_primary</color>
+    <color name="bottom_nav_inactive">#B0B0B0</color>
+
+    <!-- GRADIENT SHORTCUTS -->
+    <color name="cyanAccent">@color/cyan_accent</color>
+    <color name="orangeGradientStart">@color/orange_gradient_start</color>
+    <color name="pinkGradientMiddle">@color/pink_gradient_middle</color>
+    <color name="purpleGradientEnd">@color/purple_gradient_end</color>
+
+    <!-- BRAND SHORTCUT -->
     <color name="colorPrimary">@color/purple_primary</color>
     <color name="colorPrimaryDark">@color/purple_dark</color>
     <color name="colorAccent">@color/cyan_accent</color>
-
+    <!-- Đảm bảo trùng tên với themes/layout -->
+    <color name="purpleLight">#E8E3FF</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="buttonDanger">#FF3B30</color>
 
 </resources>

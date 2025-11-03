@@ -16,14 +16,7 @@
     </style>
 
     <!-- 🟦 Buttons -->
-    <style name="ButtonPrimary" parent="Widget.MaterialComponents.Button">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="backgroundTint">@color/button_primary</item>
-        <item name="android:textColor">@color/text_white</item>
-        <item name="cornerRadius">12dp</item>
-        <item name="android:elevation">2dp</item>
-    </style>
+
 
     <style name="ButtonCyan" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">match_parent</item>
@@ -33,24 +26,29 @@
         <item name="cornerRadius">12dp</item>
     </style>
 
-    <style name="ButtonSecondary" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="strokeColor">@color/button_secondary</item>
-        <item name="android:textColor">@color/button_primary</item>
-        <item name="cornerRadius">12dp</item>
-    </style>
 
-    <style name="ButtonDanger" parent="Widget.MaterialComponents.Button">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="backgroundTint">@color/button_danger</item>
-        <item name="android:textColor">@color/text_white</item>
-        <item name="cornerRadius">12dp</item>
-    </style>
+
+
     <style name="CircleImage">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
+    </style>
+    <style name="ButtonPrimary" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textColor">@color/textWhite</item>
+    </style>
+
+    <style name="ButtonSecondary" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/purpleLight</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="ButtonDanger" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/buttonDanger</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textColor">@color/textWhite</item>
     </style>
 
 </resources>

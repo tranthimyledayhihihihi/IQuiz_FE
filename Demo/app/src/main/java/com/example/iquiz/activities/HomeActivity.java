@@ -17,8 +17,7 @@ public class HomeActivity extends AppCompatActivity {
 
         ImageView btnProfile = findViewById(R.id.btnProfile);
         ImageView btnSettings = findViewById(R.id.btnSettings);
-        Button btnLogout = findViewById(R.id.btnLogout);
-
+        
         // Click avatar → mở ProfileActivity
         btnProfile.setOnClickListener(v -> {
             Toast.makeText(HomeActivity.this, "Profile clicked", Toast.LENGTH_SHORT).show();
