@@ -33,10 +33,6 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(HomeActivity.this, SettingsActivity.class))
         );
 
-        // Click Logout
-        btnLogout.setOnClickListener(v -> {
-            Toast.makeText(HomeActivity.this, "Đăng xuất", Toast.LENGTH_SHORT).show();
-            finish(); // hoặc mở LoginActivity nếu có
-        });
+
     }
 }

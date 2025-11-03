@@ -20,8 +20,7 @@
 
     <!-- Màu nền -->
     <color name="bg_home">@color/purple_light</color>
-    <color name="bg_splash">@drawable/bg_gradient_banner</color>
-
+    <item name="bg_splash" type="drawable">@drawable/bg_gradient_banner</item>
     <!-- ⚙️ FUNCTIONAL COLORS -->
     <color name="text_white">#FFFFFF</color>
     <color name="text_primary">#000000</color>
