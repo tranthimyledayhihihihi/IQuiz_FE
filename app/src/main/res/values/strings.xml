@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">QuizGame</string>
+    <string name="win_title">Chiến thắng!</string>
+    <string name="lose_title">Thua rồi!</string>
+    <string name="daily_reward_title">Phần thưởng hôm nay 🎁</string>
+    <string name="result_icon">Biểu tượng kết quả</string>
+</resources>
