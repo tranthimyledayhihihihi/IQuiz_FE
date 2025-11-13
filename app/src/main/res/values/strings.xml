@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">Special Modes</string>
-    <string name="nav_quiz">Quiz</string>
-    <string name="nav_mistake">Sai &amp; Ôn</string>
-    <string name="nav_challenge">Thử thách</string>
-    <string name="nav_custom">Tạo bộ</string>
-    <string name="nav_search">Tìm người</string>
-</resources>
