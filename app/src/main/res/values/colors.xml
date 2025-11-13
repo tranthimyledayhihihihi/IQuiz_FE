@@ -1,12 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="purple_primary">#8E24AA</color>
-    <color name="purple_dark">#6A1B9A</color>
-    <color name="purple_light">#D1B3FF</color>
-    <color name="orange_primary">#FF9800</color>
-    <color name="success_green">#4CAF50</color>
-    <color name="bg_secondary">#F5F5F5</color>
+    <color name="purple_primary">#6C4FFF</color>
+    <color name="purple_dark">#5A3FE6</color>
+    <color name="purple_light">#E8E3FF</color>
+    <color name="cyan_accent">#00D4FF</color>
+    <color name="color_gold">#FFD700</color>
+    <color name="color_orange_streak">#FF6B35</color>
 
-    <color name="bg_primary">#FAFAFA</color>
+    <color name="color_success">#34C759</color>
+    <color name="color_error">#FF3B30</color>
+    <color name="color_warning">#FFA500</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="background_secondary">#F9F9FB</color>
+    <color name="background_tertiary">#F5F5F5</color>
+
+    <color name="text_primary_dark">#000000</color>
+    <color name="text_secondary_dark_gray">#2C2C2E</color>
+    <color name="text_tertiary_gray">#8E8E93</color>
+
+    <color name="border_light">#E5E5EA</color>
+    <color name="border_medium">#C7C7CC</color>
 </resources>

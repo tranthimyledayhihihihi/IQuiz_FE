@@ -10,11 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuizReward">
 
-        <activity android:name=".AchievementActivity" />
-        <activity android:name=".StatisticsActivity" />
-        <activity android:name=".StreakActivity" />
-        <activity android:name=".DailyRewardActivity" />
-        <activity android:name=".ResultActivity" />
+        <activity android:name=".AchievementActivity" android:exported="false" />
+        <activity android:name=".StatisticsActivity" android:exported="false" />
+        <activity android:name=".StreakActivity" android:exported="false" />
+        <activity android:name=".DailyRewardActivity" android:exported="false" />
+        <activity android:name=".ResultActivity" android:exported="false" />
+
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

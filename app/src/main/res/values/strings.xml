@@ -1,7 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">QuizGame</string>
-    <string name="win_title">Chiến thắng!</string>
-    <string name="lose_title">Thua rồi!</string>
-    <string name="daily_reward_title">Phần thưởng hôm nay 🎁</string>
-    <string name="result_icon">Biểu tượng kết quả</string>
+    <string name="app_name">QuizFE</string>
+
+        <string name="title_system_3">HỆ THỐNG 3: KẾT QUẢ &amp; PHẦN THƯỞNG</string>
+        <string name="nav_result">1. Màn hình Kết quả (ResultActivity)</string>
+        <string name="nav_reward">2. Màn hình Thưởng mỗi ngày (DailyRewardActivity)</string>
+        <string name="nav_streak">3. Màn hình Chuỗi ngày (StreakActivity)</string>
+        <string name="nav_stats">4. Màn hình Biểu đồ Thống kê (StatisticsActivity)</string>
+        <string name="nav_achievements">5. Màn hình Thành tựu (AchievementActivity)</string>
+
+
+    <string name="result_icon_desc">Kết quả trận đấu</string>
+    <string name="result_win">CHIẾN THẮNG RỰC RỠ</string>
+    <string name="result_lose">HÃY THỬ LẠI LẦN NỮA</string>
+    <string name="your_score">Điểm của bạn</string>
+    <string name="correct_answers_format">%1$d/%2$d Câu trả lời đúng</string>
+    <string name="play_again">CHƠI LẠI NGAY</string>
+    <string name="back_to_home">Về Trang chủ</string>
+
+    <string name="daily_reward_title">PHẦN THƯỞNG MỖI NGÀY</string>
+    <string name="gift_icon_desc">Hộp quà nhận thưởng</string>
+    <string name="daily_reward_congrats">Chúc mừng! Bạn đã nhận được phần thưởng hôm nay.</string>
+    <string name="claim_reward_button">NHẬN THƯỞNG</string>
+    <string name="reward_points_format">+ %d ĐIỂM</string>
+    <string name="daily_reward_claimed">Bạn đã hoàn thành việc nhận thưởng ngày hôm nay.</string>
+    <string name="reward_claimed">ĐÃ NHẬN THƯỞNG</string>
+
+    <string name="streak_title">CHUỖI NGÀY LIÊN TIẾP</string>
+    <string name="streak_icon_desc">Biểu tượng ngọn lửa</string>
+    <string name="days_in_a_row">ngày liên tiếp</string>
+    <string name="streak_history">Lịch sử hoạt động</string>
+
+    <string name="statistics_title">THỐNG KÊ HIỆU SUẤT</string>
+    <string name="time_period">Khoảng thời gian:</string>
+    <string-array name="statistic_periods">
+        <item>Tuần này</item>
+        <item>Tháng này</item>
+        <item>Tất cả</item>
+    </string-array>
+    <string name="stat_avg_score">Điểm Trung bình</string>
+
+    <string name="achievements_title">THÀNH TỰU &amp; HUY HIỆU</string>
+    <string name="achievement_unlocked">ĐÃ MỞ KHÓA</string>
+    <string name="achievement_locked">CÒN THIẾU: %1$d/%2$d</string>
 </resources>

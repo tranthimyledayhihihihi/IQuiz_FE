@@ -1,3 +1,5 @@
+// settings.gradle.kts
+
 pluginManagement {
     repositories {
         google {
@@ -16,9 +18,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+
+        // BẮT BUỘC BỔ SUNG: Thêm JitPack để Gradle tìm thấy MPAndroidChart
+        maven("https://jitpack.io")
     }
 }
 
 rootProject.name = "FE"
 include(":app")
- 

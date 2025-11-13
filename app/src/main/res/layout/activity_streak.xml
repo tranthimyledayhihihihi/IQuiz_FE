@@ -1,8 +1,80 @@
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/gridStreak"
-    android:numColumns="5"
-    android:verticalSpacing="8dp"
-    android:horizontalSpacing="8dp"
-    android:padding="16dp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"> <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@color/color_orange_streak" android:gravity="center_vertical"
+    android:paddingStart="24dp"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/streak_title"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+</LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="-50dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="20dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_fire_streak"
+                app:tint="@color/color_orange_streak" android:contentDescription="@string/streak_icon_desc" />
+
+            <TextView
+                android:id="@+id/tv_current_streak_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7"
+                android:textSize="50sp"
+                android:textColor="@color/color_orange_streak" android:textStyle="bold"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/days_in_a_row"
+                android:textSize="18sp"
+                android:textColor="@color/text_tertiary_gray" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/streak_history"
+        android:textSize="20sp"
+        android:textColor="@color/text_secondary_dark_gray"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="24dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_streak_history"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="24dp"/>
+
+</LinearLayout>

@@ -1,19 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Theme mặc định -->
-    <style name="Theme.FE" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.QuizFE" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
         <item name="colorPrimary">@color/purple_primary</item>
+
         <item name="colorPrimaryVariant">@color/purple_dark</item>
-        <item name="colorOnPrimary">@android:color/white</item>
-        <item name="android:statusBarColor">@color/purple_dark</item>
+
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="colorSecondary">@color/cyan_accent</item>
+
+        <item name="colorOnSecondary">@color/text_primary_dark</item>
+
+        <item name="android:statusBarColor" tools:targetApi="l">@color/purple_dark</item>
+
+        <item name="android:windowBackground">@color/background_secondary</item>
+
     </style>
 
-    <!-- Theme không có ActionBar (cho các màn hình con) -->
-    <style name="Theme.FE.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/purple_primary</item>
-        <item name="colorPrimaryVariant">@color/purple_dark</item>
-        <item name="colorOnPrimary">@android:color/white</item>
-        <item name="android:statusBarColor">@color/purple_dark</item>
-    </style>
+    <style name="Theme.QuizFE.NoActionBar" parent="Theme.QuizFE" />
 
 </resources>

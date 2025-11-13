@@ -1,38 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="@color/bg_primary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal"
+    android:background="@color/background_secondary">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_system_3"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/purple_primary"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="16dp"/>
 
     <Button
         android:id="@+id/btnResult"
-        android:text="Kết quả"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nav_result"
+        android:backgroundTint="@color/purple_primary"
+        android:textColor="@color/white"
+        android:layout_marginBottom="8dp"/>
 
     <Button
         android:id="@+id/btnReward"
-        android:text="Nhận thưởng"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nav_reward"
+        android:backgroundTint="@color/purple_primary"
+        android:textColor="@color/white"
+        android:layout_marginBottom="8dp"/>
 
     <Button
         android:id="@+id/btnStreak"
-        android:text="Chuỗi ngày"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nav_streak"
+        android:backgroundTint="@color/purple_primary"
+        android:textColor="@color/white"
+        android:layout_marginBottom="8dp"/>
 
     <Button
         android:id="@+id/btnStats"
-        android:text="Biểu đồ"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nav_stats"
+        android:backgroundTint="@color/purple_primary"
+        android:textColor="@color/white"
+        android:layout_marginBottom="8dp"/>
 
     <Button
         android:id="@+id/btnAchievements"
-        android:text="Thành tựu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nav_achievements"
+        android:backgroundTint="@color/purple_primary"
+        android:textColor="@color/white"
+        android:layout_marginBottom="8dp"/>
+
 </LinearLayout>

@@ -1,18 +1,31 @@
 package com.example.fe;
 
-import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class StreakActivity extends AppCompatActivity {
+
+    private TextView tvCurrentStreakCount;
+    private RecyclerView rvStreakHistory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_streak);
 
-        GridView grid = findViewById(R.id.gridStreak);
-        String[] days = {"Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"};
-        grid.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, days));
+        tvCurrentStreakCount = findViewById(R.id.tv_current_streak_count);
+        rvStreakHistory = findViewById(R.id.rv_streak_history);
+
+        // TODO: Lấy dữ liệu chuỗi ngày hiện tại (Từ API 2)
+        int currentStreak = 7;
+        tvCurrentStreakCount.setText(String.valueOf(currentStreak));
+
+        // Thiết lập RecyclerView cho lịch sử
+        // ... Cần tạo StreakAdapter
+        rvStreakHistory.setLayoutManager(new LinearLayoutManager(this));
     }
 }
