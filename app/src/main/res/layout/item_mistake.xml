@@ -6,19 +6,23 @@
     android:padding="12dp"
     android:background="@drawable/bg_card">
 
-
     <TextView
         android:id="@+id/tvQ"
         android:text="Hỏi: ..."
-        android:textColor="@color/white"
+        android:textColor="@color/text_primary"
         android:textSize="16sp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <View android:layout_width="match_parent" android:layout_height="8dp"/>
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp" />
+
     <TextView
         android:id="@+id/tvA"
         android:text="Đáp án đúng: ..."
-        android:textColor="@color/gray_60"
+        android:textColor="@color/text_tertiary"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

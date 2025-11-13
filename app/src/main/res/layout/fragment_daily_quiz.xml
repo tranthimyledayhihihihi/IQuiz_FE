@@ -1,69 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_breath_anim"
     android:orientation="vertical"
+    android:background="@drawable/bg_breath_anim"
     android:padding="16dp">
 
-    <!-- Header -->
+    <!-- HEADER -->
     <TextView
         android:id="@+id/tvTitle"
         android:text="Quiz mỗi ngày"
         android:textColor="@color/white"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <!-- Timer + Score (đã fix gravity) -->
+    <!-- Timer + Score -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="4dp">
+        android:gravity="center_vertical"
+        android:layout_marginTop="6dp">
 
         <TextView
             android:id="@+id/tvTimer"
             android:text="00:30"
-            android:textColor="@color/gray_60"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tvScore"
             android:text="Điểm: 0"
-            android:textColor="@color/gray_60"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <!-- Progress bar đếm ngược -->
+    <!-- PROGRESS -->
     <ProgressBar
         android:id="@+id/progressTimer"
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="24dp"
+        android:layout_height="10dp"
         android:layout_marginTop="8dp"
         android:max="1000"
         android:progress="1000"
         android:indeterminate="false"
         android:background="@color/progress_bg"
-        android:progressDrawable="@android:drawable/progress_horizontal"/>
+        android:progressDrawable="@android:drawable/progress_horizontal"
+        android:progressTint="@color/purple_primary" />
 
-    <!-- Card + MotionLayout cho câu hỏi -->
+    <!-- BỌC MotionLayout TRONG CARD, NHƯNG CARD TRONG SUỐT -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/quizCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:cardBackgroundColor="@color/gray_10"
-        app:strokeColor="@color/gray_30"
-        app:strokeWidth="1dp"
-        app:cardCornerRadius="16dp"
-        android:padding="16dp">
+        android:layout_marginTop="20dp"
+        app:cardUseCompatPadding="false"
+        app:cardCornerRadius="0dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:strokeWidth="0dp">
+
 
         <androidx.constraintlayout.motion.widget.MotionLayout
             android:id="@+id/motionRoot"
@@ -73,82 +78,85 @@
 
             <LinearLayout
                 android:id="@+id/questionGroup"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvQuestionLabel"
+                    android:text="Câu hỏi hôm nay"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="13sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/tvQuestion"
-                    android:text="Câu hỏi mẫu: 2 + 2 = ?"
-                    android:textColor="@color/white"
+                    android:text="2 + 2 = ?"
+                    android:textColor="@color/text_primary"
+                    android:textStyle="bold"
                     android:textSize="18sp"
+                    android:layout_marginTop="4dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
+                <!-- ĐÁP ÁN: NỀN TRẮNG – VIỀN ĐEN -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="12dp">
+                    android:layout_marginTop="16dp">
 
-                    <com.google.android.material.button.MaterialButton
+                    <Button
                         android:id="@+id/btnOpt1"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
                         android:text="3"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        app:strokeColor="@color/white"
-                        app:strokeWidth="1dp"
-                        app:backgroundTint="@color/black"
+                        android:textColor="@color/text_primary"
+                        android:background="@drawable/answer_button"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="48dp" />
 
-                    <View android:layout_width="match_parent" android:layout_height="8dp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
 
-                    <com.google.android.material.button.MaterialButton
+                    <Button
                         android:id="@+id/btnOpt2"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
                         android:text="4"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        app:strokeColor="@color/white"
-                        app:strokeWidth="1dp"
-                        app:backgroundTint="@color/black"
+                        android:textColor="@color/text_primary"
+                        android:background="@drawable/answer_button"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="48dp" />
 
-                    <View android:layout_width="match_parent" android:layout_height="8dp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
 
-                    <com.google.android.material.button.MaterialButton
+                    <Button
                         android:id="@+id/btnOpt3"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
                         android:text="5"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        app:strokeColor="@color/white"
-                        app:strokeWidth="1dp"
-                        app:backgroundTint="@color/black"
+                        android:textColor="@color/text_primary"
+                        android:background="@drawable/answer_button"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="48dp" />
 
-                    <View android:layout_width="match_parent" android:layout_height="8dp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
 
-                    <com.google.android.material.button.MaterialButton
+                    <Button
                         android:id="@+id/btnOpt4"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
                         android:text="6"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        app:strokeColor="@color/white"
-                        app:strokeWidth="1dp"
-                        app:backgroundTint="@color/black"
+                        android:textColor="@color/text_primary"
+                        android:background="@drawable/answer_button"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="48dp" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.constraintlayout.motion.widget.MotionLayout>
     </com.google.android.material.card.MaterialCardView>
+
 </LinearLayout>

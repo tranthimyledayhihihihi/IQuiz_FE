@@ -2,8 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black">
-
+    android:background="@color/bg_secondary">
 
     <LinearLayout
         android:orientation="vertical"
@@ -11,52 +10,71 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <TextView
+            android:id="@+id/tvTitleCustom"
             android:text="Tạo bộ câu hỏi"
-            android:textColor="@color/white"
+            android:textColor="@color/text_primary"
             android:textSize="20sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
+        <TextView
+            android:id="@+id/tvSubtitleCustom"
+            android:text="Đặt tên cho bộ câu hỏi để dễ quản lý và luyện tập sau này."
+            android:textColor="@color/text_tertiary"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <TextView
+            android:id="@+id/tvLabelName"
+            android:text="Tên bộ câu hỏi"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <EditText
             android:id="@+id/edtSetName"
-            android:hint="Tên bộ câu hỏi"
-            android:textColorHint="@color/gray_60"
-            android:textColor="@color/white"
+            android:hint="Ví dụ: Ôn thi giữa kỳ, Từ vựng tiếng Anh..."
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_tertiary"
             android:background="@drawable/bg_card"
             android:padding="12dp"
+            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"/>
-        <EditText
-            android:id="@+id/edtTags"
-            android:hint="Thẻ (ví dụ: toán, sử...)"
-            android:textColorHint="@color/gray_60"
-            android:textColor="@color/white"
-            android:background="@drawable/bg_card"
-            android:padding="12dp"
+            android:layout_height="wrap_content" />
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
+            android:layout_height="16dp" />
 
-
-        <Button
-            android:id="@+id/btnAdd"
-            android:text="Thêm câu hỏi"
-            android:textAllCaps="false"
-            android:layout_marginTop="12dp"
+        <TextView
+            android:id="@+id/tvHint"
+            android:text="Sau khi lưu, bộ câu hỏi sẽ xuất hiện trong phần luyện tập (mock)."
+            android:textColor="@color/text_tertiary"
+            android:textSize="13sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="24dp" />
 
         <Button
             android:id="@+id/btnSave"
             android:text="Lưu bộ câu hỏi"
             android:textAllCaps="false"
+            android:textColor="@color/bg_primary"
+            android:backgroundTint="@color/purple_primary"
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 </ScrollView>

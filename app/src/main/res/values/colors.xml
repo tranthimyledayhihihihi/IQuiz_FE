@@ -1,14 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- CORE COLORS -->
+    <color name="purple_primary">#6C4FFF</color>
+    <color name="purple_dark">#5A3FE6</color>
+    <color name="purple_light">#E8E3FF</color>
+
+    <color name="cyan_accent">#00D4FF</color>
+
+    <!-- GRADIENT BANNER -->
+    <color name="orange_start">#FF7A3D</color>
+    <color name="pink_mid">#FFA8C5</color>
+    <color name="purple_end">#9747FF</color>
+
+    <!-- BACKGROUND SYSTEM -->
+    <color name="bg_primary">#FFFFFF</color>
+    <color name="bg_secondary">#F9F9FB</color>
+    <color name="bg_tertiary">#F5F5F5</color>
+
+    <!-- TEXT COLORS -->
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#2C2C2E</color>
+    <color name="text_tertiary">#8E8E93</color>
+
+    <!-- BORDER & DIVIDER -->
+    <color name="border_light">#E5E5EA</color>
+    <color name="border_medium">#C7C7CC</color>
+
+    <!-- STATUS COLORS -->
+    <color name="success">#34C759</color>
+    <color name="error">#FF3B30</color>
+    <color name="warning">#FFA500</color>
+    <color name="info">#00D4FF</color>
+
+    <!-- OVERLAY & SHADOW -->
+    <color name="overlay_dark">#66000000</color>   <!-- rgba(0,0,0,0.4) -->
+    <color name="overlay_light">#E6FFFFFF</color>  <!-- rgba(255,255,255,0.9) -->
+
+    <!-- BADGE COLORS -->
+    <color name="gold">#FFD700</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="bronze">#CD7F32</color>
+
+    <!-- MAP LẠI MÀU CŨ SANG HỆ MỚI ĐỂ KHÔNG LỖI -->
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="gray_10">#1A1A1A</color>
-    <color name="gray_30">#4D4D4D</color>
-    <color name="gray_60">#999999</color>
-    <color name="gray_90">#E6E6E6</color>
 
-    <!-- NEW -->
-    <color name="green_ok">#2ECC71</color>
-    <color name="red_bad">#FF5252</color>
-    <color name="progress_bg">#262626</color>
+    <!-- gray_* map sang text/border trong system mới -->
+    <color name="gray_10">#2C2C2E</color>  <!-- gần text_secondary -->
+    <color name="gray_30">#8E8E93</color>  <!-- gần text_tertiary -->
+    <color name="gray_60">#C7C7CC</color>  <!-- border_medium -->
+    <color name="gray_90">#E5E5EA</color>  <!-- border_light -->
+
+    <!-- progress background (daily quiz) -->
+    <color name="progress_bg">#E8E3FF</color> <!-- tím nhạt -->
+
+    <!-- giữ lại để tránh lỗi code cũ -->
+    <color name="green_ok">#34C759</color>
+    <color name="red_bad">#FF3B30</color>
 </resources>
