@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="3dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_header_survival"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chế độ Sinh tồn"
+                android:textColor="@color/red_warning"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_lives"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="♥♥♥"
+                android:textColor="@color/red_warning"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/tv_survival_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sai 3 câu là thua. Cố sống càng lâu càng tốt!"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_survival_meta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Thời gian/câu: 15s • Độ khó: Trung bình - Khó"
+                android:textColor="@color/text_muted"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btn_start_survival"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ripple_button_primary"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="6dp"
+                android:text="Bắt đầu"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
