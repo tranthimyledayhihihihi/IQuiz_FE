@@ -39,6 +39,20 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
 
+    // BỔ SUNG: CÁC THƯ VIỆN CÒN THIẾU CHO GIAO DIỆN ONLINE
+    // 1. Thư viện RecyclerView (BẮT BUỘC)
+    // Cần cho: FriendsAdapter, LeaderboardAdapter, RoomPlayerAdapter, ResultAdapter
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+    // 2. Thư viện Fragment (BẮT BUỘC)
+    // Cần cho: FriendsFragment, LeaderboardFragment
+    implementation("androidx.fragment:fragment-ktx:1.6.2") // Dùng bản ktx
+
+    // 3. Thư viện ViewPager2 (BẮT BUỘC)
+    // Cần cho: FriendsLeaderboardActivity (để lướt qua lại giữa các Fragment)
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
+    // KẾT THÚC BỔ SUNG
+
     // ROOM (DATABASE CỤC BỘ)
     implementation(libs.room.common.jvm)
     implementation(libs.room.runtime)
@@ -57,6 +71,9 @@ dependencies {
 
     // 4. Logging Interceptor (Theo dõi request/response trong Logcat)
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+    // Thư viện này bạn đã thêm, rất tốt!
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
     // TESTING
     testImplementation(libs.junit)

@@ -6,6 +6,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.example.iq5.core.db.dao.QuestionDao;
 import com.example.iq5.core.db.dao.UserDao;
 import com.example.iq5.core.db.entity.QuestionLocalEntity;
 import com.example.iq5.core.db.entity.TopicLocalEntity;
