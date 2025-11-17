@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- SỬA LỖI 1: Thêm quyền INTERNET (Bắt buộc cho API/WebSocket) -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -21,6 +24,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- SỬA LỖI 2: Thêm tất cả các Activity mới của feature 'multiplayer' -->
+
+        <!-- Màn hình Tìm trận -->
+        <activity
+            android:name=".feature.multiplayer.ui.FindMatchActivity"
+            android:exported="false" />
+
+        <!-- Màn hình Sảnh chờ -->
+        <activity
+            android:name=".feature.multiplayer.ui.RoomLobbyActivity"
+            android:exported="false" />
+
+        <!-- Màn hình Thi đấu -->
+        <activity
+            android:name=".feature.multiplayer.ui.PvPBattleActivity"
+            android:exported="false" />
+
+        <!-- Màn hình Kết quả -->
+        <activity
+            android:name=".feature.multiplayer.ui.CompareResultActivity"
+            android:exported="false" />
+
+        <!-- Màn hình Bạn bè (Riêng) -->
+        <activity
+            android:name=".feature.multiplayer.ui.FriendsActivity"
+            android:exported="false" />
+
+        <!-- Màn hình BXH (Cái mà bạn đang dùng ViewPager) -->
+        <activity
+            android:name=".feature.multiplayer.ui.LeaderboardActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
