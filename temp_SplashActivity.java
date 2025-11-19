@@ -1,6 +1,6 @@
-package com.example.iq5.feature.auth.ui;
+﻿package com.example.iquiz.activities;
+import com.example.iquiz.R;
 
-import com.example.iq5.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,7 +13,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // Sau 2 giây -> chuyển sang màn đăng nhập
+        // Sau 2 gi├óy -> chuyß╗ân sang m├án ─æ─âng nhß║¡p
         new Handler().postDelayed(() -> {
             startActivity(new Intent(SplashActivity.this, LoginActivity.class));
             finish();

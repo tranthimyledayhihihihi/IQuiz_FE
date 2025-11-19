@@ -1,10 +1,10 @@
-package com.example.iq5.feature.auth.ui;
+﻿package com.example.iquiz.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.iq5.R;
+import com.example.iquiz.R;
 
 public class RegisterActivity extends AppCompatActivity {
     @Override
@@ -16,7 +16,7 @@ public class RegisterActivity extends AppCompatActivity {
         TextView tvLogin = findViewById(R.id.tvLogin);
 
         btnRegister.setOnClickListener(v -> {
-            Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "─É─âng k├╜ th├ánh c├┤ng!", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         });

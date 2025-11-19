@@ -1,13 +1,13 @@
-package com.example.iq5.feature.auth.ui;
+﻿package com.example.iquiz.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.iquiz.R;
 
-import com.example.iq5.R;
 public class HomeActivity extends AppCompatActivity {
 
     @Override
@@ -17,8 +17,8 @@ public class HomeActivity extends AppCompatActivity {
 
         ImageView btnProfile = findViewById(R.id.btnProfile);
         ImageView btnSettings = findViewById(R.id.btnSettings);
-
-        // Click avatar → mở ProfileActivity
+        
+        // Click avatar ΓåÆ mß╗ƒ ProfileActivity
         btnProfile.setOnClickListener(v -> {
             Toast.makeText(HomeActivity.this, "Profile clicked", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
