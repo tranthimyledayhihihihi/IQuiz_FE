@@ -41,7 +41,7 @@
             android:id="@+id/edtEmail"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:drawableStart="@drawable/ic_email"
+            android:drawableStart="@drawable/ic_email1"
             android:drawablePadding="8dp"
             android:background="@drawable/bg_input"
             android:padding="12dp"

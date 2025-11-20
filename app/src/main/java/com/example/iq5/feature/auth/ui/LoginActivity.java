@@ -45,8 +45,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        tvRegister.setOnClickListener(v ->
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
-        );
+        if (tvRegister != null) {
+            tvRegister.setOnClickListener(v ->
+                    startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
+            );
+        }
     }
 }

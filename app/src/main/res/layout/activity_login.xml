@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chào mừng trở lại!"
-                android:textColor="#FFFFFF"
+                android:textColor="#6C4FFF"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đăng nhập để tiếp tục"
-                android:textColor="#B3FFFFFF"
+                android:textColor="#666666"
                 android:textSize="15sp"
                 android:layout_marginBottom="40dp" />
 
@@ -247,7 +247,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Chưa có tài khoản? "
-                    android:textColor="#E6FFFFFF"
+                    android:textColor="#666666"
                     android:textSize="14sp" />
 
                 <TextView
@@ -255,8 +255,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Đăng ký"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
+                    android:textColor="#00D4FF"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:padding="4dp" />
             </LinearLayout>
