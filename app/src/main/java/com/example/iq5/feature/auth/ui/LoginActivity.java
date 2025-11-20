@@ -4,16 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.iq5.R;
+import com.example.iq5.feature.auth.data.AuthRepository;
+import com.example.iq5.feature.auth.model.LoginResponse;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText txtEmail, txtPassword;
     Button btnLogin;
-    TextView tvRegister;
+    LoginResponse mock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,32 +26,25 @@ public class LoginActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        tvRegister = findViewById(R.id.tvRegister);
+
+        AuthRepository repo = new AuthRepository(this);
+        mock = repo.getLoginData();
+
+        txtEmail.setHint(mock.emailPlaceholder);
+        txtPassword.setHint(mock.passwordPlaceholder);
 
         btnLogin.setOnClickListener(v -> {
-            String email = txtEmail.getText().toString().trim();
-            String password = txtPassword.getText().toString().trim();
-
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập đầy đủ Email và Mật khẩu", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // Chuyển sang HomeActivity
-            try {
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
+            if (mock.loginSuccess) {
+                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                 finish();
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Lỗi chuyển trang: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Login failed!", Toast.LENGTH_SHORT).show();
             }
         });
 
-        if (tvRegister != null) {
-            tvRegister.setOnClickListener(v ->
-                    startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
-            );
-        }
+        // Navigate to Register
+        findViewById(R.id.tvRegister).setOnClickListener(v -> {
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+        });
     }
 }

@@ -1,0 +1,8 @@
+{
+  "namePlaceholder": "Enter your full name",
+  "emailPlaceholder": "Enter your email",
+  "passwordPlaceholder": "Enter your password",
+  "confirmPasswordPlaceholder": "Confirm your password",
+  "registerSuccess": true,
+  "userId": 102
+}

@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Banner Gradient -->
+        <!-- Banner -->
         <View
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:background="@drawable/bg_profile_banner" />
 
-        <!-- Avatar và Edit Button -->
+        <!-- Avatar + Info -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,20 +38,22 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content">
 
+                <!-- Name -->
                 <TextView
                     android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Andrew Ainsley"
+                    android:text="Name"
                     android:textSize="18sp"
                     android:textColor="@color/text_primary"
                     android:textStyle="bold"/>
 
+                <!-- Email (username) -->
                 <TextView
-                    android:id="@+id/tvUsername"
+                    android:id="@+id/tvEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/username"
+                    android:text="email@example.com"
                     android:textSize="14sp"
                     android:textColor="@color/text_secondary"/>
             </LinearLayout>
@@ -75,8 +77,8 @@
             android:padding="16dp"
             android:weightSum="3">
 
+            <!-- Quiz Taken -->
             <LinearLayout
-
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -87,22 +89,24 @@
                 android:layout_marginEnd="4dp">
 
                 <TextView
-                    android:text="45"
+                    android:id="@+id/tvQuizTaken"
+                    android:text="0"
                     android:textColor="@color/text_primary"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+
                 <TextView
-                    android:text="Quizzo"
+                    android:text="Quizzes"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
+            <!-- Avg Score -->
             <LinearLayout
-
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -113,22 +117,24 @@
                 android:layout_marginEnd="4dp">
 
                 <TextView
-                    android:text="5.6M"
+                    android:id="@+id/tvAvgScore"
+                    android:text="0"
                     android:textColor="@color/text_primary"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+
                 <TextView
-                    android:text="Plays"
+                    android:text="Avg Score"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
+            <!-- Placeholder -->
             <LinearLayout
-
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -138,22 +144,31 @@
                 android:padding="8dp">
 
                 <TextView
-                    android:text="16.8M"
-                    android:textColor="@color/text_primary"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
+                    android:text="❤️"
+                    android:textSize="20sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+
                 <TextView
-                    android:text="Players"
+                    android:text="Support"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
+
         </LinearLayout>
 
-        <!-- Các buttons khác có thể thêm như Share, Logout -->
+        <!-- Buttons -->
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/purple_primary"
+            android:textColor="@color/white"/>
+
         <Button
             android:id="@+id/btnShare"
             android:layout_width="match_parent"

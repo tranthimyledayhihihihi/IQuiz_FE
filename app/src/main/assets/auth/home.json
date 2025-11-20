@@ -1,0 +1,8 @@
+{
+  "welcomeMessage": "Welcome back, User!",
+  "featuredQuizzes": [
+    { "id": 1, "title": "General Knowledge", "difficulty": "Easy" },
+    { "id": 2, "title": "Science Challenge", "difficulty": "Medium" },
+    { "id": 3, "title": "History Quiz", "difficulty": "Hard" }
+  ]
+}

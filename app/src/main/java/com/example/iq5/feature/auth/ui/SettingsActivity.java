@@ -1,31 +1,55 @@
 package com.example.iq5.feature.auth.ui;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.Toast;
+import android.widget.CompoundButton;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+
 import com.example.iq5.R;
+import com.example.iq5.feature.auth.data.AuthRepository;
+import com.example.iq5.feature.auth.model.SettingsResponse;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    SwitchCompat switchDarkMode, switchSound;
+    Spinner spinnerLanguage;
+    SeekBar seekVolume;
+    TextView tvVolumePercent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        Button btnReset = findViewById(R.id.btnReset);
-        Button btnSave = findViewById(R.id.btnSave);
+        // ĐÚNG ID TRONG XML
+        switchDarkMode = findViewById(R.id.switchDarkMode);
+        switchSound = findViewById(R.id.switchSound);
+        spinnerLanguage = findViewById(R.id.spinnerLanguage);
+        seekVolume = findViewById(R.id.seekVolume);
+        tvVolumePercent = findViewById(R.id.tvVolumePercent);
 
-        if (btnReset != null) {
-            btnReset.setOnClickListener(v -> {
-                Toast.makeText(this, "Reset settings", Toast.LENGTH_SHORT).show();
-            });
-        }
+        // Load JSON
+        AuthRepository repo = new AuthRepository(this);
+        SettingsResponse s = repo.getSettingsData();
 
-        if (btnSave != null) {
-            btnSave.setOnClickListener(v -> {
-                Toast.makeText(this, "Lưu cài đặt thành công", Toast.LENGTH_SHORT).show();
-                finish();
-            });
-        }
+        // Bind JSON vào UI
+        switchDarkMode.setChecked(s.darkMode);
+        switchSound.setChecked(true); // JSON chưa có, bạn có thể thêm sau
+
+        if (s.language.equals("vi")) spinnerLanguage.setSelection(0);
+        else if (s.language.equals("en")) spinnerLanguage.setSelection(1);
+
+        // Seekbar volume (mock)
+        seekVolume.setProgress(70);
+        tvVolumePercent.setText("70%");
+
+        // Back button
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
     }
+
 }
