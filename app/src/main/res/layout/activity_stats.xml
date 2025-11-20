@@ -8,6 +8,7 @@
     android:background="@color/color_gray_bg_secondary"
     tools:context=".feature.result.ui.StatsActivity">
 
+    <!-- Toolbar -->
     <LinearLayout
         android:id="@+id/toolbar_stats"
         android:layout_width="match_parent"
@@ -23,8 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_back"
-            app:tint="@color/color_black"
-            android:contentDescription="Back Button"/>
+            android:contentDescription="Back Button"
+            app:tint="@color/color_black"/>
 
         <TextView
             android:layout_width="0dp"
@@ -49,6 +50,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Card tuần này -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,6 +65,7 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
+                    <!-- Tuần này + Streak -->
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -83,55 +86,10 @@
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
                             android:background="@drawable/bg_rounded_status"
-                            android:backgroundTint="@color/color_purple_light"
                             android:layout_alignParentEnd="true"/>
                     </RelativeLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:layout_marginBottom="20dp"
-                        android:orientation="horizontal"
-                        android:weightSum="7">
-
-                        <LinearLayout style="@style/BarChartColumnStyle">
-                            <TextView android:text="850" style="@style/BarChartScoreStyle" android:textColor="@color/color_black"/>
-                            <View style="@style/BarChartBarStyle" android:layout_height="100dp" android:background="@drawable/bg_bar_gradient_1"/>
-                            <TextView android:text="T2" style="@style/BarChartDayStyle"/>
-                        </LinearLayout>
-                        <LinearLayout style="@style/BarChartColumnStyle">
-                            <TextView android:text="950" style="@style/BarChartScoreStyle" android:textColor="@color/color_black"/>
-                            <View style="@style/BarChartBarStyle" android:layout_height="120dp" android:background="@drawable/bg_bar_gradient_2"/>
-                            <TextView android:text="T3" style="@style/BarChartDayStyle"/>
-                        </LinearLayout>
-                        <LinearLayout style="@style/BarChartColumnStyle">
-                            <TextView android:text="700" style="@style/BarChartScoreStyle" android:textColor="@color/color_black"/>
-                            <View style="@style/BarChartBarStyle" android:layout_height="80dp" android:background="@drawable/bg_bar_gradient_1"/>
-                            <TextView android:text="T4" style="@style/BarChartDayStyle"/>
-                        </LinearLayout>
-                        <LinearLayout style="@style/BarChartColumnStyle">
-                            <TextView android:text="1000" style="@style/BarChartScoreStyle" android:textColor="@color/color_black"/>
-                            <View style="@style/BarChartBarStyle" android:layout_height="130dp" android:background="@drawable/bg_bar_gradient_2"/>
-                            <TextView android:text="T5" style="@style/BarChartDayStyle"/>
-                        </LinearLayout>
-                        <LinearLayout style="@style/BarChartColumnStyle">
-                            <TextView android:text="600" style="@style/BarChartScoreStyle" android:textColor="@color/color_black"/>
-                            <View style="@style/BarChartBarStyle" android:layout_height="70dp" android:background="@drawable/bg_bar_gradient_3"/>
-                            <TextView android:text="T6" style="@style/BarChartDayStyle"/>
-                        </LinearLayout>
-                        <LinearLayout style="@style/BarChartColumnStyle">
-                            <TextView android:text="" style="@style/BarChartScoreStyle"/>
-                            <View style="@style/BarChartBarStyle" android:layout_height="10dp" android:background="@color/color_gray_bg_tertiary"/>
-                            <TextView android:text="T7" style="@style/BarChartDayStyle"/>
-                        </LinearLayout>
-                        <LinearLayout style="@style/BarChartColumnStyle">
-                            <TextView android:text="" style="@style/BarChartScoreStyle"/>
-                            <View style="@style/BarChartBarStyle" android:layout_height="10dp" android:background="@color/color_gray_bg_tertiary"/>
-                            <TextView android:text="CN" style="@style/BarChartDayStyle"/>
-                        </LinearLayout>
-
-                    </LinearLayout>
-
+                    <!-- Thống kê tuần -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -139,37 +97,31 @@
                         android:layout_marginTop="16dp"
                         android:weightSum="3">
 
-                        <TextView android:id="@+id/tv_total_score"
+                        <TextView
+                            android:id="@+id/tv_total_score"
                             style="@style/StatCardStyle"
-                            tools:text="4,100\nTổng điểm"
+                            android:text="0\nTổng điểm"
                             android:textColor="@color/color_black"
                             android:backgroundTint="@color/color_purple_light"/>
 
-                        <TextView android:id="@+id/tv_average_score"
+                        <TextView
+                            android:id="@+id/tv_average_score"
                             style="@style/StatCardStyle"
-                            tools:text="820\nTrung bình"
+                            android:text="0\nTrung bình"
                             android:textColor="@color/color_black"
                             android:backgroundTint="@color/color_purple_light"/>
 
-                        <TextView android:id="@+id/tv_days_completed_stat"
+                        <TextView
+                            android:id="@+id/tv_days_completed_stat"
                             style="@style/StatCardStyle"
-                            tools:text="5/7\nNgày hoàn thành"
+                            android:text="0/7\nNgày hoàn thành"
                             android:textColor="@color/color_black"
                             android:backgroundTint="@color/color_purple_light"/>
-
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="8dp"
-                app:cardBackgroundColor="@color/color_white">
-
-            </androidx.cardview.widget.CardView>
-
+            <!-- RecyclerView mốc thống kê -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -5,14 +5,16 @@ public class Achievement {
     private String title;
     private String description;
     private boolean isUnlocked;
-    private int iconResId;
+    private String iconResId;  // Lưu tên icon dạng String
     private int currentProgress;
     private int targetProgress;
 
+    // Constructor rỗng
     public Achievement() {}
 
-    // Constructor Hoàn chỉnh (Dành cho Thành tựu Đã/Chưa mở khóa)
-    public Achievement(int id, String title, String description, boolean isUnlocked, int iconResId, int currentProgress, int targetProgress) {
+    // Constructor đầy đủ
+    public Achievement(int id, String title, String description, boolean isUnlocked,
+                       String iconResId, int currentProgress, int targetProgress) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -22,16 +24,21 @@ public class Achievement {
         this.targetProgress = targetProgress;
     }
 
-    // Constructor đơn giản (Dùng tạm nếu bạn không cần progress bar)
-    public Achievement(int id, String title, String description, boolean isUnlocked, int iconResId) {
-        this(id, title, description, isUnlocked, iconResId, isUnlocked ? 100 : 0, 100);
-    }
-
+    // Getters
     public int getId() { return id; }
     public String getTitle() { return title; }
     public String getDescription() { return description; }
     public boolean isUnlocked() { return isUnlocked; }
-    public int getIconResId() { return iconResId; }
+    public String getIconResId() { return iconResId; }
     public int getCurrentProgress() { return currentProgress; }
     public int getTargetProgress() { return targetProgress; }
+
+    // Setters
+    public void setId(int id) { this.id = id; }
+    public void setTitle(String title) { this.title = title; }
+    public void setDescription(String description) { this.description = description; }
+    public void setUnlocked(boolean unlocked) { isUnlocked = unlocked; }
+    public void setIconResId(String iconResId) { this.iconResId = iconResId; }
+    public void setCurrentProgress(int currentProgress) { this.currentProgress = currentProgress; }
+    public void setTargetProgress(int targetProgress) { this.targetProgress = targetProgress; }
 }

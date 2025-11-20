@@ -5,21 +5,24 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
 import com.example.iq5.feature.result.ui.*; // Import tất cả các Activity demo
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
-        // Kết nối các nút với phương thức chuyển Activity
-        findViewById(R.id.btn_result).setOnClickListener(v -> startActivity(new Intent(this, ResultActivity.class)));
-        findViewById(R.id.btn_daily_reward).setOnClickListener(v -> startActivity(new Intent(this, DailyRewardActivity.class)));
-        findViewById(R.id.btn_achievement).setOnClickListener(v -> startActivity(new Intent(this, AchievementActivity.class)));
-        findViewById(R.id.btn_stats).setOnClickListener(v -> startActivity(new Intent(this, StatsActivity.class)));
-        findViewById(R.id.btn_streak).setOnClickListener(v -> startActivity(new Intent(this, StreakActivity.class)));
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
     }
 }

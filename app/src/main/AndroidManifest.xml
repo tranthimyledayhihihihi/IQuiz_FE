@@ -5,8 +5,10 @@
     <application
         android:theme="@style/Theme.IQ5">
 
+        <activity android:name=".MainActivity" android:exported="false" />
+
         <activity
-            android:name=".MainActivity"
+            android:name=".feature.result.ui.test"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -14,11 +16,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".feature.result.ui.ResultActivity" />
-        <activity android:name=".feature.result.ui.DailyRewardActivity" />
-        <activity android:name=".feature.result.ui.AchievementActivity" />
-        <activity android:name=".feature.result.ui.StatsActivity" />
-        <activity android:name=".feature.result.ui.StreakActivity" />
+        <activity android:name=".feature.result.ui.ResultActivity" android:exported="false" />
+        <activity android:name=".feature.result.ui.DailyRewardActivity" android:exported="false" />
+        <activity android:name=".feature.result.ui.AchievementActivity" android:exported="false" />
+        <activity android:name=".feature.result.ui.StatsActivity" android:exported="false" />
+        <activity android:name=".feature.result.ui.StreakActivity" android:exported="false" />
 
     </application>
 </manifest>

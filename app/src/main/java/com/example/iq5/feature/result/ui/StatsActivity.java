@@ -8,61 +8,56 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.iq5.R;
 import com.example.iq5.feature.result.adapter.StatsAdapter;
 import com.example.iq5.feature.result.model.UserStats;
-import java.util.ArrayList;
+import com.example.iq5.feature.result.data.ResultRepository;
 import java.util.List;
-import android.view.View; // Import cần thiết cho findViewById
 
 public class StatsActivity extends AppCompatActivity {
+
+    private RecyclerView rvStatsMilestones;
+    private TextView tvTotalScore, tvAverageScore, tvDaysCompletedStat;
+    private ResultRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // KHẮC PHỤC LỖI: Đảm bảo Activity gọi đúng file layout chứa ID rv_stats_milestones
         setContentView(R.layout.activity_stats);
 
-        // 1. Khởi tạo RecyclerView cho các Mốc thống kê
-        RecyclerView rvStats = findViewById(R.id.rv_stats_milestones);
-        if (rvStats != null) { // Kiểm tra null để tránh crash nếu ID vẫn bị lỗi
-            rvStats.setLayoutManager(new LinearLayoutManager(this));
+        // 1. Ánh xạ View
+        rvStatsMilestones = findViewById(R.id.rv_stats_milestones);
+        tvTotalScore = findViewById(R.id.tv_total_score);
+        tvAverageScore = findViewById(R.id.tv_average_score);
+        tvDaysCompletedStat = findViewById(R.id.tv_days_completed_stat);
 
-            // 2. Tạo dữ liệu giả
-            List<UserStats> mockStats = createMockStats();
+        // 2. Khởi tạo Repository và lấy dữ liệu từ JSON
+        repository = new ResultRepository(this);
+        List<UserStats> statsList = repository.getStatsMilestones();
 
-            // 3. Khởi tạo và kết nối Adapter
-            // Giả định StatsAdapter yêu cầu Context (this)
-            StatsAdapter adapter = new StatsAdapter(mockStats, this);
-            rvStats.setAdapter(adapter);
-        }
+        // 3. Cấu hình RecyclerView cho các Mốc thống kê
+        rvStatsMilestones.setLayoutManager(new LinearLayoutManager(this));
+        StatsAdapter adapter = new StatsAdapter(statsList, this);
+        rvStatsMilestones.setAdapter(adapter);
 
-        // 4. Demo cập nhật text cho các thẻ thống kê chính
-        // SỬA LỖI: Sử dụng findViewById an toàn
-        TextView tvTotalScore = findViewById(R.id.tv_total_score);
-        TextView tvAverageScore = findViewById(R.id.tv_average_score);
+        // 4. Cập nhật thống kê tuần (demo data - trong production sẽ tính từ database)
+        updateWeeklyStats();
 
-        if (tvTotalScore != null) {
-            tvTotalScore.setText("4,100");
-        }
-        if (tvAverageScore != null) {
-            tvAverageScore.setText("820");
-        }
-
-
-        // 5. Xử lý sự kiện nút Back
-        View btnBack = findViewById(R.id.btn_back_stats);
-        if (btnBack != null) {
-            btnBack.setOnClickListener(v -> finish());
-        }
+        // 5. Xử lý nút Back
+        findViewById(R.id.btn_back_stats).setOnClickListener(v -> finish());
     }
 
     /**
-     * Tạo dữ liệu giả cho các mốc thống kê (UserStats).
+     * Cập nhật thống kê cho tuần hiện tại.
+     * TODO: Trong production, tính toán từ dữ liệu thực tế.
      */
-    private List<UserStats> createMockStats() {
-        List<UserStats> stats = new ArrayList<>();
-        // Giả định UserStats có constructor: (statName, description, value)
-        stats.add(new UserStats("Top Score", "Điểm cao nhất từng đạt", "1,200"));
-        stats.add(new UserStats("Total Matches", "Tổng số trận đã đấu", "150"));
-        stats.add(new UserStats("Win Rate", "Tỉ lệ thắng", "75%"));
-        return stats;
+    private void updateWeeklyStats() {
+        // Demo data - Giả định tuần này có 5 ngày đã chơi
+        int totalScore = 4100;  // Tổng điểm trong tuần
+        int daysCompleted = 5;   // Số ngày đã chơi
+        int totalDaysInWeek = 7;
+        int averageScore = daysCompleted > 0 ? totalScore / daysCompleted : 0;
+
+        // Cập nhật UI
+        tvTotalScore.setText(totalScore + "\nTổng điểm");
+        tvAverageScore.setText(averageScore + "\nTrung bình");
+        tvDaysCompletedStat.setText(daysCompleted + "/" + totalDaysInWeek + "\nNgày hoàn thành");
     }
 }

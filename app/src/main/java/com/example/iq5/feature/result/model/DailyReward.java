@@ -1,20 +1,31 @@
 package com.example.iq5.feature.result.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class DailyReward {
-    private int dayNumber;
+
+    @SerializedName("day")
+    private int dayNumber;        // map "day" từ JSON
+
+    @SerializedName("reward")
+    private int reward;
+
+    @SerializedName("claimed")
     private boolean isClaimed;
-    private boolean isToday;
+
+    private boolean isToday;      // không có trong JSON, set sau khi load
 
     public DailyReward() {}
 
-    public DailyReward(int dayNumber, boolean isClaimed, boolean isToday) {
-        this.dayNumber = dayNumber;
-        this.isClaimed = isClaimed;
-        this.isToday = isToday;
-    }
-
+    // Getters
     public int getDayNumber() { return dayNumber; }
+    public int getReward() { return reward; }
     public boolean isClaimed() { return isClaimed; }
     public boolean isToday() { return isToday; }
-    // ...
+
+    // Setters
+    public void setDayNumber(int dayNumber) { this.dayNumber = dayNumber; }
+    public void setReward(int reward) { this.reward = reward; }
+    public void setClaimed(boolean claimed) { this.isClaimed = claimed; }
+    public void setToday(boolean today) { this.isToday = today; }
 }

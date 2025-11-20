@@ -1,0 +1,74 @@
+[
+  {
+    "statName": "Top Score",
+    "description": "Điểm cao nhất từng đạt",
+    "value": "1,200",
+    "iconResId": "ic_star_filled"
+  },
+  {
+    "statName": "Total Matches",
+    "description": "Tổng số trận đã đấu",
+    "value": "150",
+    "iconResId": "ic_gamepad"
+  },
+  {
+    "statName": "Win Rate",
+    "description": "Tỉ lệ thắng",
+    "value": "75%",
+    "iconResId": "ic_percent"
+  },
+  {
+    "statName": "Longest Streak",
+    "description": "Chuỗi ngày dài nhất",
+    "value": "35 ngày",
+    "iconResId": "ic_fire_streak"
+  },
+  {
+    "statName": "Perfect Scores",
+    "description": "Số lần đạt điểm tuyệt đối",
+    "value": "12",
+    "iconResId": "ic_trophy"
+  },
+  {
+    "statName": "Total Points",
+    "description": "Tổng điểm tích lũy",
+    "value": "52,340",
+    "iconResId": "ic_coins"
+  },
+  {
+    "statName": "Fastest Answer",
+    "description": "Thời gian trả lời nhanh nhất",
+    "value": "2.3s",
+    "iconResId": "ic_lightning"
+  },
+  {
+    "statName": "Correct Answers",
+    "description": "Tổng câu trả lời đúng",
+    "value": "987",
+    "iconResId": "ic_check"
+  },
+  {
+    "statName": "Science Master",
+    "description": "Câu đúng chủ đề Khoa học",
+    "value": "45/100",
+    "iconResId": "ic_books"
+  },
+  {
+    "statName": "History Expert",
+    "description": "Câu đúng chủ đề Lịch sử",
+    "value": "82/100",
+    "iconResId": "ic_scroll"
+  },
+  {
+    "statName": "Math Genius",
+    "description": "Câu đúng chủ đề Toán học",
+    "value": "68/100",
+    "iconResId": "ic_calculator"
+  },
+  {
+    "statName": "Geography Pro",
+    "description": "Câu đúng chủ đề Địa lý",
+    "value": "91/100",
+    "iconResId": "ic_globe"
+  }
+]

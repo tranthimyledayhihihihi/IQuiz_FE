@@ -2,58 +2,87 @@ package com.example.iq5.feature.result.ui;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.iq5.R;
 import com.example.iq5.feature.result.adapter.DailyRewardAdapter;
 import com.example.iq5.feature.result.model.DailyReward;
-import java.util.ArrayList;
+import com.example.iq5.feature.result.data.ResultRepository;
 import java.util.List;
 
 public class DailyRewardActivity extends AppCompatActivity {
 
+    private RecyclerView rvRewards;
+    private Button btnClaimReward;
+    private ResultRepository repository;
+    private List<DailyReward> rewardsList;
+    private DailyRewardAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Load layout XML cho màn hình Thưởng Hàng Ngày
         setContentView(R.layout.activity_daily_reward);
 
-        RecyclerView rvRewards = findViewById(R.id.rv_daily_rewards);
-        // Sử dụng GridLayoutManager để sắp xếp 4 cột như trong thiết kế
+        // 1. Ánh xạ View
+        rvRewards = findViewById(R.id.rv_daily_rewards);
+        btnClaimReward = findViewById(R.id.btn_claim_reward);
+
+        // 2. Khởi tạo Repository và lấy dữ liệu từ JSON
+        repository = new ResultRepository(this);
+        rewardsList = repository.getDailyRewards();
+
+        // 3. Cấu hình RecyclerView với GridLayoutManager (4 cột)
         rvRewards.setLayoutManager(new GridLayoutManager(this, 4));
-
-        // 1. Tạo dữ liệu giả (mock data)
-        // Ví dụ: Tổng 16 ngày, hôm nay là ngày thứ 7
-        List<DailyReward> mockRewards = createMockRewards(16, 7);
-
-        // 2. Kết nối Adapter
-        // Truyền context (this) để Adapter có thể truy cập tài nguyên màu
-        DailyRewardAdapter adapter = new DailyRewardAdapter(mockRewards, this);
+        adapter = new DailyRewardAdapter(rewardsList, this);
         rvRewards.setAdapter(adapter);
 
-        // 3. Xử lý sự kiện nút Nhận Thưởng (chỉ demo)
-        Button btnClaim = findViewById(R.id.btn_claim_reward);
-        btnClaim.setOnClickListener(v -> {
-            // Đây là nơi bạn sẽ gọi ViewModel để xử lý nhận thưởng thực tế
-            // Trong demo, ta chỉ cần hiển thị giao diện.
-        });
+        // 4. Kiểm tra và cập nhật trạng thái nút Nhận Thưởng
+        updateClaimButtonState();
+
+        // 5. Xử lý sự kiện nút Nhận Thưởng
+        btnClaimReward.setOnClickListener(v -> claimTodayReward());
     }
 
     /**
-     * Tạo danh sách phần thưởng giả lập cho demo UI.
-     * @param totalDays Tổng số ngày trong chuỗi thưởng.
-     * @param todayNumber Số thứ tự của ngày hôm nay (bắt đầu từ 1).
-     * @return Danh sách các đối tượng DailyReward.
+     * Cập nhật trạng thái nút Nhận Thưởng dựa trên dữ liệu.
      */
-    private List<DailyReward> createMockRewards(int totalDays, int todayNumber) {
-        List<DailyReward> rewards = new ArrayList<>();
-        for (int i = 1; i <= totalDays; i++) {
-            boolean isClaimed = i < todayNumber;
-            boolean isToday = i == todayNumber;
+    private void updateClaimButtonState() {
+        DailyReward todayReward = repository.getTodayReward();
 
-            rewards.add(new DailyReward(i, isClaimed, isToday));
+        if (todayReward != null && !todayReward.isClaimed()) {
+            btnClaimReward.setEnabled(true);
+            btnClaimReward.setText("NHẬN THƯỞNG - " + todayReward.getReward() + " ĐIỂM");
+        } else {
+            btnClaimReward.setEnabled(false);
+            btnClaimReward.setText("ĐÃ NHẬN HÔM NAY");
         }
-        return rewards;
+    }
+
+    /**
+     * Xử lý nhận thưởng ngày hôm nay.
+     */
+    private void claimTodayReward() {
+        DailyReward todayReward = repository.getTodayReward();
+
+        if (todayReward != null && !todayReward.isClaimed()) {
+            // TODO: Gọi API/ViewModel để lưu trạng thái claimed
+            // Hiện tại chỉ demo UI
+            int rewardPoints = todayReward.getReward();
+
+            Toast.makeText(this,
+                    "🎉 Đã nhận " + rewardPoints + " điểm!",
+                    Toast.LENGTH_SHORT).show();
+
+            // Cập nhật UI (trong production sẽ reload từ database)
+            todayReward.setClaimed(true);
+            adapter.notifyDataSetChanged();
+            updateClaimButtonState();
+        } else {
+            Toast.makeText(this,
+                    "Bạn đã nhận thưởng hôm nay rồi!",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }

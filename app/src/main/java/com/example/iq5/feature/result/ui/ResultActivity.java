@@ -10,7 +10,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import com.example.iq5.R;
-import com.example.iq5.feature.result.model.MatchResult; // Giả định class MatchResult tồn tại
+import com.example.iq5.feature.result.model.MatchResult;
+import com.example.iq5.feature.result.data.ResultRepository;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -23,12 +24,17 @@ public class ResultActivity extends AppCompatActivity {
     private Button btnPlayAgain, btnRetry, btnShare;
     private TextView tvBadge1, tvBadge2;
 
+    private ResultRepository repository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
         mapViews();
+
+        // Khởi tạo Repository
+        repository = new ResultRepository(this);
 
         // Dữ liệu giả: Thắng (100 điểm, 10/10, 3 sao)
         MatchResult mockResult = new MatchResult(100, 10, 10, true);
@@ -50,7 +56,6 @@ public class ResultActivity extends AppCompatActivity {
         });
 
         btnShare.setOnClickListener(v -> {
-            // Logic chia sẻ (Intent.ACTION_SEND)
             shareResult();
         });
     }
@@ -80,70 +85,62 @@ public class ResultActivity extends AppCompatActivity {
 
         // --- 1. Cấu hình Màu sắc, Icon và Nút ---
         if (isWin) {
-            // Trạng thái THẮNG: Vàng/Xanh lá
             int goldColor = ContextCompat.getColor(this, R.color.color_gold);
 
             tvStatus.setText("🎉 XUẤT SẮC!");
             tvStatus.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_success));
 
             ivEmoji.setImageResource(R.drawable.ic_trophy);
-            ivEmoji.setColorFilter(goldColor); // Đặt màu vàng cho Trophy
+            ivEmoji.setColorFilter(goldColor);
 
-            tvScore.setTextColor(goldColor); // Điểm màu Vàng
+            tvScore.setTextColor(goldColor);
 
-            // Nút Retry thành 'Trang chủ' (Dùng Tím Primary)
             btnRetry.setText("🏡 Trang chủ");
-            // SỬA LỖI: purple_primary -> color_primary
             btnRetry.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_primary));
 
             updateStars(correctCount, total);
 
         } else {
-            // Trạng thái THUA: Đỏ
             int errorColor = ContextCompat.getColor(this, R.color.color_error);
 
             tvStatus.setText("😞 CHƯA ĐẠT");
             tvStatus.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_error));
 
             ivEmoji.setImageResource(R.drawable.ic_sad_face);
-            ivEmoji.setColorFilter(errorColor); // Đặt màu đỏ cho Icon
+            ivEmoji.setColorFilter(errorColor);
 
-            tvScore.setTextColor(errorColor); // Điểm màu Đỏ
+            tvScore.setTextColor(errorColor);
 
-            // Nút chính: Chơi lại (Giữ nguyên text/màu từ XML)
-            // btnPlayAgain.setText("Thử lại");
-
-            // Nút phụ: Xem lại câu sai (Dùng màu Cam Warning)
             btnRetry.setText("🔄 Xem lại câu sai");
-            btnRetry.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_warning)); // Màu Cam Warning
+            btnRetry.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_warning));
 
-            layoutStars.setVisibility(View.GONE); // Ẩn sao nếu thua
+            layoutStars.setVisibility(View.GONE);
         }
 
         // --- 2. Cập nhật Điểm số và Thống kê ---
         tvScore.setText(String.valueOf(score));
-
-        // Format lại text thống kê đúng/sai
         tvCorrect.setText(correctCount + "/" + total);
         tvIncorrect.setText((total - correctCount) + "/" + total);
 
-        // TODO: Gọi API 1. Lưu kết quả trận đấu và 2. Tính chuỗi ngày
+        // --- 3. Hiển thị Badge/Thành tựu nếu có ---
+        displayAchievementBadges(score, correctCount, total);
+
+        // TODO: Gọi API để lưu kết quả và cập nhật streak
+        // saveMatchResult(result);
+        // updateUserStreak();
     }
 
-    // --- 3. Logic Cập nhật Sao ---
     private void updateStars(int correct, int total) {
         int stars = 0;
         if (correct == total) {
-            stars = 3; // Hoàn hảo
+            stars = 3;
         } else if (correct >= total * 0.8) {
-            stars = 2; // Rất tốt
+            stars = 2;
         } else if (correct >= total * 0.5) {
-            stars = 1; // Đạt
+            stars = 1;
         }
 
-        // Đổi màu vàng cho số sao đạt được
         int gold = ContextCompat.getColor(this, R.color.color_gold);
-        // SỬA LỖI: border_light -> color_border_light
         int gray = ContextCompat.getColor(this, R.color.color_border_light);
 
         tvStar1.setTextColor(stars >= 1 ? gold : gray);
@@ -151,9 +148,33 @@ public class ResultActivity extends AppCompatActivity {
         tvStar3.setTextColor(stars >= 3 ? gold : gray);
     }
 
-    // --- 4. Hàm Chia sẻ ---
+    /**
+     * Hiển thị badge thành tựu nếu đạt được mốc đặc biệt.
+     */
+    private void displayAchievementBadges(int score, int correct, int total) {
+        // Ẩn badge mặc định
+        tvBadge1.setVisibility(View.GONE);
+        tvBadge2.setVisibility(View.GONE);
+
+        // Kiểm tra thành tựu "Hoàn hảo"
+        if (correct == total) {
+            tvBadge1.setText("🏆 Hoàn hảo!");
+            tvBadge1.setVisibility(View.VISIBLE);
+        }
+
+        // Kiểm tra thành tựu "Điểm cao"
+        if (score >= 1000) {
+            tvBadge2.setText("⭐ Điểm cao!");
+            tvBadge2.setVisibility(View.VISIBLE);
+        }
+
+        // TODO: Lấy thêm thành tựu từ Repository
+        // checkAndDisplayNewAchievements();
+    }
+
     private void shareResult() {
-        String shareText = "Tôi vừa đạt " + tvScore.getText().toString() + " điểm trong Quiz App! Thử thách bản thân ngay!";
+        String shareText = "Tôi vừa đạt " + tvScore.getText().toString() +
+                " điểm trong Quiz App! Thử thách bản thân ngay!";
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);

@@ -7,24 +7,35 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.iq5.R;
 import com.example.iq5.feature.result.adapter.AchievementAdapter;
 import com.example.iq5.feature.result.model.Achievement;
+import com.example.iq5.feature.result.data.ResultRepository;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AchievementActivity extends AppCompatActivity {
 
-    private RecyclerView rvUnlocked, rvLocked; // Khai báo hai RecyclerView mới
+    private RecyclerView rvUnlocked, rvLocked;
+    private ResultRepository repository;
+
+    // NOTE: Các View khác (tvUnlockedCount, CardView, v.v.) chưa được khai báo
+    // trong phiên bản code này, nhưng chúng ta chỉ tập trung sửa lỗi Adapter hiện tại.
+    // Nếu muốn chạy đầy đủ, bạn cần bổ sung các khai báo View bị thiếu như code trước.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievement);
 
-        // KHẮC PHỤC LỖI ID: Ánh xạ hai RecyclerView mới
+        // 1. KHỞI TẠO REPOSITORY
+        repository = new ResultRepository(this);
+
+        // 2. GỌI PHƯƠNG THỨC LẤY DỮ LIỆU
+        List<Achievement> mockAchievements = repository.getAchievements();
+
+        // 3. Xử lý dữ liệu (Ánh xạ View và phân loại)
+        // Lưu ý: Cần đảm bảo các ID này tồn tại trong activity_achievement.xml
         rvUnlocked = findViewById(R.id.rv_achievements_unlocked);
         rvLocked = findViewById(R.id.rv_achievements_locked);
 
-        // Chuẩn bị dữ liệu
-        List<Achievement> mockAchievements = createMockAchievements();
         List<Achievement> unlockedList = new ArrayList<>();
         List<Achievement> lockedList = new ArrayList<>();
 
@@ -36,31 +47,24 @@ public class AchievementActivity extends AppCompatActivity {
             }
         }
 
-        // Cấu hình Adapter cho Đã mở khóa (Unlocked)
-        rvUnlocked.setLayoutManager(new GridLayoutManager(this, 2));
-        AchievementAdapter unlockedAdapter = new AchievementAdapter(unlockedList);
-        rvUnlocked.setAdapter(unlockedAdapter);
+        // 4. Cấu hình Adapter (ĐÃ SỬA LỖI)
+        if (rvUnlocked != null) {
+            rvUnlocked.setLayoutManager(new GridLayoutManager(this, 2));
+            // TRUYỀN THIẾU ĐỐI SỐ: Cần truyền 'this' (Context) vào đây
+            AchievementAdapter unlockedAdapter = new AchievementAdapter(unlockedList, this);
+            rvUnlocked.setAdapter(unlockedAdapter);
+        }
 
-        // Cấu hình Adapter cho Chưa mở khóa (Locked)
-        rvLocked.setLayoutManager(new GridLayoutManager(this, 2));
-        AchievementAdapter lockedAdapter = new AchievementAdapter(lockedList);
-        rvLocked.setAdapter(lockedAdapter);
+        if (rvLocked != null) {
+            rvLocked.setLayoutManager(new GridLayoutManager(this, 2));
+            // TRUYỀN THIẾU ĐỐI SỐ: Cần truyền 'this' (Context) vào đây
+            AchievementAdapter lockedAdapter = new AchievementAdapter(lockedList, this);
+            rvLocked.setAdapter(lockedAdapter);
+        }
 
-        // Xử lý nút back/đóng nếu cần
-        findViewById(R.id.btn_back_achieve).setOnClickListener(v -> finish());
-    }
-
-    private List<Achievement> createMockAchievements() {
-        List<Achievement> achievements = new ArrayList<>();
-        // KHẮC PHỤC LỖI CONSTRUCTOR: Cung cấp 5 tham số (bao gồm ID Icon Drawable)
-
-        // Demo: Đã mở khóa (Sử dụng R.drawable.ic_trophy, R.drawable.ic_fire_streak...)
-        achievements.add(new Achievement(1, "Vô địch tuần", "Top 1 bảng xếp hạng", true, R.drawable.ic_trophy));
-        achievements.add(new Achievement(2, "Streak 30", "Chơi 30 ngày liên tiếp", true, R.drawable.ic_fire));
-
-        // Demo: Chưa mở khóa
-        achievements.add(new Achievement(3, "Học giả", "Đúng 100 câu khoa học", false, R.drawable.ic_books));
-        achievements.add(new Achievement(4, "Huyền thoại", "Điểm tổng > 100.000", false, R.drawable.ic_crown));
-        return achievements;
+        // 5. Back button
+        if (findViewById(R.id.btn_back_achieve) != null) {
+            findViewById(R.id.btn_back_achieve).setOnClickListener(v -> finish());
+        }
     }
 }
