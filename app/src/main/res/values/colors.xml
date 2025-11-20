@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="color_primary">#6C4FFF</color>
+    <color name="color_purple_light">#E8E3FF</color>
+    <color name="color_cyan_accent">#00D4FF</color>
+
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_black">#000000</color>
+
+    <color name="color_gray_bg_secondary">#F9F9FB</color>
+    <color name="color_gray_bg_tertiary">#F5F5F5</color>
+
+    <color name="color_text_secondary">#2C2C2E</color>
+    <color name="color_text_tertiary">#8E8E93</color>
+
+    <color name="color_border_light">#E5E5EA</color>
+
+    <color name="color_success">#34C759</color>
+    <color name="color_error">#FF3B30</color>
+    <color name="color_warning">#FFA500</color>
+    <color name="color_gold">#FFD700</color>
+
+    <color name="color_result_score_win">@color/color_gold</color>
+    <color name="color_result_score_lose">@color/color_text_secondary</color>
+
+    <color name="color_reward_day_claimed">@color/color_purple_light</color>
+    <color name="color_reward_day_today">@color/color_primary</color>
+    <color name="color_reward_day_unclaimed">@color/color_gray_bg_tertiary</color>
+
+    <color name="color_streak_fire">#FF6B35</color>
+    <color name="color_streak_bg_light">#FFE5D9</color>
 </resources>

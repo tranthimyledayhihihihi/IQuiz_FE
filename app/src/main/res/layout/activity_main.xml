@@ -1,19 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal"
     tools:context=".MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Demo Giao Diện Result &amp; Rewards"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/btn_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1. Màn hình Kết Quả"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btn_daily_reward"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2. Màn hình Thưởng Hàng Ngày"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btn_achievement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="3. Màn hình Thành Tựu"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btn_stats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="4. Màn hình Thống Kê"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btn_streak"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="5. Màn hình Chuỗi Ngày"
+        android:layout_marginBottom="8dp"/>
+
+</LinearLayout>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">IQ5</string>
+    <string name="streak_day_format">Ngày %d</string>
 </resources>
