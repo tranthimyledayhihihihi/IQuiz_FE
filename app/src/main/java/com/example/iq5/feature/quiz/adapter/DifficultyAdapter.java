@@ -58,7 +58,7 @@ public class DifficultyAdapter extends RecyclerView.Adapter<DifficultyAdapter.Vi
         } else {
             // Áp dụng style/màu sắc mặc định
             h.itemView.setBackgroundResource(R.drawable.bg_difficulty_default); // Giả định có drawable này
-            h.txt.setTextColor(h.itemView.getContext().getResources().getColor(R.color.black)); // Giả định có màu black
+            h.txt.setTextColor(h.itemView.getContext().getResources().getColor(R.color.black_overlay)); // Giả định có màu black
         }
 
         h.itemView.setOnClickListener(v -> {
