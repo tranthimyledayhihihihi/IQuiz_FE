@@ -30,4 +30,11 @@ public class ViewUtils {
     public static void setVisible(View... views) {
         setVisibility(View.VISIBLE, views);
     }
+
+    public static void show(View loadingView) {
+    }
+
+    public static void hide(View loadingView) {
+
+    }
 }

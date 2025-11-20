@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-</resources>
+    <color name="black">#FF000000</color>
+
+    <color name="purple_primary">#6C4FFF</color> <color name="purple_dark">#5A3FE6</color>     <color name="purple_light">#E8E3FF</color>    <color name="cyan_accent">#00D4FF</color>    <color name="yellow_gold">#FFD700</color>    <color name="status_success">#34C759</color>  <color name="status_error">#FF3B30</color>    <color name="status_warning">#FFA500</color>  <color name="bg_primary">#FFFFFF</color>      <color name="bg_secondary">#F9F9FB</color>    <color name="bg_tertiary">#F5F5F5</color>     <color name="text_primary">#000000</color>    <color name="text_secondary">#2C2C2E</color>  <color name="text_tertiary">#8E8E93</color>   <color name="border_light">#E5E5EA</color>    <color name="border_medium">#C7C7CC</color>   <color name="black_overlay">#66000000</color> </resources>

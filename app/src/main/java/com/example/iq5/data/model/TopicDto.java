@@ -4,24 +4,26 @@ public class TopicDto {
     private int chuDeId;
     private String tenChuDe;
 
-    // THIẾU Constructor
+    // Constructor mặc định (Gson thường cần cái này)
+    public TopicDto() {
+    }
+
+    // Constructor đầy đủ tham số
     public TopicDto(int chuDeId, String tenChuDe) {
         this.chuDeId = chuDeId;
         this.tenChuDe = tenChuDe;
     }
 
-    // GETTERS (ĐÃ SỬA LỖI MISSING RETURN STATEMENT)
-
+    // GETTERS
     public int getChuDeId() {
-        return chuDeId; // <-- Bổ sung return
+        return chuDeId;
     }
 
     public String getTenChuDe() {
-        return tenChuDe; // <-- Bổ sung return
+        return tenChuDe;
     }
 
-    // SETTERS (Cần thiết để Gson/Retrofit hoạt động tốt hơn)
-
+    // SETTERS
     public void setChuDeId(int chuDeId) {
         this.chuDeId = chuDeId;
     }

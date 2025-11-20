@@ -1,6 +1,7 @@
 package com.example.iq5.data.repository;
 
 import androidx.lifecycle.LiveData;
+
 import com.example.iq5.core.db.entity.QuestionLocalEntity;
 import com.example.iq5.core.db.entity.TopicLocalEntity;
 import com.example.iq5.data.model.QuestionDto;
@@ -20,7 +21,8 @@ public interface QuizRepository {
 
     /**
      * Lấy danh sách Chủ đề đã cache từ Room.
-     * @return LiveData<List<TopicLocalEntity>> Dữ liệu cục bộ theo thời gian thực.
+     *
+     * @return LiveData<List < TopicLocalEntity>> Dữ liệu cục bộ theo thời gian thực.
      */
     LiveData<List<TopicLocalEntity>> getCachedTopics();
 

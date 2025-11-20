@@ -2,6 +2,7 @@ package com.example.iq5.data.repository;
 
 import androidx.lifecycle.LiveData;
 import com.example.iq5.core.db.dao.QuestionDao;
+import com.example.iq5.core.db.dao.TopicDao; // <-- IMPORT
 import com.example.iq5.core.db.entity.QuestionLocalEntity;
 import com.example.iq5.core.db.entity.TopicLocalEntity;
 import com.example.iq5.core.network.QuizApiService;
@@ -17,11 +18,14 @@ import retrofit2.Call;
 public class QuizRepositoryImpl implements QuizRepository {
 
     private final QuizApiService apiService;
-    private final QuestionDao questionDao; // Đã bao gồm logic cho cả Topic và Question DAO
+    private final QuestionDao questionDao;
+    private final TopicDao topicDao; // <<< THÊM: Tham chiếu TopicDao
 
-    public QuizRepositoryImpl(QuizApiService apiService, QuestionDao questionDao) {
+    // Sửa Constructor để nhận TopicDao
+    public QuizRepositoryImpl(QuizApiService apiService, QuestionDao questionDao, TopicDao topicDao) {
         this.apiService = apiService;
         this.questionDao = questionDao;
+        this.topicDao = topicDao;
     }
 
     // --- REMOTE METHODS (API) ---
@@ -39,8 +43,9 @@ public class QuizRepositoryImpl implements QuizRepository {
     // --- LOCAL METHODS (ROOM) ---
 
     @Override
+    // Đã sửa kiểu trả về và gọi phương thức TopicDao
     public LiveData<List<TopicLocalEntity>> getCachedTopics() {
-        return questionDao.getAllTopics();
+        return topicDao.getAllTopics();
     }
 
     @Override
@@ -50,14 +55,15 @@ public class QuizRepositoryImpl implements QuizRepository {
 
     @Override
     public void saveTopicsToLocal(List<TopicDto> topics) {
-        // Cần thực hiện thao tác Room trên luồng I/O
         Executors.newSingleThreadExecutor().execute(() -> {
             List<TopicLocalEntity> entities = new ArrayList<>();
             for (TopicDto dto : topics) {
-                // Ánh xạ DTO sang Entity để lưu vào Room
-                entities.add(new TopicLocalEntity(dto.getChuDeId(), dto.getTenChuDe(), null));
+                // Ánh xạ DTO sang Entity
+                // LƯU Ý: Sửa thành constructor 2 tham số (id, name)
+                entities.add(new TopicLocalEntity(dto.getChuDeId(), dto.getTenChuDe()));
             }
-            questionDao.insertTopics(entities);
+            // SỬA: Gọi từ topicDao
+            topicDao.insertTopics(entities);
         });
     }
 
@@ -66,7 +72,7 @@ public class QuizRepositoryImpl implements QuizRepository {
         Executors.newSingleThreadExecutor().execute(() -> {
             List<QuestionLocalEntity> entities = new ArrayList<>();
             for (QuestionDto dto : questions) {
-                // Ánh xạ DTO sang Entity (Logic ánh xạ đầy đủ cần được thêm vào đây)
+                // Ánh xạ DTO sang Entity
                 entities.add(new QuestionLocalEntity(
                         dto.getCauHoiId(),
                         dto.getChuDeId(),

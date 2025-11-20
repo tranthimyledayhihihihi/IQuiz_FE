@@ -6,7 +6,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.example.iq5.core.db.dao.QuestionDao;
 import com.example.iq5.core.db.dao.UserDao;
+import com.example.iq5.core.db.dao.TopicDao; // Cần import TopicDao
 import com.example.iq5.core.db.entity.QuestionLocalEntity;
 import com.example.iq5.core.db.entity.TopicLocalEntity;
 import com.example.iq5.core.db.entity.UserLocalEntity;
@@ -19,10 +21,11 @@ import com.example.iq5.core.db.entity.UserLocalEntity;
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     private static volatile AppDatabase INSTANCE;
-    private static final String DATABASE_NAME = "quanlydoan_db";
+    private static final String DATABASE_NAME = "QuanLyDoAn";
 
     public abstract UserDao userDao();
     public abstract QuestionDao questionDao();
+    public abstract TopicDao topicDao(); // ĐÃ KHẮC PHỤC: Thêm TopicDao
 
     public static AppDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {

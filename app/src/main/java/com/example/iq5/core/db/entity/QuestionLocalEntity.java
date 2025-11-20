@@ -16,6 +16,11 @@ public class QuestionLocalEntity {
     private String dapAn;
     private String doKho;
 
+    // KHẮC PHỤC LỖI: Thêm Constructor rỗng (No-arg constructor)
+    public QuestionLocalEntity() {
+    }
+
+    // Constructor đầy đủ tham số (Giữ nguyên)
     public QuestionLocalEntity(int cauHoiId, int chuDeId, String noiDung, String luaChonA, String luaChonB, String luaChonC, String luaChonD, String dapAn, String doKho) {
         this.cauHoiId = cauHoiId;
         this.chuDeId = chuDeId;
@@ -28,7 +33,7 @@ public class QuestionLocalEntity {
         this.doKho = doKho;
     }
 
-    // Getters and Setters
+    // Getters and Setters (Giữ nguyên)
     public int getCauHoiId() { return cauHoiId; }
     public int getChuDeId() { return chuDeId; }
     public String getNoiDung() { return noiDung; }
@@ -47,4 +52,5 @@ public class QuestionLocalEntity {
     public void setLuaChonD(String luaChonD) { this.luaChonD = luaChonD; }
     public void setDapAn(String dapAn) { this.dapAn = dapAn; }
     public void setDoKho(String doKho) { this.doKho = doKho; }
+
 }

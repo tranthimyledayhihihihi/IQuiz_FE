@@ -2,12 +2,9 @@ package com.example.iq5.core.network;
 
 import com.example.iq5.core.prefs.PrefsManager;
 
-import java.io.IOException;
-
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -15,32 +12,31 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
 
     private static final String BASE_URL = "https://your-backend-api.com/api/";
+    private static Retrofit retrofitInstance; // Dùng cho Singleton
 
-    // Interceptor để thêm JWT Token (Sử dụng cú pháp Anonymous Inner Class chuẩn Java)
+    // Interceptor để thêm JWT Token (Có thể sử dụng lambda thay vì Anonymous Inner Class)
     private static Interceptor getAuthInterceptor(PrefsManager prefsManager) {
-        return new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request original = chain.request();
-                Request.Builder requestBuilder = original.newBuilder();
+        return chain -> {
+            Request original = chain.request();
+            Request.Builder requestBuilder = original.newBuilder();
 
-                String token = prefsManager.getAuthToken();
-                if (token != null) {
-                    requestBuilder.header("Authorization", "Bearer " + token);
-                }
-
-                return chain.proceed(requestBuilder.build());
+            String token = prefsManager.getAuthToken();
+            if (token != null) {
+                requestBuilder.header("Authorization", "Bearer " + token);
             }
+
+            return chain.proceed(requestBuilder.build());
         };
     }
 
-    public static Retrofit create(PrefsManager prefsManager) {
+    // Phương thức khởi tạo Retrofit, yêu cầu PrefsManager để tạo OkHttpClient
+    private static Retrofit initializeRetrofit(PrefsManager prefsManager) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(logging)
-                .addInterceptor(getAuthInterceptor(prefsManager))
+                .addInterceptor(getAuthInterceptor(prefsManager)) // Đã sửa lỗi kiểu dữ liệu
                 .build();
 
         return new Retrofit.Builder()
@@ -50,18 +46,28 @@ public class ApiClient {
                 .build();
     }
 
-    // Phương thức tạo các Service
-    public static AuthApiService getAuthService(Retrofit retrofit) {
-        return retrofit.create(AuthApiService.class);
+    // Phương thức Singleton để lấy đối tượng Retrofit
+    // LƯU Ý: Phương thức này cần nhận PrefsManager từ Activity/Application
+    public static Retrofit getClient(PrefsManager prefsManager) {
+        if (retrofitInstance == null) {
+            retrofitInstance = initializeRetrofit(prefsManager);
+        }
+        return retrofitInstance;
     }
 
-    public static QuizApiService getQuizService(Retrofit retrofit) {
-        return retrofit.create(QuizApiService.class);
+    // Phương thức Generic để tạo bất kỳ Service Interface nào
+    public static <T> T createService(Retrofit retrofit, Class<T> serviceClass) {
+        return retrofit.create(serviceClass);
     }
 
-    public static ResultApiService getResultService(Retrofit retrofit) {
-        return retrofit.create(ResultApiService.class);
-    }
-
-    // ... thêm các phương thức getter khác
+    // === XÓA CÁC PHƯƠNG THỨC GÂY LỖI TRÙNG LẶP VÀ SAI KIỂU DỮ LIỆU ===
+    /*
+    public static Retrofit create(Class<QuizApiService> prefsManager) { ... } // LỖI SAI KIỂU DỮ LIỆU
+    public static AuthApiService getAuthService(Retrofit retrofit) { ... } // THAY THẾ BỞI createService
+    public static QuizApiService getQuizService(Retrofit retrofit) { ... }   // THAY THẾ BỞI createService
+    public static ResultApiService getResultService(Retrofit retrofit) { ... } // THAY THẾ BỞI createService
+    public static ApiClient getClient() { } // LỖI MISSING RETURN
+    public Object create(Class<QuizApiService> prefsManager) { } // LỖI TRÙNG LẶP
+    public Object create(Class<QuizApiService> quizApiServiceClass) { } // LỖI TRÙNG LẶP
+    */
 }
