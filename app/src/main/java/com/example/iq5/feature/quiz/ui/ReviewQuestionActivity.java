@@ -1,36 +1,48 @@
 package com.example.iq5.feature.quiz.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.widget.Toast; // Import mới
+import android.util.Log;
+import android.widget.Toast;
 
 import com.example.iq5.R;
 import com.example.iq5.feature.quiz.adapter.ReviewQuestionAdapter;
 import com.example.iq5.feature.quiz.model.Question;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ReviewQuestionActivity extends AppCompatActivity {
 
+    private static final String TAG = "ReviewActivity";
+    private List<Question> reviewedQuestions;
+
     @Override
-    protected void onCreate(Bundle b) {
-        super.onCreate(b);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_question);
 
-        RecyclerView rv = findViewById(R.id.recyclerReview);
-
-        // LƯU Ý: Phải ép kiểu (List<Question>) vì dữ liệu được truyền là Serializable
-        List<Question> list = (List<Question>) getIntent().getSerializableExtra("questions");
-
-        if (list != null) {
-            rv.setAdapter(new ReviewQuestionAdapter(list));
+        Serializable serializable = getIntent().getSerializableExtra("questions");
+        if (serializable instanceof List) {
+            reviewedQuestions = (List<Question>) serializable;
         } else {
-            // Xử lý trường hợp danh sách câu hỏi bị null (ví dụ: do lỗi tải hoặc chuyển màn hình quá sớm)
-            Toast.makeText(this, "Không có dữ liệu câu hỏi để xem lại.", Toast.LENGTH_LONG).show();
-            // Tùy chọn: Có thể đóng màn hình hoặc hiển thị một trạng thái rỗng khác
-            // finish();
+            Log.e(TAG, "Dữ liệu nhận không hợp lệ");
+            Toast.makeText(this, "Không thể tải dữ liệu xem lại", Toast.LENGTH_LONG).show();
+            finish();
+            return;
         }
+
+        if (reviewedQuestions == null || reviewedQuestions.isEmpty()) {
+            Toast.makeText(this, "Không có câu hỏi nào để xem lại.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        RecyclerView rvReview = findViewById(R.id.recyclerReview);
+        rvReview.setLayoutManager(new LinearLayoutManager(this));
+        rvReview.setAdapter(new ReviewQuestionAdapter(reviewedQuestions));
     }
 }

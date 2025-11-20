@@ -18,10 +18,22 @@ public class DifficultyAdapter extends RecyclerView.Adapter<DifficultyAdapter.Vi
 
     private List<Difficulty> list;
     private OnClick listener;
+    // Thêm trường để theo dõi lựa chọn hiện tại (Tùy chọn, nhưng rất cần thiết cho UI)
+    private String selectedDifficultyId;
 
     public DifficultyAdapter(List<Difficulty> list, OnClick listener) {
         this.list = list;
         this.listener = listener;
+        // Khởi tạo giá trị mặc định cho lựa chọn đầu tiên (ví dụ: "easy")
+        if (!list.isEmpty()) {
+            this.selectedDifficultyId = list.get(0).getId();
+        }
+    }
+
+    // Phương thức công khai để cập nhật lựa chọn
+    public void setSelectedDifficulty(String id) {
+        this.selectedDifficultyId = id;
+        notifyDataSetChanged(); // Yêu cầu RecyclerView vẽ lại để áp dụng highlight
     }
 
     @Override
@@ -34,8 +46,26 @@ public class DifficultyAdapter extends RecyclerView.Adapter<DifficultyAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder h, int pos) {
         Difficulty d = list.get(pos);
-        h.txt.setText(d.getLevel());
-        h.itemView.setOnClickListener(v -> listener.onSelect(d));
+
+        // FIX: Sử dụng getName() hoặc getContent() thay vì getLevel()
+        h.txt.setText(d.getName());
+
+        // Logic Highlight (Rất quan trọng cho trải nghiệm người dùng)
+        if (d.getId().equals(selectedDifficultyId)) {
+            // Áp dụng style/màu sắc khi được chọn
+            h.itemView.setBackgroundResource(R.drawable.bg_difficulty_selected); // Giả định có drawable này
+            h.txt.setTextColor(h.itemView.getContext().getResources().getColor(R.color.white)); // Giả định có màu white
+        } else {
+            // Áp dụng style/màu sắc mặc định
+            h.itemView.setBackgroundResource(R.drawable.bg_difficulty_default); // Giả định có drawable này
+            h.txt.setTextColor(h.itemView.getContext().getResources().getColor(R.color.black)); // Giả định có màu black
+        }
+
+        h.itemView.setOnClickListener(v -> {
+            // Cập nhật và thông báo lắng nghe
+            setSelectedDifficulty(d.getId());
+            listener.onSelect(d);
+        });
     }
 
     @Override
@@ -45,7 +75,7 @@ public class DifficultyAdapter extends RecyclerView.Adapter<DifficultyAdapter.Vi
         TextView txt;
         ViewHolder(View v) {
             super(v);
-            // Sửa lỗi ở đây: Sử dụng ID chính xác từ item_difficulty.xml
+            // Giả định ID txtDifficultyLevel là đúng trong item_difficulty.xml
             txt = v.findViewById(R.id.txtDifficultyLevel);
         }
     }

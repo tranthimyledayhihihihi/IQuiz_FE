@@ -1,31 +1,43 @@
 package com.example.iq5.feature.quiz.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Question {
-    private int id;
-    private String content;
-    private List<String> options;
-    private String correctAnswer;
-    private String explanation;
+public class Question implements Serializable {
+    private String question_text;
+    private String correct_answer_id;
+    private String user_selected_answer_id;
+    private List<Option> options;
 
-    public Question(int id, String content, List<String> options, String correctAnswer, String explanation) {
-        this.id = id;
-        this.content = content;
-        this.options = options;
-        this.correctAnswer = correctAnswer;
-        this.explanation = explanation;
+    public String getQuestion_text() {
+        return question_text;
     }
 
-    public int getId() { return id; }
-    public String getContent() { return content; }
-    public List<String> getOptions() { return options; }
-    public String getCorrectAnswer() { return correctAnswer; }
-    public String getExplanation() { return explanation; }
+    public void setQuestion_text(String question_text) {
+        this.question_text = question_text;
+    }
 
-    // KHẮC PHỤC LỖI: Thêm lệnh return
-    // Phương thức này có thể được dùng thay thế cho getCorrectAnswer()
-    public String getCorrect() {
-        return this.correctAnswer;
+    public String getCorrect_answer_id() {
+        return correct_answer_id;
+    }
+
+    public void setCorrect_answer_id(String correct_answer_id) {
+        this.correct_answer_id = correct_answer_id;
+    }
+
+    public String getUser_selected_answer_id() {
+        return user_selected_answer_id;
+    }
+
+    public void setUser_selected_answer_id(String user_selected_answer_id) {
+        this.user_selected_answer_id = user_selected_answer_id;
+    }
+
+    public List<Option> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<Option> options) {
+        this.options = options;
     }
 }

@@ -1,187 +1,139 @@
 package com.example.iq5.feature.quiz.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.cardview.widget.CardView;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button; // <-- Cần import Button
-import android.widget.TextView;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
-import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.iq5.R;
-import com.example.iq5.core.util.ViewUtils;
-import com.example.iq5.core.prefs.PrefsManager;
 import com.example.iq5.feature.quiz.adapter.AnswerOptionAdapter;
-import com.example.iq5.feature.quiz.data.QuizRepository;
+import com.example.iq5.feature.quiz.data.SpecialModeRepository;
+import com.example.iq5.feature.quiz.model.CurrentQuestionResponse;
+import com.example.iq5.feature.quiz.model.HelpOptionsResponse;
+import com.example.iq5.feature.quiz.model.Lifeline;
+import com.example.iq5.feature.quiz.model.Option;
 import com.example.iq5.feature.quiz.model.Question;
+import com.example.iq5.feature.quiz.ui.LifelineDialogFragment;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
 
     private TextView txtQuestion;
     private RecyclerView rvOptions;
-    private View loadingView;
     private ImageButton btnLifelineHint;
-    private Button btnFinish;
-    private Button btnSkip; // Khai báo nút BỎ QUA / TIẾP
+    private Button btnFinish, btnSkip;
 
-    private List<Question> questionList;
-    private int index = 0;
+    private SpecialModeRepository repository;
+    private Question currentQuestion;
+    private List<Question> questionList = new ArrayList<>();
+    private HelpOptionsResponse helpOptions;
 
-    private PrefsManager prefsManager;
-
-    @SuppressLint("MissingInflatedId")
     @Override
-    protected void onCreate(Bundle b) {
-        super.onCreate(b);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
-        try {
-            // 1. KHỞI TẠO PREFS MANAGER
-            prefsManager = new PrefsManager(this);
+        txtQuestion = findViewById(R.id.txtQuestion);
+        rvOptions = findViewById(R.id.recyclerOptions);
+        btnLifelineHint = findViewById(R.id.btnLifelineHint);
+        btnFinish = findViewById(R.id.btnFinish);
+        btnSkip = findViewById(R.id.btnSkip);
 
-            // 2. KHỞI TẠO VIEWS VÀ KIỂM TRA NULL
-            CardView quizContentCard = findViewById(R.id.quizContentCard);
-            loadingView = findViewById(R.id.loading);
+        repository = new SpecialModeRepository(this);
+        CurrentQuestionResponse data = repository.getCurrentQuestionData();
+        helpOptions = repository.getLifelineOptions();
 
-            if (quizContentCard != null) {
-                txtQuestion = quizContentCard.findViewById(R.id.txtQuestion);
-                rvOptions   = quizContentCard.findViewById(R.id.recyclerOptions);
-                btnLifelineHint = quizContentCard.findViewById(R.id.btnLifelineHint);
-                btnFinish = quizContentCard.findViewById(R.id.btnFinish);
-                btnSkip = quizContentCard.findViewById(R.id.btnSkip); // <-- Tìm kiếm nút BỎ QUA / TIẾP
-            }
-
-            // Kiểm tra các View quan trọng
-            if (txtQuestion == null || rvOptions == null || loadingView == null || btnLifelineHint == null || btnFinish == null || btnSkip == null) { // <-- Kiểm tra btnSkip
-                Toast.makeText(this, "Lỗi ID: Thiếu một trong các View quan trọng!", Toast.LENGTH_LONG).show();
-                if (quizContentCard == null) {
-                    Log.e("QuizActivity", "FATAL: ID quizContentCard not found in layout.");
-                }
-                finish();
-                return;
-            }
-
-            // 3. THIẾT LẬP RECYCLERVIEW
-            rvOptions.setLayoutManager(new GridLayoutManager(this, 2));
-
-            // 4. THIẾT LẬP NÚT TRỢ GIÚP
-            btnLifelineHint.setOnClickListener(v -> {
-                showLifelineDialog();
-            });
-
-            // 5. THIẾT LẬP NÚT KẾT THÚC
-            btnFinish.setOnClickListener(v -> {
-                showReviewScreen();
-            });
-
-            // 6. THIẾT LẬP NÚT BỎ QUA / TIẾP (Chuyển sang câu hỏi kế tiếp)
-            btnSkip.setOnClickListener(v -> {
-                // Hiển thị đáp án (tùy chọn) và chuyển câu hỏi
-                // Hiện tại, chỉ cần gọi nextQuestion() để chuyển ngay
-                nextQuestion();
-            });
-
-            // 7. LẤY INTENT VÀ TẢI DỮ LIỆU
-            int categoryId = getIntent().getIntExtra("categoryId", 1);
-            int difficultyId = getIntent().getIntExtra("difficultyId", 1);
-
-            load(categoryId, difficultyId);
-
-        } catch (Exception e) {
-            Log.e("QuizActivity", "FATAL CRASH DURING SETUP", e);
-            Toast.makeText(this, "Lỗi khởi tạo nghiêm trọng: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            finish();
+        if (data == null || data.getQuestion() == null) {
+            txtQuestion.setText("Không thể load câu hỏi");
+            return;
         }
-    }
 
-    private void showLifelineDialog() {
-        LifelineDialogFragment dialog = new LifelineDialogFragment();
-        dialog.show(getSupportFragmentManager(), "lifeline_guide");
-    }
+        currentQuestion = data.getQuestion();
+        questionList.add(currentQuestion);
 
-    private void load(int categoryId, int difficultyId) {
-        ViewUtils.show(loadingView);
+        txtQuestion.setText(currentQuestion.getQuestion_text());
 
-        new QuizRepository(prefsManager).loadQuestions(categoryId, difficultyId, new QuizRepository.Callback() {
-            @Override
-            public void onSuccess(List<Question> list) {
-                if (list == null || list.isEmpty()) {
-                    ViewUtils.hide(loadingView);
-                    txtQuestion.setText("Không có câu hỏi nào cho danh mục này.");
-                    return;
-                }
+        rvOptions.setLayoutManager(new GridLayoutManager(this, 2));
+        rvOptions.setAdapter(new AnswerOptionAdapter(currentQuestion.getOptions(), option -> {
+            currentQuestion.setUser_selected_answer_id(option.getOption_id());
 
-                questionList = list;
-                ViewUtils.hide(loadingView);
-                showQuestion();
+            if (option.getOption_id().equals(currentQuestion.getCorrect_answer_id())) {
+                Toast.makeText(this, "ĐÚNG!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "SAI! Đáp án đúng: " + currentQuestion.getCorrect_answer_id(),
+                        Toast.LENGTH_LONG).show();
             }
 
-            @Override
-            public void onError(String msg) {
-                ViewUtils.hide(loadingView);
-                Toast.makeText(QuizActivity.this, "Lỗi tải dữ liệu: " + msg, Toast.LENGTH_LONG).show();
-                txtQuestion.setText("Error: " + msg);
+            rvOptions.getAdapter().notifyDataSetChanged();
+        }));
+
+        btnSkip.setOnClickListener(v -> {
+            Toast.makeText(this, "Bạn đã bỏ qua câu hỏi", Toast.LENGTH_SHORT).show();
+            currentQuestion.setUser_selected_answer_id(null);
+        });
+
+        btnFinish.setOnClickListener(v -> openReviewScreen());
+
+        btnLifelineHint.setOnClickListener(v -> {
+            if (helpOptions != null && helpOptions.getAvailableLifelines() != null) {
+                LifelineDialogFragment dialog = new LifelineDialogFragment(helpOptions.getAvailableLifelines(), lifeline -> {
+                    switch (lifeline.getType()) {
+                        case "hint":
+                            if (!lifeline.isUsedOnCurrentQuestion()) {
+                                String hint = helpOptions.getHintContent() != null
+                                        ? helpOptions.getHintContent().getText() : "Không có gợi ý";
+                                Toast.makeText(this, "Gợi ý: " + hint, Toast.LENGTH_LONG).show();
+                                lifeline.setUsedOnCurrentQuestion(true);
+                                lifeline.setCountRemaining(lifeline.getCountRemaining() - 1);
+                            }
+                            break;
+                        case "50:50":
+                            if (!lifeline.isUsedOnCurrentQuestion()) {
+                                apply5050(currentQuestion);
+                                lifeline.setUsedOnCurrentQuestion(true);
+                                lifeline.setCountRemaining(lifeline.getCountRemaining() - 1);
+                            }
+                            break;
+                        case "skip":
+                            if (!lifeline.isUsedOnCurrentQuestion()) {
+                                currentQuestion.setUser_selected_answer_id(null);
+                                lifeline.setUsedOnCurrentQuestion(true);
+                                lifeline.setCountRemaining(lifeline.getCountRemaining() - 1);
+                            }
+                            break;
+                    }
+                    rvOptions.getAdapter().notifyDataSetChanged();
+                });
+                dialog.show(getSupportFragmentManager(), "LifelineDialog");
             }
         });
     }
 
-    /**
-     * Tăng index và hiển thị câu hỏi kế tiếp.
-     */
-    private void nextQuestion() {
-        rvOptions.postDelayed(() -> {
-            index++;
-            showQuestion();
-        }, 300); // Độ trễ ngắn để tạo hiệu ứng chuyển
-
-        // Kích hoạt lại nút Skip/Finish nếu chúng bị vô hiệu hóa
-        btnSkip.setEnabled(true);
-        btnFinish.setEnabled(true);
-    }
-
-    private void showQuestion() {
-        if (questionList == null || index >= questionList.size()) {
-            txtQuestion.setText("Quiz hoàn thành!");
-            showReviewScreen();
-            return;
-        }
-
-        Question q = questionList.get(index);
-        txtQuestion.setText((index + 1) + ". " + q.getContent());
-
-        rvOptions.setAdapter(new AnswerOptionAdapter(q.getOptions(), option -> {
-            // Vô hiệu hóa click sau khi chọn (tránh click đúp)
-            rvOptions.setAdapter(null);
-
-            // Tắt nút Skip/Finish để ngăn người dùng thao tác trong khi chờ chuyển câu
-            btnSkip.setEnabled(false);
-            btnFinish.setEnabled(false);
-
-            if (option.equals(q.getCorrectAnswer())) {
-                txtQuestion.setText("Đúng! Chuyển câu hỏi...");
-                nextQuestion(); // <-- Gọi nextQuestion
-            } else {
-                txtQuestion.setText("Sai rồi! Đáp án đúng là: " + q.getCorrectAnswer());
-                // Nếu sai, bạn có thể quyết định chuyển câu hỏi luôn hoặc để người dùng tự nhấn Skip
-                nextQuestion(); // Chuyển câu hỏi
+    private void apply5050(Question q) {
+        List<Option> options = q.getOptions();
+        String correctId = q.getCorrect_answer_id();
+        int hiddenCount = 0;
+        for (Option opt : options) {
+            if (!opt.getOption_id().equals(correctId) && hiddenCount < 2) {
+                opt.setHidden(true);
+                hiddenCount++;
             }
-        }));
+        }
+        rvOptions.getAdapter().notifyDataSetChanged();
     }
 
-    private void showReviewScreen() {
+    private void openReviewScreen() {
         Intent intent = new Intent(this, ReviewQuestionActivity.class);
         intent.putExtra("questions", (Serializable) questionList);
         startActivity(intent);
-        finish();
     }
 }

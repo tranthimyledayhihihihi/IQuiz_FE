@@ -38,16 +38,18 @@
 
             <ImageButton
                 android:id="@+id/btnLifelineHint"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_lifeline_hint"
-                android:contentDescription="@string/lifeline_hint_description"
-                android:background="@drawable/rounded_score_bg"
-                android:backgroundTint="@color/cyan_accent"  app:tint="@color/white"  android:padding="8dp"
+                android:layout_width="72dp"
+                android:layout_height="73dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_score_bg"
+                android:backgroundTint="@color/cyan_accent"
+                android:contentDescription="@string/lifeline_hint_description"
+                android:padding="8dp"
+                android:src="@drawable/ic_lifeline_hint"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/txtTimer"
