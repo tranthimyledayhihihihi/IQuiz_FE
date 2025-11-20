@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    android:paddingTop="12dp"
-    android:paddingBottom="12dp"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp"
     android:background="?android:attr/selectableItemBackground">
 
     <TextView
@@ -15,13 +15,27 @@
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:text="1"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorGold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgMedal"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_medal_general"
+        app:tint="@color/colorGold" android:visibility="gone"
+        tools:visibility="visible"
+        android:contentDescription="Huy chương"
+        app:layout_constraintTop_toTopOf="@id/tvRank"
+        app:layout_constraintBottom_toBottomOf="@id/tvRank"
+        app:layout_constraintStart_toStartOf="@id/tvRank"
+        app:layout_constraintEnd_toEndOf="@id/tvRank"/>
+
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgAvatar"
@@ -41,10 +55,12 @@
         android:text="Tên Người Chơi"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintStart_toEndOf="@id/imgAvatar"
         app:layout_constraintTop_toTopOf="@id/imgAvatar"
         app:layout_constraintEnd_toStartOf="@id/tvPlayerScore"
-        app:layout_constraintBottom_toTopOf="@id/tvPlayerInfo" />
+        app:layout_constraintBottom_toTopOf="@id/tvPlayerInfo"
+        app:layout_constraintVertical_chainStyle="packed"/>
 
     <TextView
         android:id="@+id/tvPlayerInfo"
@@ -52,6 +68,7 @@
         android:layout_height="wrap_content"
         android:text="Level 10"
         android:textSize="14sp"
+        android:textColor="@color/colorTextSecondary"
         app:layout_constraintStart_toStartOf="@id/tvPlayerName"
         app:layout_constraintTop_toBottomOf="@id/tvPlayerName"
         app:layout_constraintBottom_toBottomOf="@id/imgAvatar"
@@ -61,8 +78,8 @@
         android:id="@+id/tvPlayerScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="15000"
-        android:textSize="20sp"
+        android:text="15,000"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"

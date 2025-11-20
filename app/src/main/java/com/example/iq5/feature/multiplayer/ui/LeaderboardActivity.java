@@ -1,7 +1,7 @@
 package com.example.iq5.feature.multiplayer.ui;
 
 import android.os.Bundle;
-
+import android.widget.ImageButton; // Import ImageButton
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -21,6 +21,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
     private FloatingActionButton fabAddFriend;
+    private ImageButton btnBack; // Khai báo ImageButton
 
     // Tiêu đề cho các tab
     private final String[] tabTitles = new String[]{"Bạn Bè", "BXH Tuần", "BXH Tháng"};
@@ -30,9 +31,21 @@ public class LeaderboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_leaderboard);
 
+        // Ẩn ActionBar mặc định (vì chúng ta dùng Toolbar tùy chỉnh)
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         viewPager = findViewById(R.id.view_pager);
         tabLayout = findViewById(R.id.tabs);
         fabAddFriend = findViewById(R.id.fabAddFriend);
+        btnBack = findViewById(R.id.btnBack); // Lấy tham chiếu đến nút Quay lại
+
+        // Xử lý sự kiện cho nút Quay lại
+        btnBack.setOnClickListener(v -> {
+            // Hàm này sẽ đóng Activity hiện tại và quay về Activity trước đó (ví dụ: MainActivity)
+            finish();
+        });
 
         // Setup ViewPager và Adapter
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);

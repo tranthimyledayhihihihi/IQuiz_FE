@@ -1,216 +1,317 @@
 package com.example.iq5.feature.multiplayer.ui;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.widget.Button;
+import android.os.Handler;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.example.iq5.R;
+import com.example.iq5.feature.multiplayer.data.QuestionRepository;
+import com.example.iq5.feature.multiplayer.model.Question;
+import com.google.android.material.button.MaterialButton;
+
+import java.util.List;
 
 public class PvPBattleActivity extends AppCompatActivity {
 
-    private TextView tvPlayer1Score, tvPlayer2Score, tvTimer, tvQuestion;
-    private Button btnAnswerA, btnAnswerB, btnAnswerC, btnAnswerD;
+    // Khai báo các Views chính
+    private MaterialButton btnSkip;
+    private MaterialButton btnEndGame;
+    private MaterialButton btnAnswerA, btnAnswerB, btnAnswerC, btnAnswerD;
+    private TextView tvQuestion, tvQuestionNumber;
+
+    // KHAI BÁO BỔ SUNG: Điểm số, Timer Views
+    private TextView tvPlayerScore, tvOpponentScore;
+    private TextView tvTimer;
     private ProgressBar progressTime;
-    private CountDownTimer countDownTimer;
 
-    private int player1Score = 0;
-    private int player2Score = 0;
+    // Biến trạng thái trò chơi
     private int currentQuestionIndex = 0;
-    private final int TOTAL_QUESTIONS = 10;
-    private final long QUESTION_TIME_LIMIT = 15000; // 15 giây
+    private final int totalQuestions = 10; // ĐÃ SỬA: Đặt lại thành 10 (theo yêu cầu)
+    private String roomCode;
 
-    private String correctAnswer = "A"; // Giả lập đáp án đúng
+    private List<Question> questionsList;
+    private String currentCorrectAnswer;
+
+    // BIẾN TRẠNG THÁI BỔ SUNG
+    private int playerScore = 0;
+    private int playerCorrectCount = 0; // ĐÃ BỔ SUNG: Theo dõi số câu đúng
+    private final int scorePerQuestion = 100;
+    private final int MAX_TIME_SECONDS = 15;
+    private int currentTimeSeconds = MAX_TIME_SECONDS;
+
+    // Timer logic
+    private Handler timerHandler = new Handler();
+    private Runnable timerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (currentTimeSeconds > 0) {
+                currentTimeSeconds--;
+                progressTime.setProgress(currentTimeSeconds);
+
+                if (tvTimer != null) {
+                    tvTimer.setText(String.valueOf(currentTimeSeconds));
+                }
+
+                timerHandler.postDelayed(this, 1000);
+            } else {
+                Toast.makeText(PvPBattleActivity.this, "Hết giờ!", Toast.LENGTH_SHORT).show();
+                handleAnswerSelected("TIMEOUT", null);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pvp_battle);
 
-        initView();
-        setupListeners();
-        loadQuestion(currentQuestionIndex);
+        roomCode = getIntent().getStringExtra("ROOM_CODE");
 
-        // TODO: Kết nối WebSocket để nhận/gửi sự kiện
-        // 1. "RECEIVE_QUESTION": Nhận câu hỏi mới từ server
-        // 2. "SEND_ANSWER": Gửi câu trả lời của mình
-        // 3. "UPDATE_SCORE": Nhận cập nhật điểm của đối thủ
-        // 4. "GAME_END": Nhận sự kiện kết thúc trận đấu
-    }
-
-    private void initView() {
-        tvPlayer1Score = findViewById(R.id.tvPlayer1Score);
-        tvPlayer2Score = findViewById(R.id.tvPlayer2Score);
-        tvTimer = findViewById(R.id.tvTimer);
-        tvQuestion = findViewById(R.id.tvQuestion);
+        // --- ÁNH XẠ VIEWS ---
+        btnSkip = findViewById(R.id.btnSkip);
+        btnEndGame = findViewById(R.id.btnEndGame);
         btnAnswerA = findViewById(R.id.btnAnswerA);
         btnAnswerB = findViewById(R.id.btnAnswerB);
         btnAnswerC = findViewById(R.id.btnAnswerC);
         btnAnswerD = findViewById(R.id.btnAnswerD);
+        tvQuestion = findViewById(R.id.tvQuestion);
+        tvQuestionNumber = findViewById(R.id.tvQuestionNumber);
+
+        // Ánh xạ BỔ SUNG: Điểm số và Timer Views
+        tvPlayerScore = findViewById(R.id.layoutPlayerScore).findViewById(R.id.tvPlayerScore);
+        tvOpponentScore = findViewById(R.id.layoutOpponentScore).findViewById(R.id.tvPlayerScore);
         progressTime = findViewById(R.id.progressTime);
-        progressTime.setMax((int) (QUESTION_TIME_LIMIT / 1000));
+        tvTimer = findViewById(R.id.tvTimer);
+
+        // Khởi tạo Progress Bar
+        progressTime.setMax(MAX_TIME_SECONDS);
+        progressTime.setProgress(MAX_TIME_SECONDS);
+        tvPlayerScore.setText(String.valueOf(playerScore));
+        tvOpponentScore.setText("0");
+
+        // Load và xáo trộn danh sách câu hỏi
+        questionsList = QuestionRepository.getAllQuestions();
+        if (questionsList.size() < totalQuestions) { /* ... xử lý ... */ }
+
+        // Thiết lập Listeners và Back Callback
+        setupActionListeners();
+        setupOnBackPressedCallback();
+
+        // Bắt đầu tải câu hỏi đầu tiên
+        loadQuestion(currentQuestionIndex);
     }
 
-    private void setupListeners() {
-        btnAnswerA.setOnClickListener(v -> submitAnswer("A"));
-        btnAnswerB.setOnClickListener(v -> submitAnswer("B"));
-        btnAnswerC.setOnClickListener(v -> submitAnswer("C"));
-        btnAnswerD.setOnClickListener(v -> submitAnswer("D"));
-    }
-
-    private void loadQuestion(int index) {
-        if (index >= TOTAL_QUESTIONS) {
-            endGame();
-            return;
-        }
-
-        // TODO: Lấy câu hỏi từ API/WebSocket
-        // Giả lập câu hỏi mới
-        tvQuestion.setText("Câu hỏi " + (index + 1) + ": Thủ đô của Việt Nam là gì?");
-        btnAnswerA.setText("A. Hà Nội");
-        btnAnswerB.setText("B. TP. HCM");
-        btnAnswerC.setText("C. Đà Nẵng");
-        btnAnswerD.setText("D. Hải Phòng");
-        correctAnswer = "A";
-
-        resetAnswerButtons();
-        startTimer();
-    }
+    // --- LOGIC TIMER CORE ---
 
     private void startTimer() {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
+        currentTimeSeconds = MAX_TIME_SECONDS;
+        progressTime.setProgress(MAX_TIME_SECONDS);
+        if (tvTimer != null) {
+            tvTimer.setText(String.valueOf(currentTimeSeconds));
         }
-        countDownTimer = new CountDownTimer(QUESTION_TIME_LIMIT, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                int secondsLeft = (int) (millisUntilFinished / 1000);
-                tvTimer.setText(String.valueOf(secondsLeft));
-                progressTime.setProgress(secondsLeft);
-            }
-
-            @Override
-            public void onFinish() {
-                tvTimer.setText("0");
-                // Tự động chuyển câu khi hết giờ
-                submitAnswer("TIMEOUT"); // Gửi sự kiện hết giờ
-            }
-        }.start();
+        timerHandler.postDelayed(timerRunnable, 1000);
     }
 
-    private void submitAnswer(String answer) {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
-        setAnswersEnabled(false);
-
-        // TODO: Gửi câu trả lời ("SEND_ANSWER") lên server
-
-        boolean isCorrect = answer.equals(correctAnswer);
-        if (isCorrect) {
-            player1Score += 10; // Tính điểm
-            tvPlayer1Score.setText("Điểm: " + player1Score);
-        }
-
-        // Hiển thị đáp án đúng/sai
-        showAnswerResult(answer, isCorrect);
-
-        // TODO: Lắng nghe "UPDATE_SCORE" từ đối thủ
-        // Giả lập đối thủ trả lời
-        // onOpponentAnswered(true, 10);
-
-        // Chờ 2s rồi chuyển câu
-        new android.os.Handler().postDelayed(() -> {
-            currentQuestionIndex++;
-            loadQuestion(currentQuestionIndex);
-        }, 2000);
+    private void stopTimer() {
+        timerHandler.removeCallbacks(timerRunnable);
     }
 
-    // Hàm này được gọi khi nhận sự kiện "UPDATE_SCORE"
-    private void onOpponentAnswered(boolean correct, int scoreGained) {
-        if (correct) {
-            player2Score += scoreGained;
-            tvPlayer2Score.setText("Điểm: " + player2Score);
-            // Có thể thêm hiệu ứng nhỏ (VD: +10 bay lên)
-        }
-    }
+    // --- LOGIC XỬ LÝ ĐÁP ÁN ---
 
-    private void showAnswerResult(String selectedAnswer, boolean isCorrect) {
-        // Reset all
-        btnAnswerA.setBackgroundColor(ContextCompat.getColor(this, R.color.colorButtonNormal));
-        btnAnswerB.setBackgroundColor(ContextCompat.getColor(this, R.color.colorButtonNormal));
-        btnAnswerC.setBackgroundColor(ContextCompat.getColor(this, R.color.colorButtonNormal));
-        btnAnswerD.setBackgroundColor(ContextCompat.getColor(this, R.color.colorButtonNormal));
+    /**
+     * Xử lý khi người chơi chọn một đáp án hoặc hết giờ.
+     */
+    private void handleAnswerSelected(String selectedAnswer, MaterialButton selectedButton) {
+        stopTimer();
+        setAnswerButtonsEnabled(false);
 
-        // Highlight đáp án đúng
-        Button correctButton = getButtonByAnswer(correctAnswer);
-        if (correctButton != null) {
-            correctButton.setBackgroundColor(Color.GREEN);
-        }
-
-        // Highlight đáp án sai (nếu chọn sai)
-        if (!isCorrect && !selectedAnswer.equals("TIMEOUT")) {
-            Button selectedButton = getButtonByAnswer(selectedAnswer);
+        if (selectedAnswer.equals(currentCorrectAnswer)) {
+            // ĐÚNG: Cộng điểm và tăng số câu đúng
+            playerScore += scorePerQuestion;
+            playerCorrectCount++; // ĐÃ FIX: Tăng số câu trả lời đúng
+            tvPlayerScore.setText(String.valueOf(playerScore));
+            Toast.makeText(this, "Chính xác! +" + scorePerQuestion, Toast.LENGTH_SHORT).show();
             if (selectedButton != null) {
-                selectedButton.setBackgroundColor(Color.RED);
+                selectedButton.setBackgroundTintList(getResources().getColorStateList(R.color.colorWin, getTheme()));
+            }
+        } else if (!selectedAnswer.equals("TIMEOUT")) {
+            // SAI: Thay đổi màu nút
+            Toast.makeText(this, "Sai rồi.", Toast.LENGTH_SHORT).show();
+            if (selectedButton != null) {
+                selectedButton.setBackgroundTintList(getResources().getColorStateList(R.color.colorLose, getTheme()));
+            }
+            // Highlight đáp án đúng
+            MaterialButton correctButton = findCorrectButton(currentCorrectAnswer);
+            if (correctButton != null) {
+                correctButton.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight, getTheme()));
+            }
+        } else {
+            // Hết giờ
+            Toast.makeText(this, "Hết giờ, không có điểm!", Toast.LENGTH_SHORT).show();
+            MaterialButton correctButton = findCorrectButton(currentCorrectAnswer);
+            if (correctButton != null) {
+                correctButton.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimaryLight, getTheme()));
             }
         }
+
+        new Handler().postDelayed(this::goToNextQuestion, 1500);
     }
 
-    private Button getButtonByAnswer(String answer) {
-        switch (answer) {
-            case "A": return btnAnswerA;
-            case "B": return btnAnswerB;
-            case "C": return btnAnswerC;
-            case "D": return btnAnswerD;
-            default: return null;
-        }
+    // --- CÁC PHƯƠNG THỨC KHÁC ---
+
+    /**
+     * Thiết lập OnBackPressedCallback để xử lý nút Back vật lý/cử chỉ.
+     */
+    private void setupOnBackPressedCallback() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                showEndGameConfirmationDialog();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-    private void resetAnswerButtons() {
-        setAnswersEnabled(true);
-        btnAnswerA.setBackgroundColor(ContextCompat.getColor(this, R.color.colorButtonNormal));
-        btnAnswerB.setBackgroundColor(ContextCompat.getColor(this, R.color.colorButtonNormal));
-        btnAnswerC.setBackgroundColor(ContextCompat.getColor(this, R.color.colorButtonNormal));
-        btnAnswerD.setBackgroundColor(ContextCompat.getColor(this, R.color.colorButtonNormal));
+    /**
+     * Thiết lập Listeners cho các nút điều khiển (Bỏ qua, Kết thúc, Đáp án)
+     */
+    private void setupActionListeners() {
+
+        btnSkip.setOnClickListener(v -> {
+            if (currentQuestionIndex < totalQuestions - 1) {
+                Toast.makeText(this, "Chuyển sang Câu hỏi tiếp theo!", Toast.LENGTH_SHORT).show();
+                goToNextQuestion();
+            } else {
+                Toast.makeText(this, "Đã hết câu hỏi!", Toast.LENGTH_SHORT).show();
+                finishMatch();
+            }
+        });
+
+        btnEndGame.setOnClickListener(v -> {
+            showEndGameConfirmationDialog();
+        });
+
+        // --- LOGIC CHO CÁC NÚT ĐÁP ÁN ---
+        btnAnswerA.setOnClickListener(v -> handleAnswerSelected("A", btnAnswerA));
+        btnAnswerB.setOnClickListener(v -> handleAnswerSelected("B", btnAnswerB));
+        btnAnswerC.setOnClickListener(v -> handleAnswerSelected("C", btnAnswerC));
+        btnAnswerD.setOnClickListener(v -> handleAnswerSelected("D", btnAnswerD));
     }
 
-    private void setAnswersEnabled(boolean enabled) {
+    /**
+     * Kích hoạt hoặc vô hiệu hóa các nút đáp án và reset màu về trạng thái ban đầu.
+     */
+    private void setAnswerButtonsEnabled(boolean enabled) {
+        int defaultColorId = R.color.white;
+
         btnAnswerA.setEnabled(enabled);
         btnAnswerB.setEnabled(enabled);
         btnAnswerC.setEnabled(enabled);
         btnAnswerD.setEnabled(enabled);
+
+        // Đặt màu nền lại thành trắng khi kích hoạt
+        btnAnswerA.setBackgroundTintList(getResources().getColorStateList(defaultColorId, getTheme()));
+        btnAnswerB.setBackgroundTintList(getResources().getColorStateList(defaultColorId, getTheme()));
+        btnAnswerC.setBackgroundTintList(getResources().getColorStateList(defaultColorId, getTheme()));
+        btnAnswerD.setBackgroundTintList(getResources().getColorStateList(defaultColorId, getTheme()));
     }
 
-    private void endGame() {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
-        // TODO: Gửi sự kiện "FINISH_GAME" và điểm số
-        Toast.makeText(this, "Kết thúc trận đấu!", Toast.LENGTH_SHORT).show();
 
-        // Chuyển sang màn hình So Sánh Kết Quả
-        Intent intent = new Intent(this, CompareResultActivity.class);
-        intent.putExtra("PLAYER_1_SCORE", player1Score);
-        intent.putExtra("PLAYER_2_SCORE", player2Score);
-        // intent.putExtra("MATCH_ID", ...);
-        startActivity(intent);
+    /**
+     * Tải câu hỏi tiếp theo và cập nhật UI.
+     */
+    private void loadQuestion(int index) {
+        setAnswerButtonsEnabled(true);
+        startTimer(); // Bắt đầu lại đồng hồ
+
+        if (index >= questionsList.size()) {
+            finishMatch();
+            return;
+        }
+
+        Question question = questionsList.get(index);
+
+        // 1. Cập nhật đáp án đúng hiện tại
+        currentCorrectAnswer = question.getCorrectAnswerKey();
+
+        // 2. Cập nhật UI
+        tvQuestionNumber.setText("Câu hỏi " + (index + 1) + "/" + totalQuestions);
+        tvQuestion.setText(question.getContent());
+
+        List<String> options = question.getOptions();
+        btnAnswerA.setText(options.get(0));
+        btnAnswerB.setText(options.get(1));
+        btnAnswerC.setText(options.get(2));
+        btnAnswerD.setText(options.get(3));
+    }
+
+    /**
+     * Chuyển sang câu hỏi tiếp theo và cập nhật chỉ mục
+     */
+    private void goToNextQuestion() {
+        if (currentQuestionIndex < totalQuestions - 1) {
+            currentQuestionIndex++;
+            loadQuestion(currentQuestionIndex);
+        } else {
+            finishMatch();
+        }
+    }
+
+    /**
+     * Hiển thị hộp thoại xác nhận kết thúc trận đấu sớm
+     */
+    private void showEndGameConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Xác nhận Kết thúc")
+                .setMessage("Bạn có chắc chắn muốn kết thúc trận đấu? Bạn có thể bị xử thua nếu thoát sớm.")
+                .setPositiveButton("KẾT THÚC", (dialog, which) -> {
+                    finishMatch();
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
+    /**
+     * Chuyển sang màn hình Kết quả và dọn dẹp Activity Stack
+     */
+    private void finishMatch() {
+        stopTimer();
+
+        // GIẢ LẬP: Điểm và số câu trả lời đúng của Đối thủ (Sẽ được nhận qua WebSocket/API trong thực tế)
+        int opponentFinalScore = 600;
+        int opponentCorrectCount = 6;
+
+        Intent intent = new Intent(PvPBattleActivity.this, CompareResultActivity.class);
+
+        // ĐÃ FIX: Đính kèm tất cả dữ liệu thống kê cần thiết
+        intent.putExtra("PLAYER_SCORE", playerScore);
+        intent.putExtra("PLAYER_CORRECT_COUNT", playerCorrectCount);
+        intent.putExtra("OPPONENT_SCORE", opponentFinalScore);
+        intent.putExtra("OPPONENT_CORRECT_COUNT", opponentCorrectCount);
+        intent.putExtra("TOTAL_QUESTIONS", totalQuestions);
+
+        // Đóng Activity hiện tại
         finish();
+
+        // Chuyển sang màn hình kết quả
+        startActivity(intent);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
-        // TODO: Ngắt kết nối WebSocket
+    /**
+     * Hàm hỗ trợ tìm nút đáp án đúng.
+     */
+    private MaterialButton findCorrectButton(String answer) {
+        if ("A".equals(answer)) return btnAnswerA;
+        if ("B".equals(answer)) return btnAnswerB;
+        if ("C".equals(answer)) return btnAnswerC;
+        if ("D".equals(answer)) return btnAnswerD;
+        return null;
     }
 }

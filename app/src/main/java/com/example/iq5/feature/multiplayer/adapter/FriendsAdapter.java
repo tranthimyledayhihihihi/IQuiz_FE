@@ -1,9 +1,9 @@
 package com.example.iq5.feature.multiplayer.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton; // Import ImageButton
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -20,10 +20,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Adapter cho RecyclerView trong FriendsActivity
  */
-// SỬA LỖI: Đổi tên class thành FriendsAdapter để khớp tên file
 public class FriendsAdapter extends ListAdapter<Friend, FriendsAdapter.FriendViewHolder> {
 
-    // (Tùy chọn) Interface để xử lý click
     public interface OnFriendInteractionListener {
         void onChallengeClick(Friend friend);
         void onAcceptClick(Friend friend);
@@ -65,8 +63,15 @@ public class FriendsAdapter extends ListAdapter<Friend, FriendsAdapter.FriendVie
 
     static class FriendViewHolder extends RecyclerView.ViewHolder {
         CircleImageView imgFriendAvatar;
-        TextView tvFriendName, tvFriendStatus;
-        MaterialButton btnChallenge;
+        TextView tvFriendName;
+        // ĐÃ SỬA: Sử dụng tvFriendInfo (tên mới trong layout)
+        TextView tvFriendInfo;
+        // ĐÃ THÊM: Sử dụng View cho dấu chấm online
+        View viewOnlineIndicator;
+
+        // ĐÃ SỬA: Thay đổi kiểu từ MaterialButton thành ImageButton
+        ImageButton btnChallenge;
+
         LinearLayout layoutPending;
         MaterialButton btnAccept, btnDecline;
 
@@ -74,8 +79,14 @@ public class FriendsAdapter extends ListAdapter<Friend, FriendsAdapter.FriendVie
             super(itemView);
             imgFriendAvatar = itemView.findViewById(R.id.imgFriendAvatar);
             tvFriendName = itemView.findViewById(R.id.tvFriendName);
-            tvFriendStatus = itemView.findViewById(R.id.tvFriendStatus);
+
+            // ĐÃ SỬA: Khởi tạo View mới
+            tvFriendInfo = itemView.findViewById(R.id.tvFriendInfo);
+            viewOnlineIndicator = itemView.findViewById(R.id.viewOnlineIndicator);
+
+            // ĐÃ SỬA: Khởi tạo ImageButton
             btnChallenge = itemView.findViewById(R.id.btnChallenge);
+
             layoutPending = itemView.findViewById(R.id.layoutPending);
             btnAccept = itemView.findViewById(R.id.btnAccept);
             btnDecline = itemView.findViewById(R.id.btnDecline);
@@ -84,19 +95,23 @@ public class FriendsAdapter extends ListAdapter<Friend, FriendsAdapter.FriendVie
         public void bind(Friend friend, OnFriendInteractionListener listener) {
             tvFriendName.setText(friend.getTenNguoiBan());
             // TODO: Load ảnh bằng Glide/Picasso
-            // Glide.with(itemView.getContext()).load(friend.getAnhDaiDienNguoiBan()).into(imgFriendAvatar);
 
             if ("Bạn bè".equals(friend.getTrangThai())) {
                 layoutPending.setVisibility(View.GONE);
                 btnChallenge.setVisibility(View.VISIBLE);
 
+                // Logic hiển thị trạng thái
                 if (friend.isOnline()) {
-                    tvFriendStatus.setText("Online");
-                    tvFriendStatus.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.colorWin));
+                    viewOnlineIndicator.setVisibility(View.VISIBLE);
+                    // ĐÃ SỬA: Xóa .getLevel() để fix lỗi, chỉ hiển thị "Online"
+                    tvFriendInfo.setText("Online");
+                    tvFriendInfo.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.colorWin));
                     btnChallenge.setEnabled(true);
                 } else {
-                    tvFriendStatus.setText("Offline");
-                    tvFriendStatus.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.colorTextSecondary));
+                    viewOnlineIndicator.setVisibility(View.GONE);
+                    // ĐÃ SỬA: Xóa .getLevel() để fix lỗi, chỉ hiển thị "Offline"
+                    tvFriendInfo.setText("Offline");
+                    tvFriendInfo.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.colorTextSecondary));
                     btnChallenge.setEnabled(false);
                 }
 
@@ -105,8 +120,11 @@ public class FriendsAdapter extends ListAdapter<Friend, FriendsAdapter.FriendVie
             } else if ("Chờ xác nhận".equals(friend.getTrangThai())) {
                 layoutPending.setVisibility(View.VISIBLE);
                 btnChallenge.setVisibility(View.GONE);
-                tvFriendStatus.setText("Đang chờ bạn xác nhận...");
-                tvFriendStatus.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.colorAccent));
+                viewOnlineIndicator.setVisibility(View.GONE);
+
+                // Hiển thị trạng thái chờ xác nhận
+                tvFriendInfo.setText("Đang chờ bạn xác nhận...");
+                tvFriendInfo.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.colorAccent));
 
                 btnAccept.setOnClickListener(v -> listener.onAcceptClick(friend));
                 btnDecline.setOnClickListener(v -> listener.onDeclineClick(friend));

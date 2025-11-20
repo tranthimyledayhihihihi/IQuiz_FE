@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Màu chính của ứng dụng (Ví dụ) -->
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="white">#FFFFFF</color>
+    <color name="colorPrimary">#5E35B1</color>        <color name="colorPrimaryDark">#4527A0</color>     <color name="colorPrimaryLight">#9575CD</color>    <color name="colorAccent">#FFC107</color>          <color name="colorSecondaryAccent">#F06292</color> <color name="colorWhite">#FFFFFF</color>           <color name="white">#FFFFFF</color>                <color name="colorBlack">#000000</color>
 
-    <!-- Màu cho Giao diện -->
+    <color name="colorTextPrimary">#212121</color>
     <color name="colorTextSecondary">#757575</color>
+    <color name="colorTextWhite">#FFFFFF</color>
 
-    <!-- Màu trạng thái (Dùng cho Adapter) -->
-    <color name="colorWin">#4CAF50</color>
-    <color name="colorLose">#F44336</color>
-    <color name="colorError">#F44336</color>
+    <color name="colorWin">#4CAF50</color>             <color name="colorLose">#F44336</color>            <color name="colorError">#F44336</color>
 
-    <!-- Màu nền (Ví dụ) -->
+    <color name="colorGold">#FFD700</color>
+    <color name="colorSilver">#C0C0C0</color>
+    <color name="colorBronze">#CD7F32</color>
+
+    <color name="colorBackground">#F5F5F5</color>
     <color name="colorButtonNormal">#E0E0E0</color>
 </resources>

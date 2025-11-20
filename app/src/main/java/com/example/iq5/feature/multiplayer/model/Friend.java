@@ -13,14 +13,31 @@ public class Friend {
     private String trangThai; // "Chờ xác nhận", "Bạn bè", "Đã hủy"
     private Date ngayKetBan;
 
-    // Thêm thông tin người dùng (UserID2) để hiển thị
+    // --- THÔNG TIN BỔ SUNG ĐỂ HIỂN THỊ TRÊN UI ---
     private String tenNguoiBan;
     private String anhDaiDienNguoiBan;
     private boolean isOnline; // Lấy từ NguoiDungOnline
 
+    // THÊM: Điểm số và Level của người bạn (CẦN THIẾT cho item_friend.xml)
+    private int diemSo;
+    private int level;
+    // ---------------------------------------------
+
     // Constructors
     public Friend() {
     }
+
+    // Constructor đầy đủ cho mục đích Mock Data hoặc khởi tạo từ API
+    public Friend(int banBeID, String tenNguoiBan, String anhDaiDienNguoiBan, int diemSo, int level, boolean isOnline, String trangThai) {
+        this.banBeID = banBeID;
+        this.tenNguoiBan = tenNguoiBan;
+        this.anhDaiDienNguoiBan = anhDaiDienNguoiBan;
+        this.diemSo = diemSo;
+        this.level = level;
+        this.isOnline = isOnline;
+        this.trangThai = trangThai;
+    }
+
 
     // Getters and Setters
     public int getBanBeID() {
@@ -85,5 +102,23 @@ public class Friend {
 
     public void setOnline(boolean online) {
         isOnline = online;
+    }
+
+    // THÊM: Getter và Setter cho Điểm số
+    public int getDiemSo() {
+        return diemSo;
+    }
+
+    public void setDiemSo(int diemSo) {
+        this.diemSo = diemSo;
+    }
+
+    // THÊM: Getter và Setter cho Level
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

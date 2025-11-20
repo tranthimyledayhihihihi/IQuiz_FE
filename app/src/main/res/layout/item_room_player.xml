@@ -3,43 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="180dp"
     android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp"
-    app:strokeWidth="1dp"
-    app:strokeColor="@color/colorTextSecondary">
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Lớp phủ cho slot trống -->
         <LinearLayout
             android:id="@+id/layoutEmptySlot"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/bg_player_lobby_waiting"
-            android:visibility="visible">
+            android:background="@drawable/bg_lobby_empty" android:visibility="gone"
+            tools:visibility="visible">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/ic_add_friend"
                 app:tint="@color/colorTextSecondary"
+                android:alpha="0.7"
                 android:contentDescription="Slot trống"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đang chờ..."
-                android:textStyle="italic"
+                android:text="Mời người chơi"
+                android:textStyle="bold"
                 android:textColor="@color/colorTextSecondary"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="12dp"/>
         </LinearLayout>
 
-        <!-- Lớp phủ cho người chơi đã vào -->
         <LinearLayout
             android:id="@+id/layoutPlayerSlot"
             android:layout_width="match_parent"
@@ -47,27 +45,27 @@
             android:orientation="vertical"
             android:gravity="center"
             android:padding="16dp"
-            android:background="@drawable/bg_player_lobby"
-            android:visibility="gone"
-            tools:visibility="visible">
+            android:background="@color/colorWhite"
+            android:visibility="visible"
+            tools:visibility="gone">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgPlayerAvatar"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
                 android:src="@drawable/ic_avatar_default"
-                app:civ_border_width="2dp"
-                app:civ_border_color="@color/colorAccent" />
+                app:civ_border_width="3dp"
+                app:civ_border_color="@color/colorPrimary" />
 
             <TextView
                 android:id="@+id/tvPlayerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tên Người Chơi"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimaryDark"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:maxLines="1"
                 android:ellipsize="end"/>
 
@@ -76,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chủ phòng"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold"/>
         </LinearLayout>

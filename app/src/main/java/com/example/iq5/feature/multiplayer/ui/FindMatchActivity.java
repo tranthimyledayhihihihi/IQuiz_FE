@@ -2,6 +2,7 @@ package com.example.iq5.feature.multiplayer.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem; // Cần import MenuItem để xử lý nút Back
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -11,10 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.iq5.R;
+import com.google.android.material.appbar.MaterialToolbar; // Import MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText;
 
 public class FindMatchActivity extends AppCompatActivity {
 
+    private MaterialToolbar toolbarFindMatch; // Khai báo Toolbar
     private Button btnFindRandomMatch, btnCreateRoom, btnJoinRoom;
     private ProgressBar progressBarFinding;
 
@@ -22,6 +25,15 @@ public class FindMatchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_match);
+
+        toolbarFindMatch = findViewById(R.id.toolbarFindMatch); // Lấy tham chiếu
+
+        // 1. THIẾT LẬP TOOLBAR LÀM ACTIONBAR
+        setSupportActionBar(toolbarFindMatch);
+        if (getSupportActionBar() != null) {
+            // Kích hoạt nút điều hướng (sử dụng icon đã set trong XML)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         btnFindRandomMatch = findViewById(R.id.btnFindRandomMatch);
         btnCreateRoom = findViewById(R.id.btnCreateRoom);
@@ -60,16 +72,45 @@ public class FindMatchActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * BƯỚC BẮT BUỘC: Xử lý sự kiện khi nhấn vào nút Quay lại (Icon điều hướng)
+     */
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Tùy chọn: Nếu đang tìm trận, hủy quá trình tìm trận trước khi thoát
+        if (progressBarFinding.getVisibility() == View.VISIBLE) {
+            stopFindingMatch();
+            Toast.makeText(this, "Đã hủy tìm trận.", Toast.LENGTH_SHORT).show();
+            // Nếu bạn muốn chặn hoàn toàn khi đang tìm, bạn không gọi super.onBackPressed()
+        } else {
+            // Trở về Activity trước đó (MainActivity)
+            super.onBackPressed();
+        }
+    }
+
+
     private void startFindingMatch() {
         btnFindRandomMatch.setText("Đang tìm trận...");
         btnFindRandomMatch.setEnabled(false);
         progressBarFinding.setVisibility(View.VISIBLE);
+        // Tùy chọn: Vô hiệu hóa các nút khác khi đang tìm
+        btnCreateRoom.setEnabled(false);
+        btnJoinRoom.setEnabled(false);
     }
 
     private void stopFindingMatch() {
         btnFindRandomMatch.setText("Tìm Trận Nhanh");
         btnFindRandomMatch.setEnabled(true);
         progressBarFinding.setVisibility(View.GONE);
+        // Tùy chọn: Kích hoạt lại các nút khác
+        btnCreateRoom.setEnabled(true);
+        btnJoinRoom.setEnabled(true);
     }
 
     private void showJoinRoomDialog() {
@@ -97,6 +138,4 @@ public class FindMatchActivity extends AppCompatActivity {
 
         builder.show();
     }
-
-    // Bạn cần tạo file dialog_join_room.xml trong res/layout
 }

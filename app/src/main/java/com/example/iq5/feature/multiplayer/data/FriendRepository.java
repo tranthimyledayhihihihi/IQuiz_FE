@@ -6,7 +6,6 @@ import java.util.List;
 
 /**
  * Interface cho kho dữ liệu Bạn bè (Friends)
- * Sẽ được implement (ví dụ: FriendRepositoryImpl)
  */
 public interface FriendRepository {
 
