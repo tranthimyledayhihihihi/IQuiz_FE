@@ -26,4 +26,5 @@
     <string name="quiz_avatar_description">Linh vật Quiz</string>
     <string name="lifeline_hint_description">Mở hướng dẫn trợ giúp</string>
 
+    <string name="streak_day_format">Ngày %d</string>
 </resources>

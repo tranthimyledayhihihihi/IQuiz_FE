@@ -3,6 +3,8 @@ package com.example.iq5;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,8 +16,9 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.iq5.feature.quiz.ui.SelectCategoryActivity; // Màn hình bắt đầu Quiz
 import com.example.iq5.feature.quiz.ui.ReviewQuestionActivity; // Màn hình xem lại
 
-public class MainActivity extends AppCompatActivity {
+import com.example.iq5.feature.result.ui.*; // Import tất cả các Activity demo
 
+public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

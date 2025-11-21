@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="4dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_reward_box"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        android:layout_margin="4dp"
+        android:backgroundTint="@color/color_reward_day_unclaimed">
+
+        <ImageView
+            android:id="@+id/img_reward_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_gift_box"
+            app:tint="@color/color_cyan_accent"
+            android:contentDescription="Reward Icon"/>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tv_day_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/color_text_secondary"
+        tools:text="Ngày 3"
+        android:textSize="12sp"
+        android:textStyle="bold"/>
+</LinearLayout>
