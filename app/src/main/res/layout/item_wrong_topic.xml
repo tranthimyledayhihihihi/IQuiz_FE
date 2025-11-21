@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="14 lần sai"
-                android:textColor="@color/red_warning"
+                android:textColor="@color/status_error"
                 android:textSize="12sp" />
         </LinearLayout>
 

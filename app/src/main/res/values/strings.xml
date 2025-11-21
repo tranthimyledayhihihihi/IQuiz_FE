@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">IQuiz</string>
-<!--    <string name="facebook_app_id">0411231e3b4324dea77647ea2e7a3f88</string>-->
 
-    <string name="server_client_id">206751993131-n1busrb9cj68b54t0teat10do0gm9pl1.apps.googleusercontent.com</string>
+    <!-- Tên app chính -->
+    <string name="app_name">IQ5</string>
+
+    <!-- Nếu vẫn muốn giữ tên cũ để hiển thị chỗ khác -->
+    <string name="app_name_legacy">IQuiz</string>
+
+    <!--    <string name="facebook_app_id">0411231e3b4324dea77647ea2e7a3f88</string>-->
+
+    <string name="server_client_id">
+        206751993131-n1busrb9cj68b54t0teat10do0gm9pl1.apps.googleusercontent.com
+    </string>
+
     <string name="username">andrew_ainsley</string>
 
-
-    <string name="app_name">IQ5</string>
     <string name="category_icon_description">Biểu tượng đại diện cho danh mục</string>
+
     <string name="lifeline_instructions">
         • 50:50: Loại bỏ 2 đáp án sai.\n
         • Khán giả: Nhận gợi ý phần trăm từ khán giả giả lập.\n
@@ -27,4 +35,5 @@
     <string name="lifeline_hint_description">Mở hướng dẫn trợ giúp</string>
 
     <string name="streak_day_format">Ngày %d</string>
+
 </resources>

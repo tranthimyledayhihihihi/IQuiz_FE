@@ -1,5 +1,3 @@
-// File cần sửa: SelectCategoryActivity.java
-
 package com.example.iq5.feature.quiz.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,10 +19,10 @@ import com.example.iq5.feature.quiz.adapter.DifficultyAdapter;
 import com.example.iq5.feature.quiz.model.Difficulty;
 import com.example.iq5.feature.quiz.data.SpecialModeRepository;
 
-// Imports các Response Model
 import com.example.iq5.feature.quiz.model.SelectionScreenResponse;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken; // Cần thiết
+import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +37,7 @@ public class SelectCategoryActivity extends AppCompatActivity {
     private RecyclerView rvCategory;
     private RecyclerView rvDifficulty;
     private Button btnStartQuiz;
+
     private SpecialModeRepository repository;
 
     @SuppressLint("MissingInflatedId")
@@ -47,35 +46,44 @@ public class SelectCategoryActivity extends AppCompatActivity {
         super.onCreate(b);
         setContentView(R.layout.activity_select_category);
 
-        repository = new SpecialModeRepository(this);
+        initViews();
+        initRepository();
 
+        loadSelectionData();
+
+        btnStartQuiz.setOnClickListener(v -> handleStartQuiz());
+    }
+
+    private void initViews() {
         rvCategory = findViewById(R.id.rvCategory);
         rvDifficulty = findViewById(R.id.rvDifficulty);
         btnStartQuiz = findViewById(R.id.btnStartQuiz);
 
         if (rvCategory == null || rvDifficulty == null || btnStartQuiz == null) {
-            Toast.makeText(this, "Lỗi layout: Thiếu ID rvCategory, rvDifficulty, hoặc btnStartQuiz.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Lỗi layout: thiếu ID rvCategory/rvDifficulty/btnStartQuiz", Toast.LENGTH_LONG).show();
             finish();
+        }
+    }
+
+    private void initRepository() {
+        repository = new SpecialModeRepository(this);
+    }
+
+    private void handleStartQuiz() {
+        if (selectedCategoryId == -1) {
+            Toast.makeText(this, "Vui lòng chọn một danh mục!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        loadSelectionData(); // Tải toàn bộ dữ liệu màn hình
+        if (selectedDifficultyId == null) {
+            Toast.makeText(this, "Vui lòng chọn độ khó!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        btnStartQuiz.setOnClickListener(v -> {
-            if (selectedCategoryId == -1) {
-                Toast.makeText(this, "Vui lòng chọn một Danh mục trước!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (selectedDifficultyId == null) {
-                Toast.makeText(this, "Vui lòng chọn Độ khó!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Intent i = new Intent(this, QuizActivity.class);
-            i.putExtra("categoryId", selectedCategoryId);
-            i.putExtra("difficultyId", selectedDifficultyId);
-            startActivity(i);
-        });
+        Intent i = new Intent(this, QuizActivity.class);
+        i.putExtra("categoryId", selectedCategoryId);
+        i.putExtra("difficultyId", selectedDifficultyId);
+        startActivity(i);
     }
 
     private void loadSelectionData() {
@@ -83,7 +91,7 @@ public class SelectCategoryActivity extends AppCompatActivity {
             SelectionScreenResponse response = repository.getSelectionScreenData();
 
             if (response == null || response.getData() == null || response.getData().getSections() == null) {
-                Toast.makeText(this, "Không tìm thấy dữ liệu cấu hình Quiz (Response rỗng)!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Không tìm thấy dữ liệu cấu hình Quiz!", Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -91,27 +99,34 @@ public class SelectCategoryActivity extends AppCompatActivity {
             List<Difficulty> difficultyList = new ArrayList<>();
 
             Gson gson = new Gson();
-            // Định nghĩa TypeToken cho chuyển đổi an toàn hơn
+
             Type categoryListType = new TypeToken<List<Category>>() {}.getType();
             Type difficultyListType = new TypeToken<List<Difficulty>>() {}.getType();
 
+            // Parse từng section
             for (SelectionScreenResponse.SectionItem section : response.getData().getSections()) {
-                List<Object> itemsRaw = section.getItems();
-                if (itemsRaw == null || itemsRaw.isEmpty()) continue;
 
-                // Chuyển List<Object> thô thành chuỗi JSON và sau đó parse bằng TypeToken
-                String itemsJsonString = gson.toJson(itemsRaw);
+                if (section == null || section.getItems() == null)
+                    continue;
 
-                if ("categories".equals(section.getType())) {
-                    categoryList = gson.fromJson(itemsJsonString, categoryListType);
-                } else if ("difficulty".equals(section.getType())) {
-                    difficultyList = gson.fromJson(itemsJsonString, difficultyListType);
+                String jsonString = gson.toJson(section.getItems());
+
+                switch (section.getType()) {
+                    case "categories":
+                        categoryList = gson.fromJson(jsonString, categoryListType);
+                        break;
+
+                    case "difficulty":
+                        difficultyList = gson.fromJson(jsonString, difficultyListType);
+                        break;
+
+                    default:
+                        Log.w(TAG, "Loại section không xác định: " + section.getType());
                 }
             }
 
-            // Xử lý khi List rỗng sau khi trích xuất
             if (categoryList.isEmpty() && difficultyList.isEmpty()) {
-                Toast.makeText(this, "Không có Danh mục/Độ khó nào được trích xuất.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Không có dữ liệu Danh mục / Độ khó!", Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -119,48 +134,46 @@ public class SelectCategoryActivity extends AppCompatActivity {
             setupDifficulties(difficultyList);
 
         } catch (Exception e) {
-            Log.e(TAG, "Lỗi FATAL khi tải dữ liệu SelectionScreen:", e);
-            Toast.makeText(this, "Lỗi parsing dữ liệu. Kiểm tra Model và JSON!", Toast.LENGTH_LONG).show();
+            Log.e(TAG, "Lỗi parsing dữ liệu SelectionScreen:", e);
+            Toast.makeText(this, "Lỗi đọc dữ liệu cấu hình! Kiểm tra JSON/Model.", Toast.LENGTH_LONG).show();
         }
     }
 
     private void setupCategories(List<Category> categoryList) {
         if (categoryList.isEmpty()) {
-            Toast.makeText(this, "Không có Danh mục nào để hiển thị.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Không có Danh mục nào!", Toast.LENGTH_SHORT).show();
             return;
         }
 
         rvCategory.setLayoutManager(new LinearLayoutManager(this));
 
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList, category -> {
+        CategoryAdapter adapter = new CategoryAdapter(categoryList, category -> {
             selectedCategoryId = category.getId();
-            Toast.makeText(this, "Đã chọn Danh mục: " + category.getName(), Toast.LENGTH_SHORT).show();
-            // Cần gọi notifyDataSetChanged/notifyItemChanged trên adapter nếu bạn có logic highlight
+            Toast.makeText(this, "Chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
         });
 
-        rvCategory.setAdapter(categoryAdapter);
+        rvCategory.setAdapter(adapter);
 
-        // Chọn mặc định Category đầu tiên
+        // Chọn mặc định mục đầu tiên
         selectedCategoryId = categoryList.get(0).getId();
     }
 
     private void setupDifficulties(List<Difficulty> difficultyList) {
         if (difficultyList.isEmpty()) {
-            Toast.makeText(this, "Không có Độ khó nào để hiển thị.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Không có Độ khó nào!", Toast.LENGTH_SHORT).show();
             return;
         }
 
         rvDifficulty.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        DifficultyAdapter difficultyAdapter = new DifficultyAdapter(difficultyList, difficulty -> {
+        DifficultyAdapter adapter = new DifficultyAdapter(difficultyList, difficulty -> {
             selectedDifficultyId = difficulty.getId();
-            Toast.makeText(this, "Đã chọn Độ khó: " + difficulty.getName(), Toast.LENGTH_SHORT).show();
-            // Cần gọi notifyDataSetChanged/notifyItemChanged trên adapter nếu bạn có logic highlight
+            Toast.makeText(this, "Độ khó: " + difficulty.getName(), Toast.LENGTH_SHORT).show();
         });
 
-        rvDifficulty.setAdapter(difficultyAdapter);
+        rvDifficulty.setAdapter(adapter);
 
-        // Thiết lập mặc định là độ khó đầu tiên
+        // Mặc định chọn độ khó đầu tiên
         selectedDifficultyId = difficultyList.get(0).getId();
     }
 }

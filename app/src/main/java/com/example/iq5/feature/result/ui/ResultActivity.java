@@ -7,11 +7,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
 import com.example.iq5.R;
+import com.example.iq5.feature.quiz.model.Question;
+import com.example.iq5.feature.quiz.ui.ReviewQuestionActivity;
+import com.example.iq5.feature.quiz.ui.SelectCategoryActivity;
 import com.example.iq5.feature.result.model.MatchResult;
-import com.example.iq5.feature.result.data.ResultRepository;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -24,7 +32,12 @@ public class ResultActivity extends AppCompatActivity {
     private Button btnPlayAgain, btnRetry, btnShare;
     private TextView tvBadge1, tvBadge2;
 
-    private ResultRepository repository;
+    private int score;
+    private int total;
+    private int correctCount;
+    private boolean isWin;
+
+    private List<Question> questionList;   // nhận từ QuizActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,32 +45,9 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_result);
 
         mapViews();
-
-        // Khởi tạo Repository
-        repository = new ResultRepository(this);
-
-        // Dữ liệu giả: Thắng (100 điểm, 10/10, 3 sao)
-        MatchResult mockResult = new MatchResult(100, 10, 10, true);
-
-        // Dữ liệu giả: Thua (20 điểm, 2/10, 0 sao)
-        // MatchResult mockResult = new MatchResult(20, 2, 10, false);
-
-        displayResult(mockResult);
-
-        btnPlayAgain.setOnClickListener(v -> {
-            // Logic chơi lại (Intent đến GameActivity)
-            // startActivity(new Intent(this, GameActivity.class));
-            finish();
-        });
-
-        btnRetry.setOnClickListener(v -> {
-            // Logic Trượt/Về Trang chủ
-            finish();
-        });
-
-        btnShare.setOnClickListener(v -> {
-            shareResult();
-        });
+        getDataFromIntent();
+        displayResult(score, correctCount, total, isWin);
+        setupButtons();
     }
 
     private void mapViews() {
@@ -77,39 +67,54 @@ public class ResultActivity extends AppCompatActivity {
         btnShare = findViewById(R.id.btn_share);
     }
 
-    private void displayResult(MatchResult result) {
-        int correctCount = result.getCorrectAnswers();
-        int total = result.getTotalQuestions();
-        boolean isWin = result.isWin();
-        int score = result.getScore();
+    /**
+     * Nhận dữ liệu từ QuizActivity
+     */
+    @SuppressWarnings("unchecked")
+    private void getDataFromIntent() {
 
-        // --- 1. Cấu hình Màu sắc, Icon và Nút ---
+        questionList = (List<Question>) getIntent().getSerializableExtra("questions");
+        score = getIntent().getIntExtra("score", 0);
+        total = getIntent().getIntExtra("total", 1);
+
+        // Đếm số câu đúng từ list câu hỏi
+        int count = 0;
+        if (questionList != null) {
+            for (Question q : questionList) {
+                if (q.isUserAnswerCorrect()) {
+                    count++;
+                }
+            }
+        }
+        correctCount = count;
+
+        // Thắng = >= 80%
+        isWin = correctCount >= Math.ceil(total * 0.8);
+    }
+
+    private void displayResult(int score, int correct, int total, boolean isWin) {
+
+        // --- 1. Cấu hình giao diện thắng/thua ---
         if (isWin) {
-            int goldColor = ContextCompat.getColor(this, R.color.color_gold);
-
+            int gold = ContextCompat.getColor(this, R.color.color_gold);
             tvStatus.setText("🎉 XUẤT SẮC!");
             tvStatus.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_success));
-
             ivEmoji.setImageResource(R.drawable.ic_trophy);
-            ivEmoji.setColorFilter(goldColor);
-
-            tvScore.setTextColor(goldColor);
+            ivEmoji.setColorFilter(gold);
+            tvScore.setTextColor(gold);
 
             btnRetry.setText("🏡 Trang chủ");
             btnRetry.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_primary));
 
-            updateStars(correctCount, total);
+            updateStars(correct, total);
 
         } else {
-            int errorColor = ContextCompat.getColor(this, R.color.color_error);
-
+            int error = ContextCompat.getColor(this, R.color.color_error);
             tvStatus.setText("😞 CHƯA ĐẠT");
             tvStatus.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_error));
-
             ivEmoji.setImageResource(R.drawable.ic_sad_face);
-            ivEmoji.setColorFilter(errorColor);
-
-            tvScore.setTextColor(errorColor);
+            ivEmoji.setColorFilter(error);
+            tvScore.setTextColor(error);
 
             btnRetry.setText("🔄 Xem lại câu sai");
             btnRetry.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_warning));
@@ -117,28 +122,19 @@ public class ResultActivity extends AppCompatActivity {
             layoutStars.setVisibility(View.GONE);
         }
 
-        // --- 2. Cập nhật Điểm số và Thống kê ---
+        // --- 2. Điểm và thống kê ---
         tvScore.setText(String.valueOf(score));
-        tvCorrect.setText(correctCount + "/" + total);
-        tvIncorrect.setText((total - correctCount) + "/" + total);
+        tvCorrect.setText(correct + "/" + total);
+        tvIncorrect.setText((total - correct) + "/" + total);
 
-        // --- 3. Hiển thị Badge/Thành tựu nếu có ---
-        displayAchievementBadges(score, correctCount, total);
-
-        // TODO: Gọi API để lưu kết quả và cập nhật streak
-        // saveMatchResult(result);
-        // updateUserStreak();
+        displayAchievementBadges(score, correct, total);
     }
 
     private void updateStars(int correct, int total) {
         int stars = 0;
-        if (correct == total) {
-            stars = 3;
-        } else if (correct >= total * 0.8) {
-            stars = 2;
-        } else if (correct >= total * 0.5) {
-            stars = 1;
-        }
+        if (correct == total) stars = 3;
+        else if (correct >= total * 0.8) stars = 2;
+        else if (correct >= total * 0.5) stars = 1;
 
         int gold = ContextCompat.getColor(this, R.color.color_gold);
         int gray = ContextCompat.getColor(this, R.color.color_border_light);
@@ -148,33 +144,67 @@ public class ResultActivity extends AppCompatActivity {
         tvStar3.setTextColor(stars >= 3 ? gold : gray);
     }
 
-    /**
-     * Hiển thị badge thành tựu nếu đạt được mốc đặc biệt.
-     */
     private void displayAchievementBadges(int score, int correct, int total) {
-        // Ẩn badge mặc định
         tvBadge1.setVisibility(View.GONE);
         tvBadge2.setVisibility(View.GONE);
 
-        // Kiểm tra thành tựu "Hoàn hảo"
         if (correct == total) {
             tvBadge1.setText("🏆 Hoàn hảo!");
             tvBadge1.setVisibility(View.VISIBLE);
         }
 
-        // Kiểm tra thành tựu "Điểm cao"
         if (score >= 1000) {
             tvBadge2.setText("⭐ Điểm cao!");
             tvBadge2.setVisibility(View.VISIBLE);
         }
+    }
 
-        // TODO: Lấy thêm thành tựu từ Repository
-        // checkAndDisplayNewAchievements();
+    private void setupButtons() {
+
+        // CHƠI LẠI → quay về chọn loại quiz
+        btnPlayAgain.setOnClickListener(v -> {
+            Intent intent = new Intent(ResultActivity.this, SelectCategoryActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        // RETRY (tuỳ theo thắng/thua)
+        btnRetry.setOnClickListener(v -> {
+
+            // Nếu thua → mở review câu sai
+            if (!isWin) {
+                openReviewIncorrect();
+                return;
+            }
+
+            // Nếu thắng → về Home
+            finish();
+        });
+
+        btnShare.setOnClickListener(v -> shareResult());
+    }
+
+    /**
+     * Chỉ gửi những câu user trả lời sai hoặc bỏ qua
+     */
+    private void openReviewIncorrect() {
+
+        List<Question> wrongList = new ArrayList<>();
+
+        for (Question q : questionList) {
+            if (!q.isUserAnswerCorrect()) {
+                wrongList.add(q);
+            }
+        }
+
+        Intent intent = new Intent(ResultActivity.this, ReviewQuestionActivity.class);
+        intent.putExtra("questions", (Serializable) wrongList);
+        startActivity(intent);
     }
 
     private void shareResult() {
         String shareText = "Tôi vừa đạt " + tvScore.getText().toString() +
-                " điểm trong Quiz App! Thử thách bản thân ngay!";
+                " điểm trong Quiz App! Bạn có dám thử không?";
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);

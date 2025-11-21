@@ -2,6 +2,7 @@ package com.example.iq5.feature.auth.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,37 +15,68 @@ import com.example.iq5.feature.auth.model.LoginResponse;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText txtEmail, txtPassword;
-    Button btnLogin;
-    LoginResponse mock;
+    private EditText txtEmail, txtPassword;
+    private Button btnLogin;
+
+    private LoginResponse mock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        initViews();
+        initMockData();
+        initActions();
+    }
+
+    private void initViews() {
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
         btnLogin = findViewById(R.id.btnLogin);
+    }
 
+    private void initMockData() {
         AuthRepository repo = new AuthRepository(this);
         mock = repo.getLoginData();
 
+        // Placeholder từ mock JSON
         txtEmail.setHint(mock.emailPlaceholder);
         txtPassword.setHint(mock.passwordPlaceholder);
+    }
+
+    private void initActions() {
 
         btnLogin.setOnClickListener(v -> {
+
+            String email = txtEmail.getText().toString().trim();
+            String password = txtPassword.getText().toString().trim();
+
+            // Validate input
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+                Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Nếu mock.loginSuccess = true → coi như đăng nhập hợp lệ
+            // (sau này thay bằng API thật)
             if (mock.loginSuccess) {
-                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                finish();
+                goToHome();
             } else {
-                Toast.makeText(this, "Login failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Sai email hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Navigate to Register
+        // Chuyển sang trang Register
         findViewById(R.id.tvRegister).setOnClickListener(v -> {
-            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
+    }
+
+    private void goToHome() {
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

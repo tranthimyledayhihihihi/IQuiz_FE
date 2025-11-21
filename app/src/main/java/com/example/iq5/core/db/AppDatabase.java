@@ -24,5 +24,9 @@ public abstract class AppDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "QuanLyDoAn";
 
     public abstract UserDao userDao();
+
     public abstract QuestionDao questionDao();
+
     public abstract TopicDao topicDao(); // ĐÃ KHẮC PHỤC: Thêm TopicDao
+//
+}

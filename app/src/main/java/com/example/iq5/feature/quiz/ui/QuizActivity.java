@@ -19,7 +19,6 @@ import com.example.iq5.feature.quiz.model.HelpOptionsResponse;
 import com.example.iq5.feature.quiz.model.Lifeline;
 import com.example.iq5.feature.quiz.model.Option;
 import com.example.iq5.feature.quiz.model.Question;
-import com.example.iq5.feature.quiz.ui.LifelineDialogFragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,98 +36,145 @@ public class QuizActivity extends AppCompatActivity {
     private List<Question> questionList = new ArrayList<>();
     private HelpOptionsResponse helpOptions;
 
+    private AnswerOptionAdapter optionAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
-        txtQuestion = findViewById(R.id.txtQuestion);
-        rvOptions = findViewById(R.id.recyclerOptions);
-        btnLifelineHint = findViewById(R.id.btnLifelineHint);
-        btnFinish = findViewById(R.id.btnFinish);
-        btnSkip = findViewById(R.id.btnSkip);
+        initViews();
 
         repository = new SpecialModeRepository(this);
         CurrentQuestionResponse data = repository.getCurrentQuestionData();
         helpOptions = repository.getLifelineOptions();
 
         if (data == null || data.getQuestion() == null) {
-            txtQuestion.setText("Không thể load câu hỏi");
+            txtQuestion.setText("Không thể tải câu hỏi!");
             return;
         }
 
         currentQuestion = data.getQuestion();
         questionList.add(currentQuestion);
 
+        bindQuestion();
+        setupOptionAdapter();
+        setupButtons();
+    }
+
+    private void initViews() {
+        txtQuestion = findViewById(R.id.txtQuestion);
+        rvOptions = findViewById(R.id.recyclerOptions);
+        btnLifelineHint = findViewById(R.id.btnLifelineHint);
+        btnFinish = findViewById(R.id.btnFinish);
+        btnSkip = findViewById(R.id.btnSkip);
+    }
+
+    private void bindQuestion() {
         txtQuestion.setText(currentQuestion.getQuestion_text());
+    }
+
+    private void setupOptionAdapter() {
 
         rvOptions.setLayoutManager(new GridLayoutManager(this, 2));
-        rvOptions.setAdapter(new AnswerOptionAdapter(currentQuestion.getOptions(), option -> {
-            currentQuestion.setUser_selected_answer_id(option.getOption_id());
 
-            if (option.getOption_id().equals(currentQuestion.getCorrect_answer_id())) {
-                Toast.makeText(this, "ĐÚNG!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "SAI! Đáp án đúng: " + currentQuestion.getCorrect_answer_id(),
-                        Toast.LENGTH_LONG).show();
-            }
+        optionAdapter = new AnswerOptionAdapter(
+                currentQuestion.getOptions(),
+                option -> onUserSelectOption(option)
+        );
 
-            rvOptions.getAdapter().notifyDataSetChanged();
-        }));
+        rvOptions.setAdapter(optionAdapter);
+    }
+
+    private void onUserSelectOption(Option option) {
+        currentQuestion.setUser_selected_answer_id(option.getOption_id());
+
+        if (currentQuestion.isUserAnswerCorrect()) {
+            Toast.makeText(this, "ĐÚNG!", Toast.LENGTH_SHORT).show();
+        } else {
+            Option correctOpt = currentQuestion.getCorrectOption();
+            Toast.makeText(
+                    this,
+                    "SAI! Đáp án đúng: " +
+                            (correctOpt != null ? correctOpt.getOption_text() : "Không xác định"),
+                    Toast.LENGTH_LONG
+            ).show();
+        }
+
+        optionAdapter.notifyDataSetChanged();
+    }
+
+    private void setupButtons() {
 
         btnSkip.setOnClickListener(v -> {
             Toast.makeText(this, "Bạn đã bỏ qua câu hỏi", Toast.LENGTH_SHORT).show();
-            currentQuestion.setUser_selected_answer_id(null);
+            currentQuestion.clearUserSelection();
+            optionAdapter.notifyDataSetChanged();
         });
 
         btnFinish.setOnClickListener(v -> openReviewScreen());
 
-        btnLifelineHint.setOnClickListener(v -> {
-            if (helpOptions != null && helpOptions.getAvailableLifelines() != null) {
-                LifelineDialogFragment dialog = new LifelineDialogFragment(helpOptions.getAvailableLifelines(), lifeline -> {
-                    switch (lifeline.getType()) {
-                        case "hint":
-                            if (!lifeline.isUsedOnCurrentQuestion()) {
-                                String hint = helpOptions.getHintContent() != null
-                                        ? helpOptions.getHintContent().getText() : "Không có gợi ý";
-                                Toast.makeText(this, "Gợi ý: " + hint, Toast.LENGTH_LONG).show();
-                                lifeline.setUsedOnCurrentQuestion(true);
-                                lifeline.setCountRemaining(lifeline.getCountRemaining() - 1);
-                            }
-                            break;
-                        case "50:50":
-                            if (!lifeline.isUsedOnCurrentQuestion()) {
-                                apply5050(currentQuestion);
-                                lifeline.setUsedOnCurrentQuestion(true);
-                                lifeline.setCountRemaining(lifeline.getCountRemaining() - 1);
-                            }
-                            break;
-                        case "skip":
-                            if (!lifeline.isUsedOnCurrentQuestion()) {
-                                currentQuestion.setUser_selected_answer_id(null);
-                                lifeline.setUsedOnCurrentQuestion(true);
-                                lifeline.setCountRemaining(lifeline.getCountRemaining() - 1);
-                            }
-                            break;
-                    }
-                    rvOptions.getAdapter().notifyDataSetChanged();
-                });
-                dialog.show(getSupportFragmentManager(), "LifelineDialog");
-            }
-        });
+        btnLifelineHint.setOnClickListener(v -> handleLifeline());
+    }
+
+    private void handleLifeline() {
+
+        if (helpOptions == null || helpOptions.getAvailableLifelines() == null) {
+            Toast.makeText(this, "Không có trợ giúp!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        LifelineDialogFragment dialog = new LifelineDialogFragment(
+                helpOptions.getAvailableLifelines(),
+                lifeline -> applyLifeline(lifeline)
+        );
+
+        dialog.show(getSupportFragmentManager(), "LifelineDialog");
+    }
+
+    private void applyLifeline(Lifeline lifeline) {
+        if (lifeline.isUsedOnCurrentQuestion()) {
+            Toast.makeText(this, "Bạn đã dùng trợ giúp cho câu này rồi!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        switch (lifeline.getType()) {
+
+            case "hint":
+                String hint = helpOptions.getHintContent() != null
+                        ? helpOptions.getHintContent().getText()
+                        : "Không có gợi ý";
+                Toast.makeText(this, "Gợi ý: " + hint, Toast.LENGTH_LONG).show();
+                break;
+
+            case "50:50":
+                apply5050(currentQuestion);
+                break;
+
+            case "skip":
+                currentQuestion.clearUserSelection();
+                Toast.makeText(this, "Bạn đã bỏ qua câu hỏi!", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        lifeline.setUsedOnCurrentQuestion(true);
+        lifeline.setCountRemaining(lifeline.getCountRemaining() - 1);
+
+        optionAdapter.notifyDataSetChanged();
     }
 
     private void apply5050(Question q) {
         List<Option> options = q.getOptions();
         String correctId = q.getCorrect_answer_id();
+
         int hiddenCount = 0;
+
         for (Option opt : options) {
             if (!opt.getOption_id().equals(correctId) && hiddenCount < 2) {
                 opt.setHidden(true);
                 hiddenCount++;
             }
         }
-        rvOptions.getAdapter().notifyDataSetChanged();
     }
 
     private void openReviewScreen() {

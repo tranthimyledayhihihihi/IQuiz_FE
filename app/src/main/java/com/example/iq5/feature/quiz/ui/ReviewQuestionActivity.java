@@ -17,7 +17,8 @@ import java.util.List;
 
 public class ReviewQuestionActivity extends AppCompatActivity {
 
-    private static final String TAG = "ReviewActivity";
+    private static final String TAG = "ReviewQuestionActivity";
+
     private List<Question> reviewedQuestions;
 
     @Override
@@ -25,23 +26,49 @@ public class ReviewQuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_question);
 
-        Serializable serializable = getIntent().getSerializableExtra("questions");
-        if (serializable instanceof List) {
-            reviewedQuestions = (List<Question>) serializable;
-        } else {
-            Log.e(TAG, "Dữ liệu nhận không hợp lệ");
-            Toast.makeText(this, "Không thể tải dữ liệu xem lại", Toast.LENGTH_LONG).show();
+        if (!extractDataFromIntent()) {
             finish();
             return;
+        }
+
+        setupRecyclerView();
+    }
+
+    /**
+     * Nhận danh sách câu hỏi từ Intent một cách an toàn
+     */
+    @SuppressWarnings("unchecked")
+    private boolean extractDataFromIntent() {
+        Serializable data = getIntent().getSerializableExtra("questions");
+
+        if (!(data instanceof List)) {
+            Log.e(TAG, "Dữ liệu truyền vào không phải List<Question>");
+            Toast.makeText(this, "Không thể tải dữ liệu xem lại", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        try {
+            reviewedQuestions = (List<Question>) data;
+        } catch (Exception e) {
+            Log.e(TAG, "Lỗi ép kiểu List<Question>: ", e);
+            Toast.makeText(this, "Lỗi dữ liệu câu hỏi", Toast.LENGTH_LONG).show();
+            return false;
         }
 
         if (reviewedQuestions == null || reviewedQuestions.isEmpty()) {
-            Toast.makeText(this, "Không có câu hỏi nào để xem lại.", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
+            Toast.makeText(this, "Không có câu hỏi nào để xem lại", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
+        return true;
+    }
+
+    /**
+     * Setup RecyclerView hiển thị danh sách câu hỏi review
+     */
+    private void setupRecyclerView() {
         RecyclerView rvReview = findViewById(R.id.recyclerReview);
+
         rvReview.setLayoutManager(new LinearLayoutManager(this));
         rvReview.setAdapter(new ReviewQuestionAdapter(reviewedQuestions));
     }

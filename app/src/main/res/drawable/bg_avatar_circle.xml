@@ -1,14 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
-    <solid android:color="#FFFFFF"/>
-<?xml version="1.0" encoding="utf-8"?>
-<!-- res/drawable/bg_avatar_circle.xml -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Nền avatar -->
     <solid android:color="@color/bg_secondary" />
+
+    <!-- Bo tròn / khung tròn -->
     <corners android:radius="999dp" />
+
+    <!-- Viền -->
     <stroke
-        android:width="3dp"
-        android:color="#00D4FF"/>
         android:width="2dp"
         android:color="@color/cyan_accent" />
+
 </shape>
