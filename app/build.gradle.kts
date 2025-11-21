@@ -33,10 +33,32 @@ android {
 
 dependencies {
 
+    // ANDROIDX & UI
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+
+    // ROOM (DATABASE CỤC BỘ)
+    implementation(libs.room.common.jvm)
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler) // Cần annotationProcessor để Room tạo code
+
+    // RETROFIT & OKHTTP (GIAO TIẾP MẠNG) - ĐÃ SỬA CÚ PHÁP KTS
+
+    // 1. Retrofit Core
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    // 2. Gson Converter (Chuyển đổi JSON)
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // 3. OkHttp (Client HTTP)
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+
+    // 4. Logging Interceptor (Theo dõi request/response trong Logcat)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+    // TESTING
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
