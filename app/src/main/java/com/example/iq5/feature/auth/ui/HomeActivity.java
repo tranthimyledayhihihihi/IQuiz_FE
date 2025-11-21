@@ -1,6 +1,5 @@
 package com.example.iq5.feature.auth.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 import android.widget.TextView;
@@ -11,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.iq5.R;
+import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.auth.data.AuthRepository;
 import com.example.iq5.feature.auth.model.HomeResponse;
 
@@ -75,23 +75,21 @@ public class HomeActivity extends AppCompatActivity {
             // Đang ở Home rồi, không làm gì
         });
 
-        // Library
+        // Library / Play Quiz
         findViewById(R.id.btnLibrary).setOnClickListener(v -> {
-            Toast.makeText(this, "Library coming soon!", Toast.LENGTH_SHORT).show();
+            NavigationHelper.navigateToSelectCategory(this);
         });
 
         // Profile
         findViewById(R.id.btnProfile).setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-            startActivity(intent);
+            NavigationHelper.navigateToProfile(this);
         });
     }
 
     private void setupHeaderActions() {
         // Settings button in header
         findViewById(R.id.btnSettings).setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
-            startActivity(intent);
+            NavigationHelper.navigateToSettings(this);
         });
 
         // Search button
@@ -101,8 +99,52 @@ public class HomeActivity extends AppCompatActivity {
 
         // Avatar click -> Profile
         findViewById(R.id.imgAvatarHome).setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-            startActivity(intent);
+            NavigationHelper.navigateToProfile(this);
         });
+        
+        // Thêm các navigation khác (nếu có button trong layout)
+        setupAdditionalNavigation();
+    }
+    
+    private void setupAdditionalNavigation() {
+        // TODO: Thêm các button navigation sau khi đã có trong layout XML
+        // Uncomment các dòng dưới khi đã thêm button tương ứng vào activity_home.xml
+        
+        /*
+        // Daily Reward
+        findViewById(R.id.btnDailyReward).setOnClickListener(v -> {
+            NavigationHelper.navigateToDailyReward(this);
+        });
+        
+        // Achievement
+        findViewById(R.id.btnAchievement).setOnClickListener(v -> {
+            NavigationHelper.navigateToAchievement(this);
+        });
+        
+        // Stats
+        findViewById(R.id.btnStats).setOnClickListener(v -> {
+            NavigationHelper.navigateToStats(this);
+        });
+        
+        // Streak
+        findViewById(R.id.btnStreak).setOnClickListener(v -> {
+            NavigationHelper.navigateToStreak(this);
+        });
+        
+        // Multiplayer / PvP
+        findViewById(R.id.btnMultiplayer).setOnClickListener(v -> {
+            NavigationHelper.navigateToFindMatch(this);
+        });
+        
+        // Friends
+        findViewById(R.id.btnFriends).setOnClickListener(v -> {
+            NavigationHelper.navigateToFriends(this);
+        });
+        
+        // Leaderboard
+        findViewById(R.id.btnLeaderboard).setOnClickListener(v -> {
+            NavigationHelper.navigateToLeaderboard(this);
+        });
+        */
     }
 }

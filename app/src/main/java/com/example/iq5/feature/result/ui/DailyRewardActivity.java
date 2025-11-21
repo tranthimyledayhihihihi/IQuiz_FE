@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.iq5.R;
+import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.result.adapter.DailyRewardAdapter;
 import com.example.iq5.feature.result.model.DailyReward;
 import com.example.iq5.feature.result.data.ResultRepository;
@@ -43,6 +44,16 @@ public class DailyRewardActivity extends AppCompatActivity {
 
         // 5. Xử lý sự kiện nút Nhận Thưởng
         btnClaimReward.setOnClickListener(v -> claimTodayReward());
+        
+        // 6. Xử lý nút Back (nếu có trong layout)
+        try {
+            int backButtonId = getResources().getIdentifier("btn_back", "id", getPackageName());
+            if (backButtonId != 0 && findViewById(backButtonId) != null) {
+                findViewById(backButtonId).setOnClickListener(v -> NavigationHelper.goBack(this));
+            }
+        } catch (Exception ignored) {
+            // Button không tồn tại, bỏ qua
+        }
     }
 
     /**

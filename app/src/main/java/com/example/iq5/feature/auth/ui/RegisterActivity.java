@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.iq5.R;
+import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.auth.data.AuthRepository;
 import com.example.iq5.feature.auth.model.RegisterResponse;
 
@@ -41,14 +42,15 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(v -> {
             if (mock.registerSuccess) {
                 Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-                finish();
+                // Sau khi đăng ký thành công, chuyển về Home
+                NavigationHelper.navigateToHome(this, true);
             } else {
                 Toast.makeText(this, "Đăng ký thất bại!", Toast.LENGTH_SHORT).show();
             }
         });
 
         findViewById(R.id.tvLogin).setOnClickListener(v ->
-                finish()
+                NavigationHelper.goBack(this)
         );
     }
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.iq5.R;
+import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.result.adapter.AchievementAdapter;
 import com.example.iq5.feature.result.model.Achievement;
 import com.example.iq5.feature.result.data.ResultRepository;
@@ -64,7 +65,7 @@ public class AchievementActivity extends AppCompatActivity {
 
         // 5. Back button
         if (findViewById(R.id.btn_back_achieve) != null) {
-            findViewById(R.id.btn_back_achieve).setOnClickListener(v -> finish());
+            findViewById(R.id.btn_back_achieve).setOnClickListener(v -> NavigationHelper.goBack(this));
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.iq5.feature.auth.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -10,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.iq5.R;
+import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.auth.data.AuthRepository;
 import com.example.iq5.feature.auth.model.LoginResponse;
 
@@ -69,14 +69,11 @@ public class LoginActivity extends AppCompatActivity {
 
         // Chuyển sang trang Register
         findViewById(R.id.tvRegister).setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(intent);
+            NavigationHelper.navigateToRegister(this);
         });
     }
 
     private void goToHome() {
-        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-        startActivity(intent);
-        finish();
+        NavigationHelper.navigateToHome(this, true);
     }
 }

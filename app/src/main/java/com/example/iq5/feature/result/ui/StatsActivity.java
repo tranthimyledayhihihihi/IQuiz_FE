@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.iq5.R;
+import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.result.adapter.StatsAdapter;
 import com.example.iq5.feature.result.model.UserStats;
 import com.example.iq5.feature.result.data.ResultRepository;
@@ -41,7 +42,7 @@ public class StatsActivity extends AppCompatActivity {
         updateWeeklyStats();
 
         // 5. Xử lý nút Back
-        findViewById(R.id.btn_back_stats).setOnClickListener(v -> finish());
+        findViewById(R.id.btn_back_stats).setOnClickListener(v -> NavigationHelper.goBack(this));
     }
 
     /**

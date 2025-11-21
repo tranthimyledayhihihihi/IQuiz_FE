@@ -1,6 +1,5 @@
 package com.example.iq5.feature.quiz.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.iq5.R;
+import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.quiz.adapter.AnswerOptionAdapter;
 import com.example.iq5.feature.quiz.data.SpecialModeRepository;
 import com.example.iq5.feature.quiz.model.CurrentQuestionResponse;
@@ -178,8 +178,18 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void openReviewScreen() {
-        Intent intent = new Intent(this, ReviewQuestionActivity.class);
-        intent.putExtra("questions", (Serializable) questionList);
-        startActivity(intent);
+        // Tính điểm và chuyển sang ResultActivity
+        int correctCount = 0;
+        for (Question q : questionList) {
+            if (q.isUserAnswerCorrect()) correctCount++;
+        }
+        
+        Bundle resultData = new Bundle();
+        resultData.putSerializable("questions", (Serializable) questionList);
+        resultData.putInt("score", correctCount * 100);
+        resultData.putInt("total", questionList.size());
+        resultData.putInt("correct", correctCount);
+        
+        NavigationHelper.navigateToResult(this, resultData);
     }
 }

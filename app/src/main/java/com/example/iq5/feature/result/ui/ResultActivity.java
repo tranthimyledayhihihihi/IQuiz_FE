@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.iq5.R;
+import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.quiz.model.Question;
 import com.example.iq5.feature.quiz.ui.ReviewQuestionActivity;
 import com.example.iq5.feature.quiz.ui.SelectCategoryActivity;
@@ -163,8 +164,7 @@ public class ResultActivity extends AppCompatActivity {
 
         // CHƠI LẠI → quay về chọn loại quiz
         btnPlayAgain.setOnClickListener(v -> {
-            Intent intent = new Intent(ResultActivity.this, SelectCategoryActivity.class);
-            startActivity(intent);
+            NavigationHelper.navigateToSelectCategory(this);
             finish();
         });
 
@@ -178,7 +178,7 @@ public class ResultActivity extends AppCompatActivity {
             }
 
             // Nếu thắng → về Home
-            finish();
+            NavigationHelper.navigateToHome(this, false);
         });
 
         btnShare.setOnClickListener(v -> shareResult());
@@ -197,9 +197,11 @@ public class ResultActivity extends AppCompatActivity {
             }
         }
 
-        Intent intent = new Intent(ResultActivity.this, ReviewQuestionActivity.class);
-        intent.putExtra("questions", (Serializable) wrongList);
-        startActivity(intent);
+        // Sử dụng NavigationHelper với quizId (có thể lấy từ Intent)
+        String quizId = getIntent().getStringExtra("quiz_id");
+        if (quizId == null) quizId = "review_" + System.currentTimeMillis();
+        
+        NavigationHelper.navigateToReviewQuestions(this, quizId);
     }
 
     private void shareResult() {

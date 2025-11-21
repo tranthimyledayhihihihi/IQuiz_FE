@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.iq5.R;
+import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.result.adapter.StreakHistoryAdapter;
 import com.example.iq5.feature.result.data.ResultRepository;
 import com.example.iq5.feature.result.model.StreakDay;
@@ -40,6 +41,6 @@ public class StreakActivity extends AppCompatActivity {
         rvStreakHistory.setAdapter(adapter);
 
         // 5. Xử lý nút Back
-        findViewById(R.id.btn_back_streak).setOnClickListener(v -> finish());
+        findViewById(R.id.btn_back_streak).setOnClickListener(v -> NavigationHelper.goBack(this));
     }
 }
