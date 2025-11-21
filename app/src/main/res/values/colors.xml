@@ -1,4 +1,4 @@
-<!-- res/values/colors.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- CORE -->
     <color name="purple_primary">#6C4FFF</color>
@@ -28,4 +28,49 @@
     <color name="border_light">#E5E5EA</color>
     <color name="border_medium">#C7C7CC</color>
     <color name="online_green">#34C759</color>
+
+    <!-- CORE COLORS -->
+    <color name="purple_primary">#6C4FFF</color>
+    <color name="purple_dark">#5A3FE6</color>
+    <color name="purple_light">#E8E3FF</color>
+    <color name="cyan_accent">#00D4FF</color>
+    <color name="orange_gradient_start">#FF7A3D</color>
+    <color name="pink_gradient_middle">#FFA8C5</color>
+    <color name="purple_gradient_end">#9747FF</color>
+
+    <!-- FUNCTIONAL COLORS -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="textWhite">#FFFFFF</color>
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#808080</color>
+    <color name="bg_primary">@color/purple_light</color>
+    <color name="bg_secondary">@color/white</color>
+    <color name="input_border">#E5E5EA</color>
+
+    <!-- BUTTON COLORS -->
+    <color name="button_primary">@color/purple_primary</color>
+    <color name="button_pressed">@color/purple_dark</color>
+    <color name="button_cyan">@color/cyan_accent</color>
+    <color name="button_danger">#FF3B30</color>
+
+    <!-- TAB / NAV -->
+    <color name="tab_active">@color/purple_primary</color>
+    <color name="bottom_nav_inactive">#B0B0B0</color>
+
+    <!-- GRADIENT SHORTCUTS -->
+    <color name="cyanAccent">@color/cyan_accent</color>
+    <color name="orangeGradientStart">@color/orange_gradient_start</color>
+    <color name="pinkGradientMiddle">@color/pink_gradient_middle</color>
+    <color name="purpleGradientEnd">@color/purple_gradient_end</color>
+
+    <!-- BRAND SHORTCUT -->
+    <color name="colorPrimary">@color/purple_primary</color>
+    <color name="colorPrimaryDark">@color/purple_dark</color>
+    <color name="colorAccent">@color/cyan_accent</color>
+    <!-- ─Éß║úm bß║úo tr├╣ng t├¬n vß╗¢i themes/layout -->
+    <color name="purpleLight">#E8E3FF</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="buttonDanger">#FF3B30</color>
+
 </resources>
