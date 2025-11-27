@@ -36,4 +36,5 @@
 
     <string name="streak_day_format">Ngày %d</string>
 
+    <string name="team_matchup_placeholder">Đội A (1/4) vs Đội B (2/4)</string>
 </resources>

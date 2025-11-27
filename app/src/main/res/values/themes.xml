@@ -74,4 +74,5 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/color_black</item>
     </style>
+    <style name="Theme.IQ5.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
