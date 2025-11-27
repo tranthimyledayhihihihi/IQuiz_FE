@@ -1,6 +1,7 @@
 package com.example.iq5.feature.result.ui;
 
 import android.os.Bundle;
+import android.view.View; // Cần thiết cho findViewById
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,14 +34,25 @@ public class StreakActivity extends AppCompatActivity {
 
         // 3. Cập nhật số ngày Streak hiện tại từ Repository
         int currentStreak = repository.getCurrentStreakDays();
-        tvCurrentDays.setText(currentStreak + " NGÀY");
+        if (tvCurrentDays != null) {
+            tvCurrentDays.setText(currentStreak + " NGÀY");
+        }
 
         // 4. Cấu hình RecyclerView cho lịch sử Streak
-        rvStreakHistory.setLayoutManager(new LinearLayoutManager(this));
-        StreakHistoryAdapter adapter = new StreakHistoryAdapter(historyData);
-        rvStreakHistory.setAdapter(adapter);
+        if (rvStreakHistory != null) {
+            rvStreakHistory.setLayoutManager(new LinearLayoutManager(this));
+            // Lưu ý: Cần đảm bảo StreakHistoryAdapter constructor chỉ cần List<StreakDay>
+            StreakHistoryAdapter adapter = new StreakHistoryAdapter(historyData);
+            rvStreakHistory.setAdapter(adapter);
+        }
 
-        // 5. Xử lý nút Back
-        findViewById(R.id.btn_back_streak).setOnClickListener(v -> NavigationHelper.goBack(this));
+        // 5. Xử lý nút Back - SỬ DỤNG finish() ĐỂ ĐẢM BẢO QUAY LẠI MÀN HÌNH TRƯỚC
+        View btnBack = findViewById(R.id.btn_back_streak);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                // Đóng Activity hiện tại và quay lại Activity trước đó
+                finish();
+            });
+        }
     }
 }

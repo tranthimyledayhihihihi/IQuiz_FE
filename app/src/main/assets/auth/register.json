@@ -1,8 +1,8 @@
 {
-  "namePlaceholder": "Enter your full name",
-  "emailPlaceholder": "Enter your email",
-  "passwordPlaceholder": "Enter your password",
-  "confirmPasswordPlaceholder": "Confirm your password",
+  "namePlaceholder": "Nhập name",
+  "emailPlaceholder": "Nhập email",
+  "passwordPlaceholder": "Nhập mật khẩu",
+  "confirmPasswordPlaceholder": "Xác nhận lại mật khẩu",
   "registerSuccess": true,
   "userId": 102
 }

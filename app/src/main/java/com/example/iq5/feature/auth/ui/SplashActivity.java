@@ -2,10 +2,8 @@ package com.example.iq5.feature.auth.ui;
 
 import android.os.Bundle;
 import android.os.Handler;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.iq5.R;
 import com.example.iq5.core.navigation.NavigationHelper;
 
@@ -19,8 +17,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         new Handler(getMainLooper()).postDelayed(() -> {
-            // Sau này có thể check token -> nếu đã login thì vào HomeActivity
-            // TODO: Kiểm tra token/session, nếu có thì navigateToHome(this, true)
+            // Chuyển sang Login Activity và xóa Stack Activity (để người dùng không thể Back lại Splash)
             NavigationHelper.navigateToLogin(this, true);
         }, SPLASH_DELAY);
     }
