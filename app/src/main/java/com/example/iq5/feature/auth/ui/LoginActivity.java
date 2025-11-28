@@ -45,12 +45,40 @@ public class LoginActivity extends AppCompatActivity {
         txtEmail.setHint(mock.emailPlaceholder);
         txtPassword.setHint(mock.passwordPlaceholder);
         mock = repo.getLoginData();
+        mock = repo.getLoginData();
+
+        // Placeholder từ mock JSON
+        if (txtEmail != null) txtEmail.setHint(mock.emailPlaceholder);
+        if (txtPassword != null) txtPassword.setHint(mock.passwordPlaceholder);
+    }
 
         // Placeholder từ mock JSON
         if (txtEmail != null) txtEmail.setHint(mock.emailPlaceholder);
         if (txtPassword != null) txtPassword.setHint(mock.passwordPlaceholder);
     }
     private void initActions() {
+
+        if (btnLogin != null) {
+            // SỬA LỖI: setOnClickListener sử dụng lambda expression, đã thêm import View/Toast
+            btnLogin.setOnClickListener(v -> {
+
+                String email = txtEmail.getText().toString().trim();
+                String password = txtPassword.getText().toString().trim();
+
+                // Validate input
+                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+                    Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Nếu mock.loginSuccess = true → coi như đăng nhập hợp lệ
+                if (mock != null && mock.loginSuccess) {
+                    goToHome();
+                } else {
+                    Toast.makeText(this, "Sai email hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
         btnLogin.setOnClickListener(v -> {
             String email = txtEmail.getText().toString().trim();
             String password = txtPassword.getText().toString().trim();

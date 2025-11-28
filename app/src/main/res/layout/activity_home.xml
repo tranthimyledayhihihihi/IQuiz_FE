@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.iq5.feature.auth.ui.HomeActivity">
 
-    <!-- Header -->
     <RelativeLayout
         android:id="@+id/headerHome"
         android:layout_width="match_parent"
@@ -18,7 +17,6 @@
         android:paddingBottom="12dp"
         android:elevation="4dp">
 
-        <!-- Avatar -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgAvatarHome"
             android:layout_width="48dp"
@@ -31,7 +29,6 @@
             app:strokeColor="#E0E0E0"
             app:strokeWidth="1dp" />
 
-        <!-- Title -->
         <TextView
             android:id="@+id/txtTitleHome"
             android:layout_width="wrap_content"
@@ -44,7 +41,6 @@
             android:textStyle="bold"
             android:textColor="#000000" />
 
-        <!-- Search Icon -->
         <ImageButton
             android:id="@+id/btnSearch"
             android:layout_width="44dp"
@@ -59,7 +55,6 @@
             app:tint="#666666"
             android:contentDescription="Search" />
 
-        <!-- Settings Icon -->
         <ImageButton
             android:id="@+id/btnSettings"
             android:layout_width="44dp"
@@ -74,7 +69,6 @@
             android:contentDescription="Settings" />
     </RelativeLayout>
 
-    <!-- Main Content ScrollView -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -88,7 +82,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Welcome Banner -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,7 +112,6 @@
                     android:paddingEnd="24dp" />
             </LinearLayout>
 
-            <!-- Featured Quizzes Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -153,6 +145,57 @@
                 android:textColor="#000000"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="12dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Các Tính Năng Khác"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="12dp" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="4"
+                android:alignmentMode="alignBounds"
+                android:columnOrderPreserved="false">
+
+                <Button
+                    android:id="@+id/btnDailyReward"
+                    android:layout_width="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Thưởng Hàng Ngày"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="#FF9800"/>
+                <Button
+                    android:id="@+id/btnAchievement"
+                    android:layout_width="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Thành Tựu"
+                    android:backgroundTint="#4CAF50"/>
+
+                <Button
+                    android:id="@+id/btnStats"
+                    android:layout_width="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Thống Kê"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="#00BCD4"/>
+                <Button
+                    android:id="@+id/btnStreak"
+                    android:layout_width="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Chuỗi Ngày (Streak)"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#9C27B0"/>
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -200,6 +243,25 @@
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="#3F51B5"/> </GridLayout>
             <!-- Quiz List -->
+                <Button
+                    android:id="@+id/btnMultiplayer"
+                    android:layout_width="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Đối Kháng (PvP)"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="#3F51B5"/>
+                <Button
+                    android:id="@+id/btnArena"
+                    android:layout_width="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Đấu Trường"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#FF5722" />
+
+            </GridLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvQuizzes"
                 android:layout_width="match_parent"
@@ -209,7 +271,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottom Navigation -->
     <include
         android:id="@+id/bottomNavigation"
         layout="@layout/layout_bottom_nav"
