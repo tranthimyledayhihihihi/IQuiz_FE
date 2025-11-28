@@ -1,7 +1,8 @@
 package com.example.iq5.feature.multiplayer.ui;
 
 import android.os.Bundle;
-import android.widget.ImageButton; // Import ImageButton
+import android.widget.ImageButton;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -21,7 +22,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
     private FloatingActionButton fabAddFriend;
-    private ImageButton btnBack; // Khai báo ImageButton
+    private ImageButton btnBack;
 
     // Tiêu đề cho các tab
     private final String[] tabTitles = new String[]{"Bạn Bè", "BXH Tuần", "BXH Tháng"};
@@ -31,54 +32,32 @@ public class LeaderboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_leaderboard);
 
-        // Ẩn ActionBar mặc định (vì chúng ta dùng Toolbar tùy chỉnh)
+        // Ẩn ActionBar mặc định (dùng layout custom)
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-import android.os.Bundle;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.iq5.R;
-import com.example.iq5.core.navigation.NavigationHelper;
-
-public class LeaderboardActivity extends AppCompatActivity {
-
-    private RecyclerView rvLeaderboard;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Toast.makeText(this, "Bảng xếp hạng - Đang phát triển", Toast.LENGTH_SHORT).show();
-
-        // Auto back sau 2 giây
-        new android.os.Handler(getMainLooper()).postDelayed(() -> {
-            NavigationHelper.goBack(this);
-        }, 2000);
+        initViews();
+        setupBackButton();
+        setupViewPagerAndTabs();
+        setupFab();
     }
-}
 
+    private void initViews() {
         viewPager = findViewById(R.id.view_pager);
         tabLayout = findViewById(R.id.tabs);
         fabAddFriend = findViewById(R.id.fabAddFriend);
-        btnBack = findViewById(R.id.btnBack); // Lấy tham chiếu đến nút Quay lại
+        btnBack = findViewById(R.id.btnBack);
+    }
 
-        // Xử lý sự kiện cho nút Quay lại
-        btnBack.setOnClickListener(v -> {
-            // Hàm này sẽ đóng Activity hiện tại và quay về Activity trước đó (ví dụ: MainActivity)
-            finish();
-        });
+    private void setupBackButton() {
+        btnBack.setOnClickListener(v -> finish());
+    }
 
-        // Setup ViewPager và Adapter
+    private void setupViewPagerAndTabs() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager.setAdapter(adapter);
 
-        // Liên kết TabLayout với ViewPager
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(tabTitles[position])
         ).attach();
@@ -95,9 +74,13 @@ public class LeaderboardActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    private void setupFab() {
         fabAddFriend.setOnClickListener(v -> {
-            // TODO: Hiển thị Dialog/Activity để tìm và thêm bạn
+            // TODO: Mở màn hình / dialog tìm & thêm bạn (ví dụ PlayerSearchFragment/Activity)
+            // Hiện tại để trống hoặc show Snackbar/Toast nếu muốn
+            // Snackbar.make(v, "Tìm & thêm bạn bè (dev...)", Snackbar.LENGTH_SHORT).show();
         });
     }
 
@@ -114,21 +97,21 @@ public class LeaderboardActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch (position) {
                 case 1:
-                    // Trả về LeaderboardFragment với loại "Tuần"
+                    // BXH tuần
                     return LeaderboardFragment.newInstance("week");
                 case 2:
-                    // Trả về LeaderboardFragment với loại "Tháng"
+                    // BXH tháng
                     return LeaderboardFragment.newInstance("month");
                 case 0:
                 default:
-                    // Trả về FriendsFragment
+                    // Tab bạn bè
                     return new FriendsFragment();
             }
         }
 
         @Override
         public int getItemCount() {
-            return 3; // 3 tabs
+            return 3; // 3 tab
         }
     }
 }

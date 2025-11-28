@@ -1,7 +1,11 @@
 package com.example.iq5.feature.multiplayer.ui;
 
 import android.os.Bundle;
+import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.iq5.R;
@@ -24,58 +28,73 @@ public class FriendsActivity extends AppCompatActivity {
 
         // TODO: viewModel = new ViewModelProvider(this).get(FriendViewModel.class);
 
+        initViews();
+        setupToolbar();
+        setupBackHandler();
+        setupRecyclerView();
+        setupFab();
+
+        // Thông báo tạm thời
+        Toast.makeText(this, "Danh sách bạn bè - Đang phát triển", Toast.LENGTH_SHORT).show();
+
+        // TODO: observeViewModel();
+    }
+
+    private void initViews() {
         toolbar = findViewById(R.id.toolbar);
         rvFriendsList = findViewById(R.id.rvFriendsList);
         fabAddFriend = findViewById(R.id.fabAddFriend);
+    }
 
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
-        // TODO: setupRecyclerView();
-        // TODO: observeViewModel();
+        // Nút back trên toolbar → dùng dispatcher
+        toolbar.setNavigationOnClickListener(v ->
+                getOnBackPressedDispatcher().onBackPressed()
+        );
+    }
 
+    private void setupBackHandler() {
+        getOnBackPressedDispatcher().addCallback(this,
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        // Luồng back của màn Friends khá đơn giản: thoát luôn
+                        setEnabled(false);
+                        FriendsActivity.super.onBackPressed();
+                    }
+                });
+    }
+
+    private void setupRecyclerView() {
+        rvFriendsList.setLayoutManager(new LinearLayoutManager(this));
+
+        // Khi có FriendAdapter thì mở mấy dòng này:
+        // adapter = new FriendAdapter();
+        // rvFriendsList.setAdapter(adapter);
+    }
+
+    private void setupFab() {
         fabAddFriend.setOnClickListener(v -> {
-            // TODO: Hiển thị dialog/activity tìm kiếm bạn bè
+            // Sau này có thể mở PlayerSearchFragment / Activity tìm kiếm bạn bè
+            // hoặc show dialog nhập username / mã bạn bè.
+            Toast.makeText(this,
+                    "Tính năng tìm & thêm bạn bè sẽ được bổ sung.",
+                    Toast.LENGTH_SHORT).show();
         });
     }
-import android.os.Bundle;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.iq5.R;
-import com.example.iq5.core.navigation.NavigationHelper;
-
-public class FriendsActivity extends AppCompatActivity {
-
-    private RecyclerView rvFriends;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Toast.makeText(this, "Danh sách bạn bè - Đang phát triển", Toast.LENGTH_SHORT).show();
-
-        // Auto back sau 2 giây
-        new android.os.Handler(getMainLooper()).postDelayed(() -> {
-            NavigationHelper.goBack(this);
-        }, 2000);
-    }
-}
-
-    // private void setupRecyclerView() {
-    //     adapter = new FriendAdapter();
-    //     rvFriendsList.setAdapter(adapter);
-    // }
-
+    // Khi có ViewModel:
     // private void observeViewModel() {
     //     viewModel.getFriendsList().observe(this, friends -> {
     //         adapter.submitList(friends);
     //     });
     //     viewModel.getFriendRequests().observe(this, requests -> {
-    //         // TODO: Cập nhật UI cho requests
+    //         // TODO: cập nhật UI cho lời mời kết bạn
     //     });
     // }
 }

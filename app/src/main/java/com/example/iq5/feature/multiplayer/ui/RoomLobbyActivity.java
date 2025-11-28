@@ -3,14 +3,13 @@ package com.example.iq5.feature.multiplayer.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,7 +23,7 @@ public class RoomLobbyActivity extends AppCompatActivity {
     private TextView tvCurrency;
 
     private MaterialButton btnReady, btnLeave, btnSpectate, btnSendChat;
-    private MaterialButton btnMode1v1; // Giữ lại nút 1v1
+    private MaterialButton btnMode1v1;
 
     private RecyclerView rvChat;
     private EditText etChatMessage;
@@ -34,18 +33,17 @@ public class RoomLobbyActivity extends AppCompatActivity {
     private boolean isPlayerJoined = false;
     private boolean isReady = false;
 
-    // LOGIC TIMER
-    private final int COUNTDOWN_START_TIME = 5;
+    // TIMER COUNTDOWN
+    private static final int COUNTDOWN_START_TIME = 5;
     private int currentCountdownTime = COUNTDOWN_START_TIME;
 
-    private Handler countdownHandler = new Handler();
-    private Runnable countdownRunnable = new Runnable() {
+    private Handler countdownHandler;
+    private final Runnable countdownRunnable = new Runnable() {
         @Override
         public void run() {
             if (currentCountdownTime > 0) {
                 currentCountdownTime--;
-                String timeStr = String.format("00:%02d", currentCountdownTime);
-                tvCountdownTimer.setText(timeStr);
+                tvCountdownTimer.setText(String.format("00:%02d", currentCountdownTime));
                 countdownHandler.postDelayed(this, 1000);
             } else {
                 startGame();
@@ -58,19 +56,31 @@ public class RoomLobbyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_lobby);
 
-        setupOnBackPressedCallback();
+        countdownHandler = new Handler(getMainLooper());
 
+        // Lấy dữ liệu phòng
         roomCode = getIntent().getStringExtra("ROOM_CODE");
         isHost = getIntent().getBooleanExtra("IS_HOST", false);
 
-        // --- Ánh xạ UI ---
-        toolbarLobby = findViewById(R.id.toolbarLobby);
-        setSupportActionBar(toolbarLobby);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Phòng: " + roomCode);
-        }
+        initViews();
+        setupToolbar();
+        setupOnBackPressedCallback();
+        setupListeners();
 
+        // Display initial UI state
+        tvCountdownTimer.setText(String.format("00:%02d", COUNTDOWN_START_TIME));
+        tvCurrency.setText("Phòng: " + roomCode);
+
+        // Demo: nếu là host, giả lập đối thủ join sau 3s
+        if (isHost) {
+            new Handler(getMainLooper()).postDelayed(this::onPlayerJoined, 3000);
+        }
+    }
+
+    // ---------------- INIT UI ----------------
+
+    private void initViews() {
+        toolbarLobby = findViewById(R.id.toolbarLobby);
         tvCountdownTimer = findViewById(R.id.tvCountdownTimer);
         tvCurrency = findViewById(R.id.tvCurrency);
 
@@ -78,104 +88,29 @@ public class RoomLobbyActivity extends AppCompatActivity {
         btnLeave = findViewById(R.id.btnLeave);
         btnSpectate = findViewById(R.id.btnSpectate);
         btnMode1v1 = findViewById(R.id.btnMode1v1);
-        // btnModeTeam đã bị xóa và không được ánh xạ.
+        btnSendChat = findViewById(R.id.btnSendChat);
 
         rvChat = findViewById(R.id.rvChat);
         etChatMessage = findViewById(R.id.etChatMessage);
-        btnSendChat = findViewById(R.id.btnSendChat);
+    }
 
-        // Giả lập hiển thị ban đầu
-        tvCountdownTimer.setText("00:" + String.format("%02d", COUNTDOWN_START_TIME));
-        tvCurrency.setText("Phòng: " + roomCode);
-
-        // --- Logic Ban đầu và Listeners ---
-        setupListeners();
-
-        if (isHost) {
-            new android.os.Handler().postDelayed(this::onPlayerJoined, 3000);
+    private void setupToolbar() {
+        setSupportActionBar(toolbarLobby);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Phòng: " + roomCode);
         }
+
+        // Icon back trên toolbar dùng dispatcher
+        toolbarLobby.setNavigationOnClickListener(
+                v -> getOnBackPressedDispatcher().onBackPressed()
+        );
     }
 
-    private void setupListeners() {
+    // ---------------- BACK HANDLER (gesture + nút) ----------------
 
-        btnReady.setOnClickListener(v -> {
-            isReady = !isReady; // Đảo trạng thái Ready
-            updateReadyState(isReady);
-            // TODO: Gửi trạng thái READY/UNREADY qua WebSocket
-        });
-
-        btnLeave.setOnClickListener(v -> {
-            showLeaveConfirmationDialog();
-        });
-
-        btnSpectate.setOnClickListener(v -> {
-            Toast.makeText(this, "Bạn đã chuyển sang chế độ khán giả!", Toast.LENGTH_SHORT).show();
-            // TODO: Gửi sự kiện SPECTATE qua WebSocket
-        });
-
-        btnSendChat.setOnClickListener(v -> {
-            String message = etChatMessage.getText().toString().trim();
-            if (!message.isEmpty()) {
-                // TODO: Gửi tin nhắn qua WebSocket
-                Toast.makeText(this, "Đã gửi: " + message, Toast.LENGTH_SHORT).show();
-                etChatMessage.setText("");
-            }
-        });
-
-        // Listener cho nút btnMode1v1 (Nếu có)
-        btnMode1v1.setOnClickListener(v -> {
-            Toast.makeText(this, "Chế độ 1 vs 1 đang hoạt động.", Toast.LENGTH_SHORT).show();
-        });
-    }
-
-    /**
-     * Cập nhật trạng thái nút Ready và logic đếm ngược (Chỉ 1 vs 1).
-     */
-    private void updateReadyState(boolean ready) {
-        isReady = ready;
-        if (ready) {
-            btnReady.setText("UNREADY");
-            btnReady.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent, getTheme()));
-
-            // Bắt đầu đếm ngược nếu đối thủ đã tham gia
-            if (isPlayerJoined) {
-                startCountdown();
-            } else {
-                Toast.makeText(this, "Đang chờ đối thủ tham gia...", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            btnReady.setText("READY");
-            btnReady.setBackgroundTintList(getResources().getColorStateList(R.color.colorWin, getTheme()));
-            stopCountdown();
-        }
-    }
-
-    /**
-     * Bắt đầu đếm ngược để khởi động trò chơi.
-     */
-    private void startCountdown() {
-        stopCountdown(); // Đảm bảo timer cũ đã dừng
-        currentCountdownTime = COUNTDOWN_START_TIME;
-
-        tvCountdownTimer.setText("00:" + String.format("%02d", currentCountdownTime));
-        countdownHandler.postDelayed(countdownRunnable, 1000);
-        Toast.makeText(this, "Đếm ngược bắt đầu!", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Dừng đếm ngược.
-     */
-    private void stopCountdown() {
-        countdownHandler.removeCallbacks(countdownRunnable);
-        currentCountdownTime = COUNTDOWN_START_TIME;
-        tvCountdownTimer.setText("00:" + String.format("%02d", currentCountdownTime));
-    }
-
-    /**
-     * Thiết lập OnBackPressedCallback để xử lý nút Back vật lý/cử chỉ.
-     */
     private void setupOnBackPressedCallback() {
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 showLeaveConfirmationDialog();
@@ -184,107 +119,116 @@ public class RoomLobbyActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-    // Phương thức xử lý khi nhấn vào icon điều hướng trên Toolbar.
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+    // ---------------- LISTENERS ----------------
+
+    private void setupListeners() {
+        btnReady.setOnClickListener(v -> {
+            isReady = !isReady;
+            updateReadyState(isReady);
+            // TODO: gửi trạng thái READY/UNREADY qua WebSocket
+        });
+
+        btnLeave.setOnClickListener(v -> showLeaveConfirmationDialog());
+
+        btnSpectate.setOnClickListener(v -> {
+            Toast.makeText(this, "Bạn đã chuyển sang chế độ khán giả!", Toast.LENGTH_SHORT).show();
+            // TODO: gửi SPECTATE qua WebSocket
+        });
+
+        btnSendChat.setOnClickListener(v -> {
+            String message = etChatMessage.getText().toString().trim();
+            if (!message.isEmpty()) {
+                // TODO: gửi message qua WebSocket
+                Toast.makeText(this, "Đã gửi: " + message, Toast.LENGTH_SHORT).show();
+                etChatMessage.setText("");
+            }
+        });
+
+        btnMode1v1.setOnClickListener(v -> {
+            Toast.makeText(this, "Chế độ 1 vs 1 đang hoạt động.", Toast.LENGTH_SHORT).show();
+            // TODO: có thể dùng để chọn mode nếu sau này có nhiều chế độ
+        });
     }
 
-    // Gán chức năng hỏi xác nhận cho hành động Back
-    @Override
-    public void onBackPressed() {
-        showLeaveConfirmationDialog();
+    // ---------------- READY & COUNTDOWN LOGIC ----------------
+
+    private void updateReadyState(boolean ready) {
+        isReady = ready;
+        if (ready) {
+            btnReady.setText("UNREADY");
+            btnReady.setBackgroundTintList(
+                    getResources().getColorStateList(R.color.colorAccent, getTheme())
+            );
+
+            if (isPlayerJoined) {
+                startCountdown();
+            } else {
+                Toast.makeText(this, "Đang chờ đối thủ tham gia...", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            btnReady.setText("READY");
+            btnReady.setBackgroundTintList(
+                    getResources().getColorStateList(R.color.colorWin, getTheme())
+            );
+            stopCountdown();
+        }
     }
 
-    /**
-     * Hiển thị hộp thoại xác nhận rời phòng.
-     */
+    private void startCountdown() {
+        stopCountdown();
+        currentCountdownTime = COUNTDOWN_START_TIME;
+        tvCountdownTimer.setText(String.format("00:%02d", currentCountdownTime));
+
+        countdownHandler.postDelayed(countdownRunnable, 1000);
+        Toast.makeText(this, "Đếm ngược bắt đầu!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void stopCountdown() {
+        countdownHandler.removeCallbacks(countdownRunnable);
+        currentCountdownTime = COUNTDOWN_START_TIME;
+        tvCountdownTimer.setText(String.format("00:%02d", currentCountdownTime));
+    }
+
+    // ---------------- LEAVE ROOM ----------------
+
     private void showLeaveConfirmationDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Rời Phòng")
                 .setMessage("Bạn có chắc chắn muốn rời khỏi phòng chờ?")
                 .setPositiveButton("RỜI", (dialog, which) -> {
-                    // TODO: Gửi sự kiện LEAVE_ROOM qua WebSocket
+                    // TODO: gửi LEAVE_ROOM qua WebSocket
                     stopCountdown();
                     finish();
                 })
                 .setNegativeButton("HỦY", null)
                 .show();
     }
-import android.os.Bundle;
-import android.os.Handler;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+    // ---------------- SOCKET EVENT SIMULATION ----------------
 
-import com.example.iq5.R;
-import com.example.iq5.core.navigation.NavigationHelper;
-
-public class RoomLobbyActivity extends AppCompatActivity {
-
-    private TextView tvRoomId, tvPlayerCount;
-    private RecyclerView rvPlayers;
-    private Button btnStartMatch, btnLeaveRoom;
-    private String roomId;
-    private Handler handler;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        roomId = getIntent().getStringExtra("room_id");
-        if (roomId == null) roomId = "unknown";
-
-        Toast.makeText(this, "Phòng: " + roomId + " - 2/2 người chơi", Toast.LENGTH_SHORT).show();
-        handler = new Handler(getMainLooper());
-
-        autoStartMatch();
+    // Giả lập: được gọi khi WebSocket nhận "USER_JOINED"
+    private void onPlayerJoined() {
+        isPlayerJoined = true;
+        Toast.makeText(this, "Đối thủ đã tham gia phòng!", Toast.LENGTH_SHORT).show();
+        if (isReady) {
+            startCountdown();
+        }
     }
 
-    private void autoStartMatch() {
-        // Tự động bắt đầu sau 2 giây
-        handler.postDelayed(this::startMatch, 2000);
-    }
+    // Giả lập: được gọi khi server gửi "GAME_START" hoặc countdown về 0
+    private void startGame() {
+        stopCountdown();
+        Toast.makeText(this, "Bắt đầu trận đấu!", Toast.LENGTH_SHORT).show();
 
-    private void startMatch() {
-        String matchId = "match_" + System.currentTimeMillis();
-        NavigationHelper.navigateToPvPBattle(this, matchId);
+        Intent intent = new Intent(RoomLobbyActivity.this, PvPBattleActivity.class);
+        intent.putExtra("ROOM_CODE", roomCode);
+        startActivity(intent);
         finish();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (handler != null) {
-            handler.removeCallbacksAndMessages(null);
-        }
-    }
-}
-
-
-    // Hàm này được gọi khi có sự kiện WebSocket "USER_JOINED"
-    private void onPlayerJoined() {
-        isPlayerJoined = true;
-        Toast.makeText(this, "Đối thủ đã tham gia phòng!", Toast.LENGTH_SHORT).show();
-        // Nếu đã ready, bắt đầu đếm ngược ngay khi đối thủ tham gia
-        if (isReady) {
-            startCountdown();
-        }
-    }
-
-    // Hàm này được gọi khi có sự kiện "GAME_START"
-    private void startGame() {
         stopCountdown();
-        Toast.makeText(this, "Bắt đầu trận đấu!", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(RoomLobbyActivity.this, PvPBattleActivity.class);
-        intent.putExtra("ROOM_CODE", roomCode);
-        startActivity(intent);
-        finish();
     }
 }

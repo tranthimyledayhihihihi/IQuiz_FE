@@ -19,6 +19,9 @@ public class CustomQuizAdapter extends RecyclerView.Adapter<CustomQuizAdapter.Cu
 
     public interface OnCustomQuizListener {
         void onShare(CustomQuizItem item);
+
+        void onEdit(CustomQuizItem item);
+
         void onStart(CustomQuizItem item);
     }
 

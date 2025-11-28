@@ -19,6 +19,8 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
 
     public interface OnPlayerClickListener {
         void onFriendAction(PlayerItem item);
+
+        void onChallenge(PlayerItem item);
     }
 
     private final List<PlayerItem> data = new ArrayList<>();
