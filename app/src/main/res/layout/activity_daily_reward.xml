@@ -5,11 +5,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_gray_bg_secondary" >
+    android:background="@color/color_gray_bg_secondary"
+    tools:context=".feature.result.ui.DailyRewardActivity">
+
+    <LinearLayout
+        android:id="@+id/toolbar_reward"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@color/color_white"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btn_back_reward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/color_black"
+            android:contentDescription="Quay lại"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phần Thưởng Hàng Ngày"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/color_black"/>
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_reward"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:fillViewport="true">
 
         <LinearLayout
