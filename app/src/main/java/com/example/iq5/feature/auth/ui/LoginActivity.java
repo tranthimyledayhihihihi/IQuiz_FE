@@ -1,6 +1,5 @@
 package com.example.iq5.feature.auth.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -10,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.iq5.R;
+import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.auth.data.AuthRepository;
 import com.example.iq5.feature.auth.model.LoginResponse;
 
@@ -18,6 +18,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText txtEmail, txtPassword;
     private Button btnLogin;
 
+    //chứa dữ liệu giả lập
     private LoginResponse mock;
 
     @Override
@@ -35,29 +36,22 @@ public class LoginActivity extends AppCompatActivity {
         txtPassword = findViewById(R.id.txtPassword);
         btnLogin = findViewById(R.id.btnLogin);
     }
-
     private void initMockData() {
         AuthRepository repo = new AuthRepository(this);
-        mock = repo.getLoginData();
-
-        // Placeholder từ mock JSON
+        mock = repo.getLoginData();// Placeholder từ mock JSON
+        // gán gợi ý vào ô nhập liệu
         txtEmail.setHint(mock.emailPlaceholder);
         txtPassword.setHint(mock.passwordPlaceholder);
     }
-
     private void initActions() {
-
         btnLogin.setOnClickListener(v -> {
-
             String email = txtEmail.getText().toString().trim();
             String password = txtPassword.getText().toString().trim();
-
             // Validate input
             if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
                 Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             // Nếu mock.loginSuccess = true → coi như đăng nhập hợp lệ
             // (sau này thay bằng API thật)
             if (mock.loginSuccess) {
@@ -69,14 +63,11 @@ public class LoginActivity extends AppCompatActivity {
 
         // Chuyển sang trang Register
         findViewById(R.id.tvRegister).setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(intent);
+            NavigationHelper.navigateToRegister(this);
         });
     }
 
     private void goToHome() {
-        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-        startActivity(intent);
-        finish();
+        NavigationHelper.navigateToHome(this, true);
     }
 }

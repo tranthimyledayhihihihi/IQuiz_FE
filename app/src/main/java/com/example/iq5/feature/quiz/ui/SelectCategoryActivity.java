@@ -5,14 +5,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.util.Log;
 
 import com.example.iq5.R;
+import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.quiz.adapter.CategoryAdapter;
 import com.example.iq5.feature.quiz.model.Category;
 import com.example.iq5.feature.quiz.adapter.DifficultyAdapter;
@@ -80,10 +79,7 @@ public class SelectCategoryActivity extends AppCompatActivity {
             return;
         }
 
-        Intent i = new Intent(this, QuizActivity.class);
-        i.putExtra("categoryId", selectedCategoryId);
-        i.putExtra("difficultyId", selectedDifficultyId);
-        startActivity(i);
+        NavigationHelper.navigateToQuiz(this, String.valueOf(selectedCategoryId), selectedDifficultyId);
     }
 
     private void loadSelectionData() {

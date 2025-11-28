@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.iq5.R;
+import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.auth.model.HomeResponse;
 
 import java.util.List;
@@ -34,6 +35,11 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         HomeResponse.QuizItem quiz = quizzes.get(position);
         holder.tvTitle.setText(quiz.title);
         holder.tvDifficulty.setText(quiz.difficulty);
+        
+        // Click vào quiz item -> chuyển sang SelectCategory
+        holder.itemView.setOnClickListener(v -> {
+            NavigationHelper.navigateToSelectCategory(v.getContext());
+        });
     }
 
     @Override

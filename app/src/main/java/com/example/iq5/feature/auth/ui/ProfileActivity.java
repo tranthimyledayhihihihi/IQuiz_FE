@@ -1,6 +1,5 @@
 package com.example.iq5.feature.auth.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.iq5.R;
+import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.auth.data.AuthRepository;
 import com.example.iq5.feature.auth.model.ProfileResponse;
 
@@ -40,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Navigate to Settings
         findViewById(R.id.btnSettings).setOnClickListener(v -> {
-            startActivity(new Intent(ProfileActivity.this, SettingsActivity.class));
+            NavigationHelper.navigateToSettings(this);
         });
     }
 
