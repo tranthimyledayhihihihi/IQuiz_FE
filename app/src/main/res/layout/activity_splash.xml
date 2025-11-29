@@ -12,7 +12,7 @@
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:src="@drawable/ic_quizzo_logo"
-        android:contentDescription="Logo Quizzo"
+        android:contentDescription="Logo Đấu trường tri thức"
         android:layout_marginBottom="12dp" />
 
     <!-- T├¬n ß╗⌐ng dß╗Ñng -->
@@ -20,7 +20,7 @@
         android:id="@+id/tvAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Quizzo"
+        android:text="Đấu trường tri thức"
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="@color/black"

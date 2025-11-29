@@ -2,14 +2,12 @@ package com.example.iq5.feature.auth.ui;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TextView;
+import android.widget.ImageView;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +16,7 @@ import com.example.iq5.R;
 import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.auth.data.AuthRepository;
 import com.example.iq5.feature.auth.model.HomeResponse;
+import com.example.iq5.feature.auth.ui.QuizAdapter;
 import com.example.iq5.feature.specialmode.ui.CustomQuizFragment;
 import com.example.iq5.feature.specialmode.ui.WrongHistoryFragment;
 
@@ -30,9 +29,6 @@ public class HomeActivity extends AppCompatActivity {
     private AuthRepository authRepository;
     private HomeResponse homeData;
 
-    // Container để show Fragment (nếu layout có fragment_container thì dùng, không thì dùng root)
-    private int fragmentContainerId;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,17 +37,9 @@ public class HomeActivity extends AppCompatActivity {
         initViews();
         initRepository();
         loadHomeData();
-
-        fragmentContainerId = getFragmentContainerId();
-
-        setupBottomNavigation();
-        setupHeaderActions();
-        setupAdditionalNavigation();
+        setupNavigation();
         setupFindFriendAction();
-        setupBackHandler();
     }
-
-    // ---------------- INIT ----------------
 
     private void initViews() {
         tvWelcome = findViewById(R.id.tvWelcome);
@@ -78,17 +66,12 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         if (tvWelcome != null) {
-            tvWelcome.setText(
-                    homeData.welcomeMessage != null
-                            ? homeData.welcomeMessage
-                            : getString(R.string.app_name)
-            );
+            tvWelcome.setText(homeData.welcomeMessage != null
+                    ? homeData.welcomeMessage
+                    : getString(R.string.app_name));
         }
 
-        if (rvQuizzes != null
-                && homeData.featuredQuizzes != null
-                && !homeData.featuredQuizzes.isEmpty()) {
-
+        if (rvQuizzes != null && homeData.featuredQuizzes != null && !homeData.featuredQuizzes.isEmpty()) {
             QuizAdapter adapter = new QuizAdapter(homeData.featuredQuizzes);
             rvQuizzes.setAdapter(adapter);
         } else {
@@ -96,43 +79,16 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private int getFragmentContainerId() {
-        if (findViewById(R.id.fragment_container) != null) {
-            return R.id.fragment_container;
-        }
-        return android.R.id.content;
-    }
+    private void setupNavigation() {
+        // NÚT BOTTOM NAV (BTNHOME, BTNLIBRARY, BTNJOIN, BTNCREATE, BTNPROFILE)
 
-    // ---------------- BACK HANDLER (gesture + nút) ----------------
-
-    private void setupBackHandler() {
-        getOnBackPressedDispatcher().addCallback(this,
-                new OnBackPressedCallback(true) {
-                    @Override
-                    public void handleOnBackPressed() {
-                        // Nếu đang có fragment trên back stack → pop & quay lại Home
-                        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                            getSupportFragmentManager().popBackStack();
-                            showHomeContent();
-                        } else {
-                            // Không có fragment → thoát Activity
-                            setEnabled(false);
-                            HomeActivity.super.onBackPressed();
-                        }
-                    }
-                });
-    }
-
-    // ---------------- BOTTOM NAV ----------------
-
-    private void setupBottomNavigation() {
-        // Home → quay lại màn Home, ẩn Fragment nếu có
+        // Home (Đang ở Home, không làm gì)
         View btnHome = findViewById(R.id.btnHome);
         if (btnHome != null) {
-            btnHome.setOnClickListener(v -> showHomeContent());
+            btnHome.setOnClickListener(v -> {});
         }
 
-        // Library → mở WrongHistoryFragment (ôn tập câu sai)
+        // Library / Play Quiz
         View btnLibrary = findViewById(R.id.btnLibrary);
         if (btnLibrary != null) {
             btnLibrary.setOnClickListener(v ->
@@ -140,142 +96,139 @@ public class HomeActivity extends AppCompatActivity {
             );
         }
 
-        // Create → mở CustomQuizFragment (tạo bộ quiz riêng)
-        View btnCreate = findViewById(R.id.btnCreate);
-        if (btnCreate != null) {
-            btnCreate.setOnClickListener(v ->
-                    showFragment(new CustomQuizFragment(), "CustomQuiz")
-            );
-        }
-
-        // Join → tới Multiplayer (tìm trận PvP)
+        // Nút Join (Giả định chuyển đến màn Multiplayer)
         View btnJoin = findViewById(R.id.btnJoin);
         if (btnJoin != null) {
-            btnJoin.setOnClickListener(v ->
-                    NavigationHelper.navigateToFindMatch(this)
-            );
+            btnJoin.setOnClickListener(v -> {
+                NavigationHelper.navigateToFindMatch(this);
+            });
         }
 
-        // Profile → ProfileActivity
-        View btnProfile = findViewById(R.id.btnProfile);
-        if (btnProfile != null) {
-            btnProfile.setOnClickListener(v ->
-                    NavigationHelper.navigateToProfile(this)
-            );
+        // Nút Create - HIỂN THỊ CUSTOMQUIZFRAGMENT
+        View btnCreate = findViewById(R.id.btnCreate);
+        if (btnCreate != null) {
+            btnCreate.setOnClickListener(v -> {
+                showFragment(new CustomQuizFragment(), "CustomQuiz");
+            });
+        }
+
+        // Profile (Bottom Navigation)
+        View btnProfileNav = findViewById(R.id.btnProfile);
+        if (btnProfileNav != null) {
+            btnProfileNav.setOnClickListener(v -> {
+                NavigationHelper.navigateToProfile(this);
+            });
+        }
+
+        // HEADER ACTIONS (Settings/Search)
+        View btnSettings = findViewById(R.id.btnSettings);
+        if (btnSettings != null) {
+            btnSettings.setOnClickListener(v -> {
+                NavigationHelper.navigateToSettings(this);
+            });
+        }
+
+        View btnSearch = findViewById(R.id.btnSearch);
+        if (btnSearch != null) {
+            btnSearch.setOnClickListener(v -> {
+                Toast.makeText(this, "Search coming soon!", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        // AVATAR CLICK (Trỏ đến Profile)
+        if (imgAvatarHome != null) {
+            imgAvatarHome.setOnClickListener(v -> {
+                NavigationHelper.navigateToProfile(this);
+            });
+        }
+
+        // NAVIGATION PHỤ (Đảm bảo ID có trong XML)
+        if (findViewById(R.id.btnDailyReward) != null) {
+            findViewById(R.id.btnDailyReward).setOnClickListener(v -> {
+                NavigationHelper.navigateToDailyReward(this);
+            });
+        }
+
+        if (findViewById(R.id.btnAchievement) != null) {
+            findViewById(R.id.btnAchievement).setOnClickListener(v -> {
+                NavigationHelper.navigateToAchievement(this);
+            });
+        }
+
+        if (findViewById(R.id.btnStats) != null) {
+            findViewById(R.id.btnStats).setOnClickListener(v -> {
+                NavigationHelper.navigateToStats(this);
+            });
+        }
+
+        if (findViewById(R.id.btnStreak) != null) {
+            findViewById(R.id.btnStreak).setOnClickListener(v -> {
+                NavigationHelper.navigateToStreak(this);
+            });
+        }
+
+        if (findViewById(R.id.btnMultiplayer) != null) {
+            findViewById(R.id.btnMultiplayer).setOnClickListener(v -> {
+                NavigationHelper.navigateToFindMatch(this);
+            });
+        }
+
+        // THÊM LOGIC CHO NÚT ĐẤU TRƯỜNG MỚI
+        if (findViewById(R.id.btnArena) != null) {
+            findViewById(R.id.btnArena).setOnClickListener(v -> {
+                NavigationHelper.navigateToSelectCategory(this);
+            });
         }
     }
 
-    // ---------------- HIỂN THỊ FRAGMENT / HOME ----------------
+    // Thêm logic cho nút Tìm bạn trên banner
+    private void setupFindFriendAction() {
+        View btnFindFriend = findViewById(R.id.btnFindFriend);
+        if (btnFindFriend != null) {
+            btnFindFriend.setOnClickListener(v -> {
+                NavigationHelper.navigateToFriends(this);
+            });
+        }
+    }
 
-    private void showFragment(Fragment fragment, String tag) {
-        hideHomeContent();
+    // ======== THÊM METHOD showFragment() ========
+    private void showFragment(androidx.fragment.app.Fragment fragment, String tag) {
+        // Ẩn Home Content
+        View homeContent = findViewById(R.id.home_content);
+        if (homeContent != null) {
+            homeContent.setVisibility(View.GONE);
+        }
 
+        // Hiển thị Fragment Container
+        View fragmentContainer = findViewById(R.id.fragment_container);
+        if (fragmentContainer != null) {
+            fragmentContainer.setVisibility(View.VISIBLE);
+        }
+
+        // Load Fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(fragmentContainerId, fragment, tag);
+        transaction.replace(R.id.fragment_container, fragment, tag);
         transaction.addToBackStack(tag);
         transaction.commit();
     }
 
-    private void showHomeContent() {
-        // Xoá toàn bộ fragment trên back stack
-        getSupportFragmentManager().popBackStack(
-                null,
-                androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
-        );
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
 
-        if (tvWelcome != null) tvWelcome.setVisibility(View.VISIBLE);
-        if (rvQuizzes != null) rvQuizzes.setVisibility(View.VISIBLE);
-    }
+            // Hiện lại Home Content
+            View homeContent = findViewById(R.id.home_content);
+            if (homeContent != null) {
+                homeContent.setVisibility(View.VISIBLE);
+            }
 
-    private void hideHomeContent() {
-        if (tvWelcome != null) tvWelcome.setVisibility(View.GONE);
-        if (rvQuizzes != null) rvQuizzes.setVisibility(View.GONE);
-    }
-
-    // ---------------- HEADER & NAV PHỤ ----------------
-
-    private void setupHeaderActions() {
-        // Settings
-        View btnSettings = findViewById(R.id.btnSettings);
-        if (btnSettings != null) {
-            btnSettings.setOnClickListener(v ->
-                    NavigationHelper.navigateToSettings(this)
-            );
-        }
-
-        // Search
-        View btnSearch = findViewById(R.id.btnSearch);
-        if (btnSearch != null) {
-            btnSearch.setOnClickListener(v ->
-                    Toast.makeText(this, "Search coming soon!", Toast.LENGTH_SHORT).show()
-            );
-        }
-
-        // Avatar → Profile
-        if (imgAvatarHome != null) {
-            imgAvatarHome.setOnClickListener(v ->
-                    NavigationHelper.navigateToProfile(this)
-            );
-        }
-    }
-
-    private void setupAdditionalNavigation() {
-        // Daily reward
-        View btnDailyReward = findViewById(R.id.btnDailyReward);
-        if (btnDailyReward != null) {
-            btnDailyReward.setOnClickListener(v ->
-                    NavigationHelper.navigateToDailyReward(this)
-            );
-        }
-
-        // Achievement
-        View btnAchievement = findViewById(R.id.btnAchievement);
-        if (btnAchievement != null) {
-            btnAchievement.setOnClickListener(v ->
-                    NavigationHelper.navigateToAchievement(this)
-            );
-        }
-
-        // Stats
-        View btnStats = findViewById(R.id.btnStats);
-        if (btnStats != null) {
-            btnStats.setOnClickListener(v ->
-                    NavigationHelper.navigateToStats(this)
-            );
-        }
-
-        // Streak
-        View btnStreak = findViewById(R.id.btnStreak);
-        if (btnStreak != null) {
-            btnStreak.setOnClickListener(v ->
-                    NavigationHelper.navigateToStreak(this)
-            );
-        }
-
-        // Multiplayer shortcut
-        View btnMultiplayer = findViewById(R.id.btnMultiplayer);
-        if (btnMultiplayer != null) {
-            btnMultiplayer.setOnClickListener(v ->
-                    NavigationHelper.navigateToFindMatch(this)
-            );
-        }
-
-        // ĐẤU TRƯỜNG (Arena) → giống chọn category quiz
-        View btnArena = findViewById(R.id.btnArena);
-        if (btnArena != null) {
-            btnArena.setOnClickListener(v ->
-                    NavigationHelper.navigateToSelectCategory(this)
-            );
-        }
-    }
-
-    // Banner “Tìm bạn”
-    private void setupFindFriendAction() {
-        View btnFindFriend = findViewById(R.id.btnFindFriend);
-        if (btnFindFriend != null) {
-            btnFindFriend.setOnClickListener(v ->
-                    NavigationHelper.navigateToFriends(this)
-            );
-        }
-    }
+            // Ẩn Fragment Container
+            View fragmentContainer = findViewById(R.id.fragment_container);
+            if (fragmentContainer != null) {
+                fragmentContainer.setVisibility(View.GONE);
+            }
+        } else {
+            super.onBackPressed();
+        }}
 }
