@@ -1,0 +1,37 @@
+{
+  "quiz_id": 45,
+  "quiz_title": "Kiểm tra kiến thức Git cơ bản",
+  "result_summary": {
+    "score": "8/10",
+    "status": "Passed",
+    "time_taken": "7:30"
+  },
+  "review_questions": [
+    {
+      "id": 1,
+      "text": "Lệnh nào dùng để tạo nhánh mới?",
+      "user_answer_id": "A",
+      "correct_answer_id": "B",
+      "is_correct": false,
+      "explanation": "Lệnh `git branch <tên>` tạo nhánh, còn `git checkout -b <tên>` vừa tạo vừa chuyển nhánh.",
+      "options": [
+        {"id": "A", "text": "git clone"},
+        {"id": "B", "text": "git branch"},
+        {"id": "C", "text": "git commit"}
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Lệnh nào tải về dữ liệu từ xa?",
+      "user_answer_id": "B",
+      "correct_answer_id": "B",
+      "is_correct": true,
+      "explanation": null,
+      "options": [
+        {"id": "A", "text": "git push"},
+        {"id": "B", "text": "git pull"},
+        {"id": "C", "text": "git stash"}
+      ]
+    }
+  ]
+}

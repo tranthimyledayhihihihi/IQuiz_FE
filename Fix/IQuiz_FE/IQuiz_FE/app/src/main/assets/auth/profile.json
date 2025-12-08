@@ -1,0 +1,10 @@
+{
+  "userId": 101,
+  "name": "Nguyen Van A",
+  "email": "user@example.com",
+  "avatarUrl": "https://example.com/avatar.png",
+  "stats": {
+    "quizzesTaken": 12,
+    "avgScore": 78
+  }
+}

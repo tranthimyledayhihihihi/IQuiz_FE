@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Tên app chính -->
+    <string name="app_name">IQ5</string>
+
+    <!-- Nếu vẫn muốn giữ tên cũ để hiển thị chỗ khác -->
+    <string name="app_name_legacy">IQuiz</string>
+
+    <!--    <string name="facebook_app_id">0411231e3b4324dea77647ea2e7a3f88</string>-->
+
+    <string name="server_client_id">
+        206751993131-n1busrb9cj68b54t0teat10do0gm9pl1.apps.googleusercontent.com
+    </string>
+
+    <string name="username">andrew_ainsley</string>
+
+    <string name="category_icon_description">Biểu tượng đại diện cho danh mục</string>
+
+    <string name="lifeline_instructions">
+        • 50:50: Loại bỏ 2 đáp án sai.\n
+        • Khán giả: Nhận gợi ý phần trăm từ khán giả giả lập.\n
+        • Bỏ qua: Chuyển sang câu hỏi tiếp theo.\n
+        • Mỗi quyền trợ giúp chỉ dùng 1 lần mỗi lượt chơi.\n
+        • Các quyền trợ giúp sẽ xuất hiện khi bạn bắt đầu trả lời câu hỏi.
+    </string>
+
+    <string name="button_skip_text">BỎ QUA / TIẾP</string>
+    <string name="button_finish_text">KẾT THÚC</string>
+    <string name="quiz_question_placeholder">Câu hỏi: Thủ đô của Việt Nam là gì?</string>
+    <string name="score_placeholder">100</string>
+    <string name="timer_placeholder">00:00</string>
+    <string name="header_background_description">Nền gradient hiển thị điểm số và thời gian</string>
+    <string name="quiz_avatar_description">Linh vật Quiz</string>
+    <string name="lifeline_hint_description">Mở hướng dẫn trợ giúp</string>
+
+    <string name="streak_day_format">Ngày %d</string>
+
+    <string name="team_matchup_placeholder">Đội A (1/4) vs Đội B (2/4)</string>
+</resources>

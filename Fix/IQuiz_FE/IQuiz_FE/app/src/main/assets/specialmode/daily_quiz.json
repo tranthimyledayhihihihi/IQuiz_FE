@@ -1,0 +1,31 @@
+{
+  "date": "2025-11-17",
+  "streakDays": 5,
+  "totalRewardsToday": 50,
+  "items": [
+    {
+      "id": "DQ_2025_11_17_1",
+      "title": "Quiz mỗi ngày - Ngày 17/11",
+      "description": "10 câu hỏi tổng hợp kiến thức kinh tế, công nghệ, lịch sử.",
+      "questionCount": 10,
+      "estimatedTime": 8,
+      "status": "available",
+      "rewardCoins": 20,
+      "rewardExp": 50,
+      "isNew": true,
+      "isCompleted": false
+    },
+    {
+      "id": "DQ_2025_11_16_1",
+      "title": "Quiz hôm qua - 16/11",
+      "description": "Ôn lại 8 câu hỏi bạn chưa hoàn thành.",
+      "questionCount": 8,
+      "estimatedTime": 6,
+      "status": "completed",
+      "rewardCoins": 15,
+      "rewardExp": 40,
+      "isNew": false,
+      "isCompleted": true
+    }
+  ]
+}

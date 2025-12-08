@@ -1,0 +1,8 @@
+{
+  "welcomeMessage": "Chào mừng trở lại, User!",
+  "featuredQuizzes": [
+    { "id": 1, "title": "Kiến Thức Tổng Hợp", "difficulty": "Dễ" },
+    { "id": 2, "title": "Thử Thách Khoa Học", "difficulty": "Trung Bình" },
+    { "id": 3, "title": "Đố Vui Lịch Sử", "difficulty": "Khó" }
+  ]
+}

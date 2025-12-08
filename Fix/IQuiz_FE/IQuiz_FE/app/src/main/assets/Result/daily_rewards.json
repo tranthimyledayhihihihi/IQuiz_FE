@@ -1,0 +1,98 @@
+[
+  {
+    "day": 1,
+    "reward": 100,
+    "claimed": true,
+    "dateClaimed": "2025-11-15"
+  },
+  {
+    "day": 2,
+    "reward": 200,
+    "claimed": true,
+    "dateClaimed": "2025-11-16"
+  },
+  {
+    "day": 3,
+    "reward": 300,
+    "claimed": true,
+    "dateClaimed": "2025-11-17"
+  },
+  {
+    "day": 4,
+    "reward": 400,
+    "claimed": true,
+    "dateClaimed": "2025-11-18"
+  },
+  {
+    "day": 5,
+    "reward": 500,
+    "claimed": true,
+    "dateClaimed": "2025-11-19"
+  },
+  {
+    "day": 6,
+    "reward": 600,
+    "claimed": true,
+    "dateClaimed": "2025-11-20"
+  },
+  {
+    "day": 7,
+    "reward": 1000,
+    "claimed": false,
+    "dateClaimed": null
+  },
+  {
+    "day": 8,
+    "reward": 100,
+    "claimed": false,
+    "dateClaimed": null
+  },
+  {
+    "day": 9,
+    "reward": 200,
+    "claimed": false,
+    "dateClaimed": null
+  },
+  {
+    "day": 10,
+    "reward": 300,
+    "claimed": false,
+    "dateClaimed": null
+  },
+  {
+    "day": 11,
+    "reward": 400,
+    "claimed": false,
+    "dateClaimed": null
+  },
+  {
+    "day": 12,
+    "reward": 500,
+    "claimed": false,
+    "dateClaimed": null
+  },
+  {
+    "day": 13,
+    "reward": 600,
+    "claimed": false,
+    "dateClaimed": null
+  },
+  {
+    "day": 14,
+    "reward": 2000,
+    "claimed": false,
+    "dateClaimed": null
+  },
+  {
+    "day": 15,
+    "reward": 100,
+    "claimed": false,
+    "dateClaimed": null
+  },
+  {
+    "day": 16,
+    "reward": 200,
+    "claimed": false,
+    "dateClaimed": null
+  }
+]
