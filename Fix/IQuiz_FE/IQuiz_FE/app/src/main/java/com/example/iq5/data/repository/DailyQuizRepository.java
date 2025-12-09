@@ -13,41 +13,67 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Repository implementation để quản lý Quiz Playing
+ * Repository để quản lý Daily Quiz (Quiz Ngày)
  */
-public class QuizRepositoryImpl {
+public class DailyQuizRepository {
     
-    private static final String TAG = "QuizRepository";
+    private static final String TAG = "DailyQuizRepository";
     private final ApiService apiService;
     private final Context context;
     
-    public QuizRepositoryImpl(Context context) {
+    public DailyQuizRepository(Context context) {
         this.context = context;
         this.apiService = RetrofitClient.getApiService();
     }
     
-    // ============================================
-    // QUIZ PLAYING
-    // ============================================
+    /**
+     * Lấy quiz của ngày hôm nay
+     */
+    public void getTodayQuizAsync(TodayQuizCallback callback) {
+        Log.d(TAG, "📅 Đang lấy quiz ngày hôm nay...");
+        
+        Call<QuizNgayDetailsDto> call = apiService.getTodayQuiz();
+        call.enqueue(new Callback<QuizNgayDetailsDto>() {
+            @Override
+            public void onResponse(Call<QuizNgayDetailsDto> call, Response<QuizNgayDetailsDto> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "✅ Lấy quiz ngày thành công!");
+                    callback.onSuccess(response.body());
+                } else if (response.code() == 404) {
+                    Log.d(TAG, "⚠️ Chưa có quiz ngày hôm nay");
+                    callback.onNoQuizToday();
+                } else {
+                    Log.e(TAG, "❌ Lỗi lấy quiz ngày: " + response.code());
+                    callback.onError("Không thể lấy quiz ngày. Mã lỗi: " + response.code());
+                }
+            }
+            
+            @Override
+            public void onFailure(Call<QuizNgayDetailsDto> call, Throwable t) {
+                Log.e(TAG, "❌ Lỗi kết nối: " + t.getMessage());
+                callback.onError("Lỗi kết nối: " + t.getMessage());
+            }
+        });
+    }
     
     /**
-     * Bắt đầu chơi quiz
+     * Bắt đầu làm quiz ngày
      */
-    public void startQuizAsync(StartQuizRequest request, StartQuizCallback callback) {
+    public void startTodayQuizAsync(StartQuizCallback callback) {
         String token = "Bearer " + ApiHelper.getToken(context);
         
-        Log.d(TAG, "🎮 Đang bắt đầu quiz...");
+        Log.d(TAG, "🎮 Đang bắt đầu quiz ngày...");
         
-        Call<StartQuizResponse> call = apiService.startQuiz(token, request);
+        Call<StartQuizResponse> call = apiService.startTodayQuiz(token);
         call.enqueue(new Callback<StartQuizResponse>() {
             @Override
             public void onResponse(Call<StartQuizResponse> call, Response<StartQuizResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.d(TAG, "✅ Bắt đầu quiz thành công! AttemptID: " + response.body().getAttemptID());
+                    Log.d(TAG, "✅ Bắt đầu quiz ngày thành công!");
                     callback.onSuccess(response.body());
                 } else {
-                    Log.e(TAG, "❌ Lỗi bắt đầu quiz: " + response.code());
-                    callback.onError("Không thể bắt đầu quiz. Mã lỗi: " + response.code());
+                    Log.e(TAG, "❌ Lỗi bắt đầu quiz ngày: " + response.code());
+                    callback.onError("Không thể bắt đầu quiz ngày. Mã lỗi: " + response.code());
                 }
             }
             
@@ -60,51 +86,19 @@ public class QuizRepositoryImpl {
     }
     
     /**
-     * Lấy câu hỏi tiếp theo
+     * Nộp đáp án quiz ngày
      */
-    public void getNextQuestionAsync(int attemptId, QuestionCallback callback) {
+    public void submitTodayAnswerAsync(AnswerSubmitModel answer, SubmitCallback callback) {
         String token = "Bearer " + ApiHelper.getToken(context);
         
-        Log.d(TAG, "📝 Đang lấy câu hỏi tiếp theo...");
+        Log.d(TAG, "📤 Đang nộp đáp án quiz ngày...");
         
-        Call<CauHoiModel> call = apiService.getNextQuestion(attemptId, token);
-        call.enqueue(new Callback<CauHoiModel>() {
-            @Override
-            public void onResponse(Call<CauHoiModel> call, Response<CauHoiModel> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Log.d(TAG, "✅ Lấy câu hỏi thành công!");
-                    callback.onSuccess(response.body());
-                } else if (response.code() == 404) {
-                    Log.d(TAG, "⚠️ Không còn câu hỏi");
-                    callback.onNoMoreQuestions();
-                } else {
-                    Log.e(TAG, "❌ Lỗi lấy câu hỏi: " + response.code());
-                    callback.onError("Lỗi lấy câu hỏi: " + response.code());
-                }
-            }
-            
-            @Override
-            public void onFailure(Call<CauHoiModel> call, Throwable t) {
-                Log.e(TAG, "❌ Lỗi kết nối: " + t.getMessage());
-                callback.onError("Lỗi kết nối: " + t.getMessage());
-            }
-        });
-    }
-    
-    /**
-     * Nộp đáp án
-     */
-    public void submitAnswerAsync(AnswerSubmitModel answer, SubmitCallback callback) {
-        String token = "Bearer " + ApiHelper.getToken(context);
-        
-        Log.d(TAG, "📤 Đang nộp đáp án...");
-        
-        Call<SubmitAnswerResponse> call = apiService.submitAnswer(token, answer);
+        Call<SubmitAnswerResponse> call = apiService.submitTodayQuizAnswer(token, answer);
         call.enqueue(new Callback<SubmitAnswerResponse>() {
             @Override
             public void onResponse(Call<SubmitAnswerResponse> call, Response<SubmitAnswerResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.d(TAG, "✅ Nộp đáp án thành công! Đúng: " + response.body().isCorrect());
+                    Log.d(TAG, "✅ Nộp đáp án thành công!");
                     callback.onSuccess(response.body().isCorrect());
                 } else {
                     Log.e(TAG, "❌ Lỗi nộp đáp án: " + response.code());
@@ -121,23 +115,23 @@ public class QuizRepositoryImpl {
     }
     
     /**
-     * Kết thúc quiz
+     * Kết thúc quiz ngày
      */
-    public void endQuizAsync(int attemptId, ResultCallback callback) {
+    public void endTodayQuizAsync(int attemptId, ResultCallback callback) {
         String token = "Bearer " + ApiHelper.getToken(context);
         
-        Log.d(TAG, "🏁 Đang kết thúc quiz...");
+        Log.d(TAG, "🏁 Đang kết thúc quiz ngày...");
         
-        Call<KetQuaModel> call = apiService.endQuiz(attemptId, token);
+        Call<KetQuaModel> call = apiService.endTodayQuiz(attemptId, token);
         call.enqueue(new Callback<KetQuaModel>() {
             @Override
             public void onResponse(Call<KetQuaModel> call, Response<KetQuaModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.d(TAG, "✅ Kết thúc quiz thành công! Điểm: " + response.body().getDiem());
+                    Log.d(TAG, "✅ Kết thúc quiz ngày thành công!");
                     callback.onSuccess(response.body());
                 } else {
-                    Log.e(TAG, "❌ Lỗi kết thúc quiz: " + response.code());
-                    callback.onError("Lỗi kết thúc quiz: " + response.code());
+                    Log.e(TAG, "❌ Lỗi kết thúc quiz ngày: " + response.code());
+                    callback.onError("Lỗi kết thúc quiz ngày: " + response.code());
                 }
             }
             
@@ -153,14 +147,14 @@ public class QuizRepositoryImpl {
     // CALLBACKS
     // ============================================
     
-    public interface StartQuizCallback {
-        void onSuccess(StartQuizResponse response);
+    public interface TodayQuizCallback {
+        void onSuccess(QuizNgayDetailsDto quiz);
+        void onNoQuizToday();
         void onError(String error);
     }
     
-    public interface QuestionCallback {
-        void onSuccess(CauHoiModel question);
-        void onNoMoreQuestions();
+    public interface StartQuizCallback {
+        void onSuccess(StartQuizResponse response);
         void onError(String error);
     }
     

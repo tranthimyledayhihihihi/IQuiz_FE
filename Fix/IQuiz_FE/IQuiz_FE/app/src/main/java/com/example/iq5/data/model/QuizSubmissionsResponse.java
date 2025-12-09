@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Response cho danh sách quiz submissions
+ * Response cho danh sách Quiz Submissions
  */
 public class QuizSubmissionsResponse {
     
@@ -55,14 +55,14 @@ public class QuizSubmissionsResponse {
     }
 
     /**
-     * Item trong danh sách submission
+     * Item trong danh sách submissions
      */
     public static class QuizSubmissionItem {
         @SerializedName("quizTuyChinhID")
         private int quizTuyChinhID;
         
-        @SerializedName("tenQuiz")
-        private String tenQuiz;
+        @SerializedName("tieuDe")
+        private String tieuDe;
         
         @SerializedName("moTa")
         private String moTa;
@@ -73,8 +73,6 @@ public class QuizSubmissionsResponse {
         @SerializedName("ngayTao")
         private String ngayTao;
 
-        public QuizSubmissionItem() {}
-
         public int getQuizTuyChinhID() {
             return quizTuyChinhID;
         }
@@ -83,12 +81,12 @@ public class QuizSubmissionsResponse {
             this.quizTuyChinhID = quizTuyChinhID;
         }
 
-        public String getTenQuiz() {
-            return tenQuiz;
+        public String getTieuDe() {
+            return tieuDe;
         }
 
-        public void setTenQuiz(String tenQuiz) {
-            this.tenQuiz = tenQuiz;
+        public void setTieuDe(String tieuDe) {
+            this.tieuDe = tieuDe;
         }
 
         public String getMoTa() {

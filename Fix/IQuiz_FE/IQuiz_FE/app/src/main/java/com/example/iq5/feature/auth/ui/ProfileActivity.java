@@ -16,6 +16,8 @@ import com.example.iq5.R;
 import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.auth.data.AuthRepository;
 import com.example.iq5.feature.auth.model.ProfileResponse;
+import com.example.iq5.data.repository.ProfileRepository;
+import com.example.iq5.data.model.UserProfileModel;
 import com.example.iq5.utils.ApiHelper;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -23,6 +25,8 @@ public class ProfileActivity extends AppCompatActivity {
     TextView tvName, tvEmail, tvQuizTaken, tvAvgScore, tvRole, tvRank;
     ImageView imgAvatar;
     LinearLayout btnSettings, btnShare, btnLogout;
+    
+    private ProfileRepository profileRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,9 @@ public class ProfileActivity extends AppCompatActivity {
         btnSettings = findViewById(R.id.btnSettings);
         btnShare = findViewById(R.id.btnShare);
         btnLogout = findViewById(R.id.btnLogout);
+        
+        // Initialize repository
+        profileRepository = new ProfileRepository(this);
 
         // Load profile data
         loadProfileData();
@@ -65,25 +72,50 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void loadProfileData() {
-        AuthRepository repo = new AuthRepository(this);
-        ProfileResponse p = repo.getProfileData();
-
-        if (p != null) {
-            tvName.setText(p.name != null ? p.name : "Người dùng");
-            tvEmail.setText(p.email != null ? p.email : "");
-            
-            if (p.stats != null) {
-                tvQuizTaken.setText(String.valueOf(p.stats.quizzesTaken));
-                tvAvgScore.setText(String.valueOf(p.stats.avgScore));
+        // ✅ GỌI API ĐỂ LẤY PROFILE THỰC TẾ
+        profileRepository.getMyProfileAsync(new ProfileRepository.ProfileCallback() {
+            @Override
+            public void onSuccess(UserProfileModel profile) {
+                runOnUiThread(() -> {
+                    // Update UI với dữ liệu từ API
+                    if (profile.getHoTen() != null) {
+                        tvName.setText(profile.getHoTen());
+                    }
+                    if (profile.getTenDangNhap() != null) {
+                        tvEmail.setText(profile.getTenDangNhap());
+                    }
+                    // Note: UserProfileModel không có field vaiTro, bỏ qua
+                    
+                    // Load avatar nếu có
+                    if (profile.getAnhDaiDien() != null && !profile.getAnhDaiDien().isEmpty()) {
+                        Glide.with(ProfileActivity.this)
+                            .load(profile.getAnhDaiDien())
+                            .placeholder(R.drawable.ic_avatar_placeholder)
+                            .into(imgAvatar);
+                    }
+                    
+                    // TODO: Cập nhật stats khi backend có API
+                    // tvQuizTaken.setText(String.valueOf(profile.stats.quizzesTaken));
+                    // tvAvgScore.setText(String.valueOf(profile.stats.avgScore));
+                });
             }
 
-            // Load avatar
-            if (p.avatarUrl != null && !p.avatarUrl.isEmpty()) {
-                Glide.with(this).load(p.avatarUrl).into(imgAvatar);
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    Toast.makeText(ProfileActivity.this, "Lỗi: " + error, Toast.LENGTH_SHORT).show();
+                    
+                    // Fallback: Load từ SharedPreferences
+                    loadProfileFromPrefs();
+                });
             }
-        }
-
-        // Load user info from SharedPreferences (from login)
+        });
+    }
+    
+    /**
+     * Fallback: Load profile từ SharedPreferences nếu API lỗi
+     */
+    private void loadProfileFromPrefs() {
         SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
         String userName = prefs.getString("user_name", "Người dùng");
         String userEmail = prefs.getString("user_email", "");
@@ -117,20 +149,25 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void performLogout() {
-        // Clear token
-        ApiHelper.clearToken(this);
-        
-        // Clear user data
-        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        prefs.edit().clear().apply();
-        
-        // Show message
-        Toast.makeText(this, "Đã đăng xuất thành công", Toast.LENGTH_SHORT).show();
-        
-        // Navigate to login and clear back stack
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        // ✅ GỌI API LOGOUT
+        profileRepository.logoutAsync(new ProfileRepository.LogoutCallback() {
+            @Override
+            public void onSuccess(String message) {
+                runOnUiThread(() -> {
+                    // Clear user data
+                    SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+                    prefs.edit().clear().apply();
+                    
+                    // Show message
+                    Toast.makeText(ProfileActivity.this, message, Toast.LENGTH_SHORT).show();
+                    
+                    // Navigate to login and clear back stack
+                    Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                });
+            }
+        });
     }
 }
