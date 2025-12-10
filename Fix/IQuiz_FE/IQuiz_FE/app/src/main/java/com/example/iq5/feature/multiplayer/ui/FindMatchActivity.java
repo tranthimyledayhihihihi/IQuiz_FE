@@ -38,8 +38,6 @@ public class FindMatchActivity extends AppCompatActivity {
         setupBackHandler();
     }
 
-    // -------------------- INIT UI --------------------
-
     private void initViews() {
         toolbarFindMatch = findViewById(R.id.toolbarFindMatch);
 
@@ -55,32 +53,27 @@ public class FindMatchActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        // Nút back trên toolbar → dùng dispatcher thay vì onBackPressed
         toolbarFindMatch.setNavigationOnClickListener(v ->
                 getOnBackPressedDispatcher().onBackPressed()
         );
     }
 
     private void setupListeners() {
-        // 1. Tìm trận nhanh
         btnFindRandomMatch.setOnClickListener(v -> {
             startFindingMatch();
 
-            // Giả lập tìm thấy trận sau 3s
             handler.postDelayed(() -> {
-                if (!isFinding) return; // Đã hủy giữa chừng
+                if (!isFinding) return;
 
                 stopFindingMatch();
                 Toast.makeText(this, "Đã tìm thấy đối thủ!", Toast.LENGTH_SHORT).show();
 
-                // Chuyển sang màn PvPBattleActivity
                 Intent intent = new Intent(FindMatchActivity.this, PvPBattleActivity.class);
                 // TODO: putExtra MATCH_ID/ROOM_CODE nếu có
                 startActivity(intent);
             }, 3000);
         });
 
-        // 2. Tạo phòng
         btnCreateRoom.setOnClickListener(v -> {
             // TODO: Gọi API tạo phòng thật, hiện tại fake mã phòng
             String newRoomCode = "ABCD1";
@@ -91,31 +84,24 @@ public class FindMatchActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // 3. Join phòng
         btnJoinRoom.setOnClickListener(v -> showJoinRoomDialog());
     }
-
-    // -------------------- BACK HANDLER MỚI --------------------
 
     private void setupBackHandler() {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 if (isFinding && progressBarFinding.getVisibility() == View.VISIBLE) {
-                    // Đang tìm trận → hủy tìm, không thoát Activity
                     stopFindingMatch();
                     Toast.makeText(FindMatchActivity.this,
                             "Đã hủy tìm trận.", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Không tìm trận → thoát như bình thường
-                    setEnabled(false); // tránh loop
+                    setEnabled(false);
                     FindMatchActivity.super.onBackPressed();
                 }
             }
         });
     }
-
-    // -------------------- LOGIC TÌM TRẬN --------------------
 
     private void startFindingMatch() {
         isFinding = true;
@@ -142,8 +128,6 @@ public class FindMatchActivity extends AppCompatActivity {
             handler.removeCallbacksAndMessages(null);
         }
     }
-
-    // -------------------- JOIN ROOM DIALOG --------------------
 
     private void showJoinRoomDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

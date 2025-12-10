@@ -47,19 +47,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void mapViews() {
-        // Luồng online / social
         btnGoToOnline = findViewById(R.id.btnGoToOnline);
         btnGoToSocial = findViewById(R.id.btnGoToSocial);
-
-        // Luồng quiz
         btnStartQuiz = findViewById(R.id.btnStartQuiz);
         btnReview = findViewById(R.id.btnReview);
         btnSpecialMode = findViewById(R.id.btnSpecialMode);
     }
 
     private void setupClickListeners() {
-
-        // Luồng 1: Online Match
         if (btnGoToOnline != null) {
             btnGoToOnline.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, FindMatchActivity.class);
@@ -67,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        // Luồng 2: Social / Leaderboard
         if (btnGoToSocial != null) {
             btnGoToSocial.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, LeaderboardActivity.class);
@@ -75,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        // Bắt đầu Quiz
         if (btnStartQuiz != null) {
             btnStartQuiz.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, SelectCategoryActivity.class);
@@ -83,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        // Xem lại câu hỏi (demo – không có data truyền từ trận cụ thể)
         if (btnReview != null) {
             btnReview.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, ReviewQuestionActivity.class);
@@ -91,13 +83,9 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        // Chế độ đặc biệt (đang để TODO)
         if (btnSpecialMode != null) {
             btnSpecialMode.setOnClickListener(v -> {
                 // TODO: Sau này gán sang Activity chế độ đặc biệt thật sự
-                // Ví dụ:
-                // Intent intent = new Intent(MainActivity.this, SpecialModeActivity.class);
-                // startActivity(intent);
             });
         }
     }

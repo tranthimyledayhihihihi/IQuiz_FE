@@ -99,7 +99,6 @@ public class SelectCategoryActivity extends AppCompatActivity {
             Type categoryListType = new TypeToken<List<Category>>() {}.getType();
             Type difficultyListType = new TypeToken<List<Difficulty>>() {}.getType();
 
-            // Parse từng section
             for (SelectionScreenResponse.SectionItem section : response.getData().getSections()) {
 
                 if (section == null || section.getItems() == null)
@@ -150,7 +149,6 @@ public class SelectCategoryActivity extends AppCompatActivity {
 
         rvCategory.setAdapter(adapter);
 
-        // Chọn mặc định mục đầu tiên
         selectedCategoryId = categoryList.get(0).getId();
     }
 
@@ -169,7 +167,6 @@ public class SelectCategoryActivity extends AppCompatActivity {
 
         rvDifficulty.setAdapter(adapter);
 
-        // Mặc định chọn độ khó đầu tiên
         selectedDifficultyId = difficultyList.get(0).getId();
     }
 }

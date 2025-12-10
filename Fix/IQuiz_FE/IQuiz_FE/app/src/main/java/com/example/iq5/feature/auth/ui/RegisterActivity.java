@@ -43,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
         btnRegister = findViewById(R.id.btnRegister);
-        progressBar = findViewById(R.id.progressBar); // Thêm ProgressBar vào layout nếu chưa có
+        progressBar = findViewById(R.id.progressBar);
     }
 
     private void initRepository() {
@@ -53,7 +53,6 @@ public class RegisterActivity extends AppCompatActivity {
     private void initMockData() {
         mock = authRepository.getRegisterData();
 
-        // Set placeholder từ JSON mock
         if (mock != null) {
             if (edtName != null && mock.namePlaceholder != null) {
                 edtName.setHint(mock.namePlaceholder);
@@ -73,7 +72,6 @@ public class RegisterActivity extends AppCompatActivity {
             String email = edtEmail != null ? edtEmail.getText().toString().trim() : "";
             String password = edtPassword != null ? edtPassword.getText().toString().trim() : "";
 
-            // Validate
             if (TextUtils.isEmpty(name) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
                 Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 return;
@@ -89,9 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            // ✅ GỌI API REGISTER
-            // Dùng email làm username (hoặc tạo username từ name)
-            String username = email.split("@")[0]; // Lấy phần trước @ làm username
+            String username = email.split("@")[0];
             performRegister(username, name, email, password);
         });
 
@@ -100,9 +96,6 @@ public class RegisterActivity extends AppCompatActivity {
         );
     }
 
-    /**
-     * ✅ GỌI API REGISTER
-     */
     private void performRegister(String username, String name, String email, String password) {
         Log.d(TAG, "📝 Đang đăng ký với username: " + username + ", email: " + email);
         
@@ -116,7 +109,6 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.d(TAG, "✅ Đăng ký thành công!");
                     Toast.makeText(RegisterActivity.this, "✅ " + message, Toast.LENGTH_SHORT).show();
                     
-                    // Chuyển về màn Login
                     NavigationHelper.goBack(RegisterActivity.this);
                 });
             }

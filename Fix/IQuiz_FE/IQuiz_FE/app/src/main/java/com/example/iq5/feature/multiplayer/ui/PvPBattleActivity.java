@@ -20,20 +20,15 @@ import java.util.List;
 
 public class PvPBattleActivity extends AppCompatActivity {
 
-    // Nút điều khiển
     private MaterialButton btnSkip;
     private MaterialButton btnEndGame;
     private MaterialButton btnAnswerA, btnAnswerB, btnAnswerC, btnAnswerD;
 
-    // Câu hỏi
     private TextView tvQuestion, tvQuestionNumber;
-
-    // Điểm & timer
     private TextView tvPlayerScore, tvOpponentScore;
     private TextView tvTimer;
     private ProgressBar progressTime;
 
-    // Trạng thái trận đấu
     private int currentQuestionIndex = 0;
     private final int totalQuestions = 10;
     private String roomCode;
@@ -41,12 +36,10 @@ public class PvPBattleActivity extends AppCompatActivity {
     private List<Question> questionsList;
     private String currentCorrectAnswer;
 
-    // Trạng thái điểm
     private int playerScore = 0;
     private int playerCorrectCount = 0;
     private final int scorePerQuestion = 100;
 
-    // Timer
     private final int MAX_TIME_SECONDS = 15;
     private int currentTimeSeconds = MAX_TIME_SECONDS;
 
@@ -75,7 +68,7 @@ public class PvPBattleActivity extends AppCompatActivity {
 
         timerHandler = new Handler(getMainLooper());
 
-        roomCode = getIntent().getStringExtra("ROOM_CODE"); // dùng sau nếu cần
+        roomCode = getIntent().getStringExtra("ROOM_CODE");
 
         mapViews();
         initScoreAndTimerUi();
@@ -87,7 +80,6 @@ public class PvPBattleActivity extends AppCompatActivity {
             return;
         }
 
-        // Nếu câu hỏi ít hơn totalQuestions thì dùng số thực tế
         if (questionsList.size() < totalQuestions) {
             Toast.makeText(this,
                     "Chỉ có " + questionsList.size() + " câu hỏi. Sẽ dùng số này.",
@@ -99,8 +91,6 @@ public class PvPBattleActivity extends AppCompatActivity {
 
         loadQuestion(currentQuestionIndex);
     }
-
-    // ---------------------- INIT UI ----------------------
 
     private void mapViews() {
         btnSkip = findViewById(R.id.btnSkip);
@@ -126,10 +116,8 @@ public class PvPBattleActivity extends AppCompatActivity {
         tvTimer.setText(String.valueOf(MAX_TIME_SECONDS));
 
         tvPlayerScore.setText(String.valueOf(playerScore));
-        tvOpponentScore.setText("0"); // demo, sau này cập nhật từ server
+        tvOpponentScore.setText("0");
     }
-
-    // ---------------------- TIMER ----------------------
 
     private void startTimer() {
         currentTimeSeconds = MAX_TIME_SECONDS;
@@ -144,8 +132,6 @@ public class PvPBattleActivity extends AppCompatActivity {
         timerHandler.removeCallbacks(timerRunnable);
     }
 
-    // ---------------------- BACK HANDLER ----------------------
-
     private void setupOnBackPressedCallback() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -155,8 +141,6 @@ public class PvPBattleActivity extends AppCompatActivity {
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
-
-    // ---------------------- LISTENERS ----------------------
 
     private void setupActionListeners() {
         btnSkip.setOnClickListener(v -> {
@@ -178,14 +162,11 @@ public class PvPBattleActivity extends AppCompatActivity {
         btnAnswerD.setOnClickListener(v -> handleAnswerSelected("D", btnAnswerD));
     }
 
-    // ---------------------- GAME LOGIC ----------------------
-
     private void handleAnswerSelected(String selectedAnswer, MaterialButton selectedButton) {
         stopTimer();
         setAnswerButtonsEnabled(false);
 
         if (selectedAnswer.equals(currentCorrectAnswer)) {
-            // ĐÚNG
             playerScore += scorePerQuestion;
             playerCorrectCount++;
             tvPlayerScore.setText(String.valueOf(playerScore));
@@ -198,7 +179,6 @@ public class PvPBattleActivity extends AppCompatActivity {
             }
 
         } else if (!selectedAnswer.equals("TIMEOUT")) {
-            // SAI
             Toast.makeText(this, "Sai rồi.", Toast.LENGTH_SHORT).show();
             if (selectedButton != null) {
                 selectedButton.setBackgroundTintList(
@@ -213,7 +193,6 @@ public class PvPBattleActivity extends AppCompatActivity {
             }
 
         } else {
-            // HẾT GIỜ
             Toast.makeText(this, "Hết giờ, không có điểm!", Toast.LENGTH_SHORT).show();
             MaterialButton correctButton = findCorrectButton(currentCorrectAnswer);
             if (correctButton != null) {
@@ -223,7 +202,6 @@ public class PvPBattleActivity extends AppCompatActivity {
             }
         }
 
-        // Sau 1.5s → sang câu tiếp theo hoặc kết thúc
         new Handler(getMainLooper()).postDelayed(this::goToNextQuestion, 1500);
     }
 
@@ -235,7 +213,6 @@ public class PvPBattleActivity extends AppCompatActivity {
         btnAnswerC.setEnabled(enabled);
         btnAnswerD.setEnabled(enabled);
 
-        // Reset màu
         btnAnswerA.setBackgroundTintList(
                 getResources().getColorStateList(defaultColorId, getTheme()));
         btnAnswerB.setBackgroundTintList(
@@ -293,7 +270,6 @@ public class PvPBattleActivity extends AppCompatActivity {
     private void finishMatch() {
         stopTimer();
 
-        // Giả lập điểm đối thủ – sau này lấy từ server/WebSocket
         int opponentFinalScore = 600;
         int opponentCorrectCount = 6;
 

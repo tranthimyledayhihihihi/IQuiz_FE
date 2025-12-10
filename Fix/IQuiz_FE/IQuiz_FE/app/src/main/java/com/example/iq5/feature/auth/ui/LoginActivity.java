@@ -24,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private ProgressBar progressBar;
 
-    // Dữ liệu mock login
     private LoginResponse mock;
     private AuthRepository authRepository;
 
@@ -43,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        progressBar = findViewById(R.id.progressBar); // Thêm ProgressBar vào layout nếu chưa có
+        progressBar = findViewById(R.id.progressBar);
     }
 
     private void initRepository() {
@@ -51,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initMockData() {
-        mock = authRepository.getLoginData(); // đọc dữ liệu mock từ JSON / asset
+        mock = authRepository.getLoginData();
 
         if (mock != null) {
             if (txtEmail != null && mock.emailPlaceholder != null) {
@@ -64,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initActions() {
-        // Xử lý Login
         if (btnLogin != null) {
             btnLogin.setOnClickListener(v -> {
                 String username = txtEmail != null
@@ -74,30 +72,23 @@ public class LoginActivity extends AppCompatActivity {
                         ? txtPassword.getText().toString().trim()
                         : "";
 
-                // Validate input
                 if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
                     Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // ✅ GỌI API LOGIN THAY VÌ DÙNG MOCK
                 performLogin(username, password);
             });
         }
 
-        // Nút "Đăng ký"
         findViewById(R.id.tvRegister).setOnClickListener(v ->
                 NavigationHelper.navigateToRegister(this)
         );
     }
 
-    /**
-     * ✅ GỌI API LOGIN
-     */
     private void performLogin(String username, String password) {
         Log.d(TAG, "🔐 Đang đăng nhập với username: " + username);
         
-        // Hiển thị loading
         showLoading(true);
         
         authRepository.loginAsync(username, password, new AuthRepository.LoginCallback() {
@@ -107,7 +98,6 @@ public class LoginActivity extends AppCompatActivity {
                     showLoading(false);
                     Log.d(TAG, "✅ Đăng nhập thành công! Token: " + token);
                     
-                    // Save user info to SharedPreferences
                     getSharedPreferences("user_prefs", MODE_PRIVATE)
                         .edit()
                         .putString("user_name", hoTen)
@@ -141,7 +131,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void goToHome() {
-        // Tham số thứ 2 = true nếu muốn clear stack (không back lại màn login)
         NavigationHelper.navigateToHome(this, true);
     }
 }
