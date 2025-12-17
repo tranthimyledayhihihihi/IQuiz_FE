@@ -24,7 +24,7 @@ public class NguoiDungModel {
     @SerializedName("anhDaiDien")
     private String anhDaiDien;
     
-    @SerializedName("ngayDangKy")
+    @SerializedName(value = "ngayDangKy", alternate = {"ngayDangKyfix"})
     private Date ngayDangKy;
     
     @SerializedName("lanDangNhapCuoi")

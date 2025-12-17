@@ -1,10 +1,15 @@
 package com.example.iq5.data.api;
 
+import com.example.iq5.utils.DateDeserializer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,11 +54,16 @@ public class RetrofitClient {
                     .retryOnConnectionFailure(true)        // Enable retry on connection failure
                     .build();
 
+            // Tạo custom Gson với DateDeserializer
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Date.class, new DateDeserializer())
+                    .create();
+
             // Tạo Retrofit instance
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit;

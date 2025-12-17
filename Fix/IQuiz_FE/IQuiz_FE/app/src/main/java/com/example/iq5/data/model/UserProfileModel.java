@@ -21,7 +21,7 @@ public class UserProfileModel {
     @SerializedName("anhDaiDien")
     private String anhDaiDien;
     
-    @SerializedName("ngayDangKy")
+    @SerializedName(value = "ngayDangKy", alternate = {"ngayDangKyfix"})
     private Date ngayDangKy;
     
     @SerializedName("tongSoQuizDaLam")
