@@ -197,7 +197,13 @@ public class AuthRepository {
             @Override
             public void onFailure(Call<com.example.iq5.data.model.LoginResponseModel> call, Throwable t) {
                 Log.e(TAG, "❌ API Login thất bại: " + t.getMessage());
-                callback.onError("Lỗi kết nối: " + t.getMessage());
+                String errorMsg = "Không thể kết nối đến server!\n\n";
+                errorMsg += "Vui lòng kiểm tra:\n";
+                errorMsg += "1. Backend có đang chạy không?\n";
+                errorMsg += "2. Địa chỉ IP có đúng không?\n";
+                errorMsg += "3. Firewall có chặn không?\n\n";
+                errorMsg += "Chi tiết: " + t.getMessage();
+                callback.onError(errorMsg);
             }
         });
     }
@@ -251,7 +257,13 @@ public class AuthRepository {
             @Override
             public void onFailure(Call<com.example.iq5.data.model.ApiResponse> call, Throwable t) {
                 Log.e(TAG, "❌ API Register thất bại: " + t.getMessage());
-                callback.onError("Lỗi kết nối: " + t.getMessage());
+                String errorMsg = "Không thể kết nối đến server!\n\n";
+                errorMsg += "Vui lòng kiểm tra:\n";
+                errorMsg += "1. Backend có đang chạy không?\n";
+                errorMsg += "2. Địa chỉ IP có đúng không?\n";
+                errorMsg += "3. Firewall có chặn không?\n\n";
+                errorMsg += "Chi tiết: " + t.getMessage();
+                callback.onError(errorMsg);
             }
         });
     }

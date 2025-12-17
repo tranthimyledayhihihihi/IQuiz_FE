@@ -1,0 +1,27 @@
+{
+  "ownerUserId": "USER_001",
+  "quizzes": [
+    {
+      "id": "CQ_001",
+      "title": "Ôn thi Tài chính doanh nghiệp",
+      "description": "20 câu hỏi trọng tâm về NPV, IRR, WACC, chính sách cổ tức.",
+      "questionCount": 20,
+      "isPublic": false,
+      "sharedCode": null,
+      "lastEdited": "2025-11-16T20:30:00",
+      "tags": ["finance", "university"],
+      "visibility": "private"
+    },
+    {
+      "id": "CQ_002",
+      "title": "Android Studio căn bản",
+      "description": "15 câu về Activity, Fragment, RecyclerView, Gradle.",
+      "questionCount": 15,
+      "isPublic": true,
+      "sharedCode": "ASBASIC-9F3K",
+      "lastEdited": "2025-11-10T18:00:00",
+      "tags": ["android", "mobile"],
+      "visibility": "public"
+    }
+  ]
+}

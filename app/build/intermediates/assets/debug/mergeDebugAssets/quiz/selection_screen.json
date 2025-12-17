@@ -1,0 +1,27 @@
+{
+  "status": "success",
+  "data": {
+    "sections": [
+      {
+        "type": "categories",
+        "title": "Chọn Chủ đề Quiz",
+        "items": [
+          {"id": 1, "name": "Toán học", "icon": "ic_math", "quiz_count": 25},
+          {"id": 2, "name": "Khoa học Tự nhiên", "icon": "ic_science", "quiz_count": 18},
+          {"id": 3, "name": "Lịch sử & Địa lý", "icon": "ic_history", "quiz_count": 30},
+          {"id": 4, "name": "Lập trình", "icon": "ic_code", "quiz_count": 45}
+        ]
+      },
+      {
+        "type": "difficulty",
+        "title": "Chọn Độ Khó",
+        "items": [
+          {"id": "easy", "name": "Dễ", "description": "10 câu hỏi, thời gian 5 phút"},
+          {"id": "medium", "name": "Trung bình", "description": "15 câu hỏi, thời gian 10 phút"},
+          {"id": "hard", "name": "Khó", "description": "20 câu hỏi, thời gian 15 phút"},
+          {"id": "expert", "name": "Chuyên gia", "description": "10 câu hỏi, giới hạn 60 giây mỗi câu"}
+        ]
+      }
+    ]
+  }
+}

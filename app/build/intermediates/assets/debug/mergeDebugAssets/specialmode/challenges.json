@@ -1,0 +1,24 @@
+{
+  "modes": [
+    {
+      "modeId": "SURVIVAL",
+      "name": "Chế độ Sinh tồn",
+      "description": "Trả lời liên tục cho đến khi sai 3 câu. Càng lâu càng nhiều điểm.",
+      "maxLives": 3,
+      "timePerQuestion": 15,
+      "baseReward": 10,
+      "bonusPerStreak": 2,
+      "difficultyRange": ["medium", "hard"]
+    },
+    {
+      "modeId": "SPEED",
+      "name": "Chế độ Tốc độ",
+      "description": "Trả lời càng nhanh, combo càng cao, điểm càng nhiều.",
+      "totalTime": 90,
+      "timePerQuestion": 8,
+      "comboMultiplierMax": 5,
+      "baseReward": 15,
+      "difficultyRange": ["easy", "medium"]
+    }
+  ]
+}

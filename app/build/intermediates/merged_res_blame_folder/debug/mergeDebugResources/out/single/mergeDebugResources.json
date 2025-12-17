@@ -1,0 +1,942 @@
+[
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_circle_white_20.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_circle_white_20.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_button_secondary.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_button_secondary.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_room_player_small.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_room_player_small.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ripple_button_primary.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ripple_button_primary.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.iq5.app-main-45:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_default_answer_border.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/default_answer_border.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_header_gradient.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_header_gradient.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_header_survival.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_header_survival.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_skip.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_skip.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.iq5.app-main-45:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_books.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_books.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_input_rounded.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_input_rounded.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_arrow_back.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_arrow_back.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_volume_up.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_volume_up.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_streak_day.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_streak_day.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_play.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_play.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_person_add.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_person_add.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_lobby_empty.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_lobby_empty.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_logo_pvp.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_logo_pvp.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_fragment_loading.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/fragment_loading.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_fragment_wrong_history.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/fragment_wrong_history.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_player_lobby_waiting.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_player_lobby_waiting.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_person.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_person.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_settings.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_daily_reward.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_daily_reward.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_home.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_home.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_home.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_home.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_exit_game.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_exit_game.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_dialog_lifeline.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/dialog_lifeline.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_avatar_mask.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/avatar_mask.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/xml_network_security_config.xml.flat",
+        "source": "com.example.iq5.app-main-45:/xml/network_security_config.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_player_lobby.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_player_lobby.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.iq5.app-main-45:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_daily_quiz.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_daily_quiz.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_challenge_survival.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_challenge_survival.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_gradient_vivid_2.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/gradient_vivid_2.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_fragment_player_search.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/fragment_player_search.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_button_cyan.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_button_cyan.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_view_room_matchup_player2.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/view_room_matchup_player2.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_answer_selected.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_answer_selected.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_join_room.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_join_room.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.iq5.app-main-45:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_gradient.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_gradient.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_switch_track.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/switch_track.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_section.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_section.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_apple.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_apple.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_avatar_bg.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/avatar_bg.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_happy.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/happy.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_button_round.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_button_round.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_medal_general.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_medal_general.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_lifeline_hint.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_lifeline_hint.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_sample_quiz.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/sample_quiz.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_view_player_score_card.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/view_player_score_card.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_circle_bg.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/circle_bg.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_button_logout.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_button_logout.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_pvp_battle.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_pvp_battle.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_settings.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_settings.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_button_save.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_button_save.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_fragment_friends.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/fragment_friends.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_quizzo_logo.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_quizzo_logo.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_avatar_opponent.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_avatar_opponent.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_circle_white.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/circle_white.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_unnamed.jpg.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/unnamed.jpg"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_create.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_create.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_difficulty_selected.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_difficulty_selected.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_find_match.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_find_match.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_streak.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_streak.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_button_reset.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_button_reset.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_gradient_vivid_1.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/gradient_vivid_1.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_rounded_score_bg.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/rounded_score_bg.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_input.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_input.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_fragment_error.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/fragment_error.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_custom_quiz.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_custom_quiz.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_challenge_sword.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_challenge_sword.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_view_player_score_card2.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/view_player_score_card2.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_register.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_register.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_user_placeholder.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_user_placeholder.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_quiz.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_quiz.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_main.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_custom_question.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_custom_question.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_avatar_placeholder.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_avatar_placeholder.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.iq5.app-main-45:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_gadient_echievement.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_gadient_echievement.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_search.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_search.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_role_badge.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_role_badge.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_filter_chip.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_filter_chip.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_gift_box.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_gift_box.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.iq5.app-main-45:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_stat_card_rounded.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_stat_card_rounded.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_profile.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_profile.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_rounded_status.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_rounded_status.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_google.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_google.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_language.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_language.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_check_circle.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_check_circle.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_fire.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_fire.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_facebook.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_facebook.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_answer_default.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_answer_default.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_user.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_user.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_review_question.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_review_question.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_decline.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_decline.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_rounded_status_win.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_rounded_status_win.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_daily_reward.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_daily_reward.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.iq5.app-main-45:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_custom_quiz_editor.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_custom_quiz_editor.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_stat_card.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_stat_card.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_header_custom_quiz.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_header_custom_quiz.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_badge_status.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_badge_status.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_badge_new.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_badge_new.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_volume.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_volume.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_bar_gradient_3.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_bar_gradient_3.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_login.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_btn_primary.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_btn_primary.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_email.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_email.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_room_lobby.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_room_lobby.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_friends.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_friends.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_achievement.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_achievement.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_arrow_left.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_arrow_left.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_compare_result.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_compare_result.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_progress_bar_achievement.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_progress_bar_achievement.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_accept.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_accept.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_header_speed.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_header_speed.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_button_blue.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_button_blue.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_back.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_back.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_simple_tag_view.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/simple_tag_view.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_difficulty_default.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_difficulty_default.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_bar_gradient_2.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_bar_gradient_2.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_player.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_player.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_skip_next.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_skip_next.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/xml_backup_rules.xml.flat",
+        "source": "com.example.iq5.app-main-45:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_dialog_join_room.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/dialog_join_room.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_default_icon.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_default_icon.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_circle_orange_light.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_circle_orange_light.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.iq5.app-main-45:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_gradient_vivid_header.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/gradient_vivid_header.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_button_primary.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_button_primary.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_bar_gradient_1.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_bar_gradient_1.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_login_gradient.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_login_gradient.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_circle_green_light.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_circle_green_light.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_online_dot.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_online_dot.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_category.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_category.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_fragment_custom_quiz.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/fragment_custom_quiz.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_crown.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_crown.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_badge_default_bg.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/badge_default_bg.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_button_rounded_gradient.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_button_rounded_gradient.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_fragment_leaderboard.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/fragment_leaderboard.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_leaderboard.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_leaderboard.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_dark_mode.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_dark_mode.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.iq5.app-main-45:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.iq5.app-main-45:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_save.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_save.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_splash.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_splash.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_profile_banner.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_profile_banner.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_edit.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_edit.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.iq5.app-main-45:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.iq5.app-main-45:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_header_wrong_history.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_header_wrong_history.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_50_50.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_50_50.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_rematch.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_rematch.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_quiz_test.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/quiz_test.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_player_info.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_player_info.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_coin.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_coin.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_add_friend.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_add_friend.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_layout_bottom_nav.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/layout_bottom_nav.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_library.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_library.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_button_purple.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_button_purple.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_friends_leaderboard.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_friends_leaderboard.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_social_circle.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_social_circle.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_search_player.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_search_player.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_circle_green.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_circle_green.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_circle_blue_light.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_circle_blue_light.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_friend.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_friend.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_custom_progress_bar.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/custom_progress_bar.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_title_gradient.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_title_gradient.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_achievement_header_gradient.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_achievement_header_gradient.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_gradient_banner.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_gradient_banner.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_countdown_gradient.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_countdown_gradient.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_button_danger.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_button_danger.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_card.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_card.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_dialog_question_editor.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/dialog_question_editor.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_email1.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_email1.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_circle_red_light.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_circle_red_light.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_refresh.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_refresh.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_audience.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_audience.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_view_room_matchup_player.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/view_room_matchup_player.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_create_room.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_create_room.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_card_light.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_card_light.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_avatar_default.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_avatar_default.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_avatar_circle.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_avatar_circle.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_review_question.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_review_question.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_search_bar.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_search_bar.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_avatar2.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/avatar2.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_achievement.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_achievement.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_stats.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_stats.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_button_orange.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_button_orange.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_circle_gold_light.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_circle_gold_light.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_stat_milestone.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_stat_milestone.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_profile.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_profile.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_header_daily_quiz.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_header_daily_quiz.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_result.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_result.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_join.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_join.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_switch_thumb.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/switch_thumb.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_leaderboard.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_leaderboard.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_btn_outline.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_btn_outline.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.iq5.app-main-45:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_trophy.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_trophy.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_lock.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_lock.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_option_background.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/option_background.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_arrow_right.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_arrow_right.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_lion_avatar.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_lion_avatar.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_profile_gradient.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_profile_gradient.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_challenge_speed.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_challenge_speed.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_card_white.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_card_white.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_test.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_test.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_difficulty.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_difficulty.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_room_player.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_room_player.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_answer_option.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_answer_option.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_avatar1.png.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/avatar1.png"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_wrong_topic.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_wrong_topic.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_gradient_vivid_3.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/gradient_vivid_3.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_item_quiz.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/item_quiz.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_fragment_challenge_modes.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/fragment_challenge_modes.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_chip_light.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_chip_light.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_gradient_primary.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/gradient_primary.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_fragment_daily_quiz.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/fragment_daily_quiz.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_shape_option_default.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/shape_option_default.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_specialmode_test.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_specialmode_test.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/layout_activity_select_category.xml.flat",
+        "source": "com.example.iq5.app-main-45:/layout/activity_select_category.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_close_circle.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_close_circle.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_social_button.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_social_button.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_player_tag_me.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_player_tag_me.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_share.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_share.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_ic_sad_face.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/ic_sad_face.xml"
+    },
+    {
+        "merged": "com.example.iq5.app-debug-43:/drawable_bg_splash_gradient.xml.flat",
+        "source": "com.example.iq5.app-main-45:/drawable/bg_splash_gradient.xml"
+    }
+]

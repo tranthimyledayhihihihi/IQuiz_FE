@@ -26,8 +26,8 @@ public class RetrofitClient {
     // Option 1: Use 10.0.2.2 (requires firewall rule)
     // private static final String BASE_URL = "http://10.0.2.2:7092/";
     
-    // Option 2: Use machine IP (works without firewall rule if on same network)
-    private static final String BASE_URL = "http://192.168.214.1:7092/";
+    // Option 1: Use 10.0.2.2 for Android Emulator (maps to localhost)
+    private static final String BASE_URL = "http://10.0.2.2:5048/";
     
     // ❌ SAI - KHÔNG DÙNG localhost trong Android:
     // private static final String BASE_URL = "http://localhost:7092/";
@@ -48,9 +48,9 @@ public class RetrofitClient {
             // Tạo OkHttp client với timeout và logging
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(logging)
-                    .connectTimeout(60, TimeUnit.SECONDS)  // Increased from 30 to 60
-                    .readTimeout(60, TimeUnit.SECONDS)     // Increased from 30 to 60
-                    .writeTimeout(60, TimeUnit.SECONDS)    // Increased from 30 to 60
+                    .connectTimeout(10, TimeUnit.SECONDS)  // Giảm xuống 10s để phản hồi nhanh hơn
+                    .readTimeout(15, TimeUnit.SECONDS)     // Giảm xuống 15s
+                    .writeTimeout(15, TimeUnit.SECONDS)    // Giảm xuống 15s
                     .retryOnConnectionFailure(true)        // Enable retry on connection failure
                     .build();
 
