@@ -32,9 +32,9 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginBottom="16dp"
-                android:src="@drawable/avatar1"
+                android:src="@drawable/ic_quizzo_logo"
                 android:scaleType="centerCrop"
-                android:background="@drawable/avatar_mask"
+                android:background="@drawable/ic_quizzo_logo"
                 android:clipToOutline="true"
                 android:elevation="8dp"
                 android:contentDescription="Logo Quizzo" />
@@ -77,10 +77,10 @@
                     android:paddingEnd="8dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_email1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:contentDescription="Email Icon"
+                        android:src="@drawable/ic_avatar_opponent"
                         app:tint="#9E9E9E" />
 
                     <EditText
@@ -89,7 +89,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="8dp"
                         android:background="@android:color/transparent"
-                        android:hint="Email"
+                        android:hint="Tên đăng nhập"
                         android:textColor="#000000"
                         android:textColorHint="#9E9E9E"
                         android:inputType="textEmailAddress"
@@ -127,7 +127,6 @@
                         android:padding="0dp" />
                 </LinearLayout>
 
-
                 <!-- Forgot password -->
                 <TextView
                     android:id="@+id/tvForgotPassword"
@@ -160,7 +159,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
             <!-- Divider -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -169,13 +167,11 @@
                 android:gravity="center_vertical"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="24dp">
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"
                     android:background="#4DFFFFFF" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -183,14 +179,12 @@
                     android:textColor="#FFFFFF"
                     android:textSize="13sp"
                     android:paddingHorizontal="16dp" />
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"
                     android:background="#4DFFFFFF" />
             </LinearLayout>
-
             <!-- Social Buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -198,7 +192,6 @@
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_marginBottom="24dp">
-
                 <ImageButton
                     android:id="@+id/btnLoginGoogle"
                     android:layout_width="56dp"
@@ -235,21 +228,18 @@
                     android:contentDescription="Đăng nhập với Apple" />
 
             </LinearLayout>
-
             <!-- Register -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Chưa có tài khoản? "
                     android:textColor="#666666"
                     android:textSize="14sp" />
-
                 <TextView
                     android:id="@+id/tvRegister"
                     android:layout_width="wrap_content"
@@ -260,7 +250,6 @@
                     android:textStyle="bold"
                     android:padding="4dp" />
             </LinearLayout>
-
             <!-- Spacer bottom -->
             <View
                 android:layout_width="0dp"

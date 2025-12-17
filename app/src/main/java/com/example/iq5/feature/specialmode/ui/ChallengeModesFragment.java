@@ -1,5 +1,6 @@
 package com.example.iq5.feature.specialmode.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.iq5.R;
+import com.example.iq5.feature.quiz.ui.QuizActivity;
 import com.example.iq5.feature.specialmode.data.SpecialModeRepository;
 import com.example.iq5.feature.specialmode.model.ChallengeMode;
 import com.example.iq5.feature.specialmode.model.ChallengeModesResponse;
@@ -32,6 +34,7 @@ public class ChallengeModesFragment extends Fragment {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         repository = new SpecialModeRepository(requireContext());
 
         TextView tvSurvivalDesc = view.findViewById(R.id.tv_survival_desc);
@@ -51,6 +54,7 @@ public class ChallengeModesFragment extends Fragment {
                     String meta = "Thời gian/câu: " + mode.timePerQuestion +
                             "s • Độ khó: " + mode.difficultyRange;
                     tvSurvivalMeta.setText(meta);
+
                     int lives = mode.maxLives != null ? mode.maxLives : 3;
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < lives; i++) sb.append("♥");
@@ -65,11 +69,17 @@ public class ChallengeModesFragment extends Fragment {
         }
 
         btnStartSurvival.setOnClickListener(v -> {
-            // TODO: điều hướng sang màn chơi chế độ sinh tồn
+            Intent intent = new Intent(requireContext(), QuizActivity.class);
+            intent.putExtra("ENTRY_SOURCE", "challenge");
+            intent.putExtra("MODE_TYPE", "SURVIVAL");
+            startActivity(intent);
         });
 
         btnStartSpeed.setOnClickListener(v -> {
-            // TODO: điều hướng sang màn chơi chế độ tốc độ
+            Intent intent = new Intent(requireContext(), QuizActivity.class);
+            intent.putExtra("ENTRY_SOURCE", "challenge");
+            intent.putExtra("MODE_TYPE", "SPEED");
+            startActivity(intent);
         });
     }
 }

@@ -1,5 +1,6 @@
 package com.example.iq5.feature.specialmode.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.iq5.R;
+import com.example.iq5.feature.quiz.ui.QuizActivity;
 import com.example.iq5.feature.specialmode.adapter.CustomQuizAdapter;
 import com.example.iq5.feature.specialmode.data.SpecialModeRepository;
 import com.example.iq5.feature.specialmode.model.CustomQuizItem;
@@ -40,6 +42,7 @@ public class CustomQuizFragment extends Fragment {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         repository = new SpecialModeRepository(requireContext());
 
         EditText etTitle = view.findViewById(R.id.et_quiz_title);
@@ -48,15 +51,31 @@ public class CustomQuizFragment extends Fragment {
 
         adapter = new CustomQuizAdapter(new CustomQuizAdapter.OnCustomQuizListener() {
             @Override
-            public void onShare(CustomQuizItem item) {
-                // TODO: mở dialog share code hoặc deep link
+            public void onEdit(CustomQuizItem item) {
+                // MỞ EDITOR CHO BỘ CÂU HỎI
+                Intent intent = new Intent(requireContext(), CustomQuizEditorActivity.class);
+                intent.putExtra(CustomQuizEditorActivity.EXTRA_CUSTOM_QUIZ_ID, item.id);
+                intent.putExtra(CustomQuizEditorActivity.EXTRA_CUSTOM_QUIZ_TITLE, item.title);
+                startActivity(intent);
             }
 
             @Override
             public void onStart(CustomQuizItem item) {
-                // TODO: mở màn quiz với bộ câu hỏi tương ứng
+                // BẮT ĐẦU CHƠI BỘ CUSTOM QUIZ
+                Intent intent = new Intent(requireContext(), QuizActivity.class);
+                intent.putExtra("ENTRY_SOURCE", "custom_quiz");
+                intent.putExtra("CUSTOM_QUIZ_ID", item.id);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onShare(CustomQuizItem item) {
+                Snackbar.make(view,
+                        "Chia sẻ bộ " + item.title + " (tính năng làm sau)",
+                        Snackbar.LENGTH_SHORT).show();
             }
         });
+
         rv.setAdapter(adapter);
 
         CustomQuizResponse data = repository.getCustomQuizzes();
@@ -72,6 +91,8 @@ public class CustomQuizFragment extends Fragment {
                 Snackbar.make(view, "Nhập tên bộ câu hỏi trước đã", Snackbar.LENGTH_SHORT).show();
                 return;
             }
+
+            // Tạo bộ mới
             CustomQuizItem item = new CustomQuizItem();
             item.id = "LOCAL_" + System.currentTimeMillis();
             item.title = title;
@@ -83,6 +104,12 @@ public class CustomQuizFragment extends Fragment {
             localList.add(0, item);
             adapter.submitList(new ArrayList<>(localList));
             etTitle.setText("");
+
+            // Sau khi tạo bộ mới, chuyển sang màn editor để soạn câu hỏi
+            Intent intent = new Intent(requireContext(), CustomQuizEditorActivity.class);
+            intent.putExtra(CustomQuizEditorActivity.EXTRA_CUSTOM_QUIZ_ID, item.id);
+            intent.putExtra(CustomQuizEditorActivity.EXTRA_CUSTOM_QUIZ_TITLE, item.title);
+            startActivity(intent);
         });
     }
 }

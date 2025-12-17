@@ -2,11 +2,12 @@ package com.example.iq5.feature.result.ui;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.view.View; // Import View cho findViewById
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.iq5.R;
-import com.example.iq5.core.navigation.NavigationHelper;
+import com.example.iq5.core.navigation.NavigationHelper; // Giữ lại import này
 import com.example.iq5.feature.result.adapter.StatsAdapter;
 import com.example.iq5.feature.result.model.UserStats;
 import com.example.iq5.feature.result.data.ResultRepository;
@@ -34,15 +35,24 @@ public class StatsActivity extends AppCompatActivity {
         List<UserStats> statsList = repository.getStatsMilestones();
 
         // 3. Cấu hình RecyclerView cho các Mốc thống kê
-        rvStatsMilestones.setLayoutManager(new LinearLayoutManager(this));
-        StatsAdapter adapter = new StatsAdapter(statsList, this);
-        rvStatsMilestones.setAdapter(adapter);
+        if (rvStatsMilestones != null) {
+            rvStatsMilestones.setLayoutManager(new LinearLayoutManager(this));
+            // Giả định StatsAdapter cần Context
+            StatsAdapter adapter = new StatsAdapter(statsList, this);
+            rvStatsMilestones.setAdapter(adapter);
+        }
 
-        // 4. Cập nhật thống kê tuần (demo data - trong production sẽ tính từ database)
+        // 4. Cập nhật thống kê tuần
         updateWeeklyStats();
 
-        // 5. Xử lý nút Back
-        findViewById(R.id.btn_back_stats).setOnClickListener(v -> NavigationHelper.goBack(this));
+        // 5. Xử lý nút Back - CHUYỂN SANG DÙNG finish() ĐỂ ĐẢM BẢO QUAY LẠI
+        View btnBackStats = findViewById(R.id.btn_back_stats);
+        if (btnBackStats != null) {
+            btnBackStats.setOnClickListener(v -> {
+                // Lệnh chuẩn của Android để quay lại Activity trước đó
+                finish();
+            });
+        }
     }
 
     /**
@@ -56,9 +66,9 @@ public class StatsActivity extends AppCompatActivity {
         int totalDaysInWeek = 7;
         int averageScore = daysCompleted > 0 ? totalScore / daysCompleted : 0;
 
-        // Cập nhật UI
-        tvTotalScore.setText(totalScore + "\nTổng điểm");
-        tvAverageScore.setText(averageScore + "\nTrung bình");
-        tvDaysCompletedStat.setText(daysCompleted + "/" + totalDaysInWeek + "\nNgày hoàn thành");
+        // Cập nhật UI (với kiểm tra null an toàn)
+        if (tvTotalScore != null) tvTotalScore.setText(totalScore + "\nTổng điểm");
+        if (tvAverageScore != null) tvAverageScore.setText(averageScore + "\nTrung bình");
+        if (tvDaysCompletedStat != null) tvDaysCompletedStat.setText(daysCompleted + "/" + totalDaysInWeek + "\nNgày hoàn thành");
     }
 }

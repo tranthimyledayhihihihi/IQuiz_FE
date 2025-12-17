@@ -1,5 +1,6 @@
 package com.example.iq5.feature.specialmode.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.iq5.R;
+import com.example.iq5.feature.quiz.ui.QuizActivity;
 import com.example.iq5.feature.specialmode.adapter.DailyQuizAdapter;
 import com.example.iq5.feature.specialmode.data.SpecialModeRepository;
+import com.example.iq5.feature.specialmode.model.DailyQuizItem;
 import com.example.iq5.feature.specialmode.model.DailyQuizResponse;
 
 public class DailyQuizFragment extends Fragment {
@@ -33,6 +36,7 @@ public class DailyQuizFragment extends Fragment {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         repository = new SpecialModeRepository(requireContext());
 
         TextView tvDate = view.findViewById(R.id.tv_date);
@@ -40,8 +44,14 @@ public class DailyQuizFragment extends Fragment {
         TextView tvRewardToday = view.findViewById(R.id.tv_reward_today);
         RecyclerView rv = view.findViewById(R.id.rv_daily_quiz);
 
-        adapter = new DailyQuizAdapter(item -> {
-            // TODO: Điều hướng sang màn chơi quiz của hệ quiz
+        adapter = new DailyQuizAdapter(new DailyQuizAdapter.OnDailyQuizClickListener() {
+            @Override
+            public void onPlayClicked(DailyQuizItem item) {
+                Intent intent = new Intent(requireContext(), QuizActivity.class);
+                intent.putExtra("ENTRY_SOURCE", "daily_quiz");
+                intent.putExtra("DAILY_ID", item.id);
+                startActivity(intent);
+            }
         });
         rv.setAdapter(adapter);
 

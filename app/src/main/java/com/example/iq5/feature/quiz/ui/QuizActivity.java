@@ -178,7 +178,6 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void openReviewScreen() {
-        // Tính điểm và chuyển sang ResultActivity
         int correctCount = 0;
         for (Question q : questionList) {
             if (q.isUserAnswerCorrect()) correctCount++;

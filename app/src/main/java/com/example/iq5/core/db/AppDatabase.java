@@ -21,7 +21,7 @@ import com.example.iq5.core.db.entity.UserLocalEntity;
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     private static volatile AppDatabase INSTANCE;
-    private static final String DATABASE_NAME = "QuanLyDoAn";
+    private static final String DATABASE_NAME = "QUIZ_GAME_WEB_DB";
 
     public abstract UserDao userDao();
 

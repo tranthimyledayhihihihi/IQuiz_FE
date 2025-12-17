@@ -97,8 +97,37 @@
     <color name="color_streak_fire">@color/orange_primary</color>
     <color name="color_streak_bg_light">@color/orange_light</color>
 
-    <color name="red_light">#EF5350</color>   <!-- Red 300 -->
-    <color name="online_green">#81C784</color>   <!-- Green 300 -->
-    <color name="gold_yellow">#FFD700</color>   <!-- Gold -->
+    <!-- ===== BỔ SUNG THEO LỖI TRƯỚC ĐÓ ===== -->
+    <color name="red_light">#EF5350</color>      <!-- dùng cho cảnh báo nhẹ -->
+    <color name="online_green">#81C784</color>  <!-- trạng thái online -->
+    <color name="gold_yellow">#FFD700</color>   <!-- vàng huy chương -->
+
+    <!-- ===== PALETTE BỔ SUNG (KHÔNG TRÙNG TÊN) ===== -->
+    <color name="colorPrimaryLight">#9575CD</color>
+    <color name="colorSecondaryAccent">#F06292</color>
+
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+
+    <color name="colorTextPrimary">#212121</color>
+    <color name="colorTextSecondary">#757575</color>
+    <color name="colorTextWhite">#FFFFFF</color>
+
+    <color name="colorWin">#4CAF50</color>
+    <color name="colorLose">#F44336</color>
+    <color name="colorError">#F44336</color>
+
+    <color name="colorGold">#FFD700</color>
+    <color name="colorSilver">#C0C0C0</color>
+    <color name="colorBronze">#CD7F32</color>
+
+    <color name="colorBackground">#F5F5F5</color>
+    <color name="colorButtonNormal">#E0E0E0</color>
+
+    <!-- ===== NEW PROFILE COLORS ===== -->
+    <color name="background_light">#F8F9FA</color>
+    <color name="purple_primary_dark">#5A3FE6</color>
+    <color name="text_hint">#9E9E9E</color>
+    <color name="divider_light">#F0F0F0</color>
 
 </resources>

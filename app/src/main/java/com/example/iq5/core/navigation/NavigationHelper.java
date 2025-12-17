@@ -5,26 +5,36 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+// AUTH FLOW
 import com.example.iq5.feature.auth.ui.HomeActivity;
 import com.example.iq5.feature.auth.ui.LoginActivity;
 import com.example.iq5.feature.auth.ui.ProfileActivity;
 import com.example.iq5.feature.auth.ui.RegisterActivity;
 import com.example.iq5.feature.auth.ui.SettingsActivity;
 import com.example.iq5.feature.auth.ui.SplashActivity;
+
+// MULTIPLAYER FLOW
 import com.example.iq5.feature.multiplayer.ui.CompareResultActivity;
 import com.example.iq5.feature.multiplayer.ui.FindMatchActivity;
 import com.example.iq5.feature.multiplayer.ui.FriendsActivity;
 import com.example.iq5.feature.multiplayer.ui.LeaderboardActivity;
 import com.example.iq5.feature.multiplayer.ui.PvPBattleActivity;
 import com.example.iq5.feature.multiplayer.ui.RoomLobbyActivity;
+
+// QUIZ FLOW
 import com.example.iq5.feature.quiz.ui.QuizActivity;
 import com.example.iq5.feature.quiz.ui.ReviewQuestionActivity;
 import com.example.iq5.feature.quiz.ui.SelectCategoryActivity;
+
+// RESULT FLOW
 import com.example.iq5.feature.result.ui.AchievementActivity;
 import com.example.iq5.feature.result.ui.DailyRewardActivity;
 import com.example.iq5.feature.result.ui.ResultActivity;
 import com.example.iq5.feature.result.ui.StatsActivity;
 import com.example.iq5.feature.result.ui.StreakActivity;
+import com.example.iq5.feature.specialmode.ui.CustomQuizEditorActivity;
+import com.example.iq5.feature.specialmode.ui.CustomQuizFragment;
+
 
 /**
  * Helper class để quản lý navigation giữa các màn hình
@@ -33,7 +43,7 @@ import com.example.iq5.feature.result.ui.StreakActivity;
 public class NavigationHelper {
 
     // ==================== AUTH FLOW ====================
-    
+
     /**
      * Chuyển đến màn hình Splash (khởi động app)
      */
@@ -91,7 +101,9 @@ public class NavigationHelper {
         context.startActivity(intent);
     }
 
+    // ----------------------------------------------------
     // ==================== QUIZ FLOW ====================
+    // ----------------------------------------------------
 
     /**
      * Chuyển đến màn hình chọn Category
@@ -131,7 +143,9 @@ public class NavigationHelper {
         context.startActivity(intent);
     }
 
+    // ----------------------------------------------------
     // ==================== RESULT FLOW ====================
+    // ----------------------------------------------------
 
     /**
      * Chuyển đến màn hình Result sau khi hoàn thành quiz
@@ -145,7 +159,7 @@ public class NavigationHelper {
     }
 
     /**
-     * Chuyển đến màn hình Daily Reward
+     * Chuyển đến màn hình Daily Reward (Activity nằm trong result.ui)
      */
     public static void navigateToDailyReward(Context context) {
         Intent intent = new Intent(context, DailyRewardActivity.class);
@@ -153,7 +167,7 @@ public class NavigationHelper {
     }
 
     /**
-     * Chuyển đến màn hình Achievement
+     * Chuyển đến màn hình Achievement (Activity nằm trong result.ui)
      */
     public static void navigateToAchievement(Context context) {
         Intent intent = new Intent(context, AchievementActivity.class);
@@ -161,7 +175,7 @@ public class NavigationHelper {
     }
 
     /**
-     * Chuyển đến màn hình Stats
+     * Chuyển đến màn hình Stats (Activity nằm trong result.ui)
      */
     public static void navigateToStats(Context context) {
         Intent intent = new Intent(context, StatsActivity.class);
@@ -169,14 +183,16 @@ public class NavigationHelper {
     }
 
     /**
-     * Chuyển đến màn hình Streak
+     * Chuyển đến màn hình Streak (Activity nằm trong result.ui)
      */
     public static void navigateToStreak(Context context) {
         Intent intent = new Intent(context, StreakActivity.class);
         context.startActivity(intent);
     }
 
+    // ----------------------------------------------------
     // ==================== MULTIPLAYER FLOW ====================
+    // ----------------------------------------------------
 
     /**
      * Chuyển đến màn hình Find Match (tìm đối thủ)
@@ -231,7 +247,9 @@ public class NavigationHelper {
         context.startActivity(intent);
     }
 
+    // ----------------------------------------------------
     // ==================== UTILITY METHODS ====================
+    // ----------------------------------------------------
 
     /**
      * Finish activity hiện tại và quay về màn hình trước
@@ -249,6 +267,10 @@ public class NavigationHelper {
         if (context instanceof Activity) {
             ((Activity) context).finish();
         }
+    }
+    public static void navigateToCustomQuiz(Context context) {
+        Intent intent = new Intent(context, CustomQuizEditorActivity.class);
+        context.startActivity(intent);
     }
 
     /**

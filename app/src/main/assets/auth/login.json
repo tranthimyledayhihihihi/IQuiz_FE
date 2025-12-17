@@ -1,6 +1,6 @@
 {
-  "emailPlaceholder": "Enter your email",
-  "passwordPlaceholder": "Enter your password",
+  "emailPlaceholder": "Tên đăng nhập",
+  "passwordPlaceholder": "Mật khẩu",
   "loginSuccess": true,
   "token": "mock-token-123456"
 }

@@ -1,5 +1,6 @@
 package com.example.iq5.feature.specialmode.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.iq5.R;
+import com.example.iq5.feature.quiz.ui.QuizActivity;
 import com.example.iq5.feature.specialmode.adapter.WrongTopicAdapter;
 import com.example.iq5.feature.specialmode.data.SpecialModeRepository;
 import com.example.iq5.feature.specialmode.model.WrongAnswersResponse;
+import com.example.iq5.feature.specialmode.model.WrongTopic;
 
 public class WrongHistoryFragment extends Fragment {
 
@@ -33,13 +36,20 @@ public class WrongHistoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         repository = new SpecialModeRepository(requireContext());
 
         TextView tvTotalWrong = view.findViewById(R.id.tv_total_wrong);
         RecyclerView rv = view.findViewById(R.id.rv_wrong_topics);
 
-        adapter = new WrongTopicAdapter(topic -> {
-            // TODO: mở màn quiz review theo topic.topicId
+        // Dùng lambda, KHÔNG gọi OnWrongTopicClickListener nữa
+        adapter = new WrongTopicAdapter((WrongTopic topic) -> {
+            Intent intent = new Intent(requireContext(), QuizActivity.class);
+            intent.putExtra("ENTRY_SOURCE", "wrong_history");
+            intent.putExtra("TOPIC_ID", topic.topicId);
+            intent.putExtra("TOPIC_NAME", topic.topicName);
+            intent.putExtra("SUGGESTED_QUIZ_ID", topic.suggestedQuizId);
+            startActivity(intent);
         });
         rv.setAdapter(adapter);
 

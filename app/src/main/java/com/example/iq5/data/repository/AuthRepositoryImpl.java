@@ -12,7 +12,6 @@ public class AuthRepositoryImpl implements AuthRepository {
     private final AuthApiService apiService;
     private final PrefsManager prefsManager;
 
-    // Dependency Injection (Cần Dagger/Hilt để inject)
     public AuthRepositoryImpl(AuthApiService apiService, PrefsManager prefsManager) {
         this.apiService = apiService;
         this.prefsManager = prefsManager;
@@ -20,7 +19,6 @@ public class AuthRepositoryImpl implements AuthRepository {
 
     @Override
     public Call<LoginResponse> loginUser(LoginRequest request) {
-        // Gọi API Service
         return apiService.login(request);
     }
 
@@ -29,5 +27,5 @@ public class AuthRepositoryImpl implements AuthRepository {
         prefsManager.saveAuthToken(token);
     }
 
-    // ... các phương thức khác
+
 }

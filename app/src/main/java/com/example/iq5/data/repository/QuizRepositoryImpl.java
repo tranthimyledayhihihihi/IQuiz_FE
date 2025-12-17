@@ -1,91 +1,176 @@
 package com.example.iq5.data.repository;
 
-import androidx.lifecycle.LiveData;
-import com.example.iq5.core.db.dao.QuestionDao;
-import com.example.iq5.core.db.dao.TopicDao; // <-- IMPORT
-import com.example.iq5.core.db.entity.QuestionLocalEntity;
-import com.example.iq5.core.db.entity.TopicLocalEntity;
-import com.example.iq5.core.network.QuizApiService;
-import com.example.iq5.data.model.QuestionDto;
-import com.example.iq5.data.model.TopicDto;
+import android.content.Context;
+import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executors;
+import com.example.iq5.data.api.RetrofitClient;
+import com.example.iq5.data.api.ApiService;
+import com.example.iq5.data.model.*;
+import com.example.iq5.utils.ApiHelper;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class QuizRepositoryImpl implements QuizRepository {
-
-    private final QuizApiService apiService;
-    private final QuestionDao questionDao;
-    private final TopicDao topicDao; // <<< THÊM: Tham chiếu TopicDao
-
-    // Sửa Constructor để nhận TopicDao
-    public QuizRepositoryImpl(QuizApiService apiService, QuestionDao questionDao, TopicDao topicDao) {
-        this.apiService = apiService;
-        this.questionDao = questionDao;
-        this.topicDao = topicDao;
+/**
+ * Repository implementation để quản lý Quiz Playing
+ */
+public class QuizRepositoryImpl {
+    
+    private static final String TAG = "QuizRepository";
+    private final ApiService apiService;
+    private final Context context;
+    
+    public QuizRepositoryImpl(Context context) {
+        this.context = context;
+        this.apiService = RetrofitClient.getApiService();
     }
-
-    // --- REMOTE METHODS (API) ---
-
-    @Override
-    public Call<List<TopicDto>> fetchTopicsFromRemote() {
-        return apiService.getTopics();
-    }
-
-    @Override
-    public Call<List<QuestionDto>> fetchQuestionsByTopicRemote(int topicId) {
-        return apiService.getQuestionsByTopic(topicId);
-    }
-
-    // --- LOCAL METHODS (ROOM) ---
-
-    @Override
-    // Đã sửa kiểu trả về và gọi phương thức TopicDao
-    public LiveData<List<TopicLocalEntity>> getCachedTopics() {
-        return topicDao.getAllTopics();
-    }
-
-    @Override
-    public LiveData<List<QuestionLocalEntity>> getCachedQuestionsByTopic(int topicId) {
-        return questionDao.getQuestionsByTopic(topicId);
-    }
-
-    @Override
-    public void saveTopicsToLocal(List<TopicDto> topics) {
-        Executors.newSingleThreadExecutor().execute(() -> {
-            List<TopicLocalEntity> entities = new ArrayList<>();
-            for (TopicDto dto : topics) {
-                // Ánh xạ DTO sang Entity
-                // LƯU Ý: Sửa thành constructor 2 tham số (id, name)
-                entities.add(new TopicLocalEntity(dto.getChuDeId(), dto.getTenChuDe()));
+    
+    // ============================================
+    // QUIZ PLAYING
+    // ============================================
+    
+    /**
+     * Bắt đầu chơi quiz
+     */
+    public void startQuizAsync(StartQuizRequest request, StartQuizCallback callback) {
+        String token = "Bearer " + ApiHelper.getToken(context);
+        
+        Log.d(TAG, "🎮 Đang bắt đầu quiz...");
+        
+        Call<StartQuizResponse> call = apiService.startQuiz(token, request);
+        call.enqueue(new Callback<StartQuizResponse>() {
+            @Override
+            public void onResponse(Call<StartQuizResponse> call, Response<StartQuizResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "✅ Bắt đầu quiz thành công! AttemptID: " + response.body().getAttemptID());
+                    callback.onSuccess(response.body());
+                } else {
+                    Log.e(TAG, "❌ Lỗi bắt đầu quiz: " + response.code());
+                    callback.onError("Không thể bắt đầu quiz. Mã lỗi: " + response.code());
+                }
             }
-            // SỬA: Gọi từ topicDao
-            topicDao.insertTopics(entities);
+            
+            @Override
+            public void onFailure(Call<StartQuizResponse> call, Throwable t) {
+                Log.e(TAG, "❌ Lỗi kết nối: " + t.getMessage());
+                callback.onError("Lỗi kết nối: " + t.getMessage());
+            }
         });
     }
-
-    @Override
-    public void saveQuestionsToLocal(List<QuestionDto> questions) {
-        Executors.newSingleThreadExecutor().execute(() -> {
-            List<QuestionLocalEntity> entities = new ArrayList<>();
-            for (QuestionDto dto : questions) {
-                // Ánh xạ DTO sang Entity
-                entities.add(new QuestionLocalEntity(
-                        dto.getCauHoiId(),
-                        dto.getChuDeId(),
-                        dto.getNoiDung(),
-                        dto.getLuaChonA(),
-                        dto.getLuaChonB(),
-                        dto.getLuaChonC(),
-                        dto.getLuaChonD(),
-                        dto.getDapAn(),
-                        "Unknown"
-                ));
+    
+    /**
+     * Lấy câu hỏi tiếp theo
+     */
+    public void getNextQuestionAsync(int attemptId, QuestionCallback callback) {
+        String token = "Bearer " + ApiHelper.getToken(context);
+        
+        Log.d(TAG, "📝 Đang lấy câu hỏi tiếp theo...");
+        
+        Call<CauHoiModel> call = apiService.getNextQuestion(attemptId, token);
+        call.enqueue(new Callback<CauHoiModel>() {
+            @Override
+            public void onResponse(Call<CauHoiModel> call, Response<CauHoiModel> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "✅ Lấy câu hỏi thành công!");
+                    callback.onSuccess(response.body());
+                } else if (response.code() == 404) {
+                    Log.d(TAG, "⚠️ Không còn câu hỏi");
+                    callback.onNoMoreQuestions();
+                } else {
+                    Log.e(TAG, "❌ Lỗi lấy câu hỏi: " + response.code());
+                    callback.onError("Lỗi lấy câu hỏi: " + response.code());
+                }
             }
-            questionDao.insertAllQuestions(entities);
+            
+            @Override
+            public void onFailure(Call<CauHoiModel> call, Throwable t) {
+                Log.e(TAG, "❌ Lỗi kết nối: " + t.getMessage());
+                callback.onError("Lỗi kết nối: " + t.getMessage());
+            }
         });
+    }
+    
+    /**
+     * Nộp đáp án
+     */
+    public void submitAnswerAsync(AnswerSubmitModel answer, SubmitCallback callback) {
+        String token = "Bearer " + ApiHelper.getToken(context);
+        
+        Log.d(TAG, "📤 Đang nộp đáp án...");
+        
+        Call<SubmitAnswerResponse> call = apiService.submitAnswer(token, answer);
+        call.enqueue(new Callback<SubmitAnswerResponse>() {
+            @Override
+            public void onResponse(Call<SubmitAnswerResponse> call, Response<SubmitAnswerResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "✅ Nộp đáp án thành công! Đúng: " + response.body().isCorrect());
+                    callback.onSuccess(response.body().isCorrect());
+                } else {
+                    Log.e(TAG, "❌ Lỗi nộp đáp án: " + response.code());
+                    callback.onError("Lỗi nộp đáp án: " + response.code());
+                }
+            }
+            
+            @Override
+            public void onFailure(Call<SubmitAnswerResponse> call, Throwable t) {
+                Log.e(TAG, "❌ Lỗi kết nối: " + t.getMessage());
+                callback.onError("Lỗi kết nối: " + t.getMessage());
+            }
+        });
+    }
+    
+    /**
+     * Kết thúc quiz
+     */
+    public void endQuizAsync(int attemptId, ResultCallback callback) {
+        String token = "Bearer " + ApiHelper.getToken(context);
+        
+        Log.d(TAG, "🏁 Đang kết thúc quiz...");
+        
+        Call<KetQuaModel> call = apiService.endQuiz(attemptId, token);
+        call.enqueue(new Callback<KetQuaModel>() {
+            @Override
+            public void onResponse(Call<KetQuaModel> call, Response<KetQuaModel> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "✅ Kết thúc quiz thành công! Điểm: " + response.body().getDiem());
+                    callback.onSuccess(response.body());
+                } else {
+                    Log.e(TAG, "❌ Lỗi kết thúc quiz: " + response.code());
+                    callback.onError("Lỗi kết thúc quiz: " + response.code());
+                }
+            }
+            
+            @Override
+            public void onFailure(Call<KetQuaModel> call, Throwable t) {
+                Log.e(TAG, "❌ Lỗi kết nối: " + t.getMessage());
+                callback.onError("Lỗi kết nối: " + t.getMessage());
+            }
+        });
+    }
+    
+    // ============================================
+    // CALLBACKS
+    // ============================================
+    
+    public interface StartQuizCallback {
+        void onSuccess(StartQuizResponse response);
+        void onError(String error);
+    }
+    
+    public interface QuestionCallback {
+        void onSuccess(CauHoiModel question);
+        void onNoMoreQuestions();
+        void onError(String error);
+    }
+    
+    public interface SubmitCallback {
+        void onSuccess(boolean isCorrect);
+        void onError(String error);
+    }
+    
+    public interface ResultCallback {
+        void onSuccess(KetQuaModel result);
+        void onError(String error);
     }
 }
