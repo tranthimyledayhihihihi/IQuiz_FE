@@ -2,6 +2,12 @@ package com.example.iq5.core.network;
 
 import com.example.iq5.core.prefs.PrefsManager;
 
+import java.security.cert.CertificateException;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -11,7 +17,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    private static final String BASE_URL = "https://your-backend-api.com/api/";
+    // Sử dụng HTTP với dotnet run
+    private static final String BASE_URL = "http://10.0.2.2:5048/api/"; // Android Emulator - HTTP
+    // private static final String BASE_URL = "http://192.168.1.6:5048/api/"; // Thiết bị thật - WiFi
     private static Retrofit retrofitInstance; // Dùng cho Singleton
 
     // Interceptor để thêm JWT Token (Có thể sử dụng lambda thay vì Anonymous Inner Class)
@@ -29,6 +37,36 @@ public class ApiClient {
         };
     }
 
+    // Tạo unsafe TrustManager cho development (KHÔNG dùng trong production)
+    private static X509TrustManager getUnsafeTrustManager() {
+        return new X509TrustManager() {
+            @Override
+            public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+            }
+
+            @Override
+            public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+            }
+
+            @Override
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                return new java.security.cert.X509Certificate[]{};
+            }
+        };
+    }
+
+    // Tạo unsafe SSL context cho development
+    private static SSLSocketFactory getUnsafeSSLSocketFactory() {
+        try {
+            final TrustManager[] trustAllCerts = new TrustManager[]{getUnsafeTrustManager()};
+            final SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+            return sslContext.getSocketFactory();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // Phương thức khởi tạo Retrofit, yêu cầu PrefsManager để tạo OkHttpClient
     private static Retrofit initializeRetrofit(PrefsManager prefsManager) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -36,7 +74,10 @@ public class ApiClient {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(logging)
-                .addInterceptor(getAuthInterceptor(prefsManager)) // Đã sửa lỗi kiểu dữ liệu
+                .addInterceptor(getAuthInterceptor(prefsManager))
+                .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
                 .build();
 
         return new Retrofit.Builder()
