@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    // Thử cả 2 IP - uncomment cái nào phù hợp
+   
     private static final String BASE_URL = "http://10.0.2.2:5048/api/"; // Android Emulator
     // private static final String BASE_URL = "http://192.168.1.6:5048/api/"; // Thiết bị thật - WiFi
     private static Retrofit retrofitInstance; // Dùng cho Singleton
