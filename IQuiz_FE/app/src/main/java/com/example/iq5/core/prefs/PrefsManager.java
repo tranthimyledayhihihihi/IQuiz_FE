@@ -33,6 +33,10 @@ public class PrefsManager {
         return prefs.getString(KEY_USER_ROLE, "sinhvien");
     }
 
+    public void clearAuthToken() {
+        prefs.edit().remove(KEY_JWT_TOKEN).apply();
+    }
+    
     public void clear() {
         prefs.edit().clear().apply();
     }
