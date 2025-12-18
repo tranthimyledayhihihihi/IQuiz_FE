@@ -1,8 +1,0 @@
-{
-  "namePlaceholder": "Nhập name",
-  "emailPlaceholder": "Nhập email",
-  "passwordPlaceholder": "Nhập mật khẩu",
-  "confirmPasswordPlaceholder": "Xác nhận lại mật khẩu",
-  "registerSuccess": true,
-  "userId": 102
-}
