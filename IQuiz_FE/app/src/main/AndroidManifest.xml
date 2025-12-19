@@ -1,9 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.iq5">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
 
     <application
@@ -16,7 +14,6 @@
         android:networkSecurityConfig="@xml/network_security_config">
 
         <!-- Launcher: SplashActivity -->
-
         <activity
             android:name=".feature.auth.ui.SplashActivity"
             android:exported="true">
@@ -53,8 +50,18 @@
             android:exported="false" />
 
         <activity
+            android:name=".feature.quiz.ui.ApiSelectCategoryActivity"
+            android:exported="false"
+            android:label="Chọn Danh Mục (API)" />
+
+        <activity
             android:name=".feature.quiz.ui.QuizActivity"
             android:exported="false" />
+            
+        <activity
+            android:name=".feature.quiz.ui.ApiQuizActivity"
+            android:exported="false"
+            android:label="Quiz Game (API)" />
 
         <activity
             android:name=".feature.quiz.ui.ReviewQuestionActivity"
@@ -108,6 +115,17 @@
         <activity
             android:name=".feature.multiplayer.ui.LeaderboardActivity"
             android:exported="false" />
+
+        <!-- Debug Activities -->
+        <activity
+            android:name=".debug.TestApiActivity"
+            android:exported="false"
+            android:label="API Test Tool" />
+        
+        <activity
+            android:name=".debug.SimpleTestActivity"
+            android:exported="false"
+            android:label="Simple Test" />
 
     </application>
 

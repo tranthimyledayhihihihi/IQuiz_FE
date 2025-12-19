@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.iq5.R;
 import com.example.iq5.core.navigation.NavigationHelper;
+import com.example.iq5.utils.QuickApiTest;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -16,9 +17,22 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        // Test API ngay khi khởi động (để debug)
+        testApiOnStartup();
+
         new Handler(getMainLooper()).postDelayed(() -> {
             // Chuyển sang Login Activity và xóa Stack Activity (để người dùng không thể Back lại Splash)
             NavigationHelper.navigateToLogin(this, true);
         }, SPLASH_DELAY);
+    }
+    
+    /**
+     * Test API ngay khi khởi động để debug
+     */
+    private void testApiOnStartup() {
+        // Test API để debug
+        new Handler(getMainLooper()).postDelayed(() -> {
+            QuickApiTest.checkBackendStatus(this);
+        }, 500); // Delay 0.5s để UI load xong
     }
 }

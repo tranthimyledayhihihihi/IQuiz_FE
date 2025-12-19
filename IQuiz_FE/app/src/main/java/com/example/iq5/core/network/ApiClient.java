@@ -22,6 +22,11 @@ public class ApiClient {
     // private static final String BASE_URL = "http://192.168.1.6:5048/api/"; // Thiết bị thật - WiFi
     private static Retrofit retrofitInstance; // Dùng cho Singleton
 
+    // Helper method to get base URL for debugging
+    public static String getBaseUrl() {
+        return BASE_URL;
+    }
+
     // Interceptor để thêm JWT Token (Có thể sử dụng lambda thay vì Anonymous Inner Class)
     private static Interceptor getAuthInterceptor(PrefsManager prefsManager) {
         return chain -> {

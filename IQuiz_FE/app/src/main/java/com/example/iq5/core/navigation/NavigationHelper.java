@@ -122,6 +122,41 @@ public class NavigationHelper {
         intent.putExtra("difficulty", difficulty);
         context.startActivity(intent);
     }
+    
+    /**
+     * Chuyển đến màn hình API Quiz với category và difficulty (sử dụng API thật)
+     */
+    public static void navigateToApiQuiz(Context context, String categoryId, String difficulty) {
+        Intent intent = new Intent(context, com.example.iq5.feature.quiz.ui.ApiQuizActivity.class);
+        intent.putExtra("category_id", categoryId);
+        intent.putExtra("difficulty", difficulty);
+        context.startActivity(intent);
+    }
+    
+    /**
+     * Chuyển đến màn hình API Select Category (sử dụng API thật)
+     */
+    public static void navigateToApiSelectCategory(Context context) {
+        Intent intent = new Intent(context, com.example.iq5.feature.quiz.ui.ApiSelectCategoryActivity.class);
+        context.startActivity(intent);
+    }
+    
+    /**
+     * Chuyển đến màn hình API Quiz với danh sách câu hỏi đã tải sẵn
+     */
+    public static void navigateToApiQuizWithQuestions(Context context, java.util.List<com.example.iq5.core.network.QuizApiService.TestQuestionModel> questions, String categoryName) {
+        Intent intent = new Intent(context, com.example.iq5.feature.quiz.ui.ApiQuizActivity.class);
+        
+        // Convert questions to JSON string để truyền qua Intent
+        com.google.gson.Gson gson = new com.google.gson.Gson();
+        String questionsJson = gson.toJson(questions);
+        
+        intent.putExtra("questions_json", questionsJson);
+        intent.putExtra("category_name", categoryName);
+        intent.putExtra("has_questions", true);
+        
+        context.startActivity(intent);
+    }
 
     /**
      * Chuyển đến màn hình Quiz với Bundle tùy chỉnh

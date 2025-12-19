@@ -189,6 +189,22 @@ public class HomeActivity extends AppCompatActivity {
                 NavigationHelper.navigateToSelectCategory(this);
             });
         }
+        
+        // DEBUG: Long click trên avatar để mở debug menu (sử dụng view có sẵn)
+        if (imgAvatarHome != null) {
+            imgAvatarHome.setOnLongClickListener(v -> {
+                showDebugMenu();
+                return true;
+            });
+        }
+        
+        // DEBUG: Long click trên welcome text để mở debug menu
+        if (tvWelcome != null) {
+            tvWelcome.setOnLongClickListener(v -> {
+                showDebugMenu();
+                return true;
+            });
+        }
     }
 
     // Thêm logic cho nút Tìm bạn trên banner
@@ -219,6 +235,42 @@ public class HomeActivity extends AppCompatActivity {
         transaction.addToBackStack(tag);
         transaction.commit();
     }
-
+    
+    /**
+     * Hiển thị debug menu để truy cập các tính năng test
+     */
+    private void showDebugMenu() {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        builder.setTitle("🛠️ Debug Menu");
+        
+        String[] options = {
+            "🎯 API Quiz Test (Real Data)",
+            "🔧 Simple Test Activity", 
+            "📡 API Test Tool",
+            "🏠 Back to Home"
+        };
+        
+        builder.setItems(options, (dialog, which) -> {
+            switch (which) {
+                case 0: // API Quiz Test
+                    NavigationHelper.navigateToApiSelectCategory(this);
+                    break;
+                case 1: // Simple Test Activity
+                    android.content.Intent intent1 = new android.content.Intent(this, com.example.iq5.debug.SimpleTestActivity.class);
+                    startActivity(intent1);
+                    break;
+                case 2: // API Test Tool
+                    android.content.Intent intent2 = new android.content.Intent(this, com.example.iq5.debug.TestApiActivity.class);
+                    startActivity(intent2);
+                    break;
+                case 3: // Back to Home
+                    dialog.dismiss();
+                    break;
+            }
+        });
+        
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
 
 }

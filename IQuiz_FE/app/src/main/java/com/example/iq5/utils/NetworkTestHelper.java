@@ -7,6 +7,7 @@ import com.example.iq5.core.network.UserApiService;
 import com.example.iq5.core.prefs.PrefsManager;
 import com.example.iq5.data.model.LoginRequest;
 import com.example.iq5.data.model.LoginResponse;
+import com.example.iq5.data.model.UserProfileModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -99,11 +100,11 @@ public class NetworkTestHelper {
         
         // Test User Profile API (sẽ fail vì chưa có token)
         UserApiService userService = ApiClient.createService(retrofit, UserApiService.class);
-        Call<UserApiService.UserProfile> profileCall = userService.getMyProfile();
+        Call<UserProfileModel> profileCall = userService.getMyProfile();
         
-        profileCall.enqueue(new Callback<UserApiService.UserProfile>() {
+        profileCall.enqueue(new Callback<UserProfileModel>() {
             @Override
-            public void onResponse(Call<UserApiService.UserProfile> call, Response<UserApiService.UserProfile> response) {
+            public void onResponse(Call<UserProfileModel> call, Response<UserProfileModel> response) {
                 if (response.code() == 401) {
                     Log.d(TAG, "✅ User API hoạt động (401 Unauthorized như mong đợi)");
                 } else {
@@ -112,7 +113,7 @@ public class NetworkTestHelper {
             }
 
             @Override
-            public void onFailure(Call<UserApiService.UserProfile> call, Throwable t) {
+            public void onFailure(Call<UserProfileModel> call, Throwable t) {
                 Log.e(TAG, "❌ User API test failed: " + t.getMessage());
             }
         });

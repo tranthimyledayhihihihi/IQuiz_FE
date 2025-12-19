@@ -1,24 +1,63 @@
 package com.example.iq5.core.network;
 
 import com.example.iq5.data.model.ApiResponse;
+import com.example.iq5.data.model.UserProfileModel;
+import com.example.iq5.data.model.ProfileUpdateModel;
+import com.example.iq5.data.model.ChangePasswordModel;
+import com.example.iq5.data.model.UserStreakResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
+import retrofit2.http.POST;
 
 public interface UserApiService {
     
     @GET("user/profile/me")
-    Call<UserProfile> getMyProfile();
+    Call<com.example.iq5.data.model.UserProfileModel> getMyProfile();
     
     @PUT("user/profile/me")
-    Call<ApiResponse> updateProfile(@Body ProfileUpdateRequest request);
+    Call<ApiResponse> updateProfile(@Body ProfileUpdateModel profile);
     
     @PUT("user/profile/settings")
-    Call<ApiResponse> updateSettings(@Body SettingsUpdateRequest request);
+    Call<ApiResponse> updateSettings(@Body UserSettingsModel settings);
     
-    // Response classes
+    @POST("Account/change-password")
+    Call<ApiResponse> changePassword(@Body ChangePasswordModel changePassword);
+    
+    @GET("user/achievement/streak")
+    Call<UserStreakResponse> getMyStreak();
+    
+    // Model cho cài đặt người dùng
+    public static class UserSettingsModel {
+        private boolean amThanh;
+        private boolean nhacNen;
+        private boolean thongBao;
+        private String ngonNgu;
+        
+        public UserSettingsModel(boolean amThanh, boolean nhacNen, boolean thongBao, String ngonNgu) {
+            this.amThanh = amThanh;
+            this.nhacNen = nhacNen;
+            this.thongBao = thongBao;
+            this.ngonNgu = ngonNgu;
+        }
+        
+        public boolean isAmThanh() { return amThanh; }
+        public void setAmThanh(boolean amThanh) { this.amThanh = amThanh; }
+        
+        public boolean isNhacNen() { return nhacNen; }
+        public void setNhacNen(boolean nhacNen) { this.nhacNen = nhacNen; }
+        
+        public boolean isThongBao() { return thongBao; }
+        public void setThongBao(boolean thongBao) { this.thongBao = thongBao; }
+        
+        public String getNgonNgu() { return ngonNgu; }
+        public void setNgonNgu(String ngonNgu) { this.ngonNgu = ngonNgu; }
+    }
+
+    // Response classes (deprecated - use UserProfileModel instead)
+    @Deprecated
     public static class UserProfile {
         private int userID;
         private String tenDangNhap;

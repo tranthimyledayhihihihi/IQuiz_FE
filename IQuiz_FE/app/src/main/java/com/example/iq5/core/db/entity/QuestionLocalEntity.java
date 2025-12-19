@@ -1,6 +1,7 @@
 package com.example.iq5.core.db.entity;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "questions")
@@ -21,6 +22,7 @@ public class QuestionLocalEntity {
     }
 
     // Constructor đầy đủ tham số (Giữ nguyên)
+    @Ignore
     public QuestionLocalEntity(int cauHoiId, int chuDeId, String noiDung, String luaChonA, String luaChonB, String luaChonC, String luaChonD, String dapAn, String doKho) {
         this.cauHoiId = cauHoiId;
         this.chuDeId = chuDeId;
