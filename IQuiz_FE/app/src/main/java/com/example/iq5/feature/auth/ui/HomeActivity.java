@@ -255,13 +255,11 @@ public class HomeActivity extends AppCompatActivity {
                 case 0: // API Quiz Test
                     NavigationHelper.navigateToApiSelectCategory(this);
                     break;
-                case 1: // Simple Test Activity
-                    android.content.Intent intent1 = new android.content.Intent(this, com.example.iq5.debug.SimpleTestActivity.class);
-                    startActivity(intent1);
+                case 1: // Chức năng khác (có thể thêm sau)
+                    Toast.makeText(this, "Chức năng đang phát triển", Toast.LENGTH_SHORT).show();
                     break;
-                case 2: // API Test Tool
-                    android.content.Intent intent2 = new android.content.Intent(this, com.example.iq5.debug.TestApiActivity.class);
-                    startActivity(intent2);
+                case 2: // Chức năng khác (có thể thêm sau)
+                    Toast.makeText(this, "Chức năng đang phát triển", Toast.LENGTH_SHORT).show();
                     break;
                 case 3: // Back to Home
                     dialog.dismiss();

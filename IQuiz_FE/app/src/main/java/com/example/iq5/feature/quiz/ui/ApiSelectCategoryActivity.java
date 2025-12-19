@@ -23,7 +23,7 @@ import com.example.iq5.feature.quiz.model.Difficulty;
 import com.example.iq5.core.network.ApiClient;
 import com.example.iq5.core.network.QuizApiService;
 import com.example.iq5.core.prefs.PrefsManager;
-import com.example.iq5.utils.QuickApiTest;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,6 +42,7 @@ public class ApiSelectCategoryActivity extends AppCompatActivity {
 
     private int selectedCategoryId = -1;
     private String selectedDifficultyId = null;
+    private List<Category> categories = new ArrayList<>();
 
     private RecyclerView rvCategory;
     private RecyclerView rvDifficulty;
@@ -76,11 +77,8 @@ public class ApiSelectCategoryActivity extends AppCompatActivity {
             finish();
         }
         
-        // Add long click listener for connection test
-        btnStartQuiz.setOnLongClickListener(v -> {
-            com.example.iq5.utils.BackendConnectionTest.testConnection(this);
-            return true;
-        });
+        // Set initial button text to remind user to select
+        btnStartQuiz.setText("⚠️ Chọn danh mục và độ khó trước");
     }
 
     private void initApiComponents() {
@@ -91,15 +89,19 @@ public class ApiSelectCategoryActivity extends AppCompatActivity {
 
     private void handleStartQuiz() {
         if (selectedCategoryId == -1) {
-            Toast.makeText(this, "Vui lòng chọn một danh mục!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "⚠️ Bạn chưa chọn danh mục!\nHãy chọn một chủ đề để bắt đầu quiz.", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (selectedDifficultyId == null) {
-            Toast.makeText(this, "Vui lòng chọn độ khó!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "⚠️ Bạn chưa chọn độ khó!\nHãy chọn mức độ khó để tiếp tục.", Toast.LENGTH_LONG).show();
             return;
         }
 
+        // Show selected options before starting
+        String categoryName = getSelectedCategoryName();
+        Toast.makeText(this, "🚀 Bắt đầu quiz: " + categoryName + " - " + selectedDifficultyId, Toast.LENGTH_SHORT).show();
+        
         // Gọi API để lấy câu hỏi theo category
         startQuizWithCategory(selectedCategoryId);
     }
@@ -112,26 +114,43 @@ public class ApiSelectCategoryActivity extends AppCompatActivity {
         
         Log.d(TAG, "🚀 Starting quiz for category: " + categoryId);
         
-        quizService.getQuestionsByCategory(categoryId).enqueue(new Callback<QuizApiService.TestQuizResponse>() {
+        quizService.getQuestionsByCategory(categoryId).enqueue(new Callback<com.example.iq5.data.model.SimpleQuizResponse>() {
             @Override
-            public void onResponse(Call<QuizApiService.TestQuizResponse> call, Response<QuizApiService.TestQuizResponse> response) {
+            public void onResponse(Call<com.example.iq5.data.model.SimpleQuizResponse> call, Response<com.example.iq5.data.model.SimpleQuizResponse> response) {
                 showLoading(false);
                 
                 if (response.isSuccessful() && response.body() != null) {
-                    QuizApiService.TestQuizResponse result = response.body();
+                    com.example.iq5.data.model.SimpleQuizResponse result = response.body();
                     
-                    if (result.isSuccess() && result.getQuestions() != null && !result.getQuestions().isEmpty()) {
-                        Log.d(TAG, "✅ Got " + result.getQuestions().size() + " questions for category " + categoryId);
+                    if (result.success && result.data != null && !result.data.isEmpty()) {
+                        Log.d(TAG, "✅ Got " + result.data.size() + " questions for category " + categoryId);
+                        
+                        // Convert SimpleQuestionData to TestQuestionModel for compatibility
+                        List<QuizApiService.TestQuestionModel> questions = new ArrayList<>();
+                        for (com.example.iq5.data.model.SimpleQuizResponse.SimpleQuestionData data : result.data) {
+                            QuizApiService.TestQuestionModel question = new QuizApiService.TestQuestionModel();
+                            question.setId(data.id);
+                            question.setQuestion(data.question);
+                            question.setOptionA(data.option_a);
+                            question.setOptionB(data.option_b);
+                            question.setOptionC(data.option_c);
+                            question.setOptionD(data.option_d);
+                            question.setCorrectAnswer(data.correct_answer);
+                            question.setCategoryId(data.category_id);
+                            question.setDifficulty("Normal"); // Default difficulty
+                            question.setCategoryName(getSelectedCategoryName()); // Get from selected category
+                            questions.add(question);
+                        }
                         
                         // Chuyển sang ApiQuizActivity với danh sách câu hỏi
                         NavigationHelper.navigateToApiQuizWithQuestions(
                             ApiSelectCategoryActivity.this, 
-                            result.getQuestions(),
-                            result.getQuestions().get(0).getCategoryName()
+                            questions,
+                            getSelectedCategoryName()
                         );
                         
                         Toast.makeText(ApiSelectCategoryActivity.this, 
-                            "✅ Bắt đầu quiz với " + result.getQuestions().size() + " câu hỏi!", 
+                            "✅ Bắt đầu quiz với " + questions.size() + " câu hỏi!", 
                             Toast.LENGTH_SHORT).show();
                             
                     } else {
@@ -149,7 +168,7 @@ public class ApiSelectCategoryActivity extends AppCompatActivity {
             }
             
             @Override
-            public void onFailure(Call<QuizApiService.TestQuizResponse> call, Throwable t) {
+            public void onFailure(Call<com.example.iq5.data.model.SimpleQuizResponse> call, Throwable t) {
                 showLoading(false);
                 Log.e(TAG, "❌ Network error getting questions: " + t.getMessage());
                 Toast.makeText(ApiSelectCategoryActivity.this, 
@@ -280,19 +299,46 @@ public class ApiSelectCategoryActivity extends AppCompatActivity {
             return;
         }
 
+        // Save categories list for later use
+        this.categories = categoryList;
+
         rvCategory.setLayoutManager(new LinearLayoutManager(this));
 
         CategoryAdapter adapter = new CategoryAdapter(categoryList, category -> {
             selectedCategoryId = category.getId();
             Log.d(TAG, "Selected category: " + category.getName() + " (ID: " + category.getId() + ")");
-            Toast.makeText(this, "Chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "✅ Chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
+            updateStartButtonText();
         });
 
         rvCategory.setAdapter(adapter);
 
-        // Auto select first category
-        selectedCategoryId = categoryList.get(0).getId();
-        Log.d(TAG, "Auto selected first category ID: " + selectedCategoryId);
+        // Don't auto-select - user must choose
+        selectedCategoryId = -1;
+        Log.d(TAG, "No category selected - user must choose");
+    }
+    
+    private String getSelectedCategoryName() {
+        for (Category category : categories) {
+            if (category.getId() == selectedCategoryId) {
+                return category.getName();
+            }
+        }
+        return "Unknown Category";
+    }
+    
+    private void updateStartButtonText() {
+        if (btnStartQuiz == null) return;
+        
+        if (selectedCategoryId == -1 && selectedDifficultyId == null) {
+            btnStartQuiz.setText("⚠️ Chọn danh mục và độ khó trước");
+        } else if (selectedCategoryId == -1) {
+            btnStartQuiz.setText("⚠️ Chọn danh mục trước");
+        } else if (selectedDifficultyId == null) {
+            btnStartQuiz.setText("⚠️ Chọn độ khó trước");
+        } else {
+            btnStartQuiz.setText("🚀 BẮT ĐẦU QUIZ");
+        }
     }
 
     private void setupDifficulties(List<Difficulty> difficultyList) {
@@ -306,14 +352,15 @@ public class ApiSelectCategoryActivity extends AppCompatActivity {
         DifficultyAdapter adapter = new DifficultyAdapter(difficultyList, difficulty -> {
             selectedDifficultyId = difficulty.getId();
             Log.d(TAG, "Selected difficulty: " + difficulty.getName() + " (ID: " + difficulty.getId() + ")");
-            Toast.makeText(this, "Độ khó: " + difficulty.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "✅ Độ khó: " + difficulty.getName(), Toast.LENGTH_SHORT).show();
+            updateStartButtonText();
         });
 
         rvDifficulty.setAdapter(adapter);
 
-        // Auto select first difficulty
-        selectedDifficultyId = difficultyList.get(0).getId();
-        Log.d(TAG, "Auto selected first difficulty ID: " + selectedDifficultyId);
+        // Don't auto-select - user must choose
+        selectedDifficultyId = null;
+        Log.d(TAG, "No difficulty selected - user must choose");
     }
     
     private void showLoading(boolean show) {

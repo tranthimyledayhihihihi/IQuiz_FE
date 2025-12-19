@@ -3,6 +3,7 @@ package com.example.iq5;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -15,7 +16,7 @@ import com.example.iq5.feature.multiplayer.ui.FindMatchActivity;
 import com.example.iq5.feature.multiplayer.ui.LeaderboardActivity;
 import com.example.iq5.feature.quiz.ui.SelectCategoryActivity;
 import com.example.iq5.feature.quiz.ui.ReviewQuestionActivity;
-import com.example.iq5.utils.QuickApiTest;
+
 import com.example.iq5.core.navigation.NavigationHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -95,23 +96,18 @@ public class MainActivity extends AppCompatActivity {
 
         if (btnSpecialMode != null) {
             btnSpecialMode.setOnClickListener(v -> {
-                // Mở Test API Activity để debug
-                Intent intent = new Intent(this, com.example.iq5.debug.TestApiActivity.class);
-                startActivity(intent);
+                // Chuyển đến Special Mode (chức năng thật)
+                Toast.makeText(this, "Special Mode đang phát triển", Toast.LENGTH_SHORT).show();
             });
         }
         
-        // API Debug buttons
+        // Xóa các debug buttons - không cần thiết nữa
         if (btnApiTest != null) {
-            btnApiTest.setOnClickListener(v -> {
-                QuickApiTest.quickTest(this);
-            });
+            btnApiTest.setVisibility(View.GONE);
         }
         
         if (btnApiDebug != null) {
-            btnApiDebug.setOnClickListener(v -> {
-                QuickApiTest.openDebugActivity(this);
-            });
+            btnApiDebug.setVisibility(View.GONE);
         }
     }
 }

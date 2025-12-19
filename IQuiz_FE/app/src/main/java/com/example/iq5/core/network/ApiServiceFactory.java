@@ -16,6 +16,10 @@ public class ApiServiceFactory {
     private static DailyQuizApiService dailyQuizService;
     private static AchievementApiService achievementService;
     private static HistoryApiService historyService;
+    private static WrongQuestionApiService wrongQuestionService;
+    private static CustomQuizApiService customQuizService;
+    private static PvPApiService pvpService;
+    private static DailyRewardApiService dailyRewardService;
     
     public static AuthApiService getAuthService(PrefsManager prefsManager) {
         if (authService == null) {
@@ -73,6 +77,38 @@ public class ApiServiceFactory {
         return historyService;
     }
     
+    public static WrongQuestionApiService getWrongQuestionService(PrefsManager prefsManager) {
+        if (wrongQuestionService == null) {
+            Retrofit retrofit = ApiClient.getClient(prefsManager);
+            wrongQuestionService = ApiClient.createService(retrofit, WrongQuestionApiService.class);
+        }
+        return wrongQuestionService;
+    }
+    
+    public static CustomQuizApiService getCustomQuizService(PrefsManager prefsManager) {
+        if (customQuizService == null) {
+            Retrofit retrofit = ApiClient.getClient(prefsManager);
+            customQuizService = ApiClient.createService(retrofit, CustomQuizApiService.class);
+        }
+        return customQuizService;
+    }
+    
+    public static PvPApiService getPvPService(PrefsManager prefsManager) {
+        if (pvpService == null) {
+            Retrofit retrofit = ApiClient.getClient(prefsManager);
+            pvpService = ApiClient.createService(retrofit, PvPApiService.class);
+        }
+        return pvpService;
+    }
+    
+    public static DailyRewardApiService getDailyRewardService(PrefsManager prefsManager) {
+        if (dailyRewardService == null) {
+            Retrofit retrofit = ApiClient.getClient(prefsManager);
+            dailyRewardService = ApiClient.createService(retrofit, DailyRewardApiService.class);
+        }
+        return dailyRewardService;
+    }
+    
     /**
      * Reset tất cả services (dùng khi đăng xuất hoặc thay đổi token)
      */
@@ -84,5 +120,9 @@ public class ApiServiceFactory {
         dailyQuizService = null;
         achievementService = null;
         historyService = null;
+        wrongQuestionService = null;
+        customQuizService = null;
+        pvpService = null;
+        dailyRewardService = null;
     }
 }

@@ -29,6 +29,9 @@ public interface UserApiService {
     @GET("user/achievement/streak")
     Call<UserStreakResponse> getMyStreak();
     
+    @POST("user/profile/update-stats")
+    Call<ApiResponse> updateQuizStats(@Body QuizStatsUpdateModel stats);
+    
     // Model cho cài đặt người dùng
     public static class UserSettingsModel {
         private boolean amThanh;
@@ -157,5 +160,32 @@ public interface UserApiService {
         
         public String getNgonNgu() { return ngonNgu; }
         public void setNgonNgu(String ngonNgu) { this.ngonNgu = ngonNgu; }
+    }
+    
+    // Model cho việc cập nhật thống kê quiz
+    public static class QuizStatsUpdateModel {
+        private int correctAnswers;
+        private int totalQuestions;
+        private double score;
+        private String category;
+        
+        public QuizStatsUpdateModel(int correctAnswers, int totalQuestions, double score, String category) {
+            this.correctAnswers = correctAnswers;
+            this.totalQuestions = totalQuestions;
+            this.score = score;
+            this.category = category;
+        }
+        
+        public int getCorrectAnswers() { return correctAnswers; }
+        public void setCorrectAnswers(int correctAnswers) { this.correctAnswers = correctAnswers; }
+        
+        public int getTotalQuestions() { return totalQuestions; }
+        public void setTotalQuestions(int totalQuestions) { this.totalQuestions = totalQuestions; }
+        
+        public double getScore() { return score; }
+        public void setScore(double score) { this.score = score; }
+        
+        public String getCategory() { return category; }
+        public void setCategory(String category) { this.category = category; }
     }
 }

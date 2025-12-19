@@ -42,7 +42,7 @@ public interface QuizApiService {
     
     // NEW: Lấy câu hỏi theo category (không cần authentication)
     @GET("testquiz/questions/{categoryId}")
-    Call<TestQuizResponse> getQuestionsByCategory(@Path("categoryId") int categoryId);
+    Call<com.example.iq5.data.model.SimpleQuizResponse> getQuestionsByCategory(@Path("categoryId") int categoryId);
     
     // Response classes
     public static class GameStartResponse {

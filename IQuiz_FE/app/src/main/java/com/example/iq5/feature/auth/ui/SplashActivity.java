@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.iq5.R;
 import com.example.iq5.core.navigation.NavigationHelper;
-import com.example.iq5.utils.QuickApiTest;
+
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -30,9 +30,7 @@ public class SplashActivity extends AppCompatActivity {
      * Test API ngay khi khởi động để debug
      */
     private void testApiOnStartup() {
-        // Test API để debug
-        new Handler(getMainLooper()).postDelayed(() -> {
-            QuickApiTest.checkBackendStatus(this);
-        }, 500); // Delay 0.5s để UI load xong
+        // Test API đã được xóa - không cần thiết nữa
+        // App sẽ tự động kiểm tra kết nối khi cần
     }
 }

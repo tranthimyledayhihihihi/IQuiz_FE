@@ -2,6 +2,7 @@ package com.example.iq5.feature.quiz.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,6 +20,7 @@ import com.example.iq5.data.model.AnswerSubmit;
 import com.example.iq5.data.model.GameStartOptions;
 import com.example.iq5.data.model.Question;
 import com.example.iq5.data.repository.QuizApiRepository;
+import com.example.iq5.data.repository.UserProfileApiRepository;
 import com.example.iq5.feature.quiz.adapter.AnswerOptionAdapter;
 import com.example.iq5.feature.quiz.model.Option;
 
@@ -41,6 +43,7 @@ public class ApiQuizActivity extends AppCompatActivity {
     
     // Data & Logic
     private QuizApiRepository quizRepository;
+    private UserProfileApiRepository userProfileRepository;
     private Question currentQuestion;
     private List<Question> answeredQuestions = new ArrayList<>();
     private List<Question> preloadedQuestions = new ArrayList<>(); // Câu hỏi đã tải sẵn
@@ -82,6 +85,7 @@ public class ApiQuizActivity extends AppCompatActivity {
     
     private void initRepository() {
         quizRepository = new QuizApiRepository(this);
+        userProfileRepository = new UserProfileApiRepository(this);
     }
     
     /**
@@ -233,14 +237,58 @@ public class ApiQuizActivity extends AppCompatActivity {
         int correctAnswers = 0;
         int totalQuestions = answeredQuestions.size();
         
-        // Đếm số câu trả lời đúng
-        for (Question q : answeredQuestions) {
-            if (q.isAnsweredCorrectly()) {
+        Log.d(TAG, "🧮 CALCULATING QUIZ RESULTS:");
+        Log.d(TAG, "📊 Total questions answered: " + totalQuestions);
+        
+        // Đếm số câu trả lời đúng với debug logging
+        for (int i = 0; i < answeredQuestions.size(); i++) {
+            Question q = answeredQuestions.get(i);
+            boolean isCorrect = q.isAnsweredCorrectly();
+            
+            Log.d(TAG, "❓ Question " + (i+1) + ":");
+            Log.d(TAG, "   📝 Question: " + q.getQuestion_text());
+            Log.d(TAG, "   👤 User selected: '" + q.getUser_selected_answer_id() + "'");
+            Log.d(TAG, "   ✅ Correct answer: '" + q.getCorrect_answer() + "'");
+            Log.d(TAG, "   🎯 Is correct (stored): " + isCorrect);
+            
+            // Double check the comparison manually
+            String userAnswer = q.getUser_selected_answer_id();
+            String correctAnswer = q.getCorrect_answer();
+            boolean manualCheck = userAnswer != null && userAnswer.equals(correctAnswer);
+            Log.d(TAG, "   🔍 Manual check: " + manualCheck);
+            Log.d(TAG, "   📊 answeredQuestions size: " + answeredQuestions.size());
+            
+            if (isCorrect) {
                 correctAnswers++;
+                Log.d(TAG, "   ✅ Counting as correct! Total so far: " + correctAnswers);
+            } else {
+                Log.d(TAG, "   ❌ Counting as wrong!");
             }
         }
         
         double score = totalQuestions > 0 ? (double) correctAnswers / totalQuestions * 100 : 0;
+        
+        Log.d(TAG, "🏆 FINAL RESULTS:");
+        Log.d(TAG, "   ✅ Correct answers: " + correctAnswers);
+        Log.d(TAG, "   📊 Total questions: " + totalQuestions);
+        Log.d(TAG, "   💯 Score: " + score + "%");
+        
+        // Show debug toast with detailed info
+        String debugInfo = String.format(
+            "🧮 DEBUG RESULT:\n" +
+            "📊 Total questions: %d\n" +
+            "✅ Correct answers: %d\n" +
+            "💯 Score: %d%%\n" +
+            "📝 answeredQuestions.size(): %d",
+            totalQuestions, correctAnswers, (int)score, answeredQuestions.size()
+        );
+        
+        Toast.makeText(this, debugInfo, Toast.LENGTH_LONG).show();
+        
+        // Also show a simple debug toast
+        Toast.makeText(this, 
+            "🧮 SIMPLE: " + correctAnswers + "/" + totalQuestions + " = " + (int)score + "%", 
+            Toast.LENGTH_SHORT).show();
         
         // Tạo Bundle kết quả
         Bundle resultData = new Bundle();
@@ -248,6 +296,10 @@ public class ApiQuizActivity extends AppCompatActivity {
         resultData.putInt("total_questions", totalQuestions);
         resultData.putDouble("score", score);
         resultData.putString("category", currentQuestion != null ? currentQuestion.getCategory() : "Unknown");
+        
+        // Cập nhật thống kê user trước khi chuyển màn hình
+        updateUserStats(correctAnswers, totalQuestions, score, 
+                       currentQuestion != null ? currentQuestion.getCategory() : "Unknown");
         
         // Chuyển sang màn hình kết quả
         NavigationHelper.navigateToResult(this, resultData);
@@ -388,16 +440,51 @@ public class ApiQuizActivity extends AppCompatActivity {
             String selectedAnswer = option.getOption_id();
             currentQuestion.setUser_selected_answer_id(selectedAnswer);
             
+            // Debug logging for answer comparison
+            Log.d(TAG, "🎯 ANSWER SELECTION DEBUG:");
+            Log.d(TAG, "   📝 Question: " + currentQuestion.getQuestion_text());
+            Log.d(TAG, "   👤 User selected: '" + selectedAnswer + "'");
+            Log.d(TAG, "   ✅ Correct answer: '" + currentQuestion.getCorrect_answer() + "'");
+            Log.d(TAG, "   🔍 Comparison: '" + selectedAnswer + "'.equals('" + currentQuestion.getCorrect_answer() + "')");
+            
             // Check if answer is correct
             boolean isCorrect = selectedAnswer.equals(currentQuestion.getCorrect_answer());
+            Log.d(TAG, "   🎯 Result: " + isCorrect);
+            
             currentQuestion.setAnsweredCorrectly(isCorrect);
             
-            // Add to answered questions
-            answeredQuestions.add(currentQuestion);
+            // Create a copy of current question to preserve answer state
+            Question answeredQuestion = createQuestionCopy(currentQuestion);
+            answeredQuestion.setUser_selected_answer_id(selectedAnswer);
+            answeredQuestion.setAnsweredCorrectly(isCorrect);
             
-            // Show result
+            // Add to answered questions
+            answeredQuestions.add(answeredQuestion);
+            
+            Log.d(TAG, "📝 ADDED TO ANSWERED QUESTIONS:");
+            Log.d(TAG, "   📊 Total answered questions now: " + answeredQuestions.size());
+            Log.d(TAG, "   🎯 This question marked as: " + (isCorrect ? "CORRECT" : "WRONG"));
+            Log.d(TAG, "   💾 Stored user answer: '" + answeredQuestion.getUser_selected_answer_id() + "'");
+            Log.d(TAG, "   ✅ Stored correct answer: '" + answeredQuestion.getCorrect_answer() + "'");
+            Log.d(TAG, "   🏁 Stored isCorrect flag: " + answeredQuestion.isAnsweredCorrectly());
+            
+            // Show result with debug info
             String resultMsg = isCorrect ? "✅ ĐÚNG!" : "❌ SAI! Đáp án đúng: " + currentQuestion.getCorrect_answer();
             Toast.makeText(this, resultMsg, Toast.LENGTH_SHORT).show();
+            
+            // Show debug info about storage
+            String debugMsg = String.format(
+                "📊 DEBUG: Câu %d/%d - %s\n" +
+                "👤 Chọn: %s | ✅ Đúng: %s\n" +
+                "📝 Tổng đã trả lời: %d",
+                currentQuestionIndex + 1, 
+                preloadedQuestions.size(),
+                isCorrect ? "ĐÚNG" : "SAI",
+                selectedAnswer,
+                currentQuestion.getCorrect_answer(),
+                answeredQuestions.size()
+            );
+            Toast.makeText(this, debugMsg, Toast.LENGTH_LONG).show();
             
             // Auto move to next question after 1 second
             new android.os.Handler().postDelayed(() -> moveToNextQuestion(), 1000);
@@ -412,6 +499,24 @@ public class ApiQuizActivity extends AppCompatActivity {
         if (optionAdapter != null) {
             optionAdapter.notifyDataSetChanged();
         }
+    }
+    
+    /**
+     * Create a copy of question to preserve answer state
+     */
+    private Question createQuestionCopy(Question original) {
+        Question copy = new Question();
+        copy.setId(original.getId());
+        copy.setQuestion_text(original.getQuestion_text());
+        copy.setOption_a(original.getOption_a());
+        copy.setOption_b(original.getOption_b());
+        copy.setOption_c(original.getOption_c());
+        copy.setOption_d(original.getOption_d());
+        copy.setCorrect_answer(original.getCorrect_answer());
+        copy.setCategory(original.getCategory());
+        copy.setDifficulty(original.getDifficulty());
+        copy.createOptionsFromIndividual();
+        return copy;
     }
     
     /**
@@ -540,5 +645,33 @@ public class ApiQuizActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+    
+    /**
+     * Cập nhật thống kê user sau khi hoàn thành quiz
+     */
+    private void updateUserStats(int correctAnswers, int totalQuestions, double score, String category) {
+        Log.d(TAG, "📊 Updating user stats...");
+        
+        userProfileRepository.updateQuizStats(correctAnswers, totalQuestions, score, category, 
+            new UserProfileApiRepository.UpdateCallback() {
+                @Override
+                public void onSuccess(String message) {
+                    Log.d(TAG, "✅ User stats updated successfully: " + message);
+                    // Không cần làm gì thêm, chỉ log thành công
+                }
+                
+                @Override
+                public void onUnauthorized() {
+                    Log.e(TAG, "❌ Unauthorized when updating user stats");
+                    // Có thể redirect về login, nhưng không bắt buộc
+                }
+                
+                @Override
+                public void onError(String error) {
+                    Log.e(TAG, "❌ Error updating user stats: " + error);
+                    // Không hiển thị lỗi cho user vì không ảnh hưởng đến flow chính
+                }
+            });
     }
 }

@@ -133,6 +133,44 @@ public class UserProfileApiRepository {
     }
     
     /**
+     * Cập nhật thống kê quiz sau khi hoàn thành
+     */
+    public void updateQuizStats(int correctAnswers, int totalQuestions, double score, 
+                               String category, final UpdateCallback callback) {
+        Log.d(TAG, "📊 Đang gọi API Update Quiz Stats...");
+        Log.d(TAG, "   ✅ Correct: " + correctAnswers + "/" + totalQuestions);
+        Log.d(TAG, "   💯 Score: " + score + "%");
+        Log.d(TAG, "   📚 Category: " + category);
+        
+        UserApiService.QuizStatsUpdateModel stats = 
+            new UserApiService.QuizStatsUpdateModel(correctAnswers, totalQuestions, score, category);
+        
+        Call<ApiResponse> call = apiService.updateQuizStats(stats);
+        
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "✅ Update Quiz Stats thành công!");
+                    callback.onSuccess(response.body().getMessage());
+                } else if (response.code() == 401) {
+                    Log.e(TAG, "❌ Unauthorized - Token hết hạn");
+                    callback.onUnauthorized();
+                } else {
+                    Log.e(TAG, "❌ Update Quiz Stats lỗi: " + response.code());
+                    callback.onError("Không thể cập nhật thống kê. Mã lỗi: " + response.code());
+                }
+            }
+            
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.e(TAG, "❌ Update Quiz Stats thất bại: " + t.getMessage());
+                callback.onError("Không thể kết nối đến server: " + t.getMessage());
+            }
+        });
+    }
+    
+    /**
      * Đổi mật khẩu
      */
     public void changePassword(String currentPassword, String newPassword, final UpdateCallback callback) {

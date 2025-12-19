@@ -202,24 +202,41 @@ public class SelectCategoryActivity extends AppCompatActivity {
     private void startQuizWithCategory(int categoryId) {
         Log.d(TAG, "🚀 Starting quiz for category: " + categoryId);
         
-        quizService.getQuestionsByCategory(categoryId).enqueue(new Callback<QuizApiService.TestQuizResponse>() {
+        quizService.getQuestionsByCategory(categoryId).enqueue(new Callback<com.example.iq5.data.model.SimpleQuizResponse>() {
             @Override
-            public void onResponse(Call<QuizApiService.TestQuizResponse> call, Response<QuizApiService.TestQuizResponse> response) {
+            public void onResponse(Call<com.example.iq5.data.model.SimpleQuizResponse> call, Response<com.example.iq5.data.model.SimpleQuizResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    QuizApiService.TestQuizResponse result = response.body();
+                    com.example.iq5.data.model.SimpleQuizResponse result = response.body();
                     
-                    if (result.isSuccess() && result.getQuestions() != null && !result.getQuestions().isEmpty()) {
-                        Log.d(TAG, "✅ Got " + result.getQuestions().size() + " questions for category " + categoryId);
+                    if (result.success && result.data != null && !result.data.isEmpty()) {
+                        Log.d(TAG, "✅ Got " + result.data.size() + " questions for category " + categoryId);
+                        
+                        // Convert SimpleQuestionData to TestQuestionModel for compatibility
+                        List<QuizApiService.TestQuestionModel> questions = new ArrayList<>();
+                        for (com.example.iq5.data.model.SimpleQuizResponse.SimpleQuestionData data : result.data) {
+                            QuizApiService.TestQuestionModel question = new QuizApiService.TestQuestionModel();
+                            question.setId(data.id);
+                            question.setQuestion(data.question);
+                            question.setOptionA(data.option_a);
+                            question.setOptionB(data.option_b);
+                            question.setOptionC(data.option_c);
+                            question.setOptionD(data.option_d);
+                            question.setCorrectAnswer(data.correct_answer);
+                            question.setCategoryId(data.category_id);
+                            question.setDifficulty("Normal");
+                            question.setCategoryName("Category " + data.category_id);
+                            questions.add(question);
+                        }
                         
                         // Chuyển sang ApiQuizActivity với danh sách câu hỏi
                         NavigationHelper.navigateToApiQuizWithQuestions(
                             SelectCategoryActivity.this, 
-                            result.getQuestions(),
-                            result.getQuestions().get(0).getCategoryName()
+                            questions,
+                            "Category " + categoryId
                         );
                         
                         Toast.makeText(SelectCategoryActivity.this, 
-                            "✅ Bắt đầu quiz với " + result.getQuestions().size() + " câu hỏi!", 
+                            "✅ Bắt đầu quiz với " + questions.size() + " câu hỏi!", 
                             Toast.LENGTH_SHORT).show();
                             
                     } else {
@@ -237,7 +254,7 @@ public class SelectCategoryActivity extends AppCompatActivity {
             }
             
             @Override
-            public void onFailure(Call<QuizApiService.TestQuizResponse> call, Throwable t) {
+            public void onFailure(Call<com.example.iq5.data.model.SimpleQuizResponse> call, Throwable t) {
                 Log.e(TAG, "❌ Network error getting questions: " + t.getMessage());
                 Toast.makeText(SelectCategoryActivity.this, 
                     "❌ Lỗi kết nối khi tải câu hỏi: " + t.getMessage(), 
