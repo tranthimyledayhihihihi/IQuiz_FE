@@ -8,7 +8,7 @@ public interface AchievementApiService {
     
     // Lấy thành tựu của tôi
     @GET("user/achievement/me")
-    Call<java.util.List<Achievement>> getMyAchievements();
+    Call<AchievementResponse> getMyAchievements();
     
     // Lấy chuỗi ngày chơi
     @GET("user/achievement/streak")
@@ -20,11 +20,18 @@ public interface AchievementApiService {
     
     // Model classes
     public static class Achievement {
+        private int id;
         private int thanhTuuID;
         private String tenThanhTuu;
         private String moTa;
         private String icon;
         private String ngayDat;
+        private boolean isUnlocked;
+        private int progress;
+        private String requirement;
+        
+        public int getId() { return id; }
+        public void setId(int id) { this.id = id; }
         
         public int getThanhTuuID() { return thanhTuuID; }
         public void setThanhTuuID(int thanhTuuID) { this.thanhTuuID = thanhTuuID; }
@@ -40,6 +47,34 @@ public interface AchievementApiService {
         
         public String getNgayDat() { return ngayDat; }
         public void setNgayDat(String ngayDat) { this.ngayDat = ngayDat; }
+        
+        public boolean isUnlocked() { return isUnlocked; }
+        public void setUnlocked(boolean unlocked) { isUnlocked = unlocked; }
+        
+        public int getProgress() { return progress; }
+        public void setProgress(int progress) { this.progress = progress; }
+        
+        public String getRequirement() { return requirement; }
+        public void setRequirement(String requirement) { this.requirement = requirement; }
+    }
+    
+    public static class AchievementResponse {
+        private boolean success;
+        private int totalAchievements;
+        private int unlockedCount;
+        private java.util.List<Achievement> achievements;
+        
+        public boolean isSuccess() { return success; }
+        public void setSuccess(boolean success) { this.success = success; }
+        
+        public int getTotalAchievements() { return totalAchievements; }
+        public void setTotalAchievements(int totalAchievements) { this.totalAchievements = totalAchievements; }
+        
+        public int getUnlockedCount() { return unlockedCount; }
+        public void setUnlockedCount(int unlockedCount) { this.unlockedCount = unlockedCount; }
+        
+        public java.util.List<Achievement> getAchievements() { return achievements; }
+        public void setAchievements(java.util.List<Achievement> achievements) { this.achievements = achievements; }
     }
     
     public static class StreakResponse {

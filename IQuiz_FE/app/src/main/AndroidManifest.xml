@@ -126,6 +126,11 @@
             android:name=".debug.SimpleTestActivity"
             android:exported="false"
             android:label="Simple Test" />
+            
+        <activity
+            android:name=".debug.DebugAchievementActivity"
+            android:exported="false"
+            android:label="Debug Achievement API" />
 
     </application>
 

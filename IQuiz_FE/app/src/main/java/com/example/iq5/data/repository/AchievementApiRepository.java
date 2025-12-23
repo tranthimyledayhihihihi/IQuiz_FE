@@ -36,15 +36,24 @@ public class AchievementApiRepository {
     public void getMyAchievements(final AchievementsCallback callback) {
         Log.d(TAG, "🏆 Đang gọi API Get My Achievements...");
         
-        Call<List<AchievementApiService.Achievement>> call = apiService.getMyAchievements();
+        Call<AchievementApiService.AchievementResponse> call = apiService.getMyAchievements();
         
-        call.enqueue(new Callback<List<AchievementApiService.Achievement>>() {
+        call.enqueue(new Callback<AchievementApiService.AchievementResponse>() {
             @Override
-            public void onResponse(Call<List<AchievementApiService.Achievement>> call, 
-                                 Response<List<AchievementApiService.Achievement>> response) {
+            public void onResponse(Call<AchievementApiService.AchievementResponse> call, 
+                                 Response<AchievementApiService.AchievementResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.d(TAG, "✅ Get My Achievements thành công! Số thành tựu: " + response.body().size());
-                    callback.onSuccess(response.body());
+                    AchievementApiService.AchievementResponse achievementResponse = response.body();
+                    List<AchievementApiService.Achievement> achievements = achievementResponse.getAchievements();
+                    
+                    Log.d(TAG, "✅ Get My Achievements thành công! Số thành tựu: " + 
+                        (achievements != null ? achievements.size() : 0));
+                    
+                    if (achievements != null) {
+                        callback.onSuccess(achievements);
+                    } else {
+                        callback.onError("Không có dữ liệu thành tựu");
+                    }
                 } else if (response.code() == 401) {
                     Log.e(TAG, "❌ Unauthorized - Token hết hạn");
                     callback.onUnauthorized();
@@ -55,7 +64,7 @@ public class AchievementApiRepository {
             }
             
             @Override
-            public void onFailure(Call<List<AchievementApiService.Achievement>> call, Throwable t) {
+            public void onFailure(Call<AchievementApiService.AchievementResponse> call, Throwable t) {
                 Log.e(TAG, "❌ Get My Achievements thất bại: " + t.getMessage());
                 callback.onError("Không thể kết nối đến server: " + t.getMessage());
             }

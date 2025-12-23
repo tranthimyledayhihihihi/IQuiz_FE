@@ -156,10 +156,45 @@ public class ApiProfileActivity extends AppCompatActivity {
             imgAvatar.setImageResource(R.drawable.ic_avatar_default);
         }
         
-        // TODO: Stats sẽ được thêm khi backend có API
-        tvQuizTaken.setText("Đang cập nhật...");
-        tvAvgScore.setText("Đang cập nhật...");
-        tvRank.setText("Đang cập nhật...");
+        // Stats từ API
+        if (profile.getThongKe() != null) {
+            UserProfileModel.ThongKeModel thongKe = profile.getThongKe();
+            
+            // Hiển thị số bài quiz đã hoàn thành
+            tvQuizTaken.setText(String.valueOf(thongKe.getSoBaiQuizHoanThanh()));
+            
+            // Hiển thị điểm trung bình
+            tvAvgScore.setText(String.format("%.1f", thongKe.getDiemTrungBinh()));
+            
+            // Hiển thị rank dựa trên điểm trung bình
+            String rank = getRankFromScore(thongKe.getDiemTrungBinh());
+            tvRank.setText(rank);
+            
+            // Debug toast để kiểm tra
+            Toast.makeText(this, 
+                String.format("📊 Stats: %d bài, %.1f điểm, %.1f%% đúng", 
+                    thongKe.getSoBaiQuizHoanThanh(),
+                    thongKe.getDiemTrungBinh(),
+                    thongKe.getTyLeDung()), 
+                Toast.LENGTH_LONG).show();
+        } else {
+            // Fallback nếu không có thống kê
+            tvQuizTaken.setText("0");
+            tvAvgScore.setText("0.0");
+            tvRank.setText("Chưa có dữ liệu");
+        }
+    }
+    
+    /**
+     * Xác định rank dựa trên điểm trung bình
+     */
+    private String getRankFromScore(double avgScore) {
+        if (avgScore >= 90) return "🏆 Xuất sắc";
+        else if (avgScore >= 80) return "🥇 Giỏi";
+        else if (avgScore >= 70) return "🥈 Khá";
+        else if (avgScore >= 60) return "🥉 Trung bình";
+        else if (avgScore > 0) return "📚 Cần cố gắng";
+        else return "🆕 Người mới";
     }
     
     /**

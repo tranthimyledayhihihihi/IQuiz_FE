@@ -35,6 +35,9 @@ public class UserProfileModel {
     @SerializedName("caiDat")
     private CaiDatModel caiDat;
     
+    @SerializedName("thongKe")
+    private ThongKeModel thongKe;
+    
     // Nested CaiDat class
     public static class CaiDatModel {
         @SerializedName("amThanh")
@@ -61,6 +64,40 @@ public class UserProfileModel {
         
         public String getNgonNgu() { return ngonNgu; }
         public void setNgonNgu(String ngonNgu) { this.ngonNgu = ngonNgu; }
+    }
+    
+    // Nested ThongKe class
+    public static class ThongKeModel {
+        @SerializedName("soBaiQuizHoanThanh")
+        private int soBaiQuizHoanThanh;
+        
+        @SerializedName("diemTrungBinh")
+        private double diemTrungBinh;
+        
+        @SerializedName("tongSoCauDung")
+        private int tongSoCauDung;
+        
+        @SerializedName("tongSoCauHoi")
+        private int tongSoCauHoi;
+        
+        @SerializedName("tyLeDung")
+        private double tyLeDung;
+        
+        // Getters & Setters
+        public int getSoBaiQuizHoanThanh() { return soBaiQuizHoanThanh; }
+        public void setSoBaiQuizHoanThanh(int soBaiQuizHoanThanh) { this.soBaiQuizHoanThanh = soBaiQuizHoanThanh; }
+        
+        public double getDiemTrungBinh() { return diemTrungBinh; }
+        public void setDiemTrungBinh(double diemTrungBinh) { this.diemTrungBinh = diemTrungBinh; }
+        
+        public int getTongSoCauDung() { return tongSoCauDung; }
+        public void setTongSoCauDung(int tongSoCauDung) { this.tongSoCauDung = tongSoCauDung; }
+        
+        public int getTongSoCauHoi() { return tongSoCauHoi; }
+        public void setTongSoCauHoi(int tongSoCauHoi) { this.tongSoCauHoi = tongSoCauHoi; }
+        
+        public double getTyLeDung() { return tyLeDung; }
+        public void setTyLeDung(double tyLeDung) { this.tyLeDung = tyLeDung; }
     }
 
     // Constructors
@@ -137,5 +174,13 @@ public class UserProfileModel {
 
     public void setCaiDat(CaiDatModel caiDat) {
         this.caiDat = caiDat;
+    }
+    
+    public ThongKeModel getThongKe() {
+        return thongKe;
+    }
+
+    public void setThongKe(ThongKeModel thongKe) {
+        this.thongKe = thongKe;
     }
 }

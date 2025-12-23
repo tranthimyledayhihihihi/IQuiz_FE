@@ -23,6 +23,7 @@ import com.example.iq5.data.repository.QuizApiRepository;
 import com.example.iq5.data.repository.UserProfileApiRepository;
 import com.example.iq5.feature.quiz.adapter.AnswerOptionAdapter;
 import com.example.iq5.feature.quiz.model.Option;
+import com.example.iq5.core.network.QuizResultApiService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -265,7 +266,6 @@ public class ApiQuizActivity extends AppCompatActivity {
                 Log.d(TAG, "   ❌ Counting as wrong!");
             }
         }
-        
         double score = totalQuestions > 0 ? (double) correctAnswers / totalQuestions * 100 : 0;
         
         Log.d(TAG, "🏆 FINAL RESULTS:");
@@ -653,6 +653,10 @@ public class ApiQuizActivity extends AppCompatActivity {
     private void updateUserStats(int correctAnswers, int totalQuestions, double score, String category) {
         Log.d(TAG, "📊 Updating user stats...");
         
+        // Gọi API submit quiz result mới để tự động cập nhật thành tựu
+        submitQuizResult(correctAnswers, totalQuestions, category);
+        
+        // Vẫn giữ logic cũ để backup
         userProfileRepository.updateQuizStats(correctAnswers, totalQuestions, score, category, 
             new UserProfileApiRepository.UpdateCallback() {
                 @Override
@@ -673,5 +677,53 @@ public class ApiQuizActivity extends AppCompatActivity {
                     // Không hiển thị lỗi cho user vì không ảnh hưởng đến flow chính
                 }
             });
+    }
+    
+    /**
+     * Submit quiz result để tự động cập nhật thành tựu
+     */
+    private void submitQuizResult(int correctAnswers, int totalQuestions, String category) {
+        Log.d(TAG, "🎯 Submitting quiz result for achievements...");
+        
+        try {
+            // Tạo request
+            QuizResultApiService.SubmitQuizResultRequest request = 
+                new QuizResultApiService.SubmitQuizResultRequest(
+                    totalQuestions, correctAnswers, 1, 1);
+            
+            // Tạo service
+            com.example.iq5.core.prefs.PrefsManager prefsManager = new com.example.iq5.core.prefs.PrefsManager(this);
+            retrofit2.Retrofit retrofit = com.example.iq5.core.network.ApiClient.getClient(prefsManager);
+            QuizResultApiService service = retrofit.create(QuizResultApiService.class);
+            
+            // Gọi API
+            retrofit2.Call<QuizResultApiService.QuizResultResponse> call = service.submitResult(request);
+            
+            call.enqueue(new retrofit2.Callback<QuizResultApiService.QuizResultResponse>() {
+                @Override
+                public void onResponse(retrofit2.Call<QuizResultApiService.QuizResultResponse> call, 
+                                     retrofit2.Response<QuizResultApiService.QuizResultResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        Log.d(TAG, "✅ Quiz result submitted successfully - achievements may be updated!");
+                        
+                        // Hiển thị thông báo thành tựu mới nếu có
+                        runOnUiThread(() -> {
+                            Toast.makeText(ApiQuizActivity.this, 
+                                "🏆 Kết quả đã được lưu! Kiểm tra thành tựu mới.", 
+                                Toast.LENGTH_SHORT).show();
+                        });
+                    } else {
+                        Log.w(TAG, "⚠️ Quiz result submit failed: " + response.code());
+                    }
+                }
+                
+                @Override
+                public void onFailure(retrofit2.Call<QuizResultApiService.QuizResultResponse> call, Throwable t) {
+                    Log.e(TAG, "❌ Quiz result submit error: " + t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+            Log.e(TAG, "❌ Error creating quiz result request: " + e.getMessage());
+        }
     }
 }
