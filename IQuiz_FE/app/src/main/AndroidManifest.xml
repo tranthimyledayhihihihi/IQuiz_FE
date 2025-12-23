@@ -131,6 +131,11 @@
             android:name=".debug.DebugAchievementActivity"
             android:exported="false"
             android:label="Debug Achievement API" />
+            
+        <activity
+            android:name=".debug.NetworkTestActivity"
+            android:exported="false"
+            android:label="Network Test" />
 
     </application>
 

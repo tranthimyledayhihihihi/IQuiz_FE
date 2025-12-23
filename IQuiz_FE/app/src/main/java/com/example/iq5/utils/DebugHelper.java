@@ -25,8 +25,17 @@ public class DebugHelper {
     }
     
     /**
-     * Show debug toast with token info
+     * Open Network Test Activity
      */
+    public static void openNetworkTest(Context context) {
+        try {
+            Intent intent = new Intent(context, com.example.iq5.debug.NetworkTestActivity.class);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(context, "❌ Cannot open network test: " + e.getMessage(), 
+                Toast.LENGTH_LONG).show();
+        }
+    }
     public static void showTokenDebug(Context context) {
         com.example.iq5.core.prefs.PrefsManager prefsManager = 
             new com.example.iq5.core.prefs.PrefsManager(context);

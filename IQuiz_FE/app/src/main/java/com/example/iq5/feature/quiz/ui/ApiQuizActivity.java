@@ -653,30 +653,60 @@ public class ApiQuizActivity extends AppCompatActivity {
     private void updateUserStats(int correctAnswers, int totalQuestions, double score, String category) {
         Log.d(TAG, "📊 Updating user stats...");
         
-        // Gọi API submit quiz result mới để tự động cập nhật thành tựu
+        // 1. Update local stats in SharedPreferences (real-time achievements)
+        updateLocalStats(correctAnswers, totalQuestions, (int) score);
+        
+        // 2. Gọi API submit quiz result mới để tự động cập nhật thành tựu
         submitQuizResult(correctAnswers, totalQuestions, category);
         
-        // Vẫn giữ logic cũ để backup
+        // 3. Vẫn giữ logic cũ để backup
         userProfileRepository.updateQuizStats(correctAnswers, totalQuestions, score, category, 
             new UserProfileApiRepository.UpdateCallback() {
                 @Override
                 public void onSuccess(String message) {
                     Log.d(TAG, "✅ User stats updated successfully: " + message);
-                    // Không cần làm gì thêm, chỉ log thành công
                 }
                 
                 @Override
                 public void onUnauthorized() {
                     Log.e(TAG, "❌ Unauthorized when updating user stats");
-                    // Có thể redirect về login, nhưng không bắt buộc
                 }
                 
                 @Override
                 public void onError(String error) {
                     Log.e(TAG, "❌ Error updating user stats: " + error);
-                    // Không hiển thị lỗi cho user vì không ảnh hưởng đến flow chính
                 }
             });
+    }
+    
+    /**
+     * Update local stats for real-time achievements
+     */
+    private void updateLocalStats(int correctAnswers, int totalQuestions, int score) {
+        android.content.SharedPreferences prefs = getSharedPreferences("quiz_stats", MODE_PRIVATE);
+        android.content.SharedPreferences.Editor editor = prefs.edit();
+        
+        // Update counters
+        int currentQuizzes = prefs.getInt("total_quizzes", 0);
+        int currentCorrect = prefs.getInt("total_correct", 0);
+        int currentTotalScore = prefs.getInt("total_score", 0);
+        int currentPerfectScores = prefs.getInt("perfect_scores", 0);
+        
+        editor.putInt("total_quizzes", currentQuizzes + 1);
+        editor.putInt("total_correct", currentCorrect + correctAnswers);
+        editor.putInt("total_score", currentTotalScore + score);
+        editor.putLong("last_play_date", System.currentTimeMillis());
+        
+        // Check for perfect score
+        if (score >= 100) {
+            editor.putInt("perfect_scores", currentPerfectScores + 1);
+            Log.d(TAG, "🎉 Perfect score achieved! Total: " + (currentPerfectScores + 1));
+        }
+        
+        editor.apply();
+        
+        Log.d(TAG, String.format("✅ Local stats updated - Total quizzes: %d, Perfect scores: %d", 
+            currentQuizzes + 1, score >= 100 ? currentPerfectScores + 1 : currentPerfectScores));
     }
     
     /**
