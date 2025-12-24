@@ -58,16 +58,16 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void loadHomeData() {
-        // ✅ GỌI API THAY VÌ ĐỌC JSON
         authRepository.getHomeDataAsync(new AuthRepository.HomeDataCallback() {
             @Override
             public void onSuccess(HomeResponse data) {
-                // Cập nhật UI trên main thread
                 runOnUiThread(() -> {
                     homeData = data;
-                    
+
                     if (homeData == null) {
-                        Toast.makeText(HomeActivity.this, "Không tải được dữ liệu trang chủ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomeActivity.this,
+                                "Không tải được dữ liệu trang chủ",
+                                Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -77,17 +77,30 @@ public class HomeActivity extends AppCompatActivity {
                                 : getString(R.string.app_name));
                     }
 
-                    if (rvQuizzes != null && homeData.featuredQuizzes != null && !homeData.featuredQuizzes.isEmpty()) {
-                        QuizAdapter adapter = new QuizAdapter(homeData.featuredQuizzes);
-                        rvQuizzes.setAdapter(adapter);
-                        Toast.makeText(HomeActivity.this, "✅ Đã tải từ API!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(HomeActivity.this, "Chưa có quiz nổi bật để hiển thị", Toast.LENGTH_SHORT).show();
+                    if (rvQuizzes != null
+                            && homeData.featuredQuizzes != null
+                            && !homeData.featuredQuizzes.isEmpty()) {
+
+                        rvQuizzes.setAdapter(new QuizAdapter(homeData.featuredQuizzes));
                     }
+                });
+            }
+
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    Toast.makeText(
+                            HomeActivity.this,
+                            "⚠️ Không tải được Home API: " + error,
+                            Toast.LENGTH_LONG
+                    ).show();
+
+                    // ❌ TUYỆT ĐỐI KHÔNG finish()
+                    // ❌ TUYỆT ĐỐI KHÔNG logout()
                 });
             }
         });
     }
+
 
     private void setupNavigation() {
         // NÚT BOTTOM NAV (BTNHOME, BTNLIBRARY, BTNJOIN, BTNCREATE, BTNPROFILE)

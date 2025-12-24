@@ -274,4 +274,18 @@ public interface ApiService {
         @Path("quizId") int quizId,
         @Header("Authorization") String token
     );
+
+    // ============================================
+    // DAILY STREAK
+    // ============================================
+        @GET("api/user/achievement/streak")
+        Call<StreakResponse> getDailyStreak(
+                @Header("Authorization") String token
+        );
+
+    // DAILY REWARD
+    @GET("api/user/daily-reward")
+    Call<DailyRewardResponse> getDailyRewards(
+            @Header("Authorization") String token
+    );
 }

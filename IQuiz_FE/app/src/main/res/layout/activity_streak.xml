@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_gray_bg_secondary">
 
+    <!-- ================= TOOLBAR ================= -->
     <LinearLayout
         android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
@@ -24,7 +25,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_back"
             app:tint="@color/color_black"
-            android:contentDescription="Back Button"/>
+            android:contentDescription="Back"/>
 
         <TextView
             android:id="@+id/tv_title_streak"
@@ -36,9 +37,9 @@
             android:textStyle="bold"
             android:textColor="@color/color_black"
             android:gravity="center"/>
-
     </LinearLayout>
 
+    <!-- ================= CONTENT ================= -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -52,8 +53,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- ===== CURRENT STREAK ===== -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_current_streak"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -73,41 +74,33 @@
                         android:layout_height="wrap_content"
                         android:text="🔥 Chuỗi ngày hiện tại"
                         android:textSize="18sp"
-                        android:textColor="@color/color_black"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:textColor="@color/color_black"/>
 
                     <TextView
                         android:id="@+id/tv_current_days"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        tools:text="30 NGÀY"
+                        tools:text="0 NGÀY"
                         android:textSize="50sp"
                         android:textStyle="bold"
                         android:textColor="@color/color_streak_fire"/>
+
+                    <!-- ✅ MESSAGE TỪ BE -->
+                    <TextView
+                        android:id="@+id/tv_streak_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        tools:text="Bắt đầu chuỗi ngày chơi của bạn!"
+                        android:textSize="16sp"
+                        android:textColor="@color/color_black"
+                        android:gravity="center"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/tv_history_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Lịch sử các mốc Streak"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="@color/color_black"
-                />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_streak_history"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:nestedScrollingEnabled="false"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_streak_day"/>
-
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

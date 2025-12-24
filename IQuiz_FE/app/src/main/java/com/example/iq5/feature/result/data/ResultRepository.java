@@ -1,279 +1,281 @@
 package com.example.iq5.feature.result.data;
 
 import android.content.Context;
-import com.example.iq5.feature.result.model.Achievement;
-import com.example.iq5.feature.result.model.UserStats;
-import com.example.iq5.feature.result.model.StreakDay;
-import com.example.iq5.feature.result.model.DailyReward;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import android.util.Log;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.util.Collections;
+import com.example.iq5.data.api.RetrofitClient;
+import com.example.iq5.data.model.StreakResponse;
+import com.example.iq5.data.model.StreakDayDto;
+import com.example.iq5.data.model.DailyRewardResponse;
+import com.example.iq5.feature.result.model.Achievement;
+import com.example.iq5.feature.result.model.DailyReward;
+import com.example.iq5.feature.result.model.StreakDay;
+import com.example.iq5.feature.result.model.UserStats;
+
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Repository quản lý dữ liệu cho hệ thống Result (Thành tích, Thống kê, Streak, Thưởng).
- * Tải dữ liệu từ các file JSON trong thư mục assets/result_data/
- */
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ResultRepository {
 
     private final Context context;
-    private final Gson gson;
-
-    // Đường dẫn gốc cho các file JSON của hệ thống Result
-    private static final String ASSETS_PATH = "Result/";
 
     public ResultRepository(Context context) {
-        this.context = context.getApplicationContext();
-        this.gson = new Gson();
+        this.context = context;
     }
 
-    // =============================================
-    // HELPER METHOD: Load JSON từ Assets
-    // =============================================
+    // ================= STREAK =================
 
-    /**
-     * Đọc nội dung file JSON từ thư mục assets.
-     *
-     * @param path Đường dẫn tương đối từ thư mục assets (VD: "result_data/achievements.json")
-     * @return Chuỗi JSON hoặc null nếu có lỗi
-     */
-    private String loadJsonFromAssets(String path) {
-        InputStream inputStream = null;
-        try {
-            inputStream = context.getAssets().open(path);
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-
-            // Đọc toàn bộ dữ liệu vào buffer
-            int bytesRead = inputStream.read(buffer);
-            if (bytesRead == -1) {
-                return null;
-            }
-
-            return new String(buffer, "UTF-8");
-
-        } catch (IOException e) {
-            // Log lỗi để debug
-            e.printStackTrace();
-            return null;
-        } finally {
-            // Đảm bảo đóng InputStream
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+    public interface StreakCallback {
+        void onSuccess(int currentStreak, String message);
+        void onError(String error);
     }
 
-    // =============================================
-    // 1. DỮ LIỆU THÀNH TỰU (AchievementActivity)
-    // =============================================
+    public void getDailyStreak(StreakCallback callback) {
 
-    /**
-     * Tải danh sách các thành tựu (Achievement) từ JSON.
-     *
-     * @return List<Achievement> hoặc danh sách rỗng nếu có lỗi
-     */
-    public List<Achievement> getAchievements() {
-        Type listType = new TypeToken<List<Achievement>>() {}.getType();
-        String json = loadJsonFromAssets(ASSETS_PATH + "achievements.json");
+        String rawToken = context
+                .getSharedPreferences("auth", Context.MODE_PRIVATE)
+                .getString("jwt_token", null);
 
-        if (json != null && !json.isEmpty()) {
-            try {
-                return gson.fromJson(json, listType);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return Collections.emptyList();
-    }
+        Log.d("AUTH_CHECK", "JWT = " + rawToken);
 
-    /**
-     * Lấy số lượng thành tựu đã mở khóa.
-     *
-     * @return Số thành tựu đã unlock
-     */
-    public int getUnlockedAchievementsCount() {
-        List<Achievement> achievements = getAchievements();
-        int count = 0;
-        for (Achievement achievement : achievements) {
-            if (achievement.isUnlocked()) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    /**
-     * Lấy tổng số thành tựu.
-     *
-     * @return Tổng số thành tựu
-     */
-    public int getTotalAchievementsCount() {
-        return getAchievements().size();
-    }
-
-    // =============================================
-    // 2. DỮ LIỆU LỊCH SỬ CHUỖI NGÀY (StreakActivity)
-    // =============================================
-
-    /**
-     * Tải lịch sử streak chi tiết (StreakDay) từ JSON.
-     *
-     * @return List<StreakDay> hoặc danh sách rỗng nếu có lỗi
-     */
-    public List<StreakDay> getStreakHistory() {
-        Type listType = new TypeToken<List<StreakDay>>() {}.getType();
-        String json = loadJsonFromAssets(ASSETS_PATH + "streak_history.json");
-
-        if (json != null && !json.isEmpty()) {
-            try {
-                return gson.fromJson(json, listType);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return Collections.emptyList();
-    }
-
-    /**
-     * Lấy số ngày streak hiện tại (ngày cao nhất đã completed).
-     *
-     * @return Số ngày streak hiện tại
-     */
-    public int getCurrentStreakDays() {
-        List<StreakDay> history = getStreakHistory();
-        if (history.isEmpty()) {
-            return 0;
+        if (rawToken == null || rawToken.isEmpty()) {
+            callback.onError("Chưa đăng nhập");
+            return;
         }
 
-        // Giả định danh sách đã sắp xếp theo dayNumber giảm dần
-        for (StreakDay day : history) {
-            if (day.isCompleted()) {
-                return day.getDayNumber();
-            }
-        }
-        return 0;
-    }
+        RetrofitClient.getApiService()
+                .getDailyStreak("Bearer " + rawToken)
+                .enqueue(new Callback<StreakResponse>() {
 
-    // =============================================
-    // 3. DỮ LIỆU MỐC THỐNG KÊ (StatsActivity)
-    // =============================================
+                    @Override
+                    public void onResponse(
+                            Call<StreakResponse> call,
+                            Response<StreakResponse> response
+                    ) {
+                        if (!response.isSuccessful() || response.body() == null) {
+                            callback.onError("Lỗi API streak");
+                            return;
+                        }
 
-    /**
-     * Tải các mốc thống kê (UserStats) từ JSON.
-     *
-     * @return List<UserStats> hoặc danh sách rỗng nếu có lỗi
-     */
-    public List<UserStats> getStatsMilestones() {
-        Type listType = new TypeToken<List<UserStats>>() {}.getType();
-        String json = loadJsonFromAssets(ASSETS_PATH + "stats_milestones.json");
+                        StreakResponse body = response.body();
 
-        if (json != null && !json.isEmpty()) {
-            try {
-                return gson.fromJson(json, listType);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return Collections.emptyList();
-    }
-
-    // =============================================
-    // 4. DỮ LIỆU THƯỞNG NGÀY (DailyRewardActivity)
-    // =============================================
-
-    /**
-     * Tải danh sách phần thưởng hàng ngày (DailyReward) từ JSON.
-     *
-     * @return List<DailyReward> hoặc danh sách rỗng nếu có lỗi
-     */
-    public List<DailyReward> getDailyRewards() {
-        Type listType = new TypeToken<List<DailyReward>>() {}.getType();
-        String json = loadJsonFromAssets(ASSETS_PATH + "daily_rewards.json");
-
-        if (json != null && !json.isEmpty()) {
-            try {
-                List<DailyReward> rewards = gson.fromJson(json, listType);
-
-                // Gán isToday cho reward đầu tiên chưa claimed
-                boolean todayAssigned = false;
-                for (DailyReward r : rewards) {
-                    if (!r.isClaimed() && !todayAssigned) {
-                        r.setToday(true);
-                        todayAssigned = true;
-                    } else {
-                        r.setToday(false);
+                        callback.onSuccess(
+                                body.getSoNgayLienTiep(),
+                                body.getMessage()
+                        );
                     }
-                }
 
-                return rewards;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return Collections.emptyList();
+                    @Override
+                    public void onFailure(Call<StreakResponse> call, Throwable t) {
+                        callback.onError(t.getMessage());
+                    }
+                });
     }
 
-    /**
-     * Lấy phần thưởng của ngày hiện tại (ngày chưa claimed đầu tiên).
-     *
-     * @return DailyReward của ngày hôm nay hoặc null
-     */
-    public DailyReward getTodayReward() {
-        List<DailyReward> rewards = getDailyRewards();
-        for (DailyReward reward : rewards) {
-            if (!reward.isClaimed()) {
-                return reward;
-            }
-        }
-        return null;
+
+
+    // ================= DAILY REWARD =================
+
+    public interface DailyRewardCallback {
+        void onSuccess(List<DailyReward> rewards, boolean canClaimToday);
+        void onError(String error);
     }
 
-    /**
-     * Lấy ngày streak hiện tại (số ngày đã claimed liên tục).
-     *
-     * @return Số ngày đã claimed
-     */
-    public int getCurrentRewardStreak() {
-        List<DailyReward> rewards = getDailyRewards();
-        int streak = 0;
-        for (DailyReward reward : rewards) {
-            if (reward.isClaimed()) {
-                streak++;
-            } else {
-                break; // Dừng khi gặp ngày chưa claimed
-            }
-        }
-        return streak;
+    public void getDailyRewards(DailyRewardCallback callback) {
+        String token = "Bearer " + context
+                .getSharedPreferences("auth", Context.MODE_PRIVATE)
+                .getString("jwt_token", "");
+
+        RetrofitClient.getApiService()
+                .getDailyRewards(token)
+                .enqueue(new Callback<DailyRewardResponse>() {
+                    @Override
+                    public void onResponse(
+                            Call<DailyRewardResponse> call,
+                            Response<DailyRewardResponse> response
+                    ) {
+                        if (!response.isSuccessful() || response.body() == null) {
+                            callback.onError("Lỗi API");
+                            return;
+                        }
+
+                        DailyRewardResponse body = response.body();
+
+                        if (!body.success || body.data == null) {
+                            callback.onError(body.message != null
+                                    ? body.message
+                                    : "Không có dữ liệu");
+                            return;
+                        }
+
+                        // ✅ Convert BE model → UI model (ĐÚNG VỚI DailyReward)
+                        List<DailyReward> rewards = new ArrayList<>();
+
+                        int dayIndex = 1;
+
+                        for (DailyRewardResponse.DailyRewardData item : body.data) {
+                            DailyReward reward = new DailyReward();
+
+                            reward.setDayNumber(dayIndex++);   // Ngày 1,2,3,...
+                            reward.setReward(item.GiaTri);     // Điểm thưởng
+                            reward.setClaimed(body.claimed);   // Đã nhận hôm nay hay chưa
+
+                            // 🔥 đánh dấu ngày hôm nay (cho UI)
+                            reward.setToday(!body.claimed);
+
+                            rewards.add(reward);
+                        }
+
+
+                        // 👉 canClaimToday = chưa claim
+                        boolean canClaimToday = !body.claimed;
+
+                        callback.onSuccess(rewards, canClaimToday);
+                    }
+
+                    @Override
+                    public void onFailure(Call<DailyRewardResponse> call, Throwable t) {
+                        callback.onError(t.getMessage());
+                    }
+                });
+    }
+    // ================= OFFLINE ACHIEVEMENTS =================
+
+    public List<Achievement> getAchievements() {
+        List<Achievement> achievements = new ArrayList<>();
+
+        // 🔓 Achievement đã mở (giả lập offline)
+        achievements.add(new Achievement(
+                1,
+                "🎯 Người mới bắt đầu",
+                "Hoàn thành quiz đầu tiên",
+                true,
+                "🎯",
+                1,
+                1
+        ));
+
+        achievements.add(new Achievement(
+                2,
+                "📚 Học sinh chăm chỉ",
+                "Hoàn thành 5 quiz",
+                true,
+                "📚",
+                5,
+                5
+        ));
+
+        achievements.add(new Achievement(
+                3,
+                "💯 Hoàn hảo",
+                "Đạt điểm tuyệt đối",
+                true,
+                "💯",
+                1,
+                1
+        ));
+
+        // 🔒 Achievement chưa mở
+        achievements.add(new Achievement(
+                4,
+                "🎓 Thạc sĩ tri thức",
+                "Hoàn thành 10 quiz",
+                false,
+                "🎓",
+                7,
+                10
+        ));
+
+        achievements.add(new Achievement(
+                5,
+                "🥇 Chuyên gia",
+                "Đạt điểm trung bình trên 80",
+                false,
+                "🥇",
+                75,
+                80
+        ));
+
+        achievements.add(new Achievement(
+                6,
+                "🏆 Bậc thầy",
+                "Đạt điểm trung bình trên 90",
+                false,
+                "🏆",
+                75,
+                90
+        ));
+
+        achievements.add(new Achievement(
+                7,
+                "⭐ Siêu sao",
+                "Đạt điểm tuyệt đối 3 lần",
+                false,
+                "⭐",
+                1,
+                3
+        ));
+
+        achievements.add(new Achievement(
+                8,
+                "🚀 Chinh phục viên",
+                "Hoàn thành 20 quiz",
+                false,
+                "🚀",
+                7,
+                20
+        ));
+
+        return achievements;
+    }
+    // ================= OFFLINE STATS =================
+
+    public List<UserStats> getStatsMilestones() {
+        List<UserStats> stats = new ArrayList<>();
+
+        stats.add(new UserStats(
+                "Tổng điểm",
+                "Tổng điểm tích lũy trong tuần",
+                "4100",
+                "🎯"
+        ));
+
+        stats.add(new UserStats(
+                "Điểm trung bình",
+                "Điểm trung bình mỗi ngày",
+                "820",
+                "📊"
+        ));
+
+        stats.add(new UserStats(
+                "Chuỗi ngày",
+                "Số ngày chơi liên tiếp",
+                "5 ngày",
+                "🔥"
+        ));
+
+        stats.add(new UserStats(
+                "Thành tựu",
+                "Số thành tựu đã mở khóa",
+                "3",
+                "🏆"
+        ));
+
+        stats.add(new UserStats(
+                "Ngày hoàn thành",
+                "Số ngày đã chơi trong tuần",
+                "5/7",
+                "📅"
+        ));
+
+        return stats;
     }
 
-    // =============================================
-    // 5. PHƯƠNG THỨC BỔ SUNG (Utility Methods)
-    // =============================================
 
-    /**
-     * Kiểm tra xem có dữ liệu trong assets hay không.
-     *
-     * @param fileName Tên file cần kiểm tra
-     * @return true nếu file tồn tại và có dữ liệu
-     */
-    public boolean isDataAvailable(String fileName) {
-        String json = loadJsonFromAssets(ASSETS_PATH + fileName);
-        return json != null && !json.isEmpty();
-    }
 
-    /**
-     * Xóa cache (nếu có implement caching trong tương lai).
-     */
-    public void clearCache() {
-        // TODO: Implement caching mechanism nếu cần
-    }
+
 }

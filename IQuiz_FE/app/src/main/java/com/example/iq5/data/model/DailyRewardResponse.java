@@ -7,7 +7,7 @@ public class DailyRewardResponse {
     public List<DailyRewardData> data;
     public String message;
     public boolean claimed;
-    
+
     public static class DailyRewardData {
         public int ThuongID;
         public int UserID;
