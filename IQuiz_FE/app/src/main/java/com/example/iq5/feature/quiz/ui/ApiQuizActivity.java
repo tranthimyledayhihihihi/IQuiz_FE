@@ -703,10 +703,89 @@ public class ApiQuizActivity extends AppCompatActivity {
             Log.d(TAG, "🎉 Perfect score achieved! Total: " + (currentPerfectScores + 1));
         }
         
+        // Save wrong questions for review
+        saveWrongQuestions();
+        
         editor.apply();
         
         Log.d(TAG, String.format("✅ Local stats updated - Total quizzes: %d, Perfect scores: %d", 
             currentQuizzes + 1, score >= 100 ? currentPerfectScores + 1 : currentPerfectScores));
+    }
+    
+    /**
+     * Save wrong questions to SharedPreferences for review
+     */
+    private void saveWrongQuestions() {
+        try {
+            android.content.SharedPreferences wrongPrefs = getSharedPreferences("wrong_questions", MODE_PRIVATE);
+            android.content.SharedPreferences.Editor editor = wrongPrefs.edit();
+            
+            com.google.gson.Gson gson = new com.google.gson.Gson();
+            java.util.List<WrongQuestionData> wrongQuestions = new java.util.ArrayList<>();
+            
+            // Collect wrong questions from answered questions
+            for (Question question : answeredQuestions) {
+                if (!question.isAnsweredCorrectly()) {
+                    WrongQuestionData wrongData = new WrongQuestionData();
+                    wrongData.questionText = question.getQuestion_text();
+                    wrongData.userAnswer = question.getUser_selected_answer_id();
+                    wrongData.correctAnswer = question.getCorrect_answer();
+                    wrongData.optionA = question.getOption_a();
+                    wrongData.optionB = question.getOption_b();
+                    wrongData.optionC = question.getOption_c();
+                    wrongData.optionD = question.getOption_d();
+                    wrongData.category = question.getCategory();
+                    wrongData.timestamp = System.currentTimeMillis();
+                    
+                    wrongQuestions.add(wrongData);
+                }
+            }
+            
+            if (!wrongQuestions.isEmpty()) {
+                // Load existing wrong questions
+                String existingJson = wrongPrefs.getString("wrong_questions_list", "[]");
+                java.lang.reflect.Type listType = new com.google.gson.reflect.TypeToken<java.util.List<WrongQuestionData>>(){}.getType();
+                java.util.List<WrongQuestionData> existingQuestions = gson.fromJson(existingJson, listType);
+                
+                if (existingQuestions == null) {
+                    existingQuestions = new java.util.ArrayList<>();
+                }
+                
+                // Add new wrong questions
+                existingQuestions.addAll(wrongQuestions);
+                
+                // Keep only last 50 wrong questions to avoid too much data
+                if (existingQuestions.size() > 50) {
+                    existingQuestions = existingQuestions.subList(existingQuestions.size() - 50, existingQuestions.size());
+                }
+                
+                // Save back to preferences
+                String updatedJson = gson.toJson(existingQuestions);
+                editor.putString("wrong_questions_list", updatedJson);
+                editor.putInt("wrong_questions_count", wrongQuestions.size());
+                editor.apply();
+                
+                Log.d(TAG, String.format("💾 Saved %d wrong questions for review", wrongQuestions.size()));
+            }
+            
+        } catch (Exception e) {
+            Log.e(TAG, "❌ Error saving wrong questions: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Data class for wrong questions
+     */
+    public static class WrongQuestionData {
+        public String questionText;
+        public String userAnswer;
+        public String correctAnswer;
+        public String optionA;
+        public String optionB;
+        public String optionC;
+        public String optionD;
+        public String category;
+        public long timestamp;
     }
     
     /**

@@ -241,24 +241,47 @@ public class ApiSettingsActivity extends AppCompatActivity {
             spinnerLanguage.getSelectedItemPosition() == 0 ? "vi" : "en"
         );
         
+        Log.d(TAG, "📤 Settings request: Sound=" + request.isAmThanh() + 
+                   ", Music=" + request.isNhacNen() + 
+                   ", Notifications=" + request.isThongBao() + 
+                   ", Language=" + request.getNgonNgu());
+        
         Call<ApiResponse> call = userApiService.updateSettings(request);
         
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.isSuccessful()) {
-                    Log.d(TAG, "✅ Settings saved successfully");
-                    Toast.makeText(ApiSettingsActivity.this, "Đã lưu cài đặt thành công!", Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse apiResponse = response.body();
+                    if (apiResponse.success) {
+                        Log.d(TAG, "✅ Settings saved successfully");
+                        Toast.makeText(ApiSettingsActivity.this, "✅ Đã lưu cài đặt thành công!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.e(TAG, "❌ API returned success=false: " + apiResponse.message);
+                        Toast.makeText(ApiSettingsActivity.this, "❌ " + apiResponse.message, Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Log.e(TAG, "❌ Failed to save settings: " + response.code());
-                    Toast.makeText(ApiSettingsActivity.this, "Lỗi khi lưu cài đặt", Toast.LENGTH_SHORT).show();
+                    String errorMsg = "Lỗi khi lưu cài đặt (Code: " + response.code() + ")";
+                    
+                    if (response.code() == 401) {
+                        errorMsg = "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.";
+                    }
+                    
+                    Toast.makeText(ApiSettingsActivity.this, errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Log.e(TAG, "❌ Network error saving settings", t);
-                Toast.makeText(ApiSettingsActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                String errorMsg = "Lỗi kết nối: " + t.getMessage();
+                
+                if (t.getMessage() != null && t.getMessage().contains("Unable to resolve host")) {
+                    errorMsg = "Không thể kết nối đến server. Kiểm tra backend có chạy không.";
+                }
+                
+                Toast.makeText(ApiSettingsActivity.this, errorMsg, Toast.LENGTH_LONG).show();
             }
         });
     }

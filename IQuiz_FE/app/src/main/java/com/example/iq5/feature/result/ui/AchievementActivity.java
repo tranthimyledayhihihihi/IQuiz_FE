@@ -267,7 +267,6 @@ public class AchievementActivity extends AppCompatActivity {
             cardNextMilestone.setVisibility(View.GONE);
             return;
         }
-
         Achievement nextAchievement = null;
         float maxProgress = -1;
 
@@ -325,7 +324,6 @@ public class AchievementActivity extends AppCompatActivity {
         }
         return "";
     }
-
     private int calculateXPReward(Achievement achievement) {
         int target = achievement.getTargetProgress();
         if (target >= 100) return 500;

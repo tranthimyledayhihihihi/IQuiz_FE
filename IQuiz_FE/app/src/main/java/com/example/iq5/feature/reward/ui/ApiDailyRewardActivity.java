@@ -1,6 +1,10 @@
 package com.example.iq5.feature.reward.ui;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -9,296 +13,433 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.iq5.core.network.ApiClient;
 import com.example.iq5.core.network.DailyRewardApiService;
+import com.example.iq5.core.prefs.PrefsManager;
+import com.example.iq5.data.model.ApiResponse;
 import com.example.iq5.data.model.DailyRewardResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class ApiDailyRewardActivity extends AppCompatActivity {
     
+    private static final String TAG = "ApiDailyRewardActivity";
+    
     private LinearLayout containerLayout;
     private DailyRewardApiService dailyRewardService;
+    private TextView statusText;
+    private Button claimButton;
+    private boolean isRewardClaimed = false;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // Create dynamic UI
-        ScrollView scrollView = new ScrollView(this);
-        containerLayout = new LinearLayout(this);
-        containerLayout.setOrientation(LinearLayout.VERTICAL);
-        containerLayout.setPadding(32, 32, 32, 32);
-        scrollView.addView(containerLayout);
-        setContentView(scrollView);
-        
-        // Initialize API service
-        dailyRewardService = ApiClient.createService(
-            ApiClient.getClient(new com.example.iq5.core.prefs.PrefsManager(this)), 
-            DailyRewardApiService.class
-        );
-        
-        // Add buttons
-        addButtons();
-        
-        // Check today's reward status
+        createBeautifulUI();
+        initApiService();
         checkTodayReward();
     }
-    
-    private void addButtons() {
-        // Title
-        TextView titleText = new TextView(this);
-        titleText.setText("🎁 Daily Rewards");
-        titleText.setTextSize(20);
-        titleText.setTextColor(0xFF2196F3);
-        titleText.setPadding(0, 0, 0, 30);
-        containerLayout.addView(titleText);
+
+    private void createBeautifulUI() {
+        // Main container
+        ScrollView scrollView = new ScrollView(this);
+        scrollView.setBackgroundColor(0xFFF5F5F5);
         
-        // Check Today button
-        Button checkTodayBtn = new Button(this);
-        checkTodayBtn.setText("📅 Check Today's Reward");
-        checkTodayBtn.setOnClickListener(v -> checkTodayReward());
-        containerLayout.addView(checkTodayBtn);
+        containerLayout = new LinearLayout(this);
+        containerLayout.setOrientation(LinearLayout.VERTICAL);
+        containerLayout.setPadding(24, 24, 24, 24);
         
-        // Claim Reward button
-        Button claimBtn = new Button(this);
-        claimBtn.setText("🎁 Claim Daily Reward");
-        claimBtn.setOnClickListener(v -> claimDailyReward());
-        containerLayout.addView(claimBtn);
+        // Back button (simple text)
+        TextView backButton = new TextView(this);
+        backButton.setText("← Phần Thưởng Hàng Ngày");
+        backButton.setTextSize(18);
+        backButton.setTextColor(0xFF333333);
+        backButton.setPadding(0, 0, 0, 32);
+        backButton.setOnClickListener(v -> finish());
+        containerLayout.addView(backButton);
         
-        // My Rewards button
-        Button myRewardsBtn = new Button(this);
-        myRewardsBtn.setText("📜 My Reward History");
-        myRewardsBtn.setOnClickListener(v -> loadUserRewards());
-        containerLayout.addView(myRewardsBtn);
+        // Main reward card
+        createMainRewardCard();
         
-        // Separator
-        TextView separatorText = new TextView(this);
-        separatorText.setText("─────────────────────");
-        separatorText.setTextSize(16);
-        separatorText.setTextColor(0xFF757575);
-        separatorText.setPadding(0, 20, 0, 20);
-        containerLayout.addView(separatorText);
+        // Reward history section
+        createRewardHistorySection();
+        
+        scrollView.addView(containerLayout);
+        setContentView(scrollView);
     }
-    
-    private void checkTodayReward() {
-        clearResults();
+
+    private void createMainRewardCard() {
+        // Main card container
+        LinearLayout mainCard = new LinearLayout(this);
+        mainCard.setOrientation(LinearLayout.VERTICAL);
+        mainCard.setPadding(32, 40, 32, 40);
         
-        TextView loadingText = new TextView(this);
-        loadingText.setText("🔄 Checking today's reward...");
-        loadingText.setTextSize(16);
-        loadingText.setPadding(0, 20, 0, 20);
-        containerLayout.addView(loadingText);
-        
-        // Call API (using test user ID = 2)
-        dailyRewardService.checkTodayReward(2).enqueue(new Callback<com.example.iq5.data.model.ApiResponse>() {
-            @Override
-            public void onResponse(Call<com.example.iq5.data.model.ApiResponse> call, Response<com.example.iq5.data.model.ApiResponse> response) {
-                containerLayout.removeView(loadingText);
-                
-                if (response.isSuccessful() && response.body() != null) {
-                    com.example.iq5.data.model.ApiResponse apiResponse = response.body();
-                    
-                    if (apiResponse.success) {
-                        displayTodayStatus(apiResponse);
-                    } else {
-                        showError("Failed to check today's reward");
-                    }
-                } else {
-                    showError("Failed to check today's reward");
-                }
-            }
-            
-            @Override
-            public void onFailure(Call<com.example.iq5.data.model.ApiResponse> call, Throwable t) {
-                containerLayout.removeView(loadingText);
-                showError("Network error: " + t.getMessage());
-            }
-        });
-    }
-    
-    private void claimDailyReward() {
-        DailyRewardApiService.ClaimRewardRequest request = 
-            new DailyRewardApiService.ClaimRewardRequest(
-                2, // User ID
-                "Coins",
-                100,
-                "Daily login reward"
-            );
-        
-        dailyRewardService.claimDailyReward(request).enqueue(new Callback<com.example.iq5.data.model.ApiResponse>() {
-            @Override
-            public void onResponse(Call<com.example.iq5.data.model.ApiResponse> call, Response<com.example.iq5.data.model.ApiResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    com.example.iq5.data.model.ApiResponse apiResponse = response.body();
-                    
-                    if (apiResponse.success) {
-                        Toast.makeText(ApiDailyRewardActivity.this, "🎉 Daily reward claimed successfully!", Toast.LENGTH_SHORT).show();
-                        checkTodayReward(); // Refresh status
-                    } else {
-                        showError(apiResponse.message != null ? apiResponse.message : "Failed to claim reward");
-                    }
-                } else {
-                    showError("Failed to claim reward");
-                }
-            }
-            
-            @Override
-            public void onFailure(Call<com.example.iq5.data.model.ApiResponse> call, Throwable t) {
-                showError("Network error: " + t.getMessage());
-            }
-        });
-    }
-    
-    private void loadUserRewards() {
-        clearResults();
-        
-        TextView loadingText = new TextView(this);
-        loadingText.setText("🔄 Loading your rewards...");
-        loadingText.setTextSize(16);
-        loadingText.setPadding(0, 20, 0, 20);
-        containerLayout.addView(loadingText);
-        
-        dailyRewardService.getUserDailyRewards(2).enqueue(new Callback<DailyRewardResponse>() {
-            @Override
-            public void onResponse(Call<DailyRewardResponse> call, Response<DailyRewardResponse> response) {
-                containerLayout.removeView(loadingText);
-                
-                if (response.isSuccessful() && response.body() != null) {
-                    DailyRewardResponse rewardResponse = response.body();
-                    
-                    if (rewardResponse.success && rewardResponse.data != null) {
-                        displayRewards(rewardResponse.data);
-                    } else {
-                        showError("No rewards found");
-                    }
-                } else {
-                    showError("Failed to load rewards");
-                }
-            }
-            
-            @Override
-            public void onFailure(Call<DailyRewardResponse> call, Throwable t) {
-                containerLayout.removeView(loadingText);
-                showError("Network error: " + t.getMessage());
-            }
-        });
-    }
-    
-    private void displayTodayStatus(com.example.iq5.data.model.ApiResponse response) {
-        // Status card
-        LinearLayout statusCard = new LinearLayout(this);
-        statusCard.setOrientation(LinearLayout.VERTICAL);
-        statusCard.setPadding(20, 20, 20, 20);
-        statusCard.setBackgroundColor(0xFFF5F5F5);
+        // Create rounded background
+        GradientDrawable cardBackground = new GradientDrawable();
+        cardBackground.setColor(Color.WHITE);
+        cardBackground.setCornerRadius(24);
+        cardBackground.setStroke(1, 0xFFE0E0E0);
+        mainCard.setBackground(cardBackground);
         
         LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        cardParams.setMargins(0, 0, 0, 20);
-        statusCard.setLayoutParams(cardParams);
+        cardParams.setMargins(0, 0, 0, 32);
+        mainCard.setLayoutParams(cardParams);
         
-        // Title
+        // Title with gradient background
+        LinearLayout titleContainer = new LinearLayout(this);
+        titleContainer.setOrientation(LinearLayout.HORIZONTAL);
+        titleContainer.setGravity(Gravity.CENTER);
+        titleContainer.setPadding(32, 16, 32, 16);
+        
+        // Create gradient background for title
+        GradientDrawable titleBackground = new GradientDrawable(
+            GradientDrawable.Orientation.LEFT_RIGHT,
+            new int[]{0xFF9C27B0, 0xFFE91E63, 0xFFFF5722}
+        );
+        titleBackground.setCornerRadius(25);
+        titleContainer.setBackground(titleBackground);
+        
         TextView titleText = new TextView(this);
-        titleText.setText("📅 Today's Reward Status");
+        titleText.setText("THƯỞNG HÀNG NGÀY");
         titleText.setTextSize(18);
-        titleText.setTextColor(0xFF2196F3);
-        titleText.setPadding(0, 0, 0, 15);
-        statusCard.addView(titleText);
+        titleText.setTextColor(Color.WHITE);
+        titleText.setGravity(Gravity.CENTER);
+        titleContainer.addView(titleText);
         
-        // Status message
-        TextView statusText = new TextView(this);
-        if (response.message != null && response.message.contains("Already claimed")) {
-            statusText.setText("✅ You have already claimed today's reward!");
-            statusText.setTextColor(0xFF4CAF50);
-        } else {
-            statusText.setText("🎁 Daily reward is available to claim!");
-            statusText.setTextColor(0xFFFF9800);
-        }
+        LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        titleParams.setMargins(0, 0, 0, 32);
+        titleContainer.setLayoutParams(titleParams);
+        
+        mainCard.addView(titleContainer);
+        
+        // Reward info section
+        LinearLayout rewardInfo = new LinearLayout(this);
+        rewardInfo.setOrientation(LinearLayout.VERTICAL);
+        rewardInfo.setGravity(Gravity.CENTER);
+        rewardInfo.setPadding(0, 20, 0, 32);
+        
+        // Reward icon and amount
+        TextView rewardIcon = new TextView(this);
+        rewardIcon.setText("💰");
+        rewardIcon.setTextSize(48);
+        rewardIcon.setGravity(Gravity.CENTER);
+        rewardInfo.addView(rewardIcon);
+        
+        TextView rewardAmount = new TextView(this);
+        rewardAmount.setText("100 Coins");
+        rewardAmount.setTextSize(24);
+        rewardAmount.setTextColor(0xFF333333);
+        rewardAmount.setGravity(Gravity.CENTER);
+        rewardAmount.setPadding(0, 8, 0, 0);
+        rewardInfo.addView(rewardAmount);
+        
+        // Status text
+        statusText = new TextView(this);
+        statusText.setText("Đang kiểm tra...");
         statusText.setTextSize(16);
-        statusText.setPadding(0, 0, 0, 10);
-        statusCard.addView(statusText);
+        statusText.setTextColor(0xFF666666);
+        statusText.setGravity(Gravity.CENTER);
+        statusText.setPadding(0, 16, 0, 0);
+        rewardInfo.addView(statusText);
         
-        // Reward info
-        TextView rewardText = new TextView(this);
-        rewardText.setText("💰 Reward: 100 Coins");
-        rewardText.setTextSize(14);
-        rewardText.setTextColor(0xFF666666);
-        statusCard.addView(rewardText);
+        mainCard.addView(rewardInfo);
         
-        containerLayout.addView(statusCard);
+        // Claim button
+        claimButton = new Button(this);
+        claimButton.setText("ĐÃ NHẬN HÔM NAY");
+        claimButton.setTextSize(16);
+        claimButton.setTextColor(Color.WHITE);
+        claimButton.setPadding(32, 16, 32, 16);
+        
+        // Create gradient background for button
+        GradientDrawable buttonBackground = new GradientDrawable();
+        buttonBackground.setColor(0xFF6C63FF);
+        buttonBackground.setCornerRadius(25);
+        claimButton.setBackground(buttonBackground);
+        
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        buttonParams.setMargins(0, 0, 0, 0);
+        claimButton.setLayoutParams(buttonParams);
+        
+        claimButton.setOnClickListener(v -> claimDailyReward());
+        
+        mainCard.addView(claimButton);
+        containerLayout.addView(mainCard);
+    }
+
+    private void createRewardHistorySection() {
+        // History title
+        TextView historyTitle = new TextView(this);
+        historyTitle.setText("📜 Lịch sử nhận thưởng");
+        historyTitle.setTextSize(18);
+        historyTitle.setTextColor(0xFF333333);
+        historyTitle.setPadding(16, 0, 0, 16);
+        containerLayout.addView(historyTitle);
+        
+        // Load history button
+        Button historyButton = new Button(this);
+        historyButton.setText("Xem lịch sử nhận thưởng");
+        historyButton.setTextSize(14);
+        historyButton.setTextColor(0xFF6C63FF);
+        historyButton.setBackgroundColor(Color.TRANSPARENT);
+        historyButton.setPadding(16, 12, 16, 12);
+        
+        GradientDrawable historyBg = new GradientDrawable();
+        historyBg.setStroke(2, 0xFF6C63FF);
+        historyBg.setCornerRadius(20);
+        historyButton.setBackground(historyBg);
+        
+        historyButton.setOnClickListener(v -> loadUserRewards());
+        containerLayout.addView(historyButton);
+    }
+
+    private void initApiService() {
+        try {
+            PrefsManager prefsManager = new PrefsManager(this);
+            Retrofit retrofit = ApiClient.getClient(prefsManager);
+            dailyRewardService = retrofit.create(DailyRewardApiService.class);
+            Log.d(TAG, "✅ API Service initialized");
+        } catch (Exception e) {
+            Log.e(TAG, "❌ Failed to init API service", e);
+            showError("Không thể khởi tạo dịch vụ API");
+        }
     }
     
-    private void displayRewards(java.util.List<DailyRewardResponse.DailyRewardData> rewards) {
-        // Title
-        TextView titleText = new TextView(this);
-        titleText.setText("📜 Your Reward History");
-        titleText.setTextSize(18);
-        titleText.setTextColor(0xFF2196F3);
-        titleText.setPadding(0, 0, 0, 20);
-        containerLayout.addView(titleText);
+    private void checkTodayReward() {
+        Log.d(TAG, "🔄 Checking today's reward...");
+        statusText.setText("Đang kiểm tra...");
         
-        if (rewards.isEmpty()) {
-            TextView emptyText = new TextView(this);
-            emptyText.setText("🎁 No rewards claimed yet!\nClaim your first daily reward!");
-            emptyText.setTextSize(16);
-            emptyText.setTextColor(0xFF757575);
-            emptyText.setPadding(0, 20, 0, 20);
-            containerLayout.addView(emptyText);
+        if (dailyRewardService == null) {
+            updateRewardStatus(false, "Lỗi kết nối");
             return;
         }
         
-        // Display each reward
-        for (DailyRewardResponse.DailyRewardData reward : rewards) {
-            LinearLayout rewardCard = new LinearLayout(this);
-            rewardCard.setOrientation(LinearLayout.VERTICAL);
-            rewardCard.setPadding(20, 20, 20, 20);
-            rewardCard.setBackgroundColor(0xFFF5F5F5);
-            
-            LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            cardParams.setMargins(0, 0, 0, 15);
-            rewardCard.setLayoutParams(cardParams);
-            
-            // Reward type and value
-            TextView rewardText = new TextView(this);
-            String rewardEmoji = getRewardEmoji(reward.LoaiThuong);
-            rewardText.setText(rewardEmoji + " " + reward.GiaTri + " " + reward.LoaiThuong);
-            rewardText.setTextSize(16);
-            rewardText.setTextColor(0xFF333333);
-            rewardText.setPadding(0, 0, 0, 10);
-            rewardCard.addView(rewardText);
-            
-            // Description
-            if (reward.MoTa != null && !reward.MoTa.isEmpty()) {
-                TextView descText = new TextView(this);
-                descText.setText("📝 " + reward.MoTa);
-                descText.setTextSize(14);
-                descText.setTextColor(0xFF666666);
-                descText.setPadding(0, 0, 0, 10);
-                rewardCard.addView(descText);
+        // Get current user ID from token (simplified to 2 for now)
+        dailyRewardService.checkTodayReward(2).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse apiResponse = response.body();
+                    
+                    if (apiResponse.success) {
+                        // Check if already claimed
+                        boolean claimed = apiResponse.message != null && 
+                                         apiResponse.message.contains("Already claimed");
+                        updateRewardStatus(claimed, apiResponse.message);
+                        Log.d(TAG, "✅ Reward status: " + (claimed ? "Claimed" : "Available"));
+                    } else {
+                        updateRewardStatus(false, "Có thể nhận thưởng");
+                        Log.d(TAG, "⚠️ API returned success=false");
+                    }
+                } else {
+                    updateRewardStatus(false, "Lỗi kiểm tra thưởng");
+                    Log.e(TAG, "❌ Failed to check reward: " + response.code());
+                }
             }
             
-            // Date
-            TextView dateText = new TextView(this);
-            dateText.setText("📅 " + reward.NgayNhan.substring(0, 10));
-            dateText.setTextSize(12);
-            dateText.setTextColor(0xFF757575);
-            rewardCard.addView(dateText);
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                updateRewardStatus(false, "Lỗi kết nối");
+                Log.e(TAG, "❌ Network error checking reward", t);
+            }
+        });
+    }
+    
+    private void updateRewardStatus(boolean claimed, String message) {
+        isRewardClaimed = claimed;
+        
+        if (claimed) {
+            statusText.setText("✅ Bạn đã nhận thưởng hôm nay!");
+            statusText.setTextColor(0xFF4CAF50);
             
-            containerLayout.addView(rewardCard);
+            claimButton.setText("ĐÃ NHẬN HÔM NAY");
+            claimButton.setEnabled(false);
+            
+            GradientDrawable disabledBg = new GradientDrawable();
+            disabledBg.setColor(0xFF9E9E9E);
+            disabledBg.setCornerRadius(25);
+            claimButton.setBackground(disabledBg);
+        } else {
+            statusText.setText("🎁 Thưởng hàng ngày có sẵn!");
+            statusText.setTextColor(0xFFFF9800);
+            
+            claimButton.setText("NHẬN THƯỞNG");
+            claimButton.setEnabled(true);
+            
+            GradientDrawable enabledBg = new GradientDrawable();
+            enabledBg.setColor(0xFF6C63FF);
+            enabledBg.setCornerRadius(25);
+            claimButton.setBackground(enabledBg);
+        }
+    }
+    
+    private void claimDailyReward() {
+        if (isRewardClaimed) {
+            Toast.makeText(this, "Bạn đã nhận thưởng hôm nay rồi!", Toast.LENGTH_SHORT).show();
+            return;
         }
         
-        // Summary
-        int totalValue = rewards.stream().mapToInt(r -> r.GiaTri).sum();
-        TextView summaryText = new TextView(this);
-        summaryText.setText("📊 Total rewards: " + rewards.size() + " • Total value: " + totalValue + " coins");
-        summaryText.setTextSize(14);
-        summaryText.setTextColor(0xFF2196F3);
-        summaryText.setPadding(0, 20, 0, 0);
-        containerLayout.addView(summaryText);
+        Log.d(TAG, "🎁 Claiming daily reward...");
+        claimButton.setText("ĐANG NHẬN...");
+        claimButton.setEnabled(false);
+        
+        DailyRewardApiService.ClaimRewardRequest request = 
+            new DailyRewardApiService.ClaimRewardRequest(2, "Coins", 100, "Daily login reward");
+        
+        dailyRewardService.claimDailyReward(request).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse apiResponse = response.body();
+                    
+                    if (apiResponse.success) {
+                        updateRewardStatus(true, "Đã nhận thưởng thành công!");
+                        Toast.makeText(ApiDailyRewardActivity.this, 
+                            "🎉 Nhận thưởng thành công! +100 coins", Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "✅ Reward claimed successfully");
+                    } else {
+                        updateRewardStatus(false, "Có thể nhận thưởng");
+                        showError(apiResponse.message != null ? apiResponse.message : "Không thể nhận thưởng");
+                    }
+                } else {
+                    updateRewardStatus(false, "Có thể nhận thưởng");
+                    showError("Lỗi server: " + response.code());
+                }
+            }
+            
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                updateRewardStatus(false, "Có thể nhận thưởng");
+                showError("Lỗi kết nối: " + t.getMessage());
+                Log.e(TAG, "❌ Network error claiming reward", t);
+            }
+        });
+    }
+    
+    private void loadUserRewards() {
+        Log.d(TAG, "📜 Loading reward history...");
+        
+        // Create history display area
+        LinearLayout historyContainer = new LinearLayout(this);
+        historyContainer.setOrientation(LinearLayout.VERTICAL);
+        historyContainer.setPadding(16, 16, 16, 16);
+        
+        GradientDrawable historyBg = new GradientDrawable();
+        historyBg.setColor(Color.WHITE);
+        historyBg.setCornerRadius(16);
+        historyBg.setStroke(1, 0xFFE0E0E0);
+        historyContainer.setBackground(historyBg);
+        
+        TextView loadingText = new TextView(this);
+        loadingText.setText("🔄 Đang tải lịch sử...");
+        loadingText.setTextSize(14);
+        loadingText.setGravity(Gravity.CENTER);
+        loadingText.setPadding(0, 20, 0, 20);
+        historyContainer.addView(loadingText);
+        
+        LinearLayout.LayoutParams historyParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        historyParams.setMargins(0, 16, 0, 0);
+        historyContainer.setLayoutParams(historyParams);
+        
+        containerLayout.addView(historyContainer);
+        
+        dailyRewardService.getUserDailyRewards(2).enqueue(new Callback<DailyRewardResponse>() {
+            @Override
+            public void onResponse(Call<DailyRewardResponse> call, Response<DailyRewardResponse> response) {
+                historyContainer.removeView(loadingText);
+                
+                if (response.isSuccessful() && response.body() != null) {
+                    DailyRewardResponse rewardResponse = response.body();
+                    
+                    if (rewardResponse.success && rewardResponse.data != null && !rewardResponse.data.isEmpty()) {
+                        displayRewardHistory(historyContainer, rewardResponse.data);
+                    } else {
+                        TextView emptyText = new TextView(ApiDailyRewardActivity.this);
+                        emptyText.setText("📝 Chưa có lịch sử nhận thưởng\nHãy nhận thưởng đầu tiên!");
+                        emptyText.setTextSize(14);
+                        emptyText.setTextColor(0xFF757575);
+                        emptyText.setGravity(Gravity.CENTER);
+                        emptyText.setPadding(0, 20, 0, 20);
+                        historyContainer.addView(emptyText);
+                    }
+                } else {
+                    TextView errorText = new TextView(ApiDailyRewardActivity.this);
+                    errorText.setText("❌ Không thể tải lịch sử");
+                    errorText.setTextSize(14);
+                    errorText.setTextColor(0xFFE91E63);
+                    errorText.setGravity(Gravity.CENTER);
+                    historyContainer.addView(errorText);
+                }
+            }
+            
+            @Override
+            public void onFailure(Call<DailyRewardResponse> call, Throwable t) {
+                historyContainer.removeView(loadingText);
+                TextView errorText = new TextView(ApiDailyRewardActivity.this);
+                errorText.setText("❌ Lỗi kết nối");
+                errorText.setTextSize(14);
+                errorText.setTextColor(0xFFE91E63);
+                errorText.setGravity(Gravity.CENTER);
+                historyContainer.addView(errorText);
+            }
+        });
+    }
+    
+    private void displayRewardHistory(LinearLayout container, java.util.List<DailyRewardResponse.DailyRewardData> rewards) {
+        for (DailyRewardResponse.DailyRewardData reward : rewards) {
+            LinearLayout rewardItem = new LinearLayout(this);
+            rewardItem.setOrientation(LinearLayout.HORIZONTAL);
+            rewardItem.setPadding(16, 12, 16, 12);
+            rewardItem.setGravity(Gravity.CENTER_VERTICAL);
+            
+            // Reward icon
+            TextView icon = new TextView(this);
+            icon.setText(getRewardEmoji(reward.LoaiThuong));
+            icon.setTextSize(20);
+            icon.setPadding(0, 0, 16, 0);
+            rewardItem.addView(icon);
+            
+            // Reward info
+            LinearLayout infoLayout = new LinearLayout(this);
+            infoLayout.setOrientation(LinearLayout.VERTICAL);
+            infoLayout.setLayoutParams(new LinearLayout.LayoutParams(0, 
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f));
+            
+            TextView amountText = new TextView(this);
+            amountText.setText(reward.GiaTri + " " + reward.LoaiThuong);
+            amountText.setTextSize(16);
+            amountText.setTextColor(0xFF333333);
+            infoLayout.addView(amountText);
+            
+            TextView dateText = new TextView(this);
+            dateText.setText(reward.NgayNhan.substring(0, 10));
+            dateText.setTextSize(12);
+            dateText.setTextColor(0xFF757575);
+            infoLayout.addView(dateText);
+            
+            rewardItem.addView(infoLayout);
+            container.addView(rewardItem);
+            
+            // Separator
+            if (rewards.indexOf(reward) < rewards.size() - 1) {
+                TextView separator = new TextView(this);
+                separator.setHeight(1);
+                separator.setBackgroundColor(0xFFE0E0E0);
+                container.addView(separator);
+            }
+        }
     }
     
     private String getRewardEmoji(String rewardType) {
@@ -310,21 +451,8 @@ public class ApiDailyRewardActivity extends AppCompatActivity {
         }
     }
     
-    private void clearResults() {
-        // Remove all views except the first 5 (title + 4 buttons)
-        while (containerLayout.getChildCount() > 5) {
-            containerLayout.removeViewAt(containerLayout.getChildCount() - 1);
-        }
-    }
-    
     private void showError(String message) {
-        TextView errorText = new TextView(this);
-        errorText.setText("❌ " + message);
-        errorText.setTextSize(16);
-        errorText.setTextColor(0xFFE91E63);
-        errorText.setPadding(0, 20, 0, 20);
-        containerLayout.addView(errorText);
-        
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Log.e(TAG, "Error: " + message);
     }
 }

@@ -213,18 +213,9 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void openReviewIncorrect() {
-        List<Question> wrongList = new ArrayList<>();
-
-        for (Question q : questionList) {
-            if (!q.isUserAnswerCorrect()) {
-                wrongList.add(q);
-            }
-        }
-
-        String quizId = getIntent().getStringExtra("quiz_id");
-        if (quizId == null) quizId = "review_" + System.currentTimeMillis();
-        
-        NavigationHelper.navigateToReviewQuestions(this, quizId);
+        // Open new Wrong Question Review Activity
+        Intent intent = new Intent(this, com.example.iq5.feature.specialmode.ui.WrongQuestionReviewActivity.class);
+        startActivity(intent);
     }
 
     private void shareResult() {
