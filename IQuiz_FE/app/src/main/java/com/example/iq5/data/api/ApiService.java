@@ -14,7 +14,7 @@ public interface ApiService {
     // ============================================
     // HOME & HEALTH CHECK
     // ============================================
-    
+
     /**
      * Lấy dữ liệu trang chủ (featured quizzes)
      * Endpoint: GET /api/Home
@@ -32,7 +32,7 @@ public interface ApiService {
     // ============================================
     // AUTHENTICATION (Account Controller)
     // ============================================
-    
+
     /**
      * Đăng nhập
      * Endpoint: POST /api/Account/login
@@ -67,7 +67,7 @@ public interface ApiService {
     // ============================================
     // USER PROFILE
     // ============================================
-    
+
     /**
      * Lấy thông tin profile của user
      * Endpoint: GET /api/User/profile/{userId}
@@ -91,7 +91,7 @@ public interface ApiService {
     // ============================================
     // CHƠI QUIZ (Quiz Attempt)
     // ============================================
-    
+
     /**
      * Bắt đầu chơi quiz
      * Endpoint: POST /api/Choi/start
@@ -135,7 +135,7 @@ public interface ApiService {
     // ============================================
     // PROFILE APIs (User/Profile Controller)
     // ============================================
-    
+
     /**
      * Lấy thông tin profile của tôi
      * Endpoint: GET /api/user/profile/me
@@ -166,7 +166,7 @@ public interface ApiService {
     // ============================================
     // RANKING & LEADERBOARD APIs
     // ============================================
-    
+
     /**
      * Lấy bảng xếp hạng
      * Endpoint: GET /api/Ranking/leaderboard
@@ -195,7 +195,7 @@ public interface ApiService {
     // ============================================
     // DAILY QUIZ APIs (Quiz Ngày)
     // ============================================
-    
+
     /**
      * Lấy quiz của ngày hôm nay
      * Endpoint: GET /api/QuizNgay/today
@@ -233,7 +233,7 @@ public interface ApiService {
     // ============================================
     // CUSTOM QUIZ APIs (Quiz Tùy Chỉnh)
     // ============================================
-    
+
     /**
      * Lấy danh sách đề xuất của tôi
      * Endpoint: GET /api/QuizTuyChinh/my-submissions
@@ -278,14 +278,51 @@ public interface ApiService {
     // ============================================
     // DAILY STREAK
     // ============================================
-        @GET("api/user/achievement/streak")
-        Call<StreakResponse> getDailyStreak(
-                @Header("Authorization") String token
-        );
+    @GET("api/user/achievement/streak")
+    Call<StreakResponse> getDailyStreak(
+            @Header("Authorization") String token
+    );
 
-    // DAILY REWARD
+    // ============================================
+    // DAILY REWARD APIs
+    // ============================================
+
+    /**
+     * Lấy danh sách reward hàng ngày của user
+     * Endpoint: GET /api/user/daily-reward
+     */
     @GET("api/user/daily-reward")
     Call<DailyRewardResponse> getDailyRewards(
             @Header("Authorization") String token
+    );
+
+    /**
+     * Lấy lịch sử nhận thưởng của user
+     * Endpoint: GET /api/dailyreward/user/{userId}
+     */
+    @GET("api/dailyreward/user/{userId}")
+    Call<DailyRewardResponse> getUserDailyRewards(
+            @Path("userId") int userId,
+            @Header("Authorization") String token
+    );
+
+    /**
+     * Kiểm tra xem user đã nhận thưởng hôm nay chưa
+     * Endpoint: GET /api/dailyreward/user/{userId}/today
+     */
+    @GET("api/dailyreward/user/{userId}/today")
+    Call<ApiResponse> checkTodayReward(
+            @Path("userId") int userId,
+            @Header("Authorization") String token
+    );
+
+    /**
+     * Nhận thưởng hàng ngày
+     * Endpoint: POST /api/dailyreward/claim
+     */
+    @POST("api/dailyreward/claim")
+    Call<ApiResponse> claimDailyReward(
+            @Header("Authorization") String token,
+            @Body ClaimRewardRequest request
     );
 }

@@ -26,7 +26,7 @@ import retrofit2.Retrofit;
 public class DebugSettingsActivity extends AppCompatActivity {
 
     private static final String TAG = "DebugSettingsActivity";
-    
+
     private TextView tvDebugInfo;
     private UserApiService userApiService;
     private PrefsManager prefsManager;
@@ -34,7 +34,7 @@ public class DebugSettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         createDebugLayout();
         initApiService();
     }
@@ -43,39 +43,39 @@ public class DebugSettingsActivity extends AppCompatActivity {
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(32, 32, 32, 32);
-        
+
         // Title
         TextView title = new TextView(this);
         title.setText("🔍 DEBUG SETTINGS API");
         title.setTextSize(20);
         title.setPadding(0, 0, 0, 32);
         layout.addView(title);
-        
+
         // Check Token Button
         Button btnCheckToken = new Button(this);
         btnCheckToken.setText("🔑 Check JWT Token");
         btnCheckToken.setOnClickListener(v -> checkToken());
         layout.addView(btnCheckToken);
-        
+
         // Test Load Settings
         Button btnLoadSettings = new Button(this);
         btnLoadSettings.setText("📥 Test Load Settings");
         btnLoadSettings.setOnClickListener(v -> testLoadSettings());
         layout.addView(btnLoadSettings);
-        
+
         // Test Save Settings
         Button btnSaveSettings = new Button(this);
         btnSaveSettings.setText("💾 Test Save Settings");
         btnSaveSettings.setOnClickListener(v -> testSaveSettings());
         layout.addView(btnSaveSettings);
-        
+
         // Debug Info
         tvDebugInfo = new TextView(this);
         tvDebugInfo.setText("Nhấn nút để debug...");
         tvDebugInfo.setPadding(0, 32, 0, 0);
         tvDebugInfo.setTextSize(12);
         layout.addView(tvDebugInfo);
-        
+
         setContentView(layout);
     }
 
@@ -88,7 +88,7 @@ public class DebugSettingsActivity extends AppCompatActivity {
     private void checkToken() {
         String token = prefsManager.getAuthToken();
         String info = "🔑 JWT TOKEN CHECK:\n\n";
-        
+
         if (token != null && !token.isEmpty()) {
             info += "✅ Token exists\n";
             info += "📏 Length: " + token.length() + "\n";
@@ -100,7 +100,7 @@ public class DebugSettingsActivity extends AppCompatActivity {
             info += "🔧 Need to login first\n\n";
             info += "🎯 Status: NEED AUTHENTICATION";
         }
-        
+
         tvDebugInfo.setText(info);
         Log.d(TAG, info);
     }
@@ -108,22 +108,22 @@ public class DebugSettingsActivity extends AppCompatActivity {
     private void testLoadSettings() {
         tvDebugInfo.setText("🔄 Testing load settings...");
         Log.d(TAG, "🧪 Testing load settings API");
-        
+
         Call<UserProfileModel> call = userApiService.getMyProfile();
-        
+
         call.enqueue(new Callback<UserProfileModel>() {
             @Override
             public void onResponse(Call<UserProfileModel> call, Response<UserProfileModel> response) {
                 String result = "📥 LOAD SETTINGS RESULT:\n\n";
                 result += "📊 Response Code: " + response.code() + "\n";
                 result += "📨 Message: " + response.message() + "\n\n";
-                
+
                 if (response.isSuccessful() && response.body() != null) {
                     UserProfileModel profile = response.body();
                     result += "✅ SUCCESS!\n";
                     result += "👤 User: " + profile.getHoTen() + "\n";
                     result += "📧 Email: " + profile.getEmail() + "\n";
-                    
+
                     if (profile.getCaiDat() != null) {
                         UserProfileModel.CaiDatModel settings = profile.getCaiDat();
                         result += "\n⚙️ CURRENT SETTINGS:\n";
@@ -138,7 +138,7 @@ public class DebugSettingsActivity extends AppCompatActivity {
                     result += "❌ FAILED!\n";
                     result += "🔧 Check authentication or backend";
                 }
-                
+
                 tvDebugInfo.setText(result);
                 Log.d(TAG, result);
             }
@@ -149,7 +149,7 @@ public class DebugSettingsActivity extends AppCompatActivity {
                 error += "🚫 Error: " + t.getMessage() + "\n";
                 error += "🔧 Check network or backend\n";
                 error += "🌐 URL: " + ApiClient.getBaseUrl();
-                
+
                 tvDebugInfo.setText(error);
                 Log.e(TAG, error, t);
             }
@@ -159,24 +159,24 @@ public class DebugSettingsActivity extends AppCompatActivity {
     private void testSaveSettings() {
         tvDebugInfo.setText("🔄 Testing save settings...");
         Log.d(TAG, "🧪 Testing save settings API");
-        
+
         // Tạo test settings
         UserApiService.UserSettingsModel testSettings = new UserApiService.UserSettingsModel(
             true,   // amThanh
-            false,  // nhacNen  
+            false,  // nhacNen
             true,   // thongBao
             "vi"    // ngonNgu
         );
-        
+
         Call<ApiResponse> call = userApiService.updateSettings(testSettings);
-        
+
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 String result = "💾 SAVE SETTINGS RESULT:\n\n";
                 result += "📊 Response Code: " + response.code() + "\n";
                 result += "📨 Message: " + response.message() + "\n\n";
-                
+
                 if (response.isSuccessful()) {
                     result += "✅ SUCCESS!\n";
                     result += "💾 Settings saved to database\n";
@@ -197,7 +197,7 @@ public class DebugSettingsActivity extends AppCompatActivity {
                         result += "🔧 Server error - check backend";
                     }
                 }
-                
+
                 tvDebugInfo.setText(result);
                 Log.d(TAG, result);
             }
@@ -211,7 +211,7 @@ public class DebugSettingsActivity extends AppCompatActivity {
                 error += "  - Network connection issue\n";
                 error += "  - Wrong API endpoint\n";
                 error += "🌐 URL: " + ApiClient.getBaseUrl();
-                
+
                 tvDebugInfo.setText(error);
                 Log.e(TAG, error, t);
             }

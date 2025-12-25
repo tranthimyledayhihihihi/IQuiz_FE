@@ -13,6 +13,7 @@ import com.example.iq5.feature.result.model.StreakDay;
 import com.example.iq5.feature.result.model.UserStats;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -90,48 +91,40 @@ public class ResultRepository {
                 .getSharedPreferences("auth", Context.MODE_PRIVATE)
                 .getString("jwt_token", "");
 
+        if (token.equals("Bearer ")) {
+            callback.onError("Chưa đăng nhập");
+            return;
+        }
+
         RetrofitClient.getApiService()
                 .getDailyRewards(token)
                 .enqueue(new Callback<DailyRewardResponse>() {
                     @Override
-                    public void onResponse(
-                            Call<DailyRewardResponse> call,
-                            Response<DailyRewardResponse> response
-                    ) {
+                    public void onResponse(Call<DailyRewardResponse> call,
+                                           Response<DailyRewardResponse> response) {
+
+                        Log.d("API_RESPONSE", "Code: " + response.code());
+
                         if (!response.isSuccessful() || response.body() == null) {
-                            callback.onError("Lỗi API");
+                            Log.e("API_RESPONSE", "Response không thành công hoặc body null");
+                            callback.onError("Lỗi API: " + response.code());
                             return;
                         }
 
                         DailyRewardResponse body = response.body();
+                        Log.d("API_RESPONSE", "Success: " + body.success);
+                        Log.d("API_RESPONSE", "Message: " + body.message);
+                        Log.d("API_RESPONSE", "Claimed: " + body.claimed);
 
-                        if (!body.success || body.data == null) {
-                            callback.onError(body.message != null
-                                    ? body.message
-                                    : "Không có dữ liệu");
+                        if (!body.success) {
+                            callback.onError(body.message);
                             return;
                         }
 
-                        // ✅ Convert BE model → UI model (ĐÚNG VỚI DailyReward)
-                        List<DailyReward> rewards = new ArrayList<>();
+                        // ✅ Tạo danh sách reward cho UI
+                        List<DailyReward> rewards = createDailyRewardsList(body);
 
-                        int dayIndex = 1;
-
-                        for (DailyRewardResponse.DailyRewardData item : body.data) {
-                            DailyReward reward = new DailyReward();
-
-                            reward.setDayNumber(dayIndex++);   // Ngày 1,2,3,...
-                            reward.setReward(item.GiaTri);     // Điểm thưởng
-                            reward.setClaimed(body.claimed);   // Đã nhận hôm nay hay chưa
-
-                            // 🔥 đánh dấu ngày hôm nay (cho UI)
-                            reward.setToday(!body.claimed);
-
-                            rewards.add(reward);
-                        }
-
-
-                        // 👉 canClaimToday = chưa claim
+                        // 👉 canClaimToday = chưa claim hôm nay
                         boolean canClaimToday = !body.claimed;
 
                         callback.onSuccess(rewards, canClaimToday);
@@ -139,9 +132,58 @@ public class ResultRepository {
 
                     @Override
                     public void onFailure(Call<DailyRewardResponse> call, Throwable t) {
-                        callback.onError(t.getMessage());
+                        Log.e("API_RESPONSE", "Failure: " + t.getMessage());
+                        callback.onError("Lỗi kết nối: " + t.getMessage());
                     }
                 });
+    }
+
+    /**
+     * Tạo danh sách DailyReward cho UI từ API response
+     */
+    private List<DailyReward> createDailyRewardsList(DailyRewardResponse response) {
+        List<DailyReward> rewards = new ArrayList<>();
+
+        // Tạo 7 ngày trong tuần (giả lập)
+        for (int day = 1; day <= 7; day++) {
+            DailyReward reward = new DailyReward();
+            reward.setDayNumber(day);
+
+            // Đặt giá trị thưởng tăng dần
+            reward.setReward(day * 10 + 50); // 60, 70, 80, 90, 100, 110, 120
+
+            // Nếu đã claim hôm nay, đánh dấu ngày hiện tại
+            if (response.claimed && day == getCurrentDayOfWeek()) {
+                reward.setClaimed(true);
+                reward.setToday(false);
+            }
+            // Nếu chưa claim và là ngày hiện tại
+            else if (!response.claimed && day == getCurrentDayOfWeek()) {
+                reward.setClaimed(false);
+                reward.setToday(true);
+            }
+            // Các ngày khác
+            else {
+                reward.setClaimed(day < getCurrentDayOfWeek()); // Các ngày trước đã claim
+                reward.setToday(false);
+            }
+
+            rewards.add(reward);
+        }
+
+        return rewards;
+    }
+
+    /**
+     * Lấy ngày hiện tại trong tuần (1-7)
+     */
+    private int getCurrentDayOfWeek() {
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK); // 1=Chủ nhật, 2=Thứ 2, ...
+
+        // Chuyển về 1-7 với 1=Thứ 2
+        if (day == Calendar.SUNDAY) return 7;
+        else return day - 1;
     }
     // ================= OFFLINE ACHIEVEMENTS =================
 

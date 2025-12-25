@@ -15,6 +15,7 @@ import com.example.iq5.core.network.DailyRewardApiService;
 import com.example.iq5.core.network.UserApiService;
 import com.example.iq5.core.prefs.PrefsManager;
 import com.example.iq5.data.model.ApiResponse;
+import com.example.iq5.data.model.ClaimRewardRequest;
 import com.example.iq5.data.model.UserProfileModel;
 import com.example.iq5.feature.auth.ui.ApiProfileActivity;
 import com.example.iq5.feature.reward.ui.ApiDailyRewardActivity;
@@ -134,7 +135,17 @@ public class TestRewardAndStatsActivity extends AppCompatActivity {
         }
 
         try {
-            Call<ApiResponse> call = dailyRewardService.checkTodayReward(2);
+            // Get token
+            PrefsManager prefsManager = new PrefsManager(this);
+            String token = prefsManager.getAuthToken();
+            if (token == null || token.isEmpty()) {
+                updateResult("❌ Chưa đăng nhập. Vui lòng đăng nhập trước.");
+                return;
+            }
+            String authHeader = "Bearer " + token;
+            
+            int userId = 2; // TODO: Lấy từ JWT token
+            Call<ApiResponse> call = dailyRewardService.checkTodayReward(userId, authHeader);
             
             call.enqueue(new Callback<ApiResponse>() {
                 @Override
@@ -177,10 +188,20 @@ public class TestRewardAndStatsActivity extends AppCompatActivity {
         }
 
         try {
-            DailyRewardApiService.ClaimRewardRequest request = 
-                new DailyRewardApiService.ClaimRewardRequest(2, "Coins", 100, "Daily login reward");
+            // Get token
+            PrefsManager prefsManager = new PrefsManager(this);
+            String token = prefsManager.getAuthToken();
+            if (token == null || token.isEmpty()) {
+                updateResult("❌ Chưa đăng nhập. Vui lòng đăng nhập trước.");
+                return;
+            }
+            String authHeader = "Bearer " + token;
             
-            Call<ApiResponse> call = dailyRewardService.claimDailyReward(request);
+            int userId = 2; // TODO: Lấy từ JWT token
+            ClaimRewardRequest request = 
+                new ClaimRewardRequest(userId, "Coins", 100, "Daily login reward", true);
+            
+            Call<ApiResponse> call = dailyRewardService.claimDailyReward(authHeader, request);
             
             call.enqueue(new Callback<ApiResponse>() {
                 @Override
