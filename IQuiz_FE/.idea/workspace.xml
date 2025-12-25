@@ -5,6 +5,11 @@
       <config />
     </shared>
     <layouts>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_achievement_header.xml">
+        <config>
+          <theme>@style/Theme.IQ5</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_answer_correct.xml">
         <config>
           <theme>@style/Theme.IQ5</theme>
@@ -21,6 +26,11 @@
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_gradient_main.xml">
+        <config>
+          <theme>@style/Theme.IQ5</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_icon_circle_inline.xml">
         <config>
           <theme>@style/Theme.IQ5</theme>
         </config>
@@ -251,7 +261,499 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="128cbd30-ae76-4f2c-b998-90113e609d57" name="Changes" comment="" />
+    <list default="true" id="128cbd30-ae76-4f2c-b998-90113e609d57" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gradle/8.13/checksums/checksums.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gradle/8.13/executionHistory/executionHistory.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gradle/8.13/fileChanges/last-build.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gradle/8.13/fileHashes/fileHashes.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gradle/8.13/fileHashes/fileHashes.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gradle/8.13/fileHashes/resourceHashesCache.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gradle/8.13/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gradle/buildOutputCleanup/cache.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gradle/config.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gradle/file-system.probe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gradle/vcs-1/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/AndroidProjectSystem.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/caches/deviceStreaming.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/deploymentTargetSelector.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/migrations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../QUIZ.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/proguard-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/androidTest/java/com/example/iq5/ExampleInstrumentedTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/Result/achievements.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/Result/daily_rewards.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/Result/stats_milestones.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/Result/streak_history.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/auth/home.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/auth/login.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/auth/profile.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/auth/register.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/auth/settings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/auth/splash.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/quiz/current_question.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/quiz/help_options.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/quiz/loading_success.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/quiz/quiz_review.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/quiz/selection_screen.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/specialmode/challenges.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/specialmode/custom_quiz.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/specialmode/daily_quiz.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/specialmode/players_search.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/assets/specialmode/wrong_answers.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/MainActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/base/BaseActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/base/BaseFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/db/AppDatabase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/db/Converters.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/db/DatabaseConnector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/db/dao/QuestionDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/db/dao/TopicDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/db/dao/UserDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/db/entity/QuestionLocalEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/db/entity/TopicLocalEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/db/entity/UserLocalEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/navigation/NavigationHelper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/network/ApiClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/network/AuthApiService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/network/MultiplayerApiService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/network/QuizApiService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/network/ResultApiService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/network/SpecialApiService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/network/UserApiService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/prefs/PrefsManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/util/DateTimeUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/util/NetworkUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/core/util/ViewUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/api/ApiService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/api/RetrofitClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/AchievementsResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/AnswerSubmitModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/ApiResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/CaiDatModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/CauHoiModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/ChangePasswordModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/GameSessionDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/HealthCheckResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/HistoryRecordDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/HomeResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/KetQuaModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/LeaderboardResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/LoginRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/LoginRequestModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/LoginResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/LoginResponseModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/MatchmakingRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/NguoiDungModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/OnlineCountResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/PlayerAnswerDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/ProfileUpdateModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/QuestionDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/QuizDetailResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/QuizNgayDetailsDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/QuizNgayResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/QuizSubmissionModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/QuizSubmissionRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/QuizSubmissionsResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/QuizSubmitResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/RegisterRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/RegisterRequestModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/ScoreDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/ScoreRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/StartQuizRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/StartQuizResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/SubmissionDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/SubmissionRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/SubmitAnswerResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/TopAssignmentDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/TopicDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/UserDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/model/UserProfileModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/repository/AuthRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/repository/AuthRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/repository/CustomQuizRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/repository/DailyQuizRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/repository/HomeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/repository/ProfileRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/repository/QuizRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/repository/QuizRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/data/repository/RankingRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/auth/data/AuthRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/auth/model/HomeResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/auth/model/LoginResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/auth/model/ProfileResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/auth/model/RegisterResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/auth/model/SettingsResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/auth/model/SplashResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/auth/ui/HomeActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/auth/ui/LoginActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/auth/ui/ProfileActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/auth/ui/QuizAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/auth/ui/RegisterActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/auth/ui/SettingsActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/auth/ui/SplashActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/adapter/FriendsAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/adapter/LeaderboardAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/adapter/RoomPlayerAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/data/FriendRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/data/FriendRepositoryImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/data/LeaderboardRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/data/MultiplayerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/data/QuestionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/model/Friend.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/model/LeaderboardEntry.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/model/PvPMatch.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/model/PvPRoom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/model/Question.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/model/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/ui/CompareResultActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/ui/FindMatchActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/ui/FriendsActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/ui/LeaderboardActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/ui/PvPBattleActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/ui/RoomLobbyActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/ui/fragments/FriendsFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/multiplayer/ui/fragments/LeaderboardFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/adapter/AnswerOptionAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/adapter/CategoryAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/adapter/DifficultyAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/adapter/ReviewQuestionAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/data/SpecialModeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/model/Category.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/model/CurrentQuestionResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/model/Difficulty.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/model/ErrorResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/model/HelpOptionsResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/model/Lifeline.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/model/Option.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/model/Question.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/model/QuizReviewResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/model/SelectionScreenResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/ui/ErrorFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/ui/LifelineDialogFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/ui/LoadingFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/ui/QuizActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/ui/ReviewQuestionActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/ui/SelectCategoryActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/quiz/ui/Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/adapter/AchievementAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/adapter/DailyRewardAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/adapter/StatsAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/adapter/StreakHistoryAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/data/ResultRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/model/Achievement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/model/DailyReward.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/model/MatchResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/model/StreakDay.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/model/UserStats.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/model/UserStreak.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/ui/AchievementActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/ui/DailyRewardActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/ui/ResultActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/ui/StatsActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/ui/StreakActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/result/ui/test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/adapter/CustomQuestionAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/adapter/CustomQuizAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/adapter/DailyQuizAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/adapter/PlayerAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/adapter/WrongTopicAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/data/SpecialModeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/model/ChallengeMode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/model/ChallengeModesResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/model/CustomQuestion.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/model/CustomQuizItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/model/CustomQuizResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/model/DailyQuizItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/model/DailyQuizResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/model/PlayerItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/model/PlayerSearchResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/model/WrongAnswersResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/model/WrongQuestion.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/model/WrongTopic.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/ui/ChallengeModesFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/ui/CustomQuizEditorActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/ui/CustomQuizFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/ui/DailyQuizFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/ui/PlayerSearchFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/ui/SpecialModeTestActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/feature/specialmode/ui/WrongHistoryFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/notification/MyFirebaseMessagingService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/utils/ApiHelper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/java/com/example/iq5/utils/DateDeserializer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/avatar1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/avatar2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/avatar_bg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/avatar_mask.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/badge_default_bg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_achievement_header_gradient.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_answer_default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_answer_selected.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_avatar_circle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_badge_new.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_bar_gradient_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_bar_gradient_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_bar_gradient_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_btn_outline.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_btn_primary.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_button_blue.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_button_cyan.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_button_danger.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_button_logout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_button_orange.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_button_primary.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_button_purple.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_button_reset.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_button_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_button_rounded_gradient.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_button_save.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_button_secondary.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_card.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_card_light.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_card_white.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_chip_light.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_circle_blue_light.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_circle_gold_light.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_circle_green.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_circle_green_light.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_circle_orange_light.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_circle_red_light.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_circle_white_20.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_countdown_gradient.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_difficulty_default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_difficulty_selected.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_filter_chip.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_gadient_echievement.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_gradient.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_gradient_banner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_header_custom_quiz.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_header_daily_quiz.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_header_gradient.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_header_speed.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_header_survival.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_header_wrong_history.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_input.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_input_rounded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_lobby_empty.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_login_gradient.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_online_dot.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_player_info.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_player_lobby.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_player_lobby_waiting.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_player_tag_me.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_profile_banner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_profile_gradient.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_progress_bar_achievement.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_role_badge.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_rounded_status.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_rounded_status_win.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_search_bar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_section.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_social_button.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_social_circle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_splash_gradient.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_stat_card.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_stat_card_rounded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/bg_title_gradient.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/circle_bg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/circle_white.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/custom_progress_bar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/default_answer_border.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/gradient_primary.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/gradient_vivid_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/gradient_vivid_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/gradient_vivid_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/gradient_vivid_header.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/happy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_50_50.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_accept.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_add_friend.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_apple.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_arrow_back.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_arrow_left.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_arrow_right.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_audience.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_avatar_default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_avatar_opponent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_avatar_placeholder.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_back.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_badge_status.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_books.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_challenge_sword.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_check_circle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_close_circle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_coin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_create.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_create_room.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_crown.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_dark_mode.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_decline.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_default_icon.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_edit.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_email.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_email1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_exit_game.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_facebook.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_fire.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_gift_box.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_google.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_home.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_join.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_join_room.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_language.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_launcher_foreground.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_library.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_lifeline_hint.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_lion_avatar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_lock.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_logo_pvp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_medal_general.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_person.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_person_add.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_play.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_profile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_quizzo_logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_refresh.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_rematch.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_sad_face.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_save.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_search.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_search_player.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_settings.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_share.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_skip.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_skip_next.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_trophy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_user.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_user_placeholder.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_volume.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ic_volume_up.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/option_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/ripple_button_primary.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/rounded_score_bg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/sample_quiz.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/shape_option_default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/switch_thumb.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/switch_track.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/drawable/unnamed.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_achievement.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_compare_result.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_custom_quiz_editor.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_daily_reward.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_find_match.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_friends.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_friends_leaderboard.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_home.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_leaderboard.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_login.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_profile.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_pvp_battle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_quiz.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_register.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_result.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_review_question.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_room_lobby.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_select_category.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_specialmode_test.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_splash.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_stats.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_streak.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/activity_test.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/dialog_join_room.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/dialog_lifeline.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/dialog_question_editor.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/fragment_challenge_modes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/fragment_custom_quiz.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/fragment_daily_quiz.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/fragment_error.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/fragment_friends.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/fragment_leaderboard.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/fragment_loading.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/fragment_player_search.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/fragment_wrong_history.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_achievement.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_answer_option.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_category.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_challenge_speed.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_challenge_survival.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_custom_question.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_custom_quiz.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_daily_quiz.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_daily_reward.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_difficulty.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_friend.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_leaderboard.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_player.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_quiz.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_review_question.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_room_player.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_room_player_small.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_stat_milestone.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_streak_day.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/item_wrong_topic.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/layout_bottom_nav.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/quiz_test.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/simple_tag_view.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/view_player_score_card.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/view_player_score_card2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/view_room_matchup_player.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/layout/view_room_matchup_player2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/mipmap-hdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/mipmap-mdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/mipmap-xhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/values-night/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/values/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/values/ids.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/values/refs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/values/styles.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/values/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/xml/backup_rules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/xml/data_extraction_rules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/main/res/xml/network_security_config.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/test/java/com/example/iq5/DateDeserializerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../app/src/test/java/com/example/iq5/ExampleUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build/reports/problems/problems-report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gradle/libs.versions.toml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../local.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../settings.gradle.kts" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -260,7 +762,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\LOQ\.android\avd\Medium_Phone.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\ADMIN\.android\avd\Pixel_3.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -287,26 +789,26 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="layoutResourceFile" />
-        <option value="resourceFile" />
         <option value="Class" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "QuangTapcode"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;QuangTapcode&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/tranthimyledayhihihihi/IQuiz_FE.git",
-    "accountId": "8603673b-b22d-4eb1-aa1e-4f31c288b4db"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/tranthimyledayhihihihi/IQuiz_FE.git&quot;,
+    &quot;accountId&quot;: &quot;8603673b-b22d-4eb1-aa1e-4f31c288b4db&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -326,6 +828,7 @@
     "Android App.app.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
@@ -334,8 +837,8 @@
     "cidr.known.project.marker": "true",
     "com.android.tools.idea.streaming.emulator.frame.visible": "false",
     "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
-    "git-widget-placeholder": "Trần-Thị-Mỹ-2",
-    "last_opened_file_path": "D:/FE/IQuiz_FE/IQuiz_FE",
+    "git-widget-placeholder": "Doan-Cong-Quang",
+    "last_opened_file_path": "D:/1HK125/ANDROID/NHOM/IQuiz_FE_CallAPI/IQuiz_FE/IQuiz_FE/IQuiz_FE",
     "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
 }]]></component>
