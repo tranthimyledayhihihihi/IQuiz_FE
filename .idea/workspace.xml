@@ -4,449 +4,15 @@
     <shared>
       <config />
     </shared>
-    <layouts>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_bg.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_mask.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_achievement_header_gradient.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_bar_gradient_1.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_bar_gradient_2.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_bar_gradient_3.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_button_rounded_gradient.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_gadient_echievement.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_progress_bar_achievement.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_rounded_status.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_rounded_status_win.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_stat_card.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_title_gradient.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/circle_bg.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/circle_white.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_arrow_right.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_audience.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_back.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_badge_status.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_challenge_sword.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_close_circle.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_crown.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_decline.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_search.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_trophy.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_achievement.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_compare_result.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_custom_quiz_editor.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_daily_reward.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_find_match.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_friends.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_friends_leaderboard.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_leaderboard.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_profile.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_pvp_battle.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_quiz.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_result.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_review_question.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_room_lobby.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_select_category.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_specialmode_test.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_splash.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_stats.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_streak.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_test.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_join_room.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_challenge_modes.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_custom_quiz.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_daily_quiz.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_error.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_friends.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_leaderboard.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_loading.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_player_search.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_wrong_history.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_achievement.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_answer_option.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_category.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_challenge_speed.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_challenge_survival.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_custom_question.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_custom_quiz.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_daily_quiz.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_daily_reward.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_difficulty.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_friend.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_leaderboard.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_player.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_quiz.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_review_question.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_room_player.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_room_player_small.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_stat_milestone.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_streak_day.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_wrong_topic.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/layout_bottom_nav.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/quiz_test.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/simple_tag_view.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/view_player_score_card.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/view_player_score_card2.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/view_room_matchup_player.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/view_room_matchup_player2.xml">
-        <config>
-          <theme>@style/Theme.IQ5</theme>
-        </config>
-      </layout>
-    </layouts>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a6e17f8-b015-4084-883c-269da79ca685" name="Changes" comment="" />
+    <list default="true" id="8a6e17f8-b015-4084-883c-269da79ca685" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -455,7 +21,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\WILLIAMMYLE\.android\avd\Pixel_7.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -506,26 +72,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Android App.app.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "ResourceManagerPrefKey.ResourceType": "LAYOUT",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "android.gradle.sync.needed": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "com.google.services.firebase.aqiPopupShown": "true",
-    "git-widget-placeholder": "Trần-Thị-Mỹ-2",
-    "last_opened_file_path": "E:/THAYHUY/QUIZ_DTDD/FE",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;ResourceManagerPrefKey.ResourceType&quot;: &quot;LAYOUT&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;android.gradle.sync.needed&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Doan-Cong-Quang&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/THAYHUY/QUIZ_DTDD/FE&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="IQ5.app" />
