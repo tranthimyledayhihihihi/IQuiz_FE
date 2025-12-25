@@ -12,9 +12,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.iq5.feature.multiplayer.ui.FindMatchActivity;
 import com.example.iq5.feature.multiplayer.ui.LeaderboardActivity;
-import com.example.iq5.feature.quiz.ui.SelectCategoryActivity;
+import com.example.iq5.feature.multiplayer.ui.MultiplayerLobbyActivity;
 import com.example.iq5.feature.quiz.ui.ReviewQuestionActivity;
 
 import com.example.iq5.core.navigation.NavigationHelper;
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupClickListeners() {
         if (btnGoToOnline != null) {
             btnGoToOnline.setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, FindMatchActivity.class);
+                Intent intent = new Intent(MainActivity.this, MultiplayerLobbyActivity.class);
                 startActivity(intent);
             });
         }

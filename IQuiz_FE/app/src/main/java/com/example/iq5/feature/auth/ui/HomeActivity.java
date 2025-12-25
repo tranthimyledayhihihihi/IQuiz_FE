@@ -38,7 +38,6 @@ public class HomeActivity extends AppCompatActivity {
         initRepository();
         loadHomeData();
         setupNavigation();
-        setupFindFriendAction();
     }
 
     private void initViews() {
@@ -106,11 +105,11 @@ public class HomeActivity extends AppCompatActivity {
             );
         }
 
-        // Nút Join (Giả định chuyển đến màn Multiplayer)
+        // Nút Join → chuyển đến màn Join Room
         View btnJoin = findViewById(R.id.btnJoin);
         if (btnJoin != null) {
             btnJoin.setOnClickListener(v -> {
-                NavigationHelper.navigateToFindMatch(this);
+                NavigationHelper.navigateToJoinRoom(this);
             });
         }
 
@@ -179,9 +178,10 @@ public class HomeActivity extends AppCompatActivity {
 
         if (findViewById(R.id.btnMultiplayer) != null) {
             findViewById(R.id.btnMultiplayer).setOnClickListener(v -> {
-                NavigationHelper.navigateToFindMatch(this);
+                NavigationHelper.navigateToMultiplayerLobby(this);
             });
         }
+
 
         // THÊM LOGIC CHO NÚT ĐẤU TRƯỜNG MỚI
         if (findViewById(R.id.btnArena) != null) {
@@ -208,14 +208,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     // Thêm logic cho nút Tìm bạn trên banner
-    private void setupFindFriendAction() {
-        View btnFindFriend = findViewById(R.id.btnFindFriend);
-        if (btnFindFriend != null) {
-            btnFindFriend.setOnClickListener(v -> {
-                NavigationHelper.navigateToFriends(this);
-            });
-        }
-    }
+
     // ======== THÊM METHOD showFragment() ========
     private void showFragment(androidx.fragment.app.Fragment fragment, String tag) {
         // Ẩn Home Content
@@ -252,9 +245,7 @@ public class HomeActivity extends AppCompatActivity {
         
         builder.setItems(options, (dialog, which) -> {
             switch (which) {
-                case 0: // API Quiz Test
-                    NavigationHelper.navigateToApiSelectCategory(this);
-                    break;
+
                 case 1: // Chức năng khác (có thể thêm sau)
                     Toast.makeText(this, "Chức năng đang phát triển", Toast.LENGTH_SHORT).show();
                     break;

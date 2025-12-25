@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
@@ -149,37 +150,39 @@
             android:name=".feature.social.ui.SimpleApiLeaderboardActivity"
             android:exported="false" />
 
-        <!-- Multiplayer Activities -->
+        <!-- ================= MULTIPLAYER (ĐÚNG LUỒNG HIỆN TẠI) ================= -->
+
         <activity
-            android:name=".feature.multiplayer.ui.FindMatchActivity"
+            android:name=".feature.multiplayer.ui.MultiplayerLobbyActivity"
             android:exported="false" />
 
         <activity
-            android:name=".feature.multiplayer.ui.RoomLobbyActivity"
+            android:name=".feature.multiplayer.ui.CreateRoomActivity"
             android:exported="false" />
 
         <activity
-            android:name=".feature.multiplayer.ui.PvPBattleActivity"
+            android:name=".feature.multiplayer.ui.JoinRoomActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".feature.multiplayer.ui.WaitingRoomActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".feature.multiplayer.ui.MatchActivity"
             android:exported="false"
             android:noHistory="true" />
 
         <activity
-            android:name=".feature.multiplayer.ui.ApiPvPBattleActivity"
+            android:name=".feature.multiplayer.ui.MatchResultActivity"
             android:exported="false"
             android:noHistory="true" />
-            
-        <activity
-            android:name=".feature.multiplayer.ui.CompareResultActivity"
-            android:exported="false"
-            android:noHistory="true" />
-            
-        <activity
-            android:name=".feature.multiplayer.ui.FriendsActivity"
-            android:exported="false" />
 
         <activity
             android:name=".feature.multiplayer.ui.LeaderboardActivity"
             android:exported="false" />
+
+
 
         <!-- Special Mode Activities -->
         <activity
@@ -195,20 +198,8 @@
             android:name=".feature.specialmode.ui.ApiWrongHistoryActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".feature.specialmode.ui.ApiDailyQuizFragment"
-            android:exported="false" />
 
-        <!-- Debug Activities -->
-        <activity
-            android:name=".debug.TestApiActivity"
-            android:exported="false"
-            android:label="API Test Tool" />
-        
-        <activity
-            android:name=".debug.SimpleTestActivity"
-            android:exported="false"
-            android:label="Simple Test" />
+
             
         <activity
             android:name=".debug.DebugAchievementActivity"

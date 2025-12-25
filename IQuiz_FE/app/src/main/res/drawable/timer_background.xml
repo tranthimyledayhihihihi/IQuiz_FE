@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Nền tối trong suốt cho timer -->
+    <solid android:color="#66000000"/>
+
+    <!-- Bo góc -->
+    <corners android:radius="14dp"/>
+
+    <!-- Padding cho chữ -->
+    <padding
+        android:left="10dp"
+        android:top="6dp"
+        android:right="10dp"
+        android:bottom="6dp"/>
+
+</shape>

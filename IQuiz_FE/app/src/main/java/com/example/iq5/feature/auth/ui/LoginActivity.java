@@ -97,18 +97,21 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     showLoading(false);
                     Log.d(TAG, "✅ Đăng nhập thành công! Token: " + token);
-                    
-                    getSharedPreferences("user_prefs", MODE_PRIVATE)
-                        .edit()
-                        .putString("user_name", hoTen)
-                        .putString("user_email", username)
-                        .putString("user_role", vaiTro)
-                        .apply();
-                    
+
+                    // 🔥 LƯU TOKEN + USER INFO (BẮT BUỘC)
+                    getSharedPreferences("app_prefs", MODE_PRIVATE)
+                            .edit()
+                            .putString("auth_token", token)
+                            .putString("user_name", hoTen)
+                            .putString("user_email", username)
+                            .putString("user_role", vaiTro)
+                            .apply();
+
                     Toast.makeText(LoginActivity.this, "✅ Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                     goToHome();
                 });
             }
+
 
             @Override
             public void onError(String error) {

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <color name="bg_primary">#FFFFFF</color>
+    <color name="bg_secondary">#F9F9FB</color>
+    <color name="bg_tertiary">#F5F5F5</color>
+    <color name="black">#FF000000</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="border_light">#E5E5EA</color>
+    <color name="border_medium">#C7C7CC</color>
+    <color name="bottom_nav_inactive">#B0B0B0</color>
+    <color name="button_cyan">@color/cyan_accent</color>
+    <color name="button_danger">#FF3B30</color>
+    <color name="button_pressed">@color/purple_dark</color>
+    <color name="button_primary">@color/purple_primary</color>
+    <color name="colorAccent">@color/cyan_accent</color>
+    <color name="colorBackground">#F5F5F5</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorBronze">#CD7F32</color>
+    <color name="colorButtonNormal">#E0E0E0</color>
+    <color name="colorError">#F44336</color>
+    <color name="colorGold">#FFD700</color>
+    <color name="colorLose">#F44336</color>
+    <color name="colorPrimary">@color/purple_primary</color>
+    <color name="colorPrimaryDark">@color/purple_dark</color>
+    <color name="colorPrimaryLight">#9575CD</color>
+    <color name="colorSecondaryAccent">#F06292</color>
+    <color name="colorSilver">#C0C0C0</color>
+    <color name="colorTextPrimary">#212121</color>
+    <color name="colorTextSecondary">#757575</color>
+    <color name="colorTextWhite">#FFFFFF</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorWin">#4CAF50</color>
+    <color name="color_black">@color/black</color>
+    <color name="color_border_light">@color/border_light</color>
+    <color name="color_cyan_accent">@color/cyan_accent</color>
+    <color name="color_error">@color/status_error</color>
+    <color name="color_gold">@color/yellow_gold</color>
+    <color name="color_gray_bg_secondary">@color/bg_secondary</color>
+    <color name="color_gray_bg_tertiary">@color/bg_tertiary</color>
+    <color name="color_primary">@color/purple_primary</color>
+    <color name="color_purple_light">@color/purple_light</color>
+    <color name="color_result_score_lose">@color/color_text_secondary</color>
+    <color name="color_result_score_win">@color/color_gold</color>
+    <color name="color_reward_day_claimed">@color/color_purple_light</color>
+    <color name="color_reward_day_today">@color/color_primary</color>
+    <color name="color_reward_day_unclaimed">@color/color_gray_bg_tertiary</color>
+    <color name="color_streak_bg_light">@color/orange_light</color>
+    <color name="color_streak_fire">@color/orange_primary</color>
+    <color name="color_success">@color/green_success</color>
+    <color name="color_text_secondary">@color/text_secondary</color>
+    <color name="color_text_tertiary">@color/text_tertiary</color>
+    <color name="color_warning">@color/status_warning</color>
+    <color name="color_white">@color/white</color>
+    <color name="cyanAccent">@color/cyan_accent</color>
+    <color name="cyan_accent">#00D4FF</color>
+    <color name="gold_yellow">#FFD700</color>
+    <color name="green_success">#34C759</color>
+    <color name="input_border">#E5E5EA</color>
+    <color name="online_green">#81C784</color>
+    <color name="orangeGradientStart">@color/orange_gradient_start</color>
+    <color name="orange_gradient_start">#FF7A3D</color>
+    <color name="orange_light">#FFE5D9</color>
+    <color name="orange_primary">#FF6B35</color>
+    <color name="pinkGradientMiddle">@color/pink_gradient_middle</color>
+    <color name="pink_gradient_middle">#FFA8C5</color>
+    <color name="purpleGradientEnd">@color/purple_gradient_end</color>
+    <color name="purple_dark">#5A3FE6</color>
+    <color name="purple_gradient_end">#9747FF</color>
+    <color name="purple_light">#E8E3FF</color>
+    <color name="purple_primary">#6C4FFF</color>
+    <color name="red_light">#EF5350</color>
+    <color name="status_error">#FF3B30</color>
+    <color name="status_success">@color/green_success</color>
+    <color name="status_warning">#FFA500</color>
+    <color name="tab_active">@color/purple_primary</color>
+    <color name="tab_inactive_gray">#8E8E93</color>
+    <color name="text_muted">#8E8E93</color>
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#2C2C2E</color>
+    <color name="text_tertiary">#8E8E93</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="yellow_gold">#FFD700</color>
+    <item name="recyclerCategory" type="id"/>
+    <item name="txtReviewAnswer" type="id"/>
+    <string name="app_name">IQ5</string>
+    <string name="app_name_legacy">IQuiz</string>
+    <string name="button_finish_text">KẾT THÚC</string>
+    <string name="button_skip_text">BỎ QUA / TIẾP</string>
+    <string name="category_icon_description">Biểu tượng đại diện cho danh mục</string>
+    <string name="header_background_description">Nền gradient hiển thị điểm số và thời gian</string>
+    <string name="lifeline_hint_description">Mở hướng dẫn trợ giúp</string>
+    <string name="lifeline_instructions">
+        • 50:50: Loại bỏ 2 đáp án sai.\n
+        • Khán giả: Nhận gợi ý phần trăm từ khán giả giả lập.\n
+        • Bỏ qua: Chuyển sang câu hỏi tiếp theo.\n
+        • Mỗi quyền trợ giúp chỉ dùng 1 lần mỗi lượt chơi.\n
+        • Các quyền trợ giúp sẽ xuất hiện khi bạn bắt đầu trả lời câu hỏi.
+    </string>
+    <string name="quiz_avatar_description">Linh vật Quiz</string>
+    <string name="quiz_question_placeholder">Câu hỏi: Thủ đô của Việt Nam là gì?</string>
+    <string name="score_placeholder">100</string>
+    <string name="server_client_id">
+        206751993131-n1busrb9cj68b54t0teat10do0gm9pl1.apps.googleusercontent.com
+    </string>
+    <string name="streak_day_format">Ngày %d</string>
+    <string name="team_matchup_placeholder">Đội A (1/4) vs Đội B (2/4)</string>
+    <string name="timer_placeholder">00:00</string>
+    <string name="username">andrew_ainsley</string>
+    <style name="BarChartBarStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:background">@color/color_primary</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+    <style name="BarChartColumnStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginEnd">2dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">bottom|center_horizontal</item>
+    </style>
+    <style name="BarChartDayStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+    <style name="BarChartScoreStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">top|center_horizontal</item>
+    </style>
+    <style name="Base.Theme.IQ5" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryVariant">@color/color_black</item>
+        <item name="colorOnPrimary">@color/color_white</item>
+        <item name="colorSecondary">@color/color_cyan_accent</item>
+        <item name="colorOnSecondary">@color/color_black</item>
+        <item name="android:windowBackground">@color/color_white</item>
+        <item name="android:statusBarColor" ns1:targetApi="l">@color/color_black</item>
+    </style>
+    <style name="Button.Primary" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="Button.Secondary" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/purple_primary</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="ButtonCyan" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:lineSpacingExtra">6dp</item>
+        <item name="backgroundTint">@color/button_cyan</item>
+        <item name="android:textColor">@color/text_white</item>
+        <item name="android:drawableTint">?android:attr/textColor</item>
+    </style>
+    <style name="ButtonDanger" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="backgroundTint">@color/button_danger</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textColor">@color/text_white</item>
+    </style>
+    <style name="ButtonPrimary" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textColor">@color/text_white</item>
+    </style>
+    <style name="ButtonSecondary" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="backgroundTint">@color/purple_light</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <style name="CalendarDayHeader" parent="android:Widget.TextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+    <style name="CalendarStatCardStyle" parent="StatCardStyle">
+        <item name="android:backgroundTint">@color/color_white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+    <style name="CircleImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    <style name="HeaderText.Bold" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+    <style name="InputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextColor">@color/text_secondary</item>
+        <item name="boxStrokeColor">@color/input_border</item>
+        <item name="boxBackgroundColor">@color/bg_secondary</item>
+    </style>
+    <style name="LifelineItemTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="StatCardStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/bg_stat_card_rounded</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_black</item> <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
+    </style>
+    <style name="SubHeaderText.Bold" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+    <style name="TextWhite">
+        <item name="android:textColor">@color/text_white</item>
+    </style>
+    <style name="Theme.IQ5" parent="Base.Theme.IQ5"/>
+    <style name="Theme.IQ5.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+</resources>
