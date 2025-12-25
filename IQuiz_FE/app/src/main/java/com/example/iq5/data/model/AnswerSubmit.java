@@ -6,6 +6,10 @@ public class AnswerSubmit {
     private String dapAnChon;
     private int userID; // Sẽ được set tự động từ JWT
 
+    // Default constructor
+    public AnswerSubmit() {
+    }
+
     public AnswerSubmit(int attemptID, int cauHoiID, String dapAnChon) {
         this.attemptID = attemptID;
         this.cauHoiID = cauHoiID;
@@ -42,5 +46,18 @@ public class AnswerSubmit {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+    
+    // English method aliases for compatibility
+    public void setAttemptId(int attemptId) {
+        this.attemptID = attemptId;
+    }
+    
+    public void setQuestionId(int questionId) {
+        this.cauHoiID = questionId;
+    }
+    
+    public void setSelectedAnswerId(String selectedAnswerId) {
+        this.dapAnChon = selectedAnswerId;
     }
 }

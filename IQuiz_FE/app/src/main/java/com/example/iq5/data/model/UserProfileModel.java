@@ -1,11 +1,10 @@
 package com.example.iq5.data.model;
 
 import com.google.gson.annotations.SerializedName;
-import java.util.Date;
 
 /**
  * Model cho User Profile
- * Tương ứng với UserProfileDto.cs
+ * Tương ứng với response từ ProfileController backend
  */
 public class UserProfileModel {
     
@@ -15,32 +14,91 @@ public class UserProfileModel {
     @SerializedName("tenDangNhap")
     private String tenDangNhap;
     
+    @SerializedName("email")
+    private String email;
+    
     @SerializedName("hoTen")
     private String hoTen;
     
     @SerializedName("anhDaiDien")
     private String anhDaiDien;
     
-    @SerializedName(value = "ngayDangKy", alternate = {"ngayDangKyfix"})
-    private Date ngayDangKy;
+    @SerializedName("ngayDangKy")
+    private String ngayDangKy;
     
-    @SerializedName("tongSoQuizDaLam")
-    private int tongSoQuizDaLam;
+    @SerializedName("lanDangNhapCuoi")
+    private String lanDangNhapCuoi;
     
-    @SerializedName("tongSoCauHoiDung")
-    private int tongSoCauHoiDung;
+    @SerializedName("vaiTro")
+    private String vaiTro;
     
-    @SerializedName("tongSoDiem")
-    private int tongSoDiem;
+    @SerializedName("caiDat")
+    private CaiDatModel caiDat;
     
-    @SerializedName("soNguoiTheoDoi")
-    private int soNguoiTheoDoi;
+    @SerializedName("thongKe")
+    private ThongKeModel thongKe;
     
-    @SerializedName("dangTheoDoi")
-    private int dangTheoDoi;
+    // Nested CaiDat class
+    public static class CaiDatModel {
+        @SerializedName("amThanh")
+        private boolean amThanh;
+        
+        @SerializedName("nhacNen")
+        private boolean nhacNen;
+        
+        @SerializedName("thongBao")
+        private boolean thongBao;
+        
+        @SerializedName("ngonNgu")
+        private String ngonNgu;
+        
+        // Getters & Setters
+        public boolean isAmThanh() { return amThanh; }
+        public void setAmThanh(boolean amThanh) { this.amThanh = amThanh; }
+        
+        public boolean isNhacNen() { return nhacNen; }
+        public void setNhacNen(boolean nhacNen) { this.nhacNen = nhacNen; }
+        
+        public boolean isThongBao() { return thongBao; }
+        public void setThongBao(boolean thongBao) { this.thongBao = thongBao; }
+        
+        public String getNgonNgu() { return ngonNgu; }
+        public void setNgonNgu(String ngonNgu) { this.ngonNgu = ngonNgu; }
+    }
     
-    @SerializedName("isFollowing")
-    private boolean isFollowing;
+    // Nested ThongKe class
+    public static class ThongKeModel {
+        @SerializedName("soBaiQuizHoanThanh")
+        private int soBaiQuizHoanThanh;
+        
+        @SerializedName("diemTrungBinh")
+        private double diemTrungBinh;
+        
+        @SerializedName("tongSoCauDung")
+        private int tongSoCauDung;
+        
+        @SerializedName("tongSoCauHoi")
+        private int tongSoCauHoi;
+        
+        @SerializedName("tyLeDung")
+        private double tyLeDung;
+        
+        // Getters & Setters
+        public int getSoBaiQuizHoanThanh() { return soBaiQuizHoanThanh; }
+        public void setSoBaiQuizHoanThanh(int soBaiQuizHoanThanh) { this.soBaiQuizHoanThanh = soBaiQuizHoanThanh; }
+        
+        public double getDiemTrungBinh() { return diemTrungBinh; }
+        public void setDiemTrungBinh(double diemTrungBinh) { this.diemTrungBinh = diemTrungBinh; }
+        
+        public int getTongSoCauDung() { return tongSoCauDung; }
+        public void setTongSoCauDung(int tongSoCauDung) { this.tongSoCauDung = tongSoCauDung; }
+        
+        public int getTongSoCauHoi() { return tongSoCauHoi; }
+        public void setTongSoCauHoi(int tongSoCauHoi) { this.tongSoCauHoi = tongSoCauHoi; }
+        
+        public double getTyLeDung() { return tyLeDung; }
+        public void setTyLeDung(double tyLeDung) { this.tyLeDung = tyLeDung; }
+    }
 
     // Constructors
     public UserProfileModel() {}
@@ -62,6 +120,14 @@ public class UserProfileModel {
         this.tenDangNhap = tenDangNhap;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getHoTen() {
         return hoTen;
     }
@@ -78,59 +144,43 @@ public class UserProfileModel {
         this.anhDaiDien = anhDaiDien;
     }
 
-    public Date getNgayDangKy() {
+    public String getNgayDangKy() {
         return ngayDangKy;
     }
 
-    public void setNgayDangKy(Date ngayDangKy) {
+    public void setNgayDangKy(String ngayDangKy) {
         this.ngayDangKy = ngayDangKy;
     }
 
-    public int getTongSoQuizDaLam() {
-        return tongSoQuizDaLam;
+    public String getLanDangNhapCuoi() {
+        return lanDangNhapCuoi;
     }
 
-    public void setTongSoQuizDaLam(int tongSoQuizDaLam) {
-        this.tongSoQuizDaLam = tongSoQuizDaLam;
+    public void setLanDangNhapCuoi(String lanDangNhapCuoi) {
+        this.lanDangNhapCuoi = lanDangNhapCuoi;
     }
 
-    public int getTongSoCauHoiDung() {
-        return tongSoCauHoiDung;
+    public String getVaiTro() {
+        return vaiTro;
     }
 
-    public void setTongSoCauHoiDung(int tongSoCauHoiDung) {
-        this.tongSoCauHoiDung = tongSoCauHoiDung;
+    public void setVaiTro(String vaiTro) {
+        this.vaiTro = vaiTro;
     }
 
-    public int getTongSoDiem() {
-        return tongSoDiem;
+    public CaiDatModel getCaiDat() {
+        return caiDat;
     }
 
-    public void setTongSoDiem(int tongSoDiem) {
-        this.tongSoDiem = tongSoDiem;
+    public void setCaiDat(CaiDatModel caiDat) {
+        this.caiDat = caiDat;
+    }
+    
+    public ThongKeModel getThongKe() {
+        return thongKe;
     }
 
-    public int getSoNguoiTheoDoi() {
-        return soNguoiTheoDoi;
-    }
-
-    public void setSoNguoiTheoDoi(int soNguoiTheoDoi) {
-        this.soNguoiTheoDoi = soNguoiTheoDoi;
-    }
-
-    public int getDangTheoDoi() {
-        return dangTheoDoi;
-    }
-
-    public void setDangTheoDoi(int dangTheoDoi) {
-        this.dangTheoDoi = dangTheoDoi;
-    }
-
-    public boolean isFollowing() {
-        return isFollowing;
-    }
-
-    public void setFollowing(boolean following) {
-        isFollowing = following;
+    public void setThongKe(ThongKeModel thongKe) {
+        this.thongKe = thongKe;
     }
 }

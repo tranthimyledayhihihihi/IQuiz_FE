@@ -38,7 +38,6 @@ public class HomeActivity extends AppCompatActivity {
         initRepository();
         loadHomeData();
         setupNavigation();
-        setupFindFriendAction();
     }
 
     private void initViews() {
@@ -106,11 +105,11 @@ public class HomeActivity extends AppCompatActivity {
             );
         }
 
-        // Nút Join (Giả định chuyển đến màn Multiplayer)
+        // Nút Join → chuyển đến màn Join Room
         View btnJoin = findViewById(R.id.btnJoin);
         if (btnJoin != null) {
             btnJoin.setOnClickListener(v -> {
-                NavigationHelper.navigateToFindMatch(this);
+                NavigationHelper.navigateToJoinRoom(this);
             });
         }
 
@@ -179,9 +178,10 @@ public class HomeActivity extends AppCompatActivity {
 
         if (findViewById(R.id.btnMultiplayer) != null) {
             findViewById(R.id.btnMultiplayer).setOnClickListener(v -> {
-                NavigationHelper.navigateToFindMatch(this);
+                NavigationHelper.navigateToMultiplayerLobby(this);
             });
         }
+
 
         // THÊM LOGIC CHO NÚT ĐẤU TRƯỜNG MỚI
         if (findViewById(R.id.btnArena) != null) {
@@ -189,17 +189,26 @@ public class HomeActivity extends AppCompatActivity {
                 NavigationHelper.navigateToSelectCategory(this);
             });
         }
-    }
-
-    // Thêm logic cho nút Tìm bạn trên banner
-    private void setupFindFriendAction() {
-        View btnFindFriend = findViewById(R.id.btnFindFriend);
-        if (btnFindFriend != null) {
-            btnFindFriend.setOnClickListener(v -> {
-                NavigationHelper.navigateToFriends(this);
+        
+        // DEBUG: Long click trên avatar để mở debug menu (sử dụng view có sẵn)
+        if (imgAvatarHome != null) {
+            imgAvatarHome.setOnLongClickListener(v -> {
+                showDebugMenu();
+                return true;
+            });
+        }
+        
+        // DEBUG: Long click trên welcome text để mở debug menu
+        if (tvWelcome != null) {
+            tvWelcome.setOnLongClickListener(v -> {
+                showDebugMenu();
+                return true;
             });
         }
     }
+
+    // Thêm logic cho nút Tìm bạn trên banner
+
     // ======== THÊM METHOD showFragment() ========
     private void showFragment(androidx.fragment.app.Fragment fragment, String tag) {
         // Ẩn Home Content
@@ -219,6 +228,38 @@ public class HomeActivity extends AppCompatActivity {
         transaction.addToBackStack(tag);
         transaction.commit();
     }
+    
+    /**
+     * Hiển thị debug menu để truy cập các tính năng test
+     */
+    private void showDebugMenu() {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        builder.setTitle("🛠️ Debug Menu");
+        
+        String[] options = {
+            "🎯 API Quiz Test (Real Data)",
+            "🔧 Simple Test Activity", 
+            "📡 API Test Tool",
+            "🏠 Back to Home"
+        };
+        
+        builder.setItems(options, (dialog, which) -> {
+            switch (which) {
 
+                case 1: // Chức năng khác (có thể thêm sau)
+                    Toast.makeText(this, "Chức năng đang phát triển", Toast.LENGTH_SHORT).show();
+                    break;
+                case 2: // Chức năng khác (có thể thêm sau)
+                    Toast.makeText(this, "Chức năng đang phát triển", Toast.LENGTH_SHORT).show();
+                    break;
+                case 3: // Back to Home
+                    dialog.dismiss();
+                    break;
+            }
+        });
+        
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
 
 }

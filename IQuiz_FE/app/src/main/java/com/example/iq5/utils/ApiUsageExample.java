@@ -10,6 +10,7 @@ import com.example.iq5.data.model.LoginRequest;
 import com.example.iq5.data.model.LoginResponse;
 import com.example.iq5.data.model.RegisterRequest;
 import com.example.iq5.data.model.ApiResponse;
+import com.example.iq5.data.model.UserProfileModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -94,13 +95,13 @@ public class ApiUsageExample {
     public static void getProfileExample(PrefsManager prefsManager) {
         UserApiService userService = ApiServiceFactory.getUserService(prefsManager);
         
-        Call<UserApiService.UserProfile> call = userService.getMyProfile();
+        Call<UserProfileModel> call = userService.getMyProfile();
         
-        call.enqueue(new Callback<UserApiService.UserProfile>() {
+        call.enqueue(new Callback<UserProfileModel>() {
             @Override
-            public void onResponse(Call<UserApiService.UserProfile> call, Response<UserApiService.UserProfile> response) {
+            public void onResponse(Call<UserProfileModel> call, Response<UserProfileModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    UserApiService.UserProfile profile = response.body();
+                    UserProfileModel profile = response.body();
                     
                     Log.d(TAG, "✅ Lấy profile thành công!");
                     Log.d(TAG, "👤 Tên: " + profile.getHoTen());
@@ -118,7 +119,7 @@ public class ApiUsageExample {
             }
 
             @Override
-            public void onFailure(Call<UserApiService.UserProfile> call, Throwable t) {
+            public void onFailure(Call<UserProfileModel> call, Throwable t) {
                 Log.e(TAG, "❌ Lỗi kết nối khi lấy profile: " + t.getMessage());
             }
         });

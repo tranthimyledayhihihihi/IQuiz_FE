@@ -2,6 +2,7 @@ package com.example.iq5.core.db.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "TopicLocalEntity")
@@ -20,11 +21,13 @@ public class TopicLocalEntity {
 
     // 2. CONSTRUCTOR ĐẦY ĐỦ (KHẮC PHỤC LỖI CHÍNH)
     // PHẢI CHỨA TẤT CẢ CÁC FIELD
+    @Ignore
     public TopicLocalEntity(int chuDeId, String tenChuDe) {
         this.chuDeId = chuDeId;
         this.tenChuDe = tenChuDe;
     }
 
+    @Ignore
     public TopicLocalEntity(int chuDeId, String tenChuDe, Object o) {
     }
 

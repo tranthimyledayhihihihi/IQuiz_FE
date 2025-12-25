@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <!-- Nền avatar -->
+    <solid android:color="@color/bg_secondary" />
+
+    <!-- Bo tròn / khung tròn -->
+    <corners android:radius="999dp" />
+
+    <!-- Viền -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/cyan_accent" />
+
+</shape>

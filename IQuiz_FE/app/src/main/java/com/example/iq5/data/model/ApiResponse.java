@@ -1,8 +1,8 @@
 package com.example.iq5.data.model;
 
 public class ApiResponse {
-    private String message;
-    private boolean success;
+    public String message;
+    public boolean success;
 
     public String getMessage() {
         return message;

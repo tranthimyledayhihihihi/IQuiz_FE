@@ -16,13 +16,16 @@ import com.example.iq5.feature.quiz.adapter.CategoryAdapter;
 import com.example.iq5.feature.quiz.model.Category;
 import com.example.iq5.feature.quiz.adapter.DifficultyAdapter;
 import com.example.iq5.feature.quiz.model.Difficulty;
-import com.example.iq5.feature.quiz.data.SpecialModeRepository;
+// Import API classes
+import com.example.iq5.core.network.ApiClient;
+import com.example.iq5.core.network.QuizApiService;
+import com.example.iq5.core.prefs.PrefsManager;
 
-import com.example.iq5.feature.quiz.model.SelectionScreenResponse;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +40,9 @@ public class SelectCategoryActivity extends AppCompatActivity {
     private RecyclerView rvDifficulty;
     private Button btnStartQuiz;
 
-    private SpecialModeRepository repository;
+    // API components
+    private PrefsManager prefsManager;
+    private QuizApiService quizService;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -65,7 +70,9 @@ public class SelectCategoryActivity extends AppCompatActivity {
     }
 
     private void initRepository() {
-        repository = new SpecialModeRepository(this);
+        prefsManager = new PrefsManager(this);
+        Retrofit retrofit = ApiClient.getClient(prefsManager);
+        quizService = ApiClient.createService(retrofit, QuizApiService.class);
     }
 
     private void handleStartQuiz() {
@@ -79,59 +86,78 @@ public class SelectCategoryActivity extends AppCompatActivity {
             return;
         }
 
-        NavigationHelper.navigateToQuiz(this, String.valueOf(selectedCategoryId), selectedDifficultyId);
+        // Gọi API để lấy câu hỏi theo category (giống ApiSelectCategoryActivity)
+        startQuizWithCategory(selectedCategoryId);
     }
 
+    /**
+     * Load categories từ API thật - GIỐNG ApiSelectCategoryActivity
+     */
     private void loadSelectionData() {
-        try {
-            SelectionScreenResponse response = repository.getSelectionScreenData();
-
-            if (response == null || response.getData() == null || response.getData().getSections() == null) {
-                Toast.makeText(this, "Không tìm thấy dữ liệu cấu hình Quiz!", Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            List<Category> categoryList = new ArrayList<>();
-            List<Difficulty> difficultyList = new ArrayList<>();
-
-            Gson gson = new Gson();
-
-            Type categoryListType = new TypeToken<List<Category>>() {}.getType();
-            Type difficultyListType = new TypeToken<List<Difficulty>>() {}.getType();
-
-            for (SelectionScreenResponse.SectionItem section : response.getData().getSections()) {
-
-                if (section == null || section.getItems() == null)
-                    continue;
-
-                String jsonString = gson.toJson(section.getItems());
-
-                switch (section.getType()) {
-                    case "categories":
-                        categoryList = gson.fromJson(jsonString, categoryListType);
-                        break;
-
-                    case "difficulty":
-                        difficultyList = gson.fromJson(jsonString, difficultyListType);
-                        break;
-
-                    default:
-                        Log.w(TAG, "Loại section không xác định: " + section.getType());
+        Log.d(TAG, "🔄 Loading REAL categories from SQL Server API...");
+        Log.d(TAG, "🔗 API URL: " + ApiClient.getBaseUrl() + "chude/with-stats");
+        
+        // Gọi API thật để lấy categories
+        quizService.getCategories().enqueue(new Callback<List<QuizApiService.CategoryResponse>>() {
+            @Override
+            public void onResponse(Call<List<QuizApiService.CategoryResponse>> call, Response<List<QuizApiService.CategoryResponse>> response) {
+                Log.d(TAG, "📡 Response Code: " + response.code());
+                
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    List<QuizApiService.CategoryResponse> apiCategories = response.body();
+                    Log.d(TAG, "✅ SUCCESS! Loaded " + apiCategories.size() + " REAL categories from SQL Server!");
+                    
+                    // Convert API response to Category objects
+                    List<Category> realCategories = new ArrayList<>();
+                    for (QuizApiService.CategoryResponse apiCat : apiCategories) {
+                        realCategories.add(new Category(
+                            apiCat.getId(),
+                            apiCat.getName(),
+                            apiCat.getIcon(),
+                            apiCat.getQuiz_count(),
+                            apiCat.getProgress_percent()
+                        ));
+                    }
+                    
+                    setupCategories(realCategories);
+                    setupDefaultDifficulties(); // Tạo difficulties mặc định
+                    
+                    Toast.makeText(SelectCategoryActivity.this, 
+                        "✅ Đã tải " + realCategories.size() + " danh mục từ SQL Server!", 
+                        Toast.LENGTH_SHORT).show();
+                        
+                } else {
+                    Log.e(TAG, "❌ Backend connected but NO DATA in database!");
+                    Log.e(TAG, "❌ Response Code: " + response.code());
+                    
+                    Toast.makeText(SelectCategoryActivity.this, 
+                        "❌ Không có dữ liệu trong database!\nCần thêm dữ liệu vào SQL Server.", 
+                        Toast.LENGTH_LONG).show();
                 }
             }
-
-            if (categoryList.isEmpty() && difficultyList.isEmpty()) {
-                Toast.makeText(this, "Không có dữ liệu Danh mục / Độ khó!", Toast.LENGTH_LONG).show();
-                return;
+            
+            @Override
+            public void onFailure(Call<List<QuizApiService.CategoryResponse>> call, Throwable t) {
+                Log.e(TAG, "❌ BACKEND CONNECTION FAILED!");
+                Log.e(TAG, "❌ Error: " + t.getMessage());
+                
+                Toast.makeText(SelectCategoryActivity.this, 
+                    "❌ Không kết nối được backend!\nKiểm tra backend có chạy không.", 
+                    Toast.LENGTH_LONG).show();
             }
-
-            setupCategories(categoryList);
-            setupDifficulties(difficultyList);
-
-        } catch (Exception e) {
-            Log.e(TAG, "Lỗi parsing dữ liệu SelectionScreen:", e);
-            Toast.makeText(this, "Lỗi đọc dữ liệu cấu hình! Kiểm tra JSON/Model.", Toast.LENGTH_LONG).show();
-        }
+        });
+    }
+    
+    /**
+     * Tạo difficulties mặc định
+     */
+    private void setupDefaultDifficulties() {
+        List<Difficulty> difficultyList = new ArrayList<>();
+        difficultyList.add(new Difficulty("1", "Dễ", "Câu hỏi dễ"));
+        difficultyList.add(new Difficulty("2", "Trung bình", "Câu hỏi trung bình"));
+        difficultyList.add(new Difficulty("3", "Khó", "Câu hỏi khó"));
+        
+        setupDifficulties(difficultyList);
     }
 
     private void setupCategories(List<Category> categoryList) {
@@ -168,5 +194,72 @@ public class SelectCategoryActivity extends AppCompatActivity {
         rvDifficulty.setAdapter(adapter);
 
         selectedDifficultyId = difficultyList.get(0).getId();
+    }
+    
+    /**
+     * Bắt đầu quiz bằng cách lấy câu hỏi từ API - GIỐNG ApiSelectCategoryActivity
+     */
+    private void startQuizWithCategory(int categoryId) {
+        Log.d(TAG, "🚀 Starting quiz for category: " + categoryId);
+        
+        quizService.getQuestionsByCategory(categoryId).enqueue(new Callback<com.example.iq5.data.model.SimpleQuizResponse>() {
+            @Override
+            public void onResponse(Call<com.example.iq5.data.model.SimpleQuizResponse> call, Response<com.example.iq5.data.model.SimpleQuizResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    com.example.iq5.data.model.SimpleQuizResponse result = response.body();
+                    
+                    if (result.success && result.data != null && !result.data.isEmpty()) {
+                        Log.d(TAG, "✅ Got " + result.data.size() + " questions for category " + categoryId);
+                        
+                        // Convert SimpleQuestionData to TestQuestionModel for compatibility
+                        List<QuizApiService.TestQuestionModel> questions = new ArrayList<>();
+                        for (com.example.iq5.data.model.SimpleQuizResponse.SimpleQuestionData data : result.data) {
+                            QuizApiService.TestQuestionModel question = new QuizApiService.TestQuestionModel();
+                            question.setId(data.id);
+                            question.setQuestion(data.question);
+                            question.setOptionA(data.option_a);
+                            question.setOptionB(data.option_b);
+                            question.setOptionC(data.option_c);
+                            question.setOptionD(data.option_d);
+                            question.setCorrectAnswer(data.correct_answer);
+                            question.setCategoryId(data.category_id);
+                            question.setDifficulty("Normal");
+                            question.setCategoryName("Category " + data.category_id);
+                            questions.add(question);
+                        }
+                        
+                        // Chuyển sang ApiQuizActivity với danh sách câu hỏi
+                        NavigationHelper.navigateToApiQuizWithQuestions(
+                            SelectCategoryActivity.this, 
+                            questions,
+                            "Category " + categoryId
+                        );
+                        
+                        Toast.makeText(SelectCategoryActivity.this, 
+                            "✅ Bắt đầu quiz với " + questions.size() + " câu hỏi!", 
+                            Toast.LENGTH_SHORT).show();
+                            
+                    } else {
+                        Log.e(TAG, "❌ No questions found for category " + categoryId);
+                        Toast.makeText(SelectCategoryActivity.this, 
+                            "❌ Không có câu hỏi nào trong chủ đề này!", 
+                            Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Log.e(TAG, "❌ Failed to get questions: " + response.code());
+                    Toast.makeText(SelectCategoryActivity.this, 
+                        "❌ Lỗi khi tải câu hỏi: " + response.code(), 
+                        Toast.LENGTH_LONG).show();
+                }
+            }
+            
+            @Override
+            public void onFailure(Call<com.example.iq5.data.model.SimpleQuizResponse> call, Throwable t) {
+                Log.e(TAG, "❌ Network error getting questions: " + t.getMessage());
+                Toast.makeText(SelectCategoryActivity.this, 
+                    "❌ Lỗi kết nối khi tải câu hỏi: " + t.getMessage(), 
+                    Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

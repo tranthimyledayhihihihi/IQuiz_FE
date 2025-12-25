@@ -14,14 +14,18 @@ import com.example.iq5.feature.auth.ui.SettingsActivity;
 import com.example.iq5.feature.auth.ui.SplashActivity;
 
 // MULTIPLAYER FLOW
-import com.example.iq5.feature.multiplayer.ui.CompareResultActivity;
-import com.example.iq5.feature.multiplayer.ui.FindMatchActivity;
-import com.example.iq5.feature.multiplayer.ui.FriendsActivity;
+
+import com.example.iq5.feature.multiplayer.ui.CreateRoomActivity;
+
+import com.example.iq5.feature.multiplayer.ui.JoinRoomActivity;
 import com.example.iq5.feature.multiplayer.ui.LeaderboardActivity;
-import com.example.iq5.feature.multiplayer.ui.PvPBattleActivity;
-import com.example.iq5.feature.multiplayer.ui.RoomLobbyActivity;
+import com.example.iq5.feature.multiplayer.ui.MatchActivity;
+import com.example.iq5.feature.multiplayer.ui.MatchResultActivity;
+
 
 // QUIZ FLOW
+import com.example.iq5.feature.multiplayer.ui.MultiplayerLobbyActivity;
+import com.example.iq5.feature.multiplayer.ui.WaitingRoomActivity;
 import com.example.iq5.feature.quiz.ui.QuizActivity;
 import com.example.iq5.feature.quiz.ui.ReviewQuestionActivity;
 import com.example.iq5.feature.quiz.ui.SelectCategoryActivity;
@@ -124,6 +128,44 @@ public class NavigationHelper {
     }
 
     /**
+     * Chuyển đến màn hình API Quiz với category và difficulty (sử dụng API thật)
+     */
+    public static void navigateToApiQuiz(Context context, String categoryId, String difficulty) {
+        Intent intent = new Intent(context, com.example.iq5.feature.quiz.ui.ApiQuizActivity.class);
+        intent.putExtra("category_id", categoryId);
+        intent.putExtra("difficulty", difficulty);
+        context.startActivity(intent);
+    }
+    public static void navigateToMultiplayerLobby(Context context) {
+        Intent intent = new Intent(context, MultiplayerLobbyActivity.class);
+        context.startActivity(intent);
+    }
+    /**
+     * Chuyển đến màn hình API Select Category (sử dụng API thật)
+     */
+    public static void navigateToApiSelectCategory(Context context) {
+        Intent intent = new Intent(context, com.example.iq5.feature.quiz.ui.ApiSelectCategoryActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
+     * Chuyển đến màn hình API Quiz với danh sách câu hỏi đã tải sẵn
+     */
+    public static void navigateToApiQuizWithQuestions(Context context, java.util.List<com.example.iq5.core.network.QuizApiService.TestQuestionModel> questions, String categoryName) {
+        Intent intent = new Intent(context, com.example.iq5.feature.quiz.ui.ApiQuizActivity.class);
+
+        // Convert questions to JSON string để truyền qua Intent
+        com.google.gson.Gson gson = new com.google.gson.Gson();
+        String questionsJson = gson.toJson(questions);
+
+        intent.putExtra("questions_json", questionsJson);
+        intent.putExtra("category_name", categoryName);
+        intent.putExtra("has_questions", true);
+
+        context.startActivity(intent);
+    }
+
+    /**
      * Chuyển đến màn hình Quiz với Bundle tùy chỉnh
      */
     public static void navigateToQuiz(Context context, Bundle extras) {
@@ -195,49 +237,68 @@ public class NavigationHelper {
     // ----------------------------------------------------
 
     /**
-     * Chuyển đến màn hình Find Match (tìm đối thủ)
+     public static void navigateToMultiplayerLobby(Context context) {
+     Intent intent = new Intent(context, MultiplayerLobbyActivity.class);
+     context.startActivity(intent);
+     }
+
+     /**
+     * 👉 Tạo phòng đối kháng
      */
-    public static void navigateToFindMatch(Context context) {
-        Intent intent = new Intent(context, FindMatchActivity.class);
+    public static void navigateToCreateRoom(Context context) {
+        Intent intent = new Intent(context, CreateRoomActivity.class);
         context.startActivity(intent);
     }
 
     /**
-     * Chuyển đến màn hình Room Lobby
+     * 👉 Join phòng bằng mã
      */
-    public static void navigateToRoomLobby(Context context, String roomId) {
-        Intent intent = new Intent(context, RoomLobbyActivity.class);
-        intent.putExtra("room_id", roomId);
+    public static void navigateToJoinRoom(Context context) {
+        Intent intent = new Intent(context, JoinRoomActivity.class);
         context.startActivity(intent);
     }
 
     /**
-     * Chuyển đến màn hình PvP Battle
+     * 👉 Phòng chờ (sau khi tạo / join phòng)
      */
-    public static void navigateToPvPBattle(Context context, String matchId) {
-        Intent intent = new Intent(context, PvPBattleActivity.class);
-        intent.putExtra("match_id", matchId);
+    public static void navigateToWaitingRoom(Context context, String matchCode) {
+        Intent intent = new Intent(context, WaitingRoomActivity.class);
+        intent.putExtra("matchCode", matchCode);
         context.startActivity(intent);
     }
 
     /**
-     * Chuyển đến màn hình Compare Result (so sánh kết quả PvP)
+     * 👉 Màn hình chơi trận đấu (PvP thực tế)
      */
-    public static void navigateToCompareResult(Context context, Bundle matchData) {
-        Intent intent = new Intent(context, CompareResultActivity.class);
-        if (matchData != null) {
-            intent.putExtras(matchData);
-        }
+    public static void navigateToMatch(Context context, String matchCode) {
+        Intent intent = new Intent(context, MatchActivity.class);
+        intent.putExtra("matchCode", matchCode);
         context.startActivity(intent);
     }
 
+    /**
+     * 👉 Màn hình kết quả trận đấu
+     */
+    public static void navigateToMatchResult(
+            Context context,
+            String matchCode,
+            int yourScore,
+            int opponentScore,
+            String result,
+            int winnerUserId
+    ) {
+        Intent intent = new Intent(context, MatchResultActivity.class);
+        intent.putExtra("matchCode", matchCode);
+        intent.putExtra("yourScore", yourScore);
+        intent.putExtra("opponentScore", opponentScore);
+        intent.putExtra("result", result);
+        intent.putExtra("winnerUserId", winnerUserId);
+        context.startActivity(intent);
+    }
     /**
      * Chuyển đến màn hình Friends
      */
-    public static void navigateToFriends(Context context) {
-        Intent intent = new Intent(context, FriendsActivity.class);
-        context.startActivity(intent);
-    }
+
 
     /**
      * Chuyển đến màn hình Leaderboard

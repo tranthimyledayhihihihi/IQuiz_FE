@@ -2,11 +2,13 @@ package com.example.iq5.feature.result.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -24,6 +26,8 @@ import java.util.List;
 
 public class ResultActivity extends AppCompatActivity {
 
+    private static final String TAG = "ResultActivity";
+    
     private TextView tvStatus;
     private ImageView ivEmoji;
     private TextView tvScore, tvCorrect, tvIncorrect;
@@ -70,18 +74,59 @@ public class ResultActivity extends AppCompatActivity {
     @SuppressWarnings("unchecked")
     private void getDataFromIntent() {
         questionList = (List<Question>) getIntent().getSerializableExtra("questions");
-        score = getIntent().getIntExtra("score", 0);
-        total = getIntent().getIntExtra("total", 1);
+        
+        // Try to get data from API quiz first (new format)
+        int apiCorrectAnswers = getIntent().getIntExtra("correct_answers", -1);
+        int apiTotalQuestions = getIntent().getIntExtra("total_questions", -1);
+        double apiScore = getIntent().getDoubleExtra("score", -1);
+        
+        Log.d(TAG, "🎯 RESULT ACTIVITY DEBUG:");
+        Log.d(TAG, "   📊 API correct_answers: " + apiCorrectAnswers);
+        Log.d(TAG, "   📊 API total_questions: " + apiTotalQuestions);
+        Log.d(TAG, "   📊 API score: " + apiScore);
+        
+        if (apiCorrectAnswers != -1 && apiTotalQuestions != -1) {
+            // Use API quiz data
+            correctCount = apiCorrectAnswers;
+            total = apiTotalQuestions;
+            score = (int) apiScore;
+            
+            Log.d(TAG, "   ✅ Using API data:");
+            Log.d(TAG, "      correctCount = " + correctCount);
+            Log.d(TAG, "      total = " + total);
+            Log.d(TAG, "      score = " + score);
+            
+            // Show debug toast
+            Toast.makeText(this, 
+                "🎯 API DATA: " + correctCount + "/" + total + " = " + score + "%", 
+                Toast.LENGTH_LONG).show();
+                
+        } else {
+            // Fallback to old format
+            score = getIntent().getIntExtra("score", 0);
+            total = getIntent().getIntExtra("total", 1);
 
-        int count = 0;
-        if (questionList != null) {
-            for (Question q : questionList) {
-                if (q.isUserAnswerCorrect()) {
-                    count++;
+            int count = 0;
+            if (questionList != null) {
+                for (Question q : questionList) {
+                    if (q.isUserAnswerCorrect()) {
+                        count++;
+                    }
                 }
             }
+            correctCount = count;
+            
+            Log.d(TAG, "   ⚠️ Using fallback data:");
+            Log.d(TAG, "      correctCount = " + correctCount);
+            Log.d(TAG, "      total = " + total);
+            Log.d(TAG, "      score = " + score);
+            
+            // Show debug toast
+            Toast.makeText(this, 
+                "⚠️ FALLBACK DATA: " + correctCount + "/" + total + " = " + score + "%", 
+                Toast.LENGTH_LONG).show();
         }
-        correctCount = count;
+        
         isWin = correctCount >= Math.ceil(total * 0.8);
     }
 
@@ -168,18 +213,9 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void openReviewIncorrect() {
-        List<Question> wrongList = new ArrayList<>();
-
-        for (Question q : questionList) {
-            if (!q.isUserAnswerCorrect()) {
-                wrongList.add(q);
-            }
-        }
-
-        String quizId = getIntent().getStringExtra("quiz_id");
-        if (quizId == null) quizId = "review_" + System.currentTimeMillis();
-        
-        NavigationHelper.navigateToReviewQuestions(this, quizId);
+        // Open new Wrong Question Review Activity
+        Intent intent = new Intent(this, com.example.iq5.feature.specialmode.ui.WrongQuestionReviewActivity.class);
+        startActivity(intent);
     }
 
     private void shareResult() {

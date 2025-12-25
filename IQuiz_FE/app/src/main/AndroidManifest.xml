@@ -1,12 +1,11 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.iq5">
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
@@ -16,7 +15,6 @@
         android:networkSecurityConfig="@xml/network_security_config">
 
         <!-- Launcher: SplashActivity -->
-
         <activity
             android:name=".feature.auth.ui.SplashActivity"
             android:exported="true">
@@ -26,7 +24,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Auth -->
+        <!-- Auth Activities -->
         <activity
             android:name=".feature.auth.ui.LoginActivity"
             android:exported="false" />
@@ -47,20 +45,38 @@
             android:name=".feature.auth.ui.SettingsActivity"
             android:exported="false" />
 
-        <!-- Quiz -->
+        <activity
+            android:name=".feature.auth.ui.ApiProfileActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".feature.auth.ui.ApiSettingsActivity"
+            android:exported="false" />
+
+        <!-- Quiz Activities -->
         <activity
             android:name=".feature.quiz.ui.SelectCategoryActivity"
             android:exported="false" />
 
         <activity
+            android:name=".feature.quiz.ui.ApiSelectCategoryActivity"
+            android:exported="false"
+            android:label="Chọn Danh Mục (API)" />
+
+        <activity
             android:name=".feature.quiz.ui.QuizActivity"
             android:exported="false" />
+            
+        <activity
+            android:name=".feature.quiz.ui.ApiQuizActivity"
+            android:exported="false"
+            android:label="Quiz Game (API)" />
 
         <activity
             android:name=".feature.quiz.ui.ReviewQuestionActivity"
             android:exported="false" />
 
-        <!-- Result / Reward / Stats -->
+        <!-- Result Activities -->
         <activity
             android:name=".feature.result.ui.ResultActivity"
             android:exported="false" />
@@ -78,35 +94,151 @@
             android:exported="false" />
 
         <activity
+            android:name=".feature.result.ui.ApiStatsActivity"
+            android:exported="false"
+            android:label="Biểu đồ tiến độ (API)" />
+
+        <activity
             android:name=".feature.result.ui.StreakActivity"
             android:exported="false" />
 
-        <!-- MainActivity chỉ để debug (không launcher) -->
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-
-
-        <activity
-            android:name=".feature.multiplayer.ui.FindMatchActivity"
+            android:name=".feature.result.ui.ApiStreakActivity"
             android:exported="false" />
 
         <activity
-            android:name=".feature.multiplayer.ui.RoomLobbyActivity"
+            android:name=".feature.result.ui.OfflineAchievementActivity"
+            android:exported="false" />
+
+        <!-- Reward Activities -->
+        <activity
+            android:name=".feature.reward.ui.ApiDailyRewardActivity"
+            android:exported="false" />
+
+        <!-- Achievement Activities -->
+        <activity
+            android:name=".feature.achievement.ui.ApiAchievementActivity"
             android:exported="false" />
 
         <activity
-            android:name=".feature.multiplayer.ui.PvPBattleActivity"
+            android:name=".feature.achievement.ui.SimpleApiAchievementActivity"
+            android:exported="false" />
+
+        <!-- History Activities -->
+        <activity
+            android:name=".feature.history.ui.ApiHistoryActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".feature.history.ui.ApiHistoryDetailActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".feature.history.ui.SimpleApiHistoryActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".feature.history.ui.SimpleApiHistoryDetailActivity"
+            android:exported="false" />
+
+        <!-- Social Activities -->
+        <activity
+            android:name=".feature.social.ui.ApiLeaderboardActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".feature.social.ui.SimpleApiLeaderboardActivity"
+            android:exported="false" />
+
+        <!-- ================= MULTIPLAYER (ĐÚNG LUỒNG HIỆN TẠI) ================= -->
+
+        <activity
+            android:name=".feature.multiplayer.ui.MultiplayerLobbyActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".feature.multiplayer.ui.CreateRoomActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".feature.multiplayer.ui.JoinRoomActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".feature.multiplayer.ui.WaitingRoomActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".feature.multiplayer.ui.MatchActivity"
             android:exported="false"
-            android:noHistory="true" /> <activity
-        android:name=".feature.multiplayer.ui.CompareResultActivity"
-        android:exported="false"
-        android:noHistory="true" /> <activity
-        android:name=".feature.multiplayer.ui.FriendsActivity"
-        android:exported="false" />
+            android:noHistory="true" />
+
+        <activity
+            android:name=".feature.multiplayer.ui.MatchResultActivity"
+            android:exported="false"
+            android:noHistory="true" />
 
         <activity
             android:name=".feature.multiplayer.ui.LeaderboardActivity"
+            android:exported="false" />
+
+
+
+        <!-- Special Mode Activities -->
+        <activity
+            android:name=".feature.specialmode.ui.WrongQuestionReviewActivity"
+            android:exported="false"
+            android:label="Xem lại câu sai" />
+
+        <activity
+            android:name=".feature.specialmode.ui.ApiCustomQuizActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".feature.specialmode.ui.ApiWrongHistoryActivity"
+            android:exported="false" />
+
+
+
+            
+        <activity
+            android:name=".debug.DebugAchievementActivity"
+            android:exported="false"
+            android:label="Debug Achievement API" />
+            
+        <activity
+            android:name=".debug.NetworkTestActivity"
+            android:exported="false"
+            android:label="Network Test" />
+            
+        <activity
+            android:name=".debug.TestStreakActivity"
+            android:exported="false"
+            android:label="Test Streak API" />
+            
+        <activity
+            android:name=".debug.TestRewardAndStatsActivity"
+            android:exported="false"
+            android:label="Test Reward and Stats" />
+            
+        <activity
+            android:name=".debug.TestSettingsActivity"
+            android:exported="false"
+            android:label="Test Settings API" />
+
+        <activity
+            android:name=".debug.TestStatsActivity"
+            android:exported="false"
+            android:label="Test Stats API" />
+
+        <activity
+            android:name=".debug.DebugSettingsActivity"
+            android:exported="false"
+            android:label="Debug Settings" />
+
+        <!-- MainActivity for debugging -->
+        <activity
+            android:name=".MainActivity"
             android:exported="false" />
 
     </application>

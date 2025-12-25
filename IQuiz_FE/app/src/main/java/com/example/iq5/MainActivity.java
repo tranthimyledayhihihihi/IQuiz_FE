@@ -3,6 +3,7 @@ package com.example.iq5;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -11,10 +12,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.iq5.feature.multiplayer.ui.FindMatchActivity;
 import com.example.iq5.feature.multiplayer.ui.LeaderboardActivity;
-import com.example.iq5.feature.quiz.ui.SelectCategoryActivity;
+import com.example.iq5.feature.multiplayer.ui.MultiplayerLobbyActivity;
 import com.example.iq5.feature.quiz.ui.ReviewQuestionActivity;
+
+import com.example.iq5.core.navigation.NavigationHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
     private Button btnStartQuiz;
     private Button btnReview;
     private Button btnSpecialMode;
+    
+    // API Debug buttons
+    private Button btnApiTest;
+    private Button btnApiDebug;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +58,16 @@ public class MainActivity extends AppCompatActivity {
         btnStartQuiz = findViewById(R.id.btnStartQuiz);
         btnReview = findViewById(R.id.btnReview);
         btnSpecialMode = findViewById(R.id.btnSpecialMode);
+        
+        // API Debug buttons (có thể null nếu không có trong layout)
+        // btnApiTest = findViewById(R.id.btnApiTest);
+        // btnApiDebug = findViewById(R.id.btnApiDebug);
     }
 
     private void setupClickListeners() {
         if (btnGoToOnline != null) {
             btnGoToOnline.setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, FindMatchActivity.class);
+                Intent intent = new Intent(MainActivity.this, MultiplayerLobbyActivity.class);
                 startActivity(intent);
             });
         }
@@ -71,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (btnStartQuiz != null) {
             btnStartQuiz.setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, SelectCategoryActivity.class);
-                startActivity(intent);
+                // Sử dụng API Select Category thay vì mock data
+                NavigationHelper.navigateToApiSelectCategory(this);
             });
         }
 
@@ -85,8 +95,18 @@ public class MainActivity extends AppCompatActivity {
 
         if (btnSpecialMode != null) {
             btnSpecialMode.setOnClickListener(v -> {
-                // TODO: Sau này gán sang Activity chế độ đặc biệt thật sự
+                // Chuyển đến Special Mode (chức năng thật)
+                Toast.makeText(this, "Special Mode đang phát triển", Toast.LENGTH_SHORT).show();
             });
+        }
+        
+        // Xóa các debug buttons - không cần thiết nữa
+        if (btnApiTest != null) {
+            btnApiTest.setVisibility(View.GONE);
+        }
+        
+        if (btnApiDebug != null) {
+            btnApiDebug.setVisibility(View.GONE);
         }
     }
 }

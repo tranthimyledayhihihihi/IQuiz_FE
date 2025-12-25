@@ -33,16 +33,25 @@ public class SettingsActivity extends AppCompatActivity {
         seekVolume = findViewById(R.id.seekVolume);
         tvVolumePercent = findViewById(R.id.tvVolumePercent);
 
-        // Load JSON
+        // Load JSON với null check
         AuthRepository repo = new AuthRepository(this);
         SettingsResponse s = repo.getSettingsData();
 
-        // Bind JSON vào UI
-        switchDarkMode.setChecked(s.darkMode);
-        switchSound.setChecked(true); // JSON chưa có, bạn có thể thêm sau
+        // Bind JSON vào UI với null check
+        if (s != null) {
+            switchDarkMode.setChecked(s.darkMode);
+            switchSound.setChecked(true); // JSON chưa có, bạn có thể thêm sau
 
-        if (s.language.equals("vi")) spinnerLanguage.setSelection(0);
-        else if (s.language.equals("en")) spinnerLanguage.setSelection(1);
+            if (s.language != null) {
+                if (s.language.equals("vi")) spinnerLanguage.setSelection(0);
+                else if (s.language.equals("en")) spinnerLanguage.setSelection(1);
+            }
+        } else {
+            // Sử dụng giá trị mặc định khi JSON null
+            switchDarkMode.setChecked(false);
+            switchSound.setChecked(true);
+            spinnerLanguage.setSelection(0); // Default to Vietnamese
+        }
 
         // Seekbar volume (mock)
         seekVolume.setProgress(70);

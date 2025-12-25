@@ -1,0 +1,280 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.iq5"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+9        android:targetSdkVersion="36" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:4:5-67
+11-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:4:22-64
+12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+12-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:5:5-79
+12-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:5:22-76
+13    <uses-permission android:name="android.permission.INTERNET" />
+13-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:4:5-67
+13-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:4:22-64
+14
+15    <permission
+15-->[androidx.core:core:1.13.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\fa1370875466cd56c4bbe1e749f984dc\transformed\core-1.13.0\AndroidManifest.xml:22:5-24:47
+16        android:name="com.example.iq5.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+16-->[androidx.core:core:1.13.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\fa1370875466cd56c4bbe1e749f984dc\transformed\core-1.13.0\AndroidManifest.xml:23:9-81
+17        android:protectionLevel="signature" />
+17-->[androidx.core:core:1.13.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\fa1370875466cd56c4bbe1e749f984dc\transformed\core-1.13.0\AndroidManifest.xml:24:9-44
+18
+19    <uses-permission android:name="com.example.iq5.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+19-->[androidx.core:core:1.13.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\fa1370875466cd56c4bbe1e749f984dc\transformed\core-1.13.0\AndroidManifest.xml:26:5-97
+19-->[androidx.core:core:1.13.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\fa1370875466cd56c4bbe1e749f984dc\transformed\core-1.13.0\AndroidManifest.xml:26:22-94
+20
+21    <application
+21-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:9:5-111:19
+22        android:allowBackup="true"
+22-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:10:9-35
+23        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+23-->[androidx.core:core:1.13.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\fa1370875466cd56c4bbe1e749f984dc\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
+24        android:debuggable="true"
+25        android:extractNativeLibs="false"
+26        android:icon="@mipmap/ic_launcher"
+26-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:12:9-43
+27        android:label="@string/app_name"
+27-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:11:9-41
+28        android:roundIcon="@mipmap/ic_launcher_round"
+28-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:13:9-54
+29        android:supportsRtl="true"
+29-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:14:9-35
+30        android:testOnly="true"
+31        android:theme="@style/Theme.IQ5" >
+31-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:15:9-41
+32
+33        <!-- Launcher: SplashActivity -->
+34
+35        <activity
+35-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:19:9-26:20
+36            android:name="com.example.iq5.feature.auth.ui.SplashActivity"
+36-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:20:13-59
+37            android:exported="true" >
+37-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:21:13-36
+38            <intent-filter>
+38-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:22:13-25:29
+39                <action android:name="android.intent.action.MAIN" />
+39-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:23:17-69
+39-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:23:25-66
+40
+41                <category android:name="android.intent.category.LAUNCHER" />
+41-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:24:17-77
+41-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:24:27-74
+42            </intent-filter>
+43        </activity>
+44
+45        <!-- Auth -->
+46        <activity
+46-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:29:9-31:40
+47            android:name="com.example.iq5.feature.auth.ui.LoginActivity"
+47-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:30:13-58
+48            android:exported="false" />
+48-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:31:13-37
+49        <activity
+49-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:33:9-35:40
+50            android:name="com.example.iq5.feature.auth.ui.RegisterActivity"
+50-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:34:13-61
+51            android:exported="false" />
+51-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:35:13-37
+52        <activity
+52-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:37:9-39:40
+53            android:name="com.example.iq5.feature.auth.ui.HomeActivity"
+53-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:38:13-57
+54            android:exported="false" />
+54-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:39:13-37
+55        <activity
+55-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:41:9-43:40
+56            android:name="com.example.iq5.feature.auth.ui.ProfileActivity"
+56-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:42:13-60
+57            android:exported="false" />
+57-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:43:13-37
+58        <activity
+58-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:45:9-47:40
+59            android:name="com.example.iq5.feature.auth.ui.SettingsActivity"
+59-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:46:13-61
+60            android:exported="false" />
+60-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:47:13-37
+61
+62        <!-- Quiz -->
+63        <activity
+63-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:50:9-52:40
+64            android:name="com.example.iq5.feature.quiz.ui.SelectCategoryActivity"
+64-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:51:13-67
+65            android:exported="false" />
+65-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:52:13-37
+66        <activity
+66-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:54:9-56:40
+67            android:name="com.example.iq5.feature.quiz.ui.QuizActivity"
+67-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:55:13-57
+68            android:exported="false" />
+68-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:56:13-37
+69        <activity
+69-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:58:9-60:40
+70            android:name="com.example.iq5.feature.quiz.ui.ReviewQuestionActivity"
+70-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:59:13-67
+71            android:exported="false" />
+71-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:60:13-37
+72
+73        <!-- Result / Reward / Stats -->
+74        <activity
+74-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:63:9-65:40
+75            android:name="com.example.iq5.feature.result.ui.ResultActivity"
+75-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:64:13-61
+76            android:exported="false" />
+76-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:65:13-37
+77        <activity
+77-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:67:9-69:40
+78            android:name="com.example.iq5.feature.result.ui.DailyRewardActivity"
+78-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:68:13-66
+79            android:exported="false" />
+79-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:69:13-37
+80        <activity
+80-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:71:9-73:40
+81            android:name="com.example.iq5.feature.result.ui.AchievementActivity"
+81-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:72:13-66
+82            android:exported="false" />
+82-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:73:13-37
+83        <activity
+83-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:75:9-77:40
+84            android:name="com.example.iq5.feature.result.ui.StatsActivity"
+84-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:76:13-60
+85            android:exported="false" />
+85-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:77:13-37
+86        <activity
+86-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:79:9-81:40
+87            android:name="com.example.iq5.feature.result.ui.StreakActivity"
+87-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:80:13-61
+88            android:exported="false" />
+88-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:81:13-37
+89
+90        <!-- MainActivity chỉ để debug (không launcher) -->
+91        <activity
+91-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:84:9-86:40
+92            android:name="com.example.iq5.MainActivity"
+92-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:85:13-41
+93            android:exported="false" />
+93-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:86:13-37
+94        <activity
+94-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:89:9-91:40
+95            android:name="com.example.iq5.feature.multiplayer.ui.FindMatchActivity"
+95-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:90:13-69
+96            android:exported="false" />
+96-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:91:13-37
+97        <activity
+97-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:93:9-95:40
+98            android:name="com.example.iq5.feature.multiplayer.ui.RoomLobbyActivity"
+98-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:94:13-69
+99            android:exported="false" />
+99-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:95:13-37
+100        <activity
+100-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:97:9-100:40
+101            android:name="com.example.iq5.feature.multiplayer.ui.PvPBattleActivity"
+101-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:98:13-69
+102            android:exported="false"
+102-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:99:13-37
+103            android:noHistory="true" />
+103-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:100:13-37
+104        <activity
+104-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:100:41-103:36
+105            android:name="com.example.iq5.feature.multiplayer.ui.CompareResultActivity"
+105-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:101:9-69
+106            android:exported="false"
+106-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:102:9-33
+107            android:noHistory="true" />
+107-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:103:9-33
+108        <activity
+108-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:103:37-105:36
+109            android:name="com.example.iq5.feature.multiplayer.ui.FriendsActivity"
+109-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:104:9-63
+110            android:exported="false" />
+110-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:105:9-33
+111        <activity
+111-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:107:9-109:40
+112            android:name="com.example.iq5.feature.multiplayer.ui.LeaderboardActivity"
+112-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:108:13-71
+113            android:exported="false" />
+113-->E:\THAYHUY\QUIZ_DTDD\FE\app\src\main\AndroidManifest.xml:109:13-37
+114
+115        <service
+115-->[androidx.room:room-runtime-android:2.8.3] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\98e37e7e2da797eb416f05381a4aa9eb\transformed\room-runtime\AndroidManifest.xml:24:9-28:63
+116            android:name="androidx.room.MultiInstanceInvalidationService"
+116-->[androidx.room:room-runtime-android:2.8.3] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\98e37e7e2da797eb416f05381a4aa9eb\transformed\room-runtime\AndroidManifest.xml:25:13-74
+117            android:directBootAware="true"
+117-->[androidx.room:room-runtime-android:2.8.3] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\98e37e7e2da797eb416f05381a4aa9eb\transformed\room-runtime\AndroidManifest.xml:26:13-43
+118            android:exported="false" />
+118-->[androidx.room:room-runtime-android:2.8.3] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\98e37e7e2da797eb416f05381a4aa9eb\transformed\room-runtime\AndroidManifest.xml:27:13-37
+119
+120        <provider
+120-->[androidx.emoji2:emoji2:1.3.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\f32c45c11bc7430b51a06bb4c5df373b\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+121            android:name="androidx.startup.InitializationProvider"
+121-->[androidx.emoji2:emoji2:1.3.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\f32c45c11bc7430b51a06bb4c5df373b\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+122            android:authorities="com.example.iq5.androidx-startup"
+122-->[androidx.emoji2:emoji2:1.3.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\f32c45c11bc7430b51a06bb4c5df373b\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+123            android:exported="false" >
+123-->[androidx.emoji2:emoji2:1.3.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\f32c45c11bc7430b51a06bb4c5df373b\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+124            <meta-data
+124-->[androidx.emoji2:emoji2:1.3.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\f32c45c11bc7430b51a06bb4c5df373b\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+125                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+125-->[androidx.emoji2:emoji2:1.3.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\f32c45c11bc7430b51a06bb4c5df373b\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+126                android:value="androidx.startup" />
+126-->[androidx.emoji2:emoji2:1.3.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\f32c45c11bc7430b51a06bb4c5df373b\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+127            <meta-data
+127-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\4b235f61039ad6ec63f305098594fd9d\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+128                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+128-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\4b235f61039ad6ec63f305098594fd9d\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+129                android:value="androidx.startup" />
+129-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\4b235f61039ad6ec63f305098594fd9d\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+130            <meta-data
+130-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+131                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+131-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+132                android:value="androidx.startup" />
+132-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+133        </provider>
+134
+135        <receiver
+135-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+136            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+136-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+137            android:directBootAware="false"
+137-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+138            android:enabled="true"
+138-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+139            android:exported="true"
+139-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+140            android:permission="android.permission.DUMP" >
+140-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+141            <intent-filter>
+141-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+142                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+142-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+142-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+143            </intent-filter>
+144            <intent-filter>
+144-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+145                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+145-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+145-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+146            </intent-filter>
+147            <intent-filter>
+147-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+148                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+148-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+148-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+149            </intent-filter>
+150            <intent-filter>
+150-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+151                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+151-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+151-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\WILLIAMMYLE\.gradle\caches\8.13\transforms\abbba16a4a71ba9ccd3d11eaf358ebe5\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+152            </intent-filter>
+153        </receiver>
+154    </application>
+155
+156</manifest>
