@@ -93,4 +93,8 @@ public final class ApiClient {
         retrofitInstance = null;
         lastBaseUrl = null;
     }
+    public static String getBaseUrl() {
+        return BuildConfig.BASE_URL;
+    }
+
 }

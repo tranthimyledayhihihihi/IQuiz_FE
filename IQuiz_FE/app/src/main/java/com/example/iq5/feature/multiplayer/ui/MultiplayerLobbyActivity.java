@@ -1,7 +1,5 @@
 package com.example.iq5.feature.multiplayer.ui;
 
-import static com.example.iq5.BuildConfig.BASE_URL;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.iq5.R;
 import com.example.iq5.feature.multiplayer.data.WebSocketManager;
+import com.example.iq5.feature.multiplayer.data.api.ApiService;
 
 /**
  * ✅ PHIÊN BẢN ĐỠN GIẢN - CHỈ WEBSOCKET
@@ -22,14 +21,12 @@ import com.example.iq5.feature.multiplayer.data.WebSocketManager;
  * Tất cả đều qua WebSocket
  */
 public class MultiplayerLobbyActivity extends AppCompatActivity {
-
+    private TextView tvOnlineCount;
+    private final Handler onlineCountHandler = new Handler(Looper.getMainLooper());
+    private Runnable onlineCountRunnable;
     private static final String TAG = "MultiplayerLobby";
 
-    // ⚠️ ĐỔI URL NÀY THEO MÔI TRƯỜNG
-    // Emulator: "ws://10.0.2.2:7092/ws/game"
-    // Real Device: "ws://192.168.1.100:7092/ws/game"
-    // Production: "wss://yourdomain.com/ws/game"
-    private static final String WS_URL = BASE_URL;
+    private static final String WS_URL = "ws://172.26.97.66:5048/ws/game";
 
     private WebSocketManager wsManager;
 
@@ -51,7 +48,24 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
         connectWebSocket();
         setupClickListeners();
     }
+    private void updateOnlineCount() {
+        ApiService.getInstance(this).getOnlineCount(new ApiService.ApiCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer count) {
+                runOnUiThread(() -> {
+                    tvOnlineCount.setText(count + " người đang online");
+                });
+            }
 
+            @Override
+            public void onError(String error) {
+                Log.e(TAG, "Failed to get online count: " + error);
+                runOnUiThread(() -> {
+                    tvOnlineCount.setText("? người đang online");
+                });
+            }
+        });
+    }
     private void initViews() {
         tvStatus = findViewById(R.id.tvStatus);
         btnFindMatch = findViewById(R.id.btnFindMatch);
@@ -111,7 +125,7 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
 
                 // Navigate to MatchActivity
                 handler.postDelayed(() -> {
-                    Intent intent = new Intent(this, MatchActivity.class);
+                    Intent intent = new Intent(this, MatchResultActivity.class);
                     intent.putExtra("matchCode", matchCode);
                     intent.putExtra("opponentId", opponentId);
                     intent.putExtra("role", role);

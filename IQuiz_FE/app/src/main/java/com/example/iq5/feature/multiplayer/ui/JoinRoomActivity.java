@@ -98,7 +98,7 @@ public class JoinRoomActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 tvStatus.setText("🎮 Đã vào phòng thành công!");
                 handler.postDelayed(() -> {
-                    Intent intent = new Intent(this, MatchActivity.class);
+                    Intent intent = new Intent(this, MatchResultActivity.class);
                     intent.putExtra("matchCode", matchCode);
                     intent.putExtra("opponentId", opponentId);
                     intent.putExtra("role", role);

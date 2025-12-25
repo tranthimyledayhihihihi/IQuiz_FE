@@ -7,10 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.iq5.R;
 import com.example.iq5.feature.multiplayer.data.WebSocketManager;
 
@@ -21,8 +24,9 @@ public class WaitingRoomActivity extends AppCompatActivity {
     private WebSocketManager wsManager;
     private TextView tvStatus, tvRoomCode, tvInstruction;
     private Button btnCopyCode, btnCancel;
+
     private String roomCode;
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +40,14 @@ public class WaitingRoomActivity extends AppCompatActivity {
             return;
         }
 
+        wsManager = WebSocketManager.getInstance();
+
         initViews();
-        setupWebSocket();
+        setupSignalRListeners();
+        checkConnectionState();
     }
+
+    /* ===================== UI ===================== */
 
     private void initViews() {
         tvStatus = findViewById(R.id.tvStatus);
@@ -49,22 +58,26 @@ public class WaitingRoomActivity extends AppCompatActivity {
 
         tvRoomCode.setText(roomCode);
         tvStatus.setText("⏳ Đang chờ người chơi khác...");
-        tvInstruction.setText("Chia sẻ mã phòng này cho bạn bè để họ có thể tham gia!");
+        tvInstruction.setText("Chia sẻ mã phòng này cho bạn bè để họ tham gia");
 
         btnCopyCode.setOnClickListener(v -> copyRoomCode());
         btnCancel.setOnClickListener(v -> cancelAndExit());
     }
 
-    private void setupWebSocket() {
-        wsManager = WebSocketManager.getInstance();
+    /* ===================== SIGNALR ===================== */
 
+    private void setupSignalRListeners() {
+
+        // ĐỐI THỦ VÀO PHÒNG
         wsManager.setOnMatchFoundListener((matchCode, opponentId, role) -> {
             runOnUiThread(() -> {
+                Log.d(TAG, "🎮 Opponent joined room: " + matchCode);
+
                 tvStatus.setText("🎮 Đối thủ đã vào phòng!");
-                tvInstruction.setText("Bắt đầu trận đấu...");
+                tvInstruction.setText("Chuẩn bị bắt đầu trận đấu...");
 
                 handler.postDelayed(() -> {
-                    Intent intent = new Intent(this, MatchActivity.class);
+                    Intent intent = new Intent(this, MatchResultActivity.class);
                     intent.putExtra("matchCode", matchCode);
                     intent.putExtra("opponentId", opponentId);
                     intent.putExtra("role", role);
@@ -74,9 +87,13 @@ public class WaitingRoomActivity extends AppCompatActivity {
             });
         });
 
+        // LỖI TỪ SERVER
         wsManager.setOnErrorListener(message -> {
             runOnUiThread(() -> {
-                if (message.contains("hết hạn") || message.contains("expired")) {
+                Log.e(TAG, "❌ SignalR error: " + message);
+
+                if (message.toLowerCase().contains("hết hạn")
+                        || message.toLowerCase().contains("expired")) {
                     Toast.makeText(this, "❌ Phòng đã hết hạn", Toast.LENGTH_LONG).show();
                     finish();
                 } else {
@@ -87,22 +104,42 @@ public class WaitingRoomActivity extends AppCompatActivity {
         });
     }
 
+    private void checkConnectionState() {
+        if (!wsManager.isConnected()) {
+            Toast.makeText(this, "🔌 Mất kết nối server", Toast.LENGTH_SHORT).show();
+            tvStatus.setText("🔌 Mất kết nối server");
+        }
+    }
+
+    /* ===================== ACTIONS ===================== */
+
     private void copyRoomCode() {
-        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clipboard =
+                (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
         ClipData clip = ClipData.newPlainText("Room Code", roomCode);
         clipboard.setPrimaryClip(clip);
-        Toast.makeText(this, "✅ Đã copy mã phòng: " + roomCode, Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(this,
+                "✅ Đã copy mã phòng: " + roomCode,
+                Toast.LENGTH_SHORT).show();
     }
 
     private void cancelAndExit() {
-        // TODO: Send cancel room message to server
-        Toast.makeText(this, "Đã hủy phòng", Toast.LENGTH_SHORT).show();
+        // Nếu sau này có logic huỷ phòng, gọi tại đây
+        Toast.makeText(this, "🚪 Đã rời phòng", Toast.LENGTH_SHORT).show();
         finish();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacks(null);
+        handler.removeCallbacksAndMessages(null);
+
+        // GỠ LISTENER ĐỂ TRÁNH EVENT BỊ BẮN SAI ACTIVITY
+        if (wsManager != null) {
+            wsManager.setOnMatchFoundListener(null);
+            wsManager.setOnErrorListener(null);
+        }
     }
 }

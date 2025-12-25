@@ -1,173 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootMatch"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/match_background">
+    android:padding="12dp"
+    android:background="@android:color/white">
 
-    <!-- ================= HEADER ================= -->
+    <!-- HEADER -->
     <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/gradient_header"
-        android:padding="20dp"
-        android:gravity="center_vertical">
+        android:orientation="vertical"
+        android:padding="14dp"
+        android:background="@android:color/holo_purple"
+        android:layout_marginBottom="12dp">
 
         <TextView
-            android:id="@+id/tvMatchCode"
-            android:layout_width="0dp"
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="ABCDEF"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white" />
-
-        <TextView
-            android:id="@+id/tvTimer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="15s"
-            android:textSize="32sp"
-            android:textStyle="bold"
+            android:text="⚔️ Trận Đấu"
             android:textColor="@android:color/white"
-            android:background="@drawable/timer_background"
-            android:padding="10dp" />
-    </LinearLayout>
-
-    <!-- ================= LOADING OVERLAY ================= -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardLoading"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="20dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
-        android:visibility="visible">
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/tvLoading"
+                android:id="@+id/tvMatchCodeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="⏳ Đang tải câu hỏi..."
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                android:text="MatchCode: "
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
 
-    <!-- ================= GAME AREA ================= -->
-    <LinearLayout
-        android:id="@+id/llGameArea"
+            <TextView
+                android:id="@+id/tvMatchCode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="------"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15s"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:background="@android:color/holo_blue_dark" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- GAME AREA (scrollable) -->
+    <ScrollView
+        android:id="@+id/svGameArea"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/tvQuestionNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Câu 1/10"
-            android:textSize="14sp"
-            android:textColor="@color/text_secondary"
-            android:layout_marginBottom="10dp" />
-
-        <TextView
-            android:id="@+id/tvQuestionText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Đang tải câu hỏi..."
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp"
-            android:textColor="@color/text_primary" />
+        android:fillViewport="true"
+        android:layout_marginBottom="12dp">
 
         <LinearLayout
-            android:id="@+id/llAnswers"
+            android:id="@+id/llGameArea"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="12dp" />
+    </ScrollView>
 
-    <!-- ================= SCORE BOARD ================= -->
+    <!-- SCORE BOARD -->
     <LinearLayout
+        android:id="@+id/scoreBoard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="20dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="10dp"
+        android:background="@android:color/darker_gray">
 
-        <!-- Your score -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center"
-            android:background="@drawable/score_background"
-            android:padding="15dp">
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="🎯 Bạn"
-                android:textSize="16sp" />
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tvYourScore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textSize="36sp"
                 android:textStyle="bold"
-                android:textColor="@color/primary" />
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="26sp" />
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="VS"
-            android:textSize="24sp"
             android:textStyle="bold"
-            android:padding="20dp" />
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
 
-        <!-- Opponent score -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center"
-            android:background="@drawable/score_background"
-            android:padding="15dp">
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="👤 Đối thủ"
-                android:textSize="16sp" />
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tvOpponentScore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textSize="36sp"
                 android:textStyle="bold"
-                android:textColor="@color/opponent" />
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="26sp" />
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

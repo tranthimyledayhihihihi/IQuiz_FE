@@ -19,7 +19,6 @@ import com.example.iq5.feature.multiplayer.ui.CreateRoomActivity;
 
 import com.example.iq5.feature.multiplayer.ui.JoinRoomActivity;
 import com.example.iq5.feature.multiplayer.ui.LeaderboardActivity;
-import com.example.iq5.feature.multiplayer.ui.MatchActivity;
 import com.example.iq5.feature.multiplayer.ui.MatchResultActivity;
 
 
@@ -271,7 +270,7 @@ public class NavigationHelper {
      * 👉 Màn hình chơi trận đấu (PvP thực tế)
      */
     public static void navigateToMatch(Context context, String matchCode) {
-        Intent intent = new Intent(context, MatchActivity.class);
+        Intent intent = new Intent(context, MatchResultActivity.class);
         intent.putExtra("matchCode", matchCode);
         context.startActivity(intent);
     }
