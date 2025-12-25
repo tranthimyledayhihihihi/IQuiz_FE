@@ -2,6 +2,10 @@ package com.example.iq5.feature.result.data;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.example.iq5.core.prefs.PrefsManager;
+import com.example.iq5.data.api.RetrofitClient;
+import com.example.iq5.data.model.StreakResponse;
 import com.example.iq5.feature.result.model.Achievement;
 import com.example.iq5.feature.result.model.UserStats;
 import com.example.iq5.feature.result.model.StreakDay;
@@ -16,93 +20,53 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Comparator;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
- * Repository quản lý dữ liệu cho hệ thống Result (Thành tích, Thống kê, Streak, Thưởng).
- * Tải dữ liệu từ các file JSON trong thư mục assets/result/
+ * Repository quản lý dữ liệu Result
  */
 public class ResultRepository {
 
     private static final String TAG = "ResultRepository";
     private final Context context;
     private final Gson gson;
-
-    // ĐƯỜNG DẪN ĐÃ KHẮC PHỤC: Khớp với app/src/main/assets/result/
-    private static final String ASSETS_ROOT = "result/";
+    private static final String ASSETS_PATH = "result/";
 
     public ResultRepository(Context context) {
         this.context = context.getApplicationContext();
         this.gson = new Gson();
     }
 
-    // =============================================
-    // HELPER METHOD: Load JSON từ Assets
-    // =============================================
-
-    /**
-     * Đọc nội dung file JSON từ thư mục assets.
-     */
-    private String loadJsonFromAssets(String fileName) {
-        InputStream inputStream = null;
-        String fullPath = ASSETS_ROOT + fileName;
-
-        try {
-            inputStream = context.getAssets().open(fullPath);
+    // =====================================================
+    // HELPER: Load JSON từ assets
+    // =====================================================
+    private String loadJsonFromAssets(String path) {
+        try (InputStream inputStream = context.getAssets().open(path)) {
             int size = inputStream.available();
             byte[] buffer = new byte[size];
-
-            int bytesRead = inputStream.read(buffer);
-            if (bytesRead == -1) {
-                Log.e(TAG, "File empty: " + fullPath);
-                return null;
-            }
-
-            String jsonContent = new String(buffer, "UTF-8");
-            // Log nội dung load thành công (chỉ 50 ký tự đầu)
-            Log.d(TAG, "JSON loaded successfully: " + fullPath + " | Content start: " + jsonContent.substring(0, Math.min(jsonContent.length(), 50)) + "...");
-            return jsonContent;
-
+            inputStream.read(buffer);
+            return new String(buffer, "UTF-8");
         } catch (IOException e) {
-            // Lỗi FileNotFoundException
-            Log.e(TAG, "❌ FileNotFoundException: Không tìm thấy file JSON tại: " + fullPath);
-            e.printStackTrace();
+            Log.e(TAG, "❌ Error loading JSON: " + path, e);
             return null;
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
-    // =============================================
-    // 1. DỮ LIỆU THÀNH TỰU (AchievementActivity)
-    // =============================================
-
+    // =====================================================
+    // 1. ACHIEVEMENTS
+    // =====================================================
     public List<Achievement> getAchievements() {
         Type listType = new TypeToken<List<Achievement>>() {}.getType();
-        String json = loadJsonFromAssets("achievements.json");
-
-        if (json != null && !json.isEmpty()) {
-            try {
-                return gson.fromJson(json, listType);
-            } catch (Exception e) {
-                // Log lỗi Parse JSON
-                Log.e(TAG, "❌ Error parsing achievements JSON (Check syntax/model):", e);
-            }
-        }
-        return Collections.emptyList();
+        String json = loadJsonFromAssets(ASSETS_PATH + "achievements.json");
+        return json != null ? gson.fromJson(json, listType) : Collections.emptyList();
     }
 
     public int getUnlockedAchievementsCount() {
-        List<Achievement> achievements = getAchievements();
         int count = 0;
-        for (Achievement achievement : achievements) {
-            if (achievement.isUnlocked()) {
-                count++;
-            }
+        for (Achievement a : getAchievements()) {
+            if (a.isUnlocked()) count++;
         }
         return count;
     }
@@ -111,131 +75,104 @@ public class ResultRepository {
         return getAchievements().size();
     }
 
-    // =============================================
-    // 2. DỮ LIỆU LỊCH SỬ CHUỖI NGÀY (StreakActivity)
-    // =============================================
-
+    // =====================================================
+    // 2. STREAK HISTORY (OFFLINE)
+    // =====================================================
     public List<StreakDay> getStreakHistory() {
         Type listType = new TypeToken<List<StreakDay>>() {}.getType();
-        String json = loadJsonFromAssets("streak_history.json");
-
-        if (json != null && !json.isEmpty()) {
-            try {
-                List<StreakDay> history = gson.fromJson(json, listType);
-                // SẮP XẾP history theo dayNumber giảm dần (quan trọng cho getCurrentStreakDays)
-                history.sort(Comparator.comparingInt(StreakDay::getDayNumber).reversed());
-                return history;
-            } catch (Exception e) {
-                Log.e(TAG, "❌ Error parsing streak_history JSON (Check syntax/model):", e);
-            }
+        String json = loadJsonFromAssets(ASSETS_PATH + "streak_history.json");
+        if (json != null) {
+            List<StreakDay> history = gson.fromJson(json, listType);
+            history.sort(Comparator.comparingInt(StreakDay::getDayNumber).reversed());
+            return history;
         }
         return Collections.emptyList();
     }
 
-    /**
-     * Lấy số ngày streak hiện tại (liên tục).
-     */
     public int getCurrentStreakDays() {
         List<StreakDay> history = getStreakHistory();
-        if (history.isEmpty()) {
-            return 0;
-        }
-
         int currentStreak = 0;
-        // Logic tính streak liên tục dựa trên ngày đã completed (vì đã sắp xếp giảm dần)
         for (StreakDay day : history) {
-            if (day.isCompleted()) {
-                currentStreak++;
-            } else {
-                break; // Dừng khi chuỗi bị ngắt
-            }
+            if (day.isCompleted()) currentStreak++;
+            else break;
         }
         return currentStreak;
     }
 
-    // =============================================
-    // 3. DỮ LIỆU MỐC THỐNG KÊ (StatsActivity)
-    // =============================================
-
+    // =====================================================
+    // 3. STATS
+    // =====================================================
     public List<UserStats> getStatsMilestones() {
         Type listType = new TypeToken<List<UserStats>>() {}.getType();
-        String json = loadJsonFromAssets("stats_milestones.json");
-
-        if (json != null && !json.isEmpty()) {
-            try {
-                return gson.fromJson(json, listType);
-            } catch (Exception e) {
-                Log.e(TAG, "❌ Error parsing stats_milestones JSON (Check syntax/model):", e);
-            }
-        }
-        return Collections.emptyList();
+        String json = loadJsonFromAssets(ASSETS_PATH + "stats_milestones.json");
+        return json != null ? gson.fromJson(json, listType) : Collections.emptyList();
     }
 
-    // =============================================
-    // 4. DỮ LIỆU THƯỞNG NGÀY (DailyRewardActivity)
-    // =============================================
-
+    // =====================================================
+    // 4. DAILY REWARD
+    // =====================================================
     public List<DailyReward> getDailyRewards() {
         Type listType = new TypeToken<List<DailyReward>>() {}.getType();
-        String json = loadJsonFromAssets("daily_rewards.json");
-
-        if (json != null && !json.isEmpty()) {
-            try {
-                List<DailyReward> rewards = gson.fromJson(json, listType);
-
-                // Gán isToday cho reward đầu tiên chưa claimed
-                boolean todayAssigned = false;
-                for (DailyReward r : rewards) {
-                    if (!r.isClaimed() && !todayAssigned) {
-                        r.setToday(true);
-                        todayAssigned = true;
-                    } else {
-                        r.setToday(false);
-                    }
-                }
-                return rewards;
-            } catch (Exception e) {
-                Log.e(TAG, "❌ Error parsing daily_rewards JSON (Check syntax/model):", e);
-                e.printStackTrace();
-            }
-        }
-        return Collections.emptyList();
-    }
-
-    public DailyReward getTodayReward() {
-        List<DailyReward> rewards = getDailyRewards();
-        // Dựa vào logic đã gán 'isToday'
-        for (DailyReward reward : rewards) {
-            if (reward.isToday()) {
-                return reward;
-            }
-        }
-        return null;
+        String json = loadJsonFromAssets(ASSETS_PATH + "daily_rewards.json");
+        return json != null ? gson.fromJson(json, listType) : Collections.emptyList();
     }
 
     public int getCurrentRewardStreak() {
-        List<DailyReward> rewards = getDailyRewards();
         int streak = 0;
-        for (DailyReward reward : rewards) {
-            if (reward.isClaimed()) {
-                streak++;
-            } else {
-                break;
-            }
+        for (DailyReward r : getDailyRewards()) {
+            if (r.isClaimed()) streak++;
+            else break;
         }
         return streak;
     }
 
-    // =============================================
-    // 5. PHƯƠNG THỨC BỔ SUNG (Utility Methods)
-    // =============================================
+    // =====================================================
+    // 5. STREAK API (ONLINE)
+    // =====================================================
+    public interface StreakCallback {
+        void onSuccess(int currentStreak, String message);
+        void onError(String error);
+    }
 
+    public void getDailyStreak(StreakCallback callback) {
+        PrefsManager prefsManager = new PrefsManager(context);
+        String rawToken = prefsManager.getToken();
+
+        if (rawToken == null || rawToken.isEmpty()) {
+            callback.onError("Chưa đăng nhập");
+            return;
+        }
+
+        RetrofitClient.getApiService()
+                .getDailyStreak("Bearer " + rawToken)
+                .enqueue(new Callback<StreakResponse>() {
+                    @Override
+                    public void onResponse(Call<StreakResponse> call, Response<StreakResponse> response) {
+                        if (!response.isSuccessful() || response.body() == null) {
+                            callback.onError("Lỗi API streak");
+                            return;
+                        }
+
+                        StreakResponse body = response.body();
+                        callback.onSuccess(body.getSoNgayLienTiep(), body.getMessage());
+                    }
+
+                    @Override
+                    public void onFailure(Call<StreakResponse> call, Throwable t) {
+                        callback.onError(t.getMessage());
+                    }
+                });
+    }
+
+    // =====================================================
+    // UTILS
+    // =====================================================
     public boolean isDataAvailable(String fileName) {
         String json = loadJsonFromAssets(fileName);
         return json != null && !json.isEmpty();
     }
 
     public void clearCache() {
-        // Có thể implement logic xóa cache ở đây nếu cần
+        // Optional: implement cache clearing logic
     }
 }

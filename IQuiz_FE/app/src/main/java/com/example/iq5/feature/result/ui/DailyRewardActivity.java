@@ -1,106 +1,172 @@
 package com.example.iq5.feature.result.ui;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView; // Import ImageView
+import android.widget.ImageView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.iq5.R;
-import com.example.iq5.core.navigation.NavigationHelper;
+import com.example.iq5.core.prefs.PrefsManager;
+import com.example.iq5.data.api.ApiService;
+import com.example.iq5.data.api.RetrofitClient;
+import com.example.iq5.data.model.DailyRewardClaimResponse;
 import com.example.iq5.feature.result.adapter.DailyRewardAdapter;
 import com.example.iq5.feature.result.model.DailyReward;
-import com.example.iq5.feature.result.data.ResultRepository;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DailyRewardActivity extends AppCompatActivity {
 
     private RecyclerView rvRewards;
     private Button btnClaimReward;
-    private ImageView btnBack; // Khai báo
-    private ResultRepository repository;
-    private List<DailyReward> rewardsList;
+    private ImageView btnBack;
+
     private DailyRewardAdapter adapter;
+    private final List<DailyReward> rewardsList = new ArrayList<>();
+
+    private ApiService apiService;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_reward);
 
-        // 1. Ánh xạ View
+        // ================= INIT VIEW =================
         rvRewards = findViewById(R.id.rv_daily_rewards);
         btnClaimReward = findViewById(R.id.btn_claim_reward);
-        btnBack = findViewById(R.id.btn_back_reward); // Ánh xạ ID mới
+        btnBack = findViewById(R.id.btn_back_reward);
 
-        // 2. Khởi tạo Repository và lấy dữ liệu từ JSON
-        repository = new ResultRepository(this);
-        rewardsList = repository.getDailyRewards();
+        rvRewards.setLayoutManager(new GridLayoutManager(this, 4));
+        adapter = new DailyRewardAdapter(rewardsList, this);
+        rvRewards.setAdapter(adapter);
 
-        // 3. Cấu hình RecyclerView với GridLayoutManager (4 cột)
-        if (rvRewards != null) {
-            rvRewards.setLayoutManager(new GridLayoutManager(this, 4));
-            adapter = new DailyRewardAdapter(rewardsList, this);
-            rvRewards.setAdapter(adapter);
+        btnBack.setOnClickListener(v -> finish());
+
+        // ================= AUTH + API =================
+        PrefsManager prefs = new PrefsManager(this);
+        token = prefs.getToken();
+        apiService = RetrofitClient.getApiService();
+
+        if (token == null || token.isEmpty()) {
+            Toast.makeText(this,
+                    "⚠️ Bạn chưa đăng nhập",
+                    Toast.LENGTH_LONG).show();
+            finish();
+            return;
         }
 
-        // 4. Kiểm tra và cập nhật trạng thái nút Nhận Thưởng
-        updateClaimButtonState();
+        // ================= BUILD UI (7 NGÀY) =================
+        buildDefaultRewardList();
 
-        // 5. Xử lý sự kiện nút Nhận Thưởng
-        if (btnClaimReward != null) {
-            btnClaimReward.setOnClickListener(v -> claimTodayReward());
-        }
-
-        // 6. Xử lý nút Back (Dùng ID mới)
-        if (btnBack != null) {
-            btnBack.setOnClickListener(v -> {
-                // Quay lại Activity trước đó
-                NavigationHelper.goBack(this);
-            });
-        }
+        // ================= CLAIM =================
+        btnClaimReward.setOnClickListener(v -> claimDailyReward());
     }
 
-    /**
-     * Cập nhật trạng thái nút Nhận Thưởng dựa trên dữ liệu.
-     */
+    // =================================================
+    // BUILD UI 7 NGÀY (FE DỰNG – BE CHỈ QUYẾT ĐỊNH CLAIM)
+    // =================================================
+    private void buildDefaultRewardList() {
+        rewardsList.clear();
+
+        for (int day = 1; day <= 7; day++) {
+            DailyReward reward = new DailyReward();
+            reward.setDayNumber(day);
+            reward.setReward(50);       // FE quy ước 50 điểm / ngày
+            reward.setClaimed(false);
+            reward.setToday(day == 7); // Quy ước: ngày cuối là hôm nay
+            rewardsList.add(reward);
+        }
+
+        adapter.notifyDataSetChanged();
+        updateClaimButtonState();
+    }
+
+    // =================================================
+    // CLAIM DAILY REWARD – ACHIEVEMENT CONTROLLER
+    // POST /api/user/achievement/daily-reward
+    // =================================================
+    private void claimDailyReward() {
+
+        apiService.claimDailyReward("Bearer " + token)
+                .enqueue(new Callback<DailyRewardClaimResponse>() {
+                    @Override
+                    public void onResponse(
+                            Call<DailyRewardClaimResponse> call,
+                            Response<DailyRewardClaimResponse> response) {
+
+                        if (!response.isSuccessful() || response.body() == null) {
+                            Toast.makeText(
+                                    DailyRewardActivity.this,
+                                    "❌ Không nhận được phản hồi từ server",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                            return;
+                        }
+
+                        DailyRewardClaimResponse res = response.body();
+
+                        // 🔔 Thông báo từ BE
+                        Toast.makeText(
+                                DailyRewardActivity.this,
+                                res.message,
+                                Toast.LENGTH_LONG
+                        ).show();
+
+                        if (res.awarded) {
+                            // ✅ Đánh dấu hôm nay đã nhận
+                            for (DailyReward r : rewardsList) {
+                                if (r.isToday()) {
+                                    r.setClaimed(true);
+                                }
+                            }
+                            adapter.notifyDataSetChanged();
+                            updateClaimButtonState();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(
+                            Call<DailyRewardClaimResponse> call,
+                            Throwable t) {
+
+                        Toast.makeText(
+                                DailyRewardActivity.this,
+                                "❌ Lỗi mạng khi nhận thưởng",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    }
+                });
+    }
+
+    // =================================================
+    // UPDATE BUTTON STATE
+    // =================================================
     private void updateClaimButtonState() {
-        if (btnClaimReward == null) return;
+        DailyReward today = null;
 
-        DailyReward todayReward = repository.getTodayReward();
+        for (DailyReward r : rewardsList) {
+            if (r.isToday()) {
+                today = r;
+                break;
+            }
+        }
 
-        if (todayReward != null && !todayReward.isClaimed()) {
+        if (today != null && !today.isClaimed()) {
             btnClaimReward.setEnabled(true);
-            btnClaimReward.setText("NHẬN THƯỞNG - " + todayReward.getReward() + " ĐIỂM");
+            btnClaimReward.setText("NHẬN THƯỞNG - " + today.getReward() + " ĐIỂM");
         } else {
             btnClaimReward.setEnabled(false);
             btnClaimReward.setText("ĐÃ NHẬN HÔM NAY");
-        }
-    }
-
-    /**
-     * Xử lý nhận thưởng ngày hôm nay.
-     */
-    private void claimTodayReward() {
-        DailyReward todayReward = repository.getTodayReward();
-
-        if (todayReward != null && !todayReward.isClaimed()) {
-            int rewardPoints = todayReward.getReward();
-
-            Toast.makeText(this,
-                    "🎉 Đã nhận " + rewardPoints + " điểm!",
-                    Toast.LENGTH_SHORT).show();
-
-            todayReward.setClaimed(true);
-            if (adapter != null) {
-                adapter.notifyDataSetChanged();
-            }
-            updateClaimButtonState();
-        } else {
-            Toast.makeText(this,
-                    "Bạn đã nhận thưởng hôm nay rồi!",
-                    Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -22,8 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public final class RetrofitClient {
 
-    private static Retrofit retrofit;
-    private static ApiService apiService;
+    private static Retrofit retrofit = null;
+    private static ApiService apiService = null;
 
     private RetrofitClient() {
         // no instance

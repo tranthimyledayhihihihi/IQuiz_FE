@@ -1,19 +1,35 @@
 package com.example.iq5.data.model;
 
+import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class DailyRewardResponse {
+    @SerializedName("success")
     public boolean success;
+
+    @SerializedName("data")
     public List<DailyRewardData> data;
+
+    @SerializedName("message")
     public String message;
-    public boolean claimed;
-    
+
     public static class DailyRewardData {
-        public int ThuongID;
-        public int UserID;
-        public String NgayNhan;
-        public String LoaiThuong;
-        public int GiaTri;
-        public String MoTa;
+        @SerializedName("thuongID")
+        public int thuongID;
+
+        @SerializedName("userID")
+        public int userID;
+
+        @SerializedName("ngayNhan")
+        public String ngayNhan;
+
+        @SerializedName("loaiThuong")
+        public String loaiThuong;
+
+        @SerializedName("giaTri")
+        public int giaTri;
+
+        @SerializedName("moTa")
+        public String moTa;
     }
 }

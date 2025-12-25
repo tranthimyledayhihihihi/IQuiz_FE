@@ -164,11 +164,7 @@ public class HomeActivity extends AppCompatActivity {
             });
         }
 
-        if (findViewById(R.id.btnStats) != null) {
-            findViewById(R.id.btnStats).setOnClickListener(v -> {
-                NavigationHelper.navigateToStats(this);
-            });
-        }
+
 
         if (findViewById(R.id.btnStreak) != null) {
             findViewById(R.id.btnStreak).setOnClickListener(v -> {
