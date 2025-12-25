@@ -25,20 +25,26 @@ android {
     // - emulatorDebug: Android Emulator -> http://10.0.2.2:5048/
     flavorDimensions += "env"
     productFlavors {
+
         create("phone") {
             dimension = "env"
-            buildConfigField("String", "BASE_URL", "\"http://127.0.0.1:5048/api/\"")
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"http://172.26.97.66:5048/\""
+            )
         }
+
         create("emulator") {
             dimension = "env"
-            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:5048/api/\"")
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"http://10.0.2.2:5048/\""
+            )
         }
-        // Optional: if you truly want Wi‑Fi IP based testing
-        // create("wifi") {
-        //     dimension = "env"
-        //     buildConfigField("String", "BASE_URL", "\"http://192.168.1.6:5048/api/\"")
-        // }
     }
+
 
     buildTypes {
         release {
