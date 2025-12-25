@@ -3,157 +3,87 @@ package com.example.iq5.data.repository;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.iq5.core.network.ApiClient;
-import com.example.iq5.core.network.AchievementApiService;
 import com.example.iq5.core.prefs.PrefsManager;
+import com.example.iq5.data.api.ApiService;
+import com.example.iq5.data.api.RetrofitClient;
+import com.example.iq5.data.model.AchievementsResponse;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
- * Repository để xử lý các API calls liên quan đến Achievement
+ * Repository xử lý Achievement
+ * GỌI ĐÚNG API: /api/user/Achievement/me
  */
 public class AchievementApiRepository {
-    
+
     private static final String TAG = "AchievementApiRepository";
-    private final AchievementApiService apiService;
-    private final Context context;
-    
+
+    private final ApiService apiService;
+    private final PrefsManager prefsManager;
+
     public AchievementApiRepository(Context context) {
-        this.context = context.getApplicationContext();
-        PrefsManager prefsManager = new PrefsManager(context);
-        Retrofit retrofit = ApiClient.getClient(prefsManager);
-        this.apiService = ApiClient.createService(retrofit, AchievementApiService.class);
+
+        // ✅ Lấy token từ Prefs
+        prefsManager = new PrefsManager(context);
+
+        // ✅ DÙNG DUY NHẤT RetrofitClient
+        apiService = RetrofitClient.getApiService();
     }
-    
-    /**
-     * Lấy danh sách thành tựu của user
-     */
+
+    // =====================================================
+    // GET MY ACHIEVEMENTS
+    // =====================================================
     public void getMyAchievements(final AchievementsCallback callback) {
-        Log.d(TAG, "🏆 Đang gọi API Get My Achievements...");
-        
-        Call<AchievementApiService.AchievementResponse> call = apiService.getMyAchievements();
-        
-        call.enqueue(new Callback<AchievementApiService.AchievementResponse>() {
+
+        String token = "Bearer " + prefsManager.getToken();
+
+        Log.d(TAG, "🏆 Calling API getMyAchievements");
+        Log.d(TAG, "🌐 URL = http://10.0.2.2:5048/api/user/Achievement/me");
+        Log.d(TAG, "🔑 Token = " + token);
+
+        Call<List<AchievementsResponse.Achievement>> call =
+                apiService.getMyAchievements(token);
+
+        call.enqueue(new Callback<List<AchievementsResponse.Achievement>>() {
             @Override
-            public void onResponse(Call<AchievementApiService.AchievementResponse> call, 
-                                 Response<AchievementApiService.AchievementResponse> response) {
+            public void onResponse(
+                    Call<List<AchievementsResponse.Achievement>> call,
+                    Response<List<AchievementsResponse.Achievement>> response) {
+
                 if (response.isSuccessful() && response.body() != null) {
-                    AchievementApiService.AchievementResponse achievementResponse = response.body();
-                    List<AchievementApiService.Achievement> achievements = achievementResponse.getAchievements();
-                    
-                    Log.d(TAG, "✅ Get My Achievements thành công! Số thành tựu: " + 
-                        (achievements != null ? achievements.size() : 0));
-                    
-                    if (achievements != null) {
-                        callback.onSuccess(achievements);
-                    } else {
-                        callback.onError("Không có dữ liệu thành tựu");
-                    }
-                } else if (response.code() == 401) {
-                    Log.e(TAG, "❌ Unauthorized - Token hết hạn");
-                    callback.onUnauthorized();
-                } else {
-                    Log.e(TAG, "❌ Get My Achievements lỗi: " + response.code());
-                    callback.onError("Không thể lấy danh sách thành tựu. Mã lỗi: " + response.code());
-                }
-            }
-            
-            @Override
-            public void onFailure(Call<AchievementApiService.AchievementResponse> call, Throwable t) {
-                Log.e(TAG, "❌ Get My Achievements thất bại: " + t.getMessage());
-                callback.onError("Không thể kết nối đến server: " + t.getMessage());
-            }
-        });
-    }
-    
-    /**
-     * Lấy thông tin chuỗi ngày chơi
-     */
-    public void getMyStreak(final StreakCallback callback) {
-        Log.d(TAG, "🔥 Đang gọi API Get My Streak...");
-        
-        Call<AchievementApiService.StreakResponse> call = apiService.getMyStreak();
-        
-        call.enqueue(new Callback<AchievementApiService.StreakResponse>() {
-            @Override
-            public void onResponse(Call<AchievementApiService.StreakResponse> call, 
-                                 Response<AchievementApiService.StreakResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Log.d(TAG, "✅ Get My Streak thành công! Streak: " + response.body().getSoNgayLienTiep());
+                    Log.d(TAG, "✅ Success: " + response.body().size() + " achievements");
                     callback.onSuccess(response.body());
+
                 } else if (response.code() == 401) {
-                    Log.e(TAG, "❌ Unauthorized - Token hết hạn");
+                    Log.e(TAG, "❌ Unauthorized");
                     callback.onUnauthorized();
+
                 } else {
-                    Log.e(TAG, "❌ Get My Streak lỗi: " + response.code());
-                    callback.onError("Không thể lấy thông tin streak. Mã lỗi: " + response.code());
+                    Log.e(TAG, "❌ API Error: " + response.code());
+                    callback.onError("API Error: " + response.code());
                 }
             }
-            
+
             @Override
-            public void onFailure(Call<AchievementApiService.StreakResponse> call, Throwable t) {
-                Log.e(TAG, "❌ Get My Streak thất bại: " + t.getMessage());
-                callback.onError("Không thể kết nối đến server: " + t.getMessage());
+            public void onFailure(
+                    Call<List<AchievementsResponse.Achievement>> call,
+                    Throwable t) {
+
+                Log.e(TAG, "❌ Network error", t);
+                callback.onError(t.getMessage());
             }
         });
     }
-    
-    /**
-     * Nhận thưởng hàng ngày
-     */
-    public void claimDailyReward(final DailyRewardCallback callback) {
-        Log.d(TAG, "🎁 Đang gọi API Claim Daily Reward...");
-        
-        Call<AchievementApiService.DailyRewardResponse> call = apiService.claimDailyReward();
-        
-        call.enqueue(new Callback<AchievementApiService.DailyRewardResponse>() {
-            @Override
-            public void onResponse(Call<AchievementApiService.DailyRewardResponse> call, 
-                                 Response<AchievementApiService.DailyRewardResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Log.d(TAG, "✅ Claim Daily Reward thành công! Awarded: " + response.body().isAwarded());
-                    callback.onSuccess(response.body().isAwarded(), response.body().getMessage());
-                } else if (response.code() == 401) {
-                    Log.e(TAG, "❌ Unauthorized - Token hết hạn");
-                    callback.onUnauthorized();
-                } else if (response.code() == 400) {
-                    Log.e(TAG, "❌ Bad Request - Có thể đã nhận thưởng hôm nay");
-                    callback.onAlreadyClaimed();
-                } else {
-                    Log.e(TAG, "❌ Claim Daily Reward lỗi: " + response.code());
-                    callback.onError("Không thể nhận thưởng. Mã lỗi: " + response.code());
-                }
-            }
-            
-            @Override
-            public void onFailure(Call<AchievementApiService.DailyRewardResponse> call, Throwable t) {
-                Log.e(TAG, "❌ Claim Daily Reward thất bại: " + t.getMessage());
-                callback.onError("Không thể kết nối đến server: " + t.getMessage());
-            }
-        });
-    }
-    
-    // Callback interfaces
+
+    // =====================================================
+    // CALLBACK
+    // =====================================================
     public interface AchievementsCallback {
-        void onSuccess(List<AchievementApiService.Achievement> achievements);
-        void onUnauthorized();
-        void onError(String error);
-    }
-    
-    public interface StreakCallback {
-        void onSuccess(AchievementApiService.StreakResponse streak);
-        void onUnauthorized();
-        void onError(String error);
-    }
-    
-    public interface DailyRewardCallback {
-        void onSuccess(boolean awarded, String message);
-        void onAlreadyClaimed();
+        void onSuccess(List<AchievementsResponse.Achievement> achievements);
         void onUnauthorized();
         void onError(String error);
     }

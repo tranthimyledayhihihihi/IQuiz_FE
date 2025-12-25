@@ -28,10 +28,7 @@ public class RetrofitClient {
     
     // Option 1: Use 10.0.2.2 for Android Emulator (maps to localhost)
     private static final String BASE_URL = "http://10.0.2.2:5048/";
-    
-    // ❌ SAI - KHÔNG DÙNG localhost trong Android:
-    // private static final String BASE_URL = "http://localhost:7092/";
-    // private static final String BASE_URL = "http://127.0.0.1:7092/";
+
     
     private static Retrofit retrofit = null;
     private static ApiService apiService = null;

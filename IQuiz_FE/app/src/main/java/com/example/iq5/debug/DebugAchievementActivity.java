@@ -8,206 +8,142 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.iq5.R;
-import com.example.iq5.core.network.AchievementApiService;
 import com.example.iq5.core.prefs.PrefsManager;
+import com.example.iq5.data.model.AchievementsResponse;
 import com.example.iq5.data.repository.AchievementApiRepository;
 
 import java.util.List;
 
-/**
- * Debug Activity để test Achievement API và token
- */
 public class DebugAchievementActivity extends AppCompatActivity {
 
-    private static final String TAG = "DebugAchievementActivity";
-    
+    private static final String TAG = "DebugAchievement";
+
     private TextView tvTokenInfo;
     private TextView tvApiResult;
     private Button btnCheckToken;
     private Button btnTestApi;
     private Button btnClearToken;
-    
+
     private PrefsManager prefsManager;
     private AchievementApiRepository achievementRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        // Tạo layout đơn giản
         createDebugLayout();
-        
-        // Initialize
+
         prefsManager = new PrefsManager(this);
         achievementRepository = new AchievementApiRepository(this);
-        
-        // Setup buttons
+
         setupButtons();
-        
-        // Show initial token info
         showTokenInfo();
     }
-    
-    private void createDebugLayout() {
-        android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
-        layout.setOrientation(android.widget.LinearLayout.VERTICAL);
-        layout.setPadding(32, 32, 32, 32);
-        
-        // Title
-        TextView title = new TextView(this);
-        title.setText("🔧 DEBUG ACHIEVEMENT API");
-        title.setTextSize(18);
-        title.setPadding(0, 0, 0, 16);
-        layout.addView(title);
-        
-        // Token info
-        tvTokenInfo = new TextView(this);
-        tvTokenInfo.setText("Token info loading...");
-        tvTokenInfo.setTextSize(12);
-        tvTokenInfo.setPadding(0, 0, 0, 16);
-        layout.addView(tvTokenInfo);
-        
-        // Buttons
-        btnCheckToken = new Button(this);
-        btnCheckToken.setText("🔍 Check Token");
-        layout.addView(btnCheckToken);
-        
-        btnTestApi = new Button(this);
-        btnTestApi.setText("🏆 Test Achievement API");
-        layout.addView(btnTestApi);
-        
-        btnClearToken = new Button(this);
-        btnClearToken.setText("🗑️ Clear Token");
-        layout.addView(btnClearToken);
-        
-        // API result
-        tvApiResult = new TextView(this);
-        tvApiResult.setText("API result will appear here...");
-        tvApiResult.setTextSize(10);
-        tvApiResult.setPadding(0, 16, 0, 0);
-        layout.addView(tvApiResult);
-        
-        setContentView(layout);
-    }
-    
+
     private void setupButtons() {
         btnCheckToken.setOnClickListener(v -> showTokenInfo());
         btnTestApi.setOnClickListener(v -> testAchievementApi());
         btnClearToken.setOnClickListener(v -> clearToken());
     }
-    
+
     private void showTokenInfo() {
-        String token = prefsManager.getAuthToken();
-        String role = prefsManager.getUserRole();
-        
-        if (token != null) {
-            // Decode JWT để xem thông tin (đơn giản)
-            String[] parts = token.split("\\.");
-            String info = String.format(
-                "🔑 TOKEN INFO:\n" +
-                "✅ Token exists: YES\n" +
-                "📏 Length: %d chars\n" +
-                "👤 Role: %s\n" +
-                "🔧 Parts: %d\n" +
-                "📝 Preview: %s...",
-                token.length(),
-                role != null ? role : "unknown",
-                parts.length,
-                token.length() > 50 ? token.substring(0, 50) : token
+        String token = prefsManager.getToken();
+
+        if (token != null && !token.isEmpty()) {
+            tvTokenInfo.setText(
+                    "🔑 TOKEN OK\n" +
+                            "Length: " + token.length() + "\n" +
+                            "Preview: " + token.substring(0, Math.min(40, token.length())) + "..."
             );
-            tvTokenInfo.setText(info);
-            
-            Log.d(TAG, "Token exists: " + token.substring(0, Math.min(50, token.length())) + "...");
+            Log.d(TAG, "Token OK");
         } else {
-            tvTokenInfo.setText("❌ TOKEN INFO:\n❌ No token found!\n🔄 Please login first.");
-            Log.w(TAG, "No token found in PrefsManager");
+            tvTokenInfo.setText("❌ NO TOKEN – PLEASE LOGIN");
+            Log.e(TAG, "No token found");
         }
     }
-    
+
     private void testAchievementApi() {
-        tvApiResult.setText("🔄 Testing Achievement API...");
-        
-        Log.d(TAG, "🏆 Testing Achievement API...");
-        
-        achievementRepository.getMyAchievements(new AchievementApiRepository.AchievementsCallback() {
-            @Override
-            public void onSuccess(List<AchievementApiService.Achievement> achievements) {
-                runOnUiThread(() -> {
-                    String result = String.format(
-                        "✅ API SUCCESS!\n" +
-                        "🏆 Achievements: %d\n" +
-                        "📊 Details:\n",
-                        achievements.size()
-                    );
-                    
-                    for (int i = 0; i < Math.min(3, achievements.size()); i++) {
-                        AchievementApiService.Achievement ach = achievements.get(i);
-                        result += String.format("  %d. %s (%s)\n", 
-                            i+1, ach.getTenThanhTuu(), ach.isUnlocked() ? "✅" : "🔒");
+        tvApiResult.setText("🔄 Calling Achievement API...");
+
+        achievementRepository.getMyAchievements(
+                new AchievementApiRepository.AchievementsCallback() {
+
+                    @Override
+                    public void onSuccess(List<AchievementsResponse.Achievement> list) {
+                        runOnUiThread(() -> {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append("✅ API SUCCESS\n");
+                            sb.append("🏆 Total: ").append(list.size()).append("\n\n");
+
+                            for (AchievementsResponse.Achievement a : list) {
+                                sb.append("• ")
+                                        .append(a.tenThanhTuu)
+                                        .append(" | +")
+                                        .append(a.diemThuong)
+                                        .append("\n");
+                            }
+
+                            tvApiResult.setText(sb.toString());
+                            Toast.makeText(DebugAchievementActivity.this,
+                                    "API OK: " + list.size() + " achievements",
+                                    Toast.LENGTH_SHORT).show();
+                        });
                     }
-                    
-                    if (achievements.size() > 3) {
-                        result += String.format("  ... and %d more\n", achievements.size() - 3);
+
+                    @Override
+                    public void onUnauthorized() {
+                        runOnUiThread(() -> {
+                            tvApiResult.setText("❌ UNAUTHORIZED (TOKEN EXPIRED)");
+                            Toast.makeText(DebugAchievementActivity.this,
+                                    "Token expired – login again",
+                                    Toast.LENGTH_LONG).show();
+                        });
                     }
-                    
-                    tvApiResult.setText(result);
-                    Toast.makeText(DebugAchievementActivity.this, 
-                        "✅ API Success: " + achievements.size() + " achievements", 
-                        Toast.LENGTH_SHORT).show();
-                    
-                    Log.d(TAG, "✅ API Success: " + achievements.size() + " achievements");
-                });
-            }
-            
-            @Override
-            public void onUnauthorized() {
-                runOnUiThread(() -> {
-                    String result = "❌ API UNAUTHORIZED!\n" +
-                        "🔑 Token may be expired or invalid\n" +
-                        "💡 Try logging in again\n" +
-                        "🔧 Check backend logs for details";
-                    
-                    tvApiResult.setText(result);
-                    Toast.makeText(DebugAchievementActivity.this, 
-                        "❌ Unauthorized - Token expired", Toast.LENGTH_LONG).show();
-                    
-                    Log.e(TAG, "❌ API Unauthorized - Token expired or invalid");
-                    
-                    // Show current token for debugging
-                    showTokenInfo();
-                });
-            }
-            
-            @Override
-            public void onError(String error) {
-                runOnUiThread(() -> {
-                    String result = String.format(
-                        "❌ API ERROR!\n" +
-                        "🔥 Error: %s\n" +
-                        "🔧 Check:\n" +
-                        "  - Backend running?\n" +
-                        "  - Network connection?\n" +
-                        "  - API endpoint correct?",
-                        error
-                    );
-                    
-                    tvApiResult.setText(result);
-                    Toast.makeText(DebugAchievementActivity.this, 
-                        "❌ API Error: " + error, Toast.LENGTH_LONG).show();
-                    
-                    Log.e(TAG, "❌ API Error: " + error);
-                });
-            }
-        });
+
+                    @Override
+                    public void onError(String error) {
+                        runOnUiThread(() -> {
+                            tvApiResult.setText("❌ ERROR: " + error);
+                            Toast.makeText(DebugAchievementActivity.this,
+                                    error,
+                                    Toast.LENGTH_LONG).show();
+                        });
+                    }
+                }
+        );
     }
-    
+
     private void clearToken() {
-        prefsManager.clearAuthToken();
+        prefsManager.clearToken();
         showTokenInfo();
-        tvApiResult.setText("🗑️ Token cleared! Please login again.");
-        Toast.makeText(this, "Token cleared", Toast.LENGTH_SHORT).show();
-        
-        Log.d(TAG, "Token cleared");
+        tvApiResult.setText("🗑️ Token cleared");
+    }
+
+    // =====================================================
+    // SIMPLE DEBUG UI
+    // =====================================================
+    private void createDebugLayout() {
+        android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
+        layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+        layout.setPadding(32, 32, 32, 32);
+
+        tvTokenInfo = new TextView(this);
+        tvApiResult = new TextView(this);
+
+        btnCheckToken = new Button(this);
+        btnCheckToken.setText("Check Token");
+
+        btnTestApi = new Button(this);
+        btnTestApi.setText("Test Achievement API");
+
+        btnClearToken = new Button(this);
+        btnClearToken.setText("Clear Token");
+
+        layout.addView(tvTokenInfo);
+        layout.addView(btnCheckToken);
+        layout.addView(btnTestApi);
+        layout.addView(btnClearToken);
+        layout.addView(tvApiResult);
+
+        setContentView(layout);
     }
 }

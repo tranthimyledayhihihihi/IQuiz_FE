@@ -8,9 +8,12 @@ import com.example.iq5.data.api.ApiService;
 import com.example.iq5.data.model.*;
 import com.example.iq5.utils.ApiHelper;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import com.example.iq5.data.model.AchievementsResponse;
 
 /**
  * Repository để quản lý Ranking và Leaderboard
@@ -60,31 +63,37 @@ public class RankingRepository {
      * Lấy thành tựu của tôi
      */
     public void getMyAchievementsAsync(AchievementsCallback callback) {
+
         String token = "Bearer " + ApiHelper.getToken(context);
-        
-        Log.d(TAG, "🏅 Đang lấy thành tựu...");
-        
-        Call<AchievementsResponse> call = apiService.getMyAchievements(token);
-        call.enqueue(new Callback<AchievementsResponse>() {
+
+        Call<List<AchievementsResponse.Achievement>> call =
+                apiService.getMyAchievements(token);
+
+        call.enqueue(new Callback<List<AchievementsResponse.Achievement>>() {
             @Override
-            public void onResponse(Call<AchievementsResponse> call, Response<AchievementsResponse> response) {
+            public void onResponse(
+                    Call<List<AchievementsResponse.Achievement>> call,
+                    Response<List<AchievementsResponse.Achievement>> response) {
+
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.d(TAG, "✅ Lấy thành tựu thành công!");
                     callback.onSuccess(response.body());
                 } else {
-                    Log.e(TAG, "❌ Lỗi lấy thành tựu: " + response.code());
-                    callback.onError("Không thể lấy thành tựu. Mã lỗi: " + response.code());
+                    callback.onError("Không thể lấy thành tựu");
                 }
             }
-            
+
             @Override
-            public void onFailure(Call<AchievementsResponse> call, Throwable t) {
-                Log.e(TAG, "❌ Lỗi kết nối: " + t.getMessage());
-                callback.onError("Lỗi kết nối: " + t.getMessage());
+            public void onFailure(
+                    Call<List<AchievementsResponse.Achievement>> call,
+                    Throwable t) {
+
+                callback.onError(t.getMessage());
             }
         });
     }
-    
+
+
+
     /**
      * Lấy số người online
      */
@@ -120,14 +129,17 @@ public class RankingRepository {
         void onSuccess(LeaderboardResponse response);
         void onError(String error);
     }
-    
+
     public interface AchievementsCallback {
-        void onSuccess(AchievementsResponse response);
+        void onSuccess(List<AchievementsResponse.Achievement> achievements);
         void onError(String error);
     }
-    
+
+
+
     public interface OnlineCountCallback {
         void onSuccess(int count);
         void onError(String error);
     }
+
 }

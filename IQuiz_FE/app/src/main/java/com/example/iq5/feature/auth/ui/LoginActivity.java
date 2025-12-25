@@ -13,13 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.iq5.R;
 import com.example.iq5.core.navigation.NavigationHelper;
+import com.example.iq5.core.prefs.PrefsManager;
 import com.example.iq5.feature.auth.data.AuthRepository;
 import com.example.iq5.feature.auth.model.LoginResponse;
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
-    
+
     private EditText txtEmail, txtPassword;
     private Button btnLogin;
     private ProgressBar progressBar;
@@ -88,9 +89,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void performLogin(String username, String password) {
         Log.d(TAG, "🔐 Đang đăng nhập với username: " + username);
-        
+
         showLoading(true);
-        
+
         authRepository.loginAsync(username, password, new AuthRepository.LoginCallback() {
             @Override
             public void onSuccess(String token, String hoTen, String vaiTro) {
@@ -98,7 +99,23 @@ public class LoginActivity extends AppCompatActivity {
                     showLoading(false);
                     Log.d(TAG, "✅ Đăng nhập thành công! Token: " + token);
 
-                    // 🔥 LƯU TOKEN + USER INFO (BẮT BUỘC)
+                    // =================================================
+                    // ✅ LƯU TOKEN + USER INFO BẰNG PREFSMANAGER (QUAN TRỌNG)
+                    // =================================================
+                    PrefsManager prefs = new PrefsManager(LoginActivity.this);
+
+                    // LƯU TOKEN (DailyReward & các API khác dùng cái này)
+                    prefs.saveAuthToken(token);
+
+                    // ⚠️ TẠM THỜI: nếu BE chưa trả userId trong login
+                    // DailyRewardController của bạn đọc userId từ TOKEN nên vẫn OK
+                    prefs.saveUserId(1);
+
+                    prefs.saveUserRole(vaiTro);
+
+                    // =================================================
+                    // (GIỮ LẠI) LƯU PREFS CŨ NẾU APP CÒN DÙNG CHỖ KHÁC
+                    // =================================================
                     getSharedPreferences("app_prefs", MODE_PRIVATE)
                             .edit()
                             .putString("auth_token", token)
@@ -107,18 +124,26 @@ public class LoginActivity extends AppCompatActivity {
                             .putString("user_role", vaiTro)
                             .apply();
 
-                    Toast.makeText(LoginActivity.this, "✅ Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                    // LOG CHECK (CÓ THỂ XÓA SAU)
+                    Log.e(TAG, "PREFS TOKEN = " + prefs.getToken());
+                    Log.e(TAG, "PREFS USER_ID = " + prefs.getUserId());
+
+                    Toast.makeText(LoginActivity.this,
+                            "✅ Đăng nhập thành công!",
+                            Toast.LENGTH_SHORT).show();
+
                     goToHome();
                 });
             }
-
 
             @Override
             public void onError(String error) {
                 runOnUiThread(() -> {
                     showLoading(false);
                     Log.e(TAG, "❌ Đăng nhập thất bại: " + error);
-                    Toast.makeText(LoginActivity.this, "❌ " + error, Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this,
+                            "❌ " + error,
+                            Toast.LENGTH_LONG).show();
                 });
             }
         });

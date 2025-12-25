@@ -2,6 +2,8 @@ package com.example.iq5.data.api;
 
 import com.example.iq5.data.model.*;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -182,13 +184,17 @@ public interface ApiService {
      * Lấy thành tựu của tôi
      * Endpoint: GET /api/Ranking/achievements/my
      */
-    @GET("api/Ranking/achievements/my")
-    Call<AchievementsResponse> getMyAchievements(@Header("Authorization") String token);
 
     /**
+
      * Lấy số người online
      * Endpoint: GET /api/Ranking/online-count
      */
+    @GET("api/user/Achievement/me")
+    Call<List<AchievementsResponse.Achievement>> getMyAchievements(
+            @Header("Authorization") String token
+    );
+
     @GET("api/Ranking/online-count")
     Call<OnlineCountResponse> getOnlineCount();
 
@@ -274,4 +280,20 @@ public interface ApiService {
         @Path("quizId") int quizId,
         @Header("Authorization") String token
     );
+// ============================================
+// DAILY REWARD APIs
+// ============================================
+
+    @POST("api/user/Achievement/daily-reward")
+    Call<DailyRewardClaimResponse> claimDailyReward(
+            @Header("Authorization") String token
+    );
+    // ============================================
+    // DAILY STREAK
+    // ============================================
+    @GET("api/user/achievement/streak")
+    Call<StreakResponse> getDailyStreak(
+            @Header("Authorization") String token
+    );
+
 }
