@@ -1,128 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:gravity="center"
+    android:fillViewport="true"
     android:background="@drawable/gradient_green_background">
 
-    <!-- Title -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="➕ Tạo Phòng Đối Kháng"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="30dp" />
-
-    <!-- Status Box -->
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="8dp">
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="center_horizontal">
 
-        <LinearLayout
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="➕ Tạo Phòng Đối Kháng"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
+            android:shadowColor="#40000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="4" />
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="30dp"
-            android:gravity="center"
-            android:minHeight="160dp">
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="6dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="🏠"
-                android:textSize="60sp"
-                android:layout_marginBottom="10dp" />
+                android:orientation="vertical"
+                android:padding="25dp"
+                android:gravity="center">
 
-            <TextView
-                android:id="@+id/tvStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đang kết nối..."
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary_dark"
-                android:gravity="center" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🏠"
+                    android:textSize="50sp" />
 
-    <!-- Create Room Form -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="8dp">
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⏳ Đang kết nối..."
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#2c3e50"
+                    android:layout_marginTop="10dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="30dp">
+            app:cardCornerRadius="15dp"
+            app:cardElevation="6dp">
 
-            <!-- 🔢 Spinner số câu hỏi -->
-            <Spinner
-                android:id="@+id/spinnerQuestionCount"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp" />
+                android:orientation="vertical"
+                android:padding="20dp">
 
-            <!-- 🎯 Spinner độ khó -->
-            <Spinner
-                android:id="@+id/spinnerDifficulty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cấu hình trận đấu"
+                    android:textStyle="bold"
+                    android:textColor="#7f8c8d"
+                    android:layout_marginBottom="15dp"/>
 
-            <Button
-                android:id="@+id/btnCreateRoom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="➕ Tạo Phòng Ngay"
-                android:textSize="18sp"
-                android:padding="16dp"
-                android:backgroundTint="#27ae60" />
+                <Spinner
+                    android:id="@+id/spinnerQuestionCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:spinnerMode="dropdown" />
 
-            <TextView
-                android:id="@+id/tvRoomCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#27ae60"
-                android:gravity="center"
-                android:background="@drawable/room_code_background"
-                android:padding="15dp"
-                android:layout_marginTop="20dp"
-                android:minHeight="50dp"
-                android:letterSpacing="0.1" />
+                <Spinner
+                    android:id="@+id/spinnerDifficulty"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:spinnerMode="dropdown" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chia sẻ mã phòng cho bạn bè để tham gia!"
-                android:textSize="14sp"
-                android:textColor="#7f8c8d"
-                android:layout_marginTop="10dp"
-                android:gravity="center" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                <Button
+                    android:id="@+id/btnCreateRoom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="➕ Tạo Phòng Ngay"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:padding="12dp"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="#27ae60"
+                    app:cornerRadius="10dp" />
 
-    <!-- Back Button -->
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="← Quay lại"
-        android:textSize="14sp"
-        android:backgroundTint="#95a5a6" />
+                <LinearLayout
+                    android:id="@+id/layoutRoomCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center">
 
-</LinearLayout>
+                    <TextView
+                        android:id="@+id/tvRoomCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="MÃ PHÒNG"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:textColor="#27ae60"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:background="#1527ae60"
+                        android:letterSpacing="0.2"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tvShareHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chia sẻ mã này cho bạn bè tham gia"
+                        android:textSize="13sp"
+                        android:textColor="#95a5a6"
+                        android:layout_marginTop="8dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="← Quay lại"
+            android:textSize="14sp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="#95a5a6"
+            android:textColor="@android:color/white"
+            app:cornerRadius="20dp" />
+
+    </LinearLayout>
+</ScrollView>

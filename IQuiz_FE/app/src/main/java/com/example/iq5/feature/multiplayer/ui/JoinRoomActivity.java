@@ -128,7 +128,7 @@ public class JoinRoomActivity extends AppCompatActivity {
 
             SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
             String token = prefs.getString("auth_token", "");
-            String serverUrl = "ws://10.0.2.2:7092/ws/game";
+            String serverUrl = "ws://10.0.2.2:5048/ws/game";
             wsManager.connect(serverUrl, token);
         }
     }

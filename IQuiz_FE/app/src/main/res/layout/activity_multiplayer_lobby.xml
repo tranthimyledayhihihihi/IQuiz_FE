@@ -124,14 +124,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Online Count -->
-        <TextView
-            android:id="@+id/tvOnlineCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0 người đang online"
-            android:textSize="16sp"
-            android:textColor="@android:color/white" />
+
 
     </LinearLayout>
 </ScrollView>
