@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.iq5.BuildConfig;
 import com.example.iq5.R;
 import com.example.iq5.feature.multiplayer.data.WebSocketManager;
 
@@ -33,7 +32,7 @@ public class CreateRoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_room);
 
         initViews();
-        setupSignalR();
+        setupWebSocket(); // Đổi tên từ setupSignalR
     }
 
     @Override
@@ -44,7 +43,7 @@ public class CreateRoomActivity extends AppCompatActivity {
             tvStatus.setText("✅ Sẵn sàng tạo phòng!");
             btnCreateRoom.setEnabled(true);
         } else {
-            connectSignalR();
+            connectWebSocket(); // Đổi tên từ connectSignalR
         }
     }
 
@@ -56,7 +55,7 @@ public class CreateRoomActivity extends AppCompatActivity {
         btnCreateRoom = findViewById(R.id.btnCreateRoom);
         btnBack = findViewById(R.id.btnBack);
 
-        // Ẩn các spinner vì server fix 10 câu
+        // Ẩn các spinner vì server fix mặc định 10 câu
         View spinnerArea = findViewById(R.id.spinnerQuestionCount);
         if (spinnerArea != null) spinnerArea.setVisibility(View.GONE);
 
@@ -70,16 +69,16 @@ public class CreateRoomActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
     }
 
-    /* ===================== SIGNALR ===================== */
+    /* ===================== WEBSOCKET LOGIC ===================== */
 
-    private void setupSignalR() {
+    private void setupWebSocket() {
         wsManager = WebSocketManager.getInstance();
 
         wsManager.setOnConnectionListener(new WebSocketManager.OnConnectionListener() {
             @Override
             public void onConnected() {
                 runOnUiThread(() -> {
-                    Log.d(TAG, "✅ SignalR connected");
+                    Log.d(TAG, "✅ WebSocket connected");
                     tvStatus.setText("✅ Sẵn sàng tạo phòng!");
                     btnCreateRoom.setEnabled(true);
                 });
@@ -88,18 +87,17 @@ public class CreateRoomActivity extends AppCompatActivity {
             @Override
             public void onDisconnected() {
                 runOnUiThread(() -> {
-                    Log.e(TAG, "🔌 SignalR disconnected");
+                    Log.e(TAG, "🔌 WebSocket disconnected");
                     tvStatus.setText("🔌 Mất kết nối");
                     btnCreateRoom.setEnabled(false);
                 });
             }
         });
 
-        // ===== ROOM CREATED =====
+        // Nhận mã phòng từ Server
         wsManager.setOnRoomCreatedListener(roomCode -> {
             runOnUiThread(() -> {
                 Log.d(TAG, "🏠 Room created: " + roomCode);
-
                 tvRoomCode.setText("MÃ PHÒNG: " + roomCode);
                 tvRoomCode.setVisibility(View.VISIBLE);
 
@@ -109,24 +107,25 @@ public class CreateRoomActivity extends AppCompatActivity {
             });
         });
 
-        // ===== OPPONENT JOINED =====
+        // Khi có đối thủ tham gia, chuyển sang màn hình thi đấu (MatchActivity)
         wsManager.setOnMatchFoundListener((matchCode, opponentId, role) -> {
             runOnUiThread(() -> {
                 tvStatus.setText("🎮 Đối thủ đã vào phòng!");
 
                 handler.postDelayed(() -> {
+                    // Chuyển sang MatchResultActivity (là màn hình thi đấu chính trong code của bạn)
                     Intent intent = new Intent(this, MatchResultActivity.class);
                     intent.putExtra("matchCode", matchCode);
                     intent.putExtra("opponentId", opponentId);
                     intent.putExtra("role", role);
                     startActivity(intent);
                     finish();
-                }, 1500);
+                }, 1500); // Đợi 1.5s giống logic trên Web
             });
         });
     }
 
-    private void connectSignalR() {
+    private void connectWebSocket() {
         if (wsManager.isConnected()) {
             return;
         }
@@ -139,10 +138,11 @@ public class CreateRoomActivity extends AppCompatActivity {
             return;
         }
 
-        String hubUrl = BuildConfig.BASE_URL + "matchmakinghub";
-        Log.d(TAG, "🔌 Connecting SignalR Hub: " + hubUrl);
+        // URL chuẩn cho WebSocket kết nối tới Backend của bạn qua cổng 5048
+        String wsUrl = "ws://172.26.93.231:5048/ws/game";
+        Log.d(TAG, "🔌 Connecting WebSocket: " + wsUrl);
 
-        wsManager.connect(hubUrl, token);
+        wsManager.connect(wsUrl, token);
     }
 
     /* ===================== ACTIONS ===================== */
@@ -153,9 +153,10 @@ public class CreateRoomActivity extends AppCompatActivity {
             return;
         }
 
-        tvStatus.setText("⏳ Đang tạo phòng...");
+        tvStatus.setText("⏳ Đang gửi yêu cầu tạo phòng...");
         btnCreateRoom.setEnabled(false);
 
+        // Gửi lệnh CREATE_ROOM qua Socket
         wsManager.createRoom();
     }
 
@@ -164,6 +165,7 @@ public class CreateRoomActivity extends AppCompatActivity {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
 
+        // Gỡ listener để tránh rò rỉ bộ nhớ
         if (wsManager != null) {
             wsManager.setOnConnectionListener(null);
             wsManager.setOnRoomCreatedListener(null);

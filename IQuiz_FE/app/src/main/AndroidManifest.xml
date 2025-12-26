@@ -75,7 +75,7 @@
         <activity
             android:name=".feature.quiz.ui.QuizActivity"
             android:exported="false" />
-            
+
         <activity
             android:name=".feature.quiz.ui.ApiQuizActivity"
             android:exported="false"
@@ -120,7 +120,6 @@
             android:exported="false" />
 
         <!-- Reward Activities -->
-        =
         <activity
             android:name=".feature.achievement.ui.SimpleApiAchievementActivity"
             android:exported="false" />
@@ -169,17 +168,15 @@
             android:name=".feature.multiplayer.ui.WaitingRoomActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".feature.multiplayer.ui.GameResultActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
 
         <activity
             android:name=".feature.multiplayer.ui.MatchResultActivity"
             android:exported="false"
             android:noHistory="true" />
-
-        <activity
-            android:name=".feature.multiplayer.ui.LeaderboardActivity"
-            android:exported="false" />
-
-
 
         <!-- Special Mode Activities -->
         <activity
@@ -195,32 +192,30 @@
             android:name=".feature.specialmode.ui.ApiWrongHistoryActivity"
             android:exported="false" />
 
-
         <activity
             android:name=".feature.specialmode.ui.CustomQuizEditorActivity"
             android:exported="false" />
 
-            
         <activity
             android:name=".debug.DebugAchievementActivity"
             android:exported="false"
             android:label="Debug Achievement API" />
-            
+
         <activity
             android:name=".debug.NetworkTestActivity"
             android:exported="false"
             android:label="Network Test" />
-            
+
         <activity
             android:name=".debug.TestStreakActivity"
             android:exported="false"
             android:label="Test Streak API" />
-            
+
         <activity
             android:name=".debug.TestRewardAndStatsActivity"
             android:exported="false"
             android:label="Test Reward and Stats" />
-            
+
         <activity
             android:name=".debug.TestSettingsActivity"
             android:exported="false"

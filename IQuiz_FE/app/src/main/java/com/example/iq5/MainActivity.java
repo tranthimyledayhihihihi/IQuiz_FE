@@ -12,7 +12,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.iq5.feature.multiplayer.ui.LeaderboardActivity;
 import com.example.iq5.feature.multiplayer.ui.MultiplayerLobbyActivity;
 import com.example.iq5.feature.quiz.ui.ReviewQuestionActivity;
 
@@ -72,12 +71,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        if (btnGoToSocial != null) {
-            btnGoToSocial.setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, LeaderboardActivity.class);
-                startActivity(intent);
-            });
-        }
+
 
         if (btnStartQuiz != null) {
             btnStartQuiz.setOnClickListener(v -> {
