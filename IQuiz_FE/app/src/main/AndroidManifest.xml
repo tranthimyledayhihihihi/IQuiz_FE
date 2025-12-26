@@ -111,15 +111,7 @@
             android:exported="false" />
 
         <!-- Reward Activities -->
-        <activity
-            android:name=".feature.reward.ui.ApiDailyRewardActivity"
-            android:exported="false" />
-
-        <!-- Achievement Activities -->
-        <activity
-            android:name=".feature.achievement.ui.ApiAchievementActivity"
-            android:exported="false" />
-
+        =
         <activity
             android:name=".feature.achievement.ui.SimpleApiAchievementActivity"
             android:exported="false" />
@@ -168,10 +160,6 @@
             android:name=".feature.multiplayer.ui.WaitingRoomActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".feature.multiplayer.ui.MatchActivity"
-            android:exported="false"
-            android:noHistory="true" />
 
         <activity
             android:name=".feature.multiplayer.ui.MatchResultActivity"
@@ -199,6 +187,9 @@
             android:exported="false" />
 
 
+        <activity
+            android:name=".feature.specialmode.ui.CustomQuizEditorActivity"
+            android:exported="false" />
 
             
         <activity

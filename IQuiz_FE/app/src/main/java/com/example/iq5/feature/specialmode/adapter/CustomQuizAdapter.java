@@ -19,10 +19,9 @@ public class CustomQuizAdapter extends RecyclerView.Adapter<CustomQuizAdapter.Cu
 
     public interface OnCustomQuizListener {
         void onShare(CustomQuizItem item);
-
         void onEdit(CustomQuizItem item);
-
         void onStart(CustomQuizItem item);
+        void onDelete(CustomQuizItem item);
     }
 
     private final List<CustomQuizItem> data = new ArrayList<>();
@@ -49,20 +48,16 @@ public class CustomQuizAdapter extends RecyclerView.Adapter<CustomQuizAdapter.Cu
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         CustomQuizItem item = data.get(position);
-        holder.tvTitle.setText(item.title);
-        holder.tvDesc.setText(item.description);
 
-        String visibility = item.visibility != null ? item.visibility : (item.isPublic ? "public" : "private");
-        String visText = "public".equals(visibility) ? "Công khai" : "Private";
-        holder.tvMeta.setText(item.questionCount + " câu • " + visText);
+        holder.tvTitle.setText(item.tenQuiz);
+        holder.tvDesc.setText(item.moTa);
+        holder.tvMeta.setText(item.soLuongCauHoi + " câu • " + item.trangThai);
 
-        holder.btnShare.setOnClickListener(v -> {
-            if (listener != null) listener.onShare(item);
-        });
+        holder.btnStart.setText("Sửa câu hỏi");
+        holder.btnStart.setOnClickListener(v -> listener.onEdit(item));
 
-        holder.btnStart.setOnClickListener(v -> {
-            if (listener != null) listener.onStart(item);
-        });
+        holder.btnShare.setText("Xóa");
+        holder.btnShare.setOnClickListener(v -> listener.onDelete(item));
     }
 
     @Override

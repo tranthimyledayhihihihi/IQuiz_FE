@@ -15,13 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.iq5.R;
 import com.example.iq5.feature.quiz.ui.QuizActivity;
 import com.example.iq5.feature.specialmode.adapter.DailyQuizAdapter;
-import com.example.iq5.feature.specialmode.data.SpecialModeRepository;
+import com.example.iq5.feature.specialmode.data.DailyQuizRepository;
 import com.example.iq5.feature.specialmode.model.DailyQuizItem;
 import com.example.iq5.feature.specialmode.model.DailyQuizResponse;
 
 public class DailyQuizFragment extends Fragment {
 
-    private SpecialModeRepository repository;
+    private DailyQuizRepository repository;
     private DailyQuizAdapter adapter;
 
     @Nullable
@@ -37,21 +37,18 @@ public class DailyQuizFragment extends Fragment {
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        repository = new SpecialModeRepository(requireContext());
+        repository = new DailyQuizRepository(requireContext());
 
         TextView tvDate = view.findViewById(R.id.tv_date);
         TextView tvStreak = view.findViewById(R.id.tv_streak);
         TextView tvRewardToday = view.findViewById(R.id.tv_reward_today);
         RecyclerView rv = view.findViewById(R.id.rv_daily_quiz);
 
-        adapter = new DailyQuizAdapter(new DailyQuizAdapter.OnDailyQuizClickListener() {
-            @Override
-            public void onPlayClicked(DailyQuizItem item) {
-                Intent intent = new Intent(requireContext(), QuizActivity.class);
-                intent.putExtra("ENTRY_SOURCE", "daily_quiz");
-                intent.putExtra("DAILY_ID", item.id);
-                startActivity(intent);
-            }
+        adapter = new DailyQuizAdapter(item -> {
+            Intent intent = new Intent(requireContext(), QuizActivity.class);
+            intent.putExtra("ENTRY_SOURCE", "daily_quiz");
+            intent.putExtra("DAILY_ID", item.id);
+            startActivity(intent);
         });
         rv.setAdapter(adapter);
 

@@ -6,41 +6,53 @@
     android:padding="16dp"
     android:background="@color/bg_secondary">
 
+    <!-- TIÊU ĐỀ -->
     <TextView
-        android:id="@+id/tv_quiz_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bộ câu hỏi tùy chỉnh"
+        android:text="Tạo bộ câu hỏi riêng"
         android:textStyle="bold"
-        android:textSize="18sp"
-        android:paddingBottom="8dp" />
+        android:textSize="20sp"
+        android:textColor="@color/green_success"/>
 
-    <TextView
-        android:id="@+id/tv_question_count"
+    <!-- TÊN QUIZ -->
+    <EditText
+        android:id="@+id/et_quiz_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="0 câu hỏi"
-        android:textSize="14sp"
-        android:paddingBottom="8dp" />
+        android:hint="Tên bộ câu hỏi"
+        android:layout_marginTop="12dp"/>
 
+    <!-- MÔ TẢ -->
+    <EditText
+        android:id="@+id/et_quiz_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mô tả bộ câu hỏi"
+        android:layout_marginTop="8dp"/>
+
+    <!-- THÊM CÂU HỎI -->
     <Button
         android:id="@+id/btn_add_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thêm câu hỏi" />
+        android:text="Thêm câu hỏi"
+        android:layout_marginTop="12dp"/>
 
+    <!-- DANH SÁCH CÂU HỎI -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_questions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:paddingTop="8dp" />
+        android:layout_marginTop="8dp"/>
 
+    <!-- HOÀN TẤT -->
     <Button
         android:id="@+id/btn_done"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Hoàn tất"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"/>
 
 </LinearLayout>

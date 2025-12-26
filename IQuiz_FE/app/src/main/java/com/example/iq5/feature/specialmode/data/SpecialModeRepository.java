@@ -2,63 +2,62 @@ package com.example.iq5.feature.specialmode.data;
 
 import android.content.Context;
 
-import com.example.iq5.feature.specialmode.model.ChallengeModesResponse;
-import com.example.iq5.feature.specialmode.model.CustomQuizResponse;
-import com.example.iq5.feature.specialmode.model.DailyQuizResponse;
-import com.example.iq5.feature.specialmode.model.PlayerSearchResponse;
+import com.example.iq5.core.network.ApiClient;
+import com.example.iq5.core.prefs.PrefsManager;
+import com.example.iq5.data.api.ApiService;
+import com.example.iq5.data.model.ApiResponse;
+import com.example.iq5.data.model.CustomQuizResponse;
+import com.example.iq5.data.model.QuizSubmissionModel;
+import com.example.iq5.data.model.QuizSubmitResponse;
 import com.example.iq5.feature.specialmode.model.WrongAnswersResponse;
-import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.io.InputStream;
+import retrofit2.Call;
 
 public class SpecialModeRepository {
 
-    private final Context context;
-    private final Gson gson = new Gson();
+    private final ApiService apiService;
+    private final PrefsManager prefsManager;
 
     public SpecialModeRepository(Context context) {
-        this.context = context.getApplicationContext();
+        prefsManager = new PrefsManager(context);
+        apiService = ApiClient
+                .getClient(prefsManager)
+                .create(ApiService.class);
     }
 
-    private String loadJsonFromAssets(String path) {
-        try {
-            InputStream is = context.getAssets().open(path);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            int read = is.read(buffer);
-            is.close();
-            if (read <= 0) return null;
-            return new String(buffer, "UTF-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    // ================================
+    // QUIZ TÙY CHỈNH (API THẬT)
+    // ================================
+
+    public Call<CustomQuizResponse> getCustomQuizzes() {
+        return apiService.getMyCustomQuizzes(
+                "Bearer " + prefsManager.getToken(),
+                1,
+                20
+        );
     }
 
-    public DailyQuizResponse getDailyQuiz() {
-        String json = loadJsonFromAssets("specialmode/daily_quiz.json");
-        return gson.fromJson(json, DailyQuizResponse.class);
+    public Call<QuizSubmitResponse> submitCustomQuiz(QuizSubmissionModel body) {
+        return apiService.submitCustomQuiz(
+                "Bearer " + prefsManager.getToken(),
+                body
+        );
     }
 
-    public WrongAnswersResponse getWrongAnswers() {
-        String json = loadJsonFromAssets("specialmode/wrong_answers.json");
-        return gson.fromJson(json, WrongAnswersResponse.class);
+
+
+    public Call<ApiResponse> deleteCustomQuiz(int quizId) {
+        return apiService.deleteCustomQuiz(
+                quizId,
+                "Bearer " + prefsManager.getToken()
+        );
     }
 
-    public ChallengeModesResponse getChallengeModes() {
-        String json = loadJsonFromAssets("specialmode/challenges.json");
-        return gson.fromJson(json, ChallengeModesResponse.class);
+
+
+    public Call<WrongAnswersResponse> getWrongAnswers() {
+        return apiService.getWrongQuestions("Bearer " + prefsManager.getToken()
+        );
     }
 
-    public CustomQuizResponse getCustomQuizzes() {
-        String json = loadJsonFromAssets("specialmode/custom_quiz.json");
-        return gson.fromJson(json, CustomQuizResponse.class);
-    }
-
-    public PlayerSearchResponse searchPlayers(String keyword) {
-        // Hiện tại chỉ mock, chưa filter theo keyword
-        String json = loadJsonFromAssets("specialmode/players_search.json");
-        return gson.fromJson(json, PlayerSearchResponse.class);
-    }
 }

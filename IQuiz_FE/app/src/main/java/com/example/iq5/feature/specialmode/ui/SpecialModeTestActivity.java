@@ -28,7 +28,6 @@ public class SpecialModeTestActivity extends AppCompatActivity {
         btnWrong.setOnClickListener(v -> showFragment(new WrongHistoryFragment()));
         btnChallenge.setOnClickListener(v -> showFragment(new ChallengeModesFragment()));
         btnCustom.setOnClickListener(v -> showFragment(new CustomQuizFragment()));
-        btnPlayers.setOnClickListener(v -> showFragment(new PlayerSearchFragment())); // 👈 PLAYER
 
         // Mặc định mở DAILY
         showFragment(new DailyQuizFragment());

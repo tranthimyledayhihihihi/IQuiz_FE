@@ -14,13 +14,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.iq5.R;
 import com.example.iq5.feature.quiz.ui.QuizActivity;
-import com.example.iq5.feature.specialmode.data.SpecialModeRepository;
+import com.example.iq5.feature.specialmode.data.ChallengeModeRepository;
 import com.example.iq5.feature.specialmode.model.ChallengeMode;
 import com.example.iq5.feature.specialmode.model.ChallengeModesResponse;
 
 public class ChallengeModesFragment extends Fragment {
 
-    private SpecialModeRepository repository;
+    private ChallengeModeRepository repository;
 
     @Nullable
     @Override
@@ -35,7 +35,7 @@ public class ChallengeModesFragment extends Fragment {
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        repository = new SpecialModeRepository(requireContext());
+        repository = new ChallengeModeRepository(requireContext());
 
         TextView tvSurvivalDesc = view.findViewById(R.id.tv_survival_desc);
         TextView tvSurvivalMeta = view.findViewById(R.id.tv_survival_meta);
@@ -46,11 +46,16 @@ public class ChallengeModesFragment extends Fragment {
         TextView tvSpeedMeta = view.findViewById(R.id.tv_speed_meta);
         Button btnStartSpeed = view.findViewById(R.id.btn_start_speed);
 
+        // LOAD DỮ LIỆU MOCK
         ChallengeModesResponse data = repository.getChallengeModes();
         if (data != null && data.modes != null) {
+
             for (ChallengeMode mode : data.modes) {
+
                 if ("SURVIVAL".equals(mode.modeId)) {
+
                     tvSurvivalDesc.setText(mode.description);
+
                     String meta = "Thời gian/câu: " + mode.timePerQuestion +
                             "s • Độ khó: " + mode.difficultyRange;
                     tvSurvivalMeta.setText(meta);
@@ -59,8 +64,11 @@ public class ChallengeModesFragment extends Fragment {
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < lives; i++) sb.append("♥");
                     tvLives.setText(sb.toString());
+
                 } else if ("SPEED".equals(mode.modeId)) {
+
                     tvSpeedDesc.setText(mode.description);
+
                     String meta = "Tổng thời gian: " + mode.totalTime +
                             "s • Thời gian/câu: " + mode.timePerQuestion + "s";
                     tvSpeedMeta.setText(meta);
@@ -68,6 +76,7 @@ public class ChallengeModesFragment extends Fragment {
             }
         }
 
+        // START SURVIVAL
         btnStartSurvival.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), QuizActivity.class);
             intent.putExtra("ENTRY_SOURCE", "challenge");
@@ -75,6 +84,7 @@ public class ChallengeModesFragment extends Fragment {
             startActivity(intent);
         });
 
+        // START SPEED
         btnStartSpeed.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), QuizActivity.class);
             intent.putExtra("ENTRY_SOURCE", "challenge");
