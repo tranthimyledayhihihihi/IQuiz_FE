@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Gradient Overlay nhẹ -->
+    <gradient
+        android:angle="135"
+        android:startColor="#00FFFFFF"
+        android:centerColor="#15FFFFFF"
+        android:endColor="#00FFFFFF"
+        android:type="linear" />
+
+</shape>

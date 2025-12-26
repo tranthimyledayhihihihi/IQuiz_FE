@@ -39,6 +39,7 @@ import java.util.concurrent.TimeUnit;
  * - Log/validate để bắt lỗi map sai ngay lập tức
  */
 public class WebSocketManager {
+    private boolean connected = false;
 
     private static final String TAG = "WebSocketManager";
     private static WebSocketManager instance;
@@ -101,14 +102,19 @@ public class WebSocketManager {
         if (instance == null) instance = new WebSocketManager();
         return instance;
     }
+    public static synchronized void resetInstance() {
+        if (instance != null) {
+            instance.disconnect();
+            instance = null;
+        }
+    }
 
     // ================= CONNECT =================
     public void connect(String serverUrl, String token) {
-        if (webSocket != null) {
+        if (connected) {
             Log.d(TAG, "Already connected");
             return;
         }
-
         Request request = new Request.Builder()
                 .url(serverUrl)
                 .addHeader("Authorization", "Bearer " + token)
@@ -119,8 +125,10 @@ public class WebSocketManager {
             @Override
             public void onOpen(@NotNull WebSocket webSocket, @NotNull Response response) {
                 Log.d(TAG, "✅ WebSocket Connected");
+                connected = true; // ⭐ THÊM
                 if (connectionListener != null) connectionListener.onConnected();
             }
+
 
             @Override
             public void onMessage(@NotNull WebSocket webSocket, @NotNull String text) {
@@ -131,14 +139,23 @@ public class WebSocketManager {
             @Override
             public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, Response response) {
                 Log.e(TAG, "❌ WebSocket Error", t);
-                if (errorListener != null) errorListener.onError(t.getMessage() != null ? t.getMessage() : "WebSocket error");
+                connected = false;     // ⭐ THÊM
+                WebSocketManager.this.webSocket = null;
+                // ⭐ THÊM
+                if (errorListener != null)
+                    errorListener.onError(t.getMessage() != null ? t.getMessage() : "WebSocket error");
             }
+
 
             @Override
             public void onClosed(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
                 Log.d(TAG, "🔌 WebSocket Closed: " + reason);
+                connected = false;     // ⭐ THÊM
+                WebSocketManager.this.webSocket = null;
+                // ⭐ THÊM
                 if (connectionListener != null) connectionListener.onDisconnected();
             }
+
         });
     }
 
@@ -415,15 +432,20 @@ public class WebSocketManager {
     }
 
     // ================= UTILS =================
-    public boolean isConnected() { return webSocket != null; }
+    public boolean isConnected() {
+        return connected;
+    }
+
 
     public void disconnect() {
         if (webSocket != null) {
             webSocket.close(1000, "User closed connection");
             webSocket = null;
-            Log.d(TAG, "🔌 Disconnected");
         }
+        connected = false; // ⭐ THÊM
+        Log.d(TAG, "🔌 Disconnected");
     }
+
 
     // ================= SETTERS =================
     public void setOnMatchFoundListener(OnMatchFoundListener l) { matchFoundListener = l; }

@@ -1,5 +1,6 @@
 package com.example.iq5.feature.multiplayer.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -252,12 +253,21 @@ public class MatchResultActivity extends AppCompatActivity {
     }
 
     private void showGameResult(GameResult res) {
-        String msg = (yourScore > opponentScore) ? "🎉 BẠN THẮNG!" : (yourScore < opponentScore) ? "😢 BẠN THUA!" : "🤝 HÒA!";
-        new AlertDialog.Builder(this)
-                .setTitle("🏁 Kết thúc trận đấu")
-                .setMessage(msg + "\n\nĐiểm của bạn: " + yourScore + "\nĐiểm đối thủ: " + opponentScore)
-                .setPositiveButton("🏠 Về Lobby", (d, w) -> finish())
-                .setCancelable(false).show();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+
+        // ✅ CHUYỂN SANG ACTIVITY KẾT QUẢ
+        Intent intent = new Intent(this, GameResultActivity.class);
+        intent.putExtra("yourScore", yourScore);
+        intent.putExtra("opponentScore", opponentScore);
+        intent.putExtra("matchCode", matchCode);
+
+        // ✅ CLEAR STACK ĐỂ KHÔNG THỂ BACK VỀ MÀN HÌNH CHƠI
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        startActivity(intent);
+        finish();
     }
 
     private void showLoading(String msg) {

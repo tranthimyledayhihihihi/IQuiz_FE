@@ -10,6 +10,28 @@
     <!-- Match screen -->
     <color name="match_background">#ecf0f1</color>
 
+
+    <!-- Màu cho GameResultActivity -->
+    <color name="text_dark">#2c3e50</color>
+    <color name="text_gray">#34495e</color>
+    <color name="text_light_gray">#7f8c8d</color>
+    <color name="background_gray">#ecf0f1</color>
+
+    <!-- Màu điểm số -->
+    <color name="score_blue">#3498db</color>
+    <color name="score_red">#e74c3c</color>
+
+    <!-- Màu kết quả -->
+    <color name="result_win">#2ecc71</color>
+    <color name="result_lose">#e74c3c</color>
+    <color name="result_draw">#f39c12</color>
+    <color name="player_blue">#2196F3</color>
+    <color name="opponent_red">#F44336</color>
+    <color name="timer_red">#FF5252</color>
+    <color name="divider_gray">#E0E0E0</color>
+    <!-- Màu nút -->
+
+    <color name="button_secondary">#ecf0f1</color>
     <!-- Scores -->
     <color name="opponent">#e74c3c</color>
     <color name="cyan_accent">#00D4FF</color>

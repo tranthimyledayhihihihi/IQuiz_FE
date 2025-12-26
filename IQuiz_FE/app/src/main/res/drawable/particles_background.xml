@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="400dp"
+    android:viewportWidth="400"
+    android:viewportHeight="400">
+
+    <!-- Hiệu ứng particles (chấm trắng nhỏ) -->
+    <group>
+        <!-- Particle 1 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M50,50a5,5 0 1,0 10,0a5,5 0 1,0 -10,0" />
+
+        <!-- Particle 2 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M150,100a4,4 0 1,0 8,0a4,4 0 1,0 -8,0" />
+
+        <!-- Particle 3 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M250,150a3,3 0 1,0 6,0a3,3 0 1,0 -6,0" />
+
+        <!-- Particle 4 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M100,250a6,6 0 1,0 12,0a6,6 0 1,0 -12,0" />
+
+        <!-- Particle 5 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M300,80a4,4 0 1,0 8,0a4,4 0 1,0 -8,0" />
+
+        <!-- Particle 6 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M80,300a3,3 0 1,0 6,0a3,3 0 1,0 -6,0" />
+
+        <!-- Particle 7 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M350,200a5,5 0 1,0 10,0a5,5 0 1,0 -10,0" />
+
+        <!-- Particle 8 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M200,350a4,4 0 1,0 8,0a4,4 0 1,0 -8,0" />
+
+        <!-- Particle 9 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M120,120a3,3 0 1,0 6,0a3,3 0 1,0 -6,0" />
+
+        <!-- Particle 10 -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M280,280a5,5 0 1,0 10,0a5,5 0 1,0 -10,0" />
+    </group>
+
+</vector>

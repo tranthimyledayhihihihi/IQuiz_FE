@@ -10,64 +10,98 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.iq5.R;
 import com.example.iq5.feature.multiplayer.data.WebSocketManager;
 import com.example.iq5.feature.multiplayer.data.api.ApiService;
 
 /**
- * ✅ PHIÊN BẢN ĐỠN GIẢN - CHỈ WEBSOCKET
- * Không cần REST API, không cần Retrofit, không cần Repository
- * Tất cả đều qua WebSocket
+ * ✅ MULTIPLAYER LOBBY – VERSION HOÀN CHỈNH
+ * - WebSocket matchmaking
+ * - Hiển thị số người online (REST API)
+ * - Auto reconnect
+ * - Không phá kiến trúc cũ
  */
 public class MultiplayerLobbyActivity extends AppCompatActivity {
-    private TextView tvOnlineCount;
-    private final Handler onlineCountHandler = new Handler(Looper.getMainLooper());
-    private Runnable onlineCountRunnable;
+    private boolean isNavigatingToMatch = false;
+
     private static final String TAG = "MultiplayerLobby";
 
-    private static final String WS_URL = "ws://172.26.93.231:5048/ws/game";
-
-    private WebSocketManager wsManager;
-
+    // ================== UI ==================
     private TextView tvStatus;
+    private TextView tvOnlineCount;
     private Button btnFindMatch, btnCancelQueue, btnCreateRoom, btnJoinRoom;
     private EditText etRoomCode;
 
-    private Handler handler = new Handler(Looper.getMainLooper());
+    // ================== HANDLER ==================
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final Handler onlineCountHandler = new Handler(Looper.getMainLooper());
+    private Runnable onlineCountRunnable;
 
+    // ================== WS ==================
+    private static final String WS_URL = "ws://172.26.93.231:5048/ws/game";
+    private WebSocketManager wsManager;
+
+    // =========================================================
+    // LIFECYCLE
+    // =========================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer_lobby);
 
+        WebSocketManager.resetInstance(); // ⭐ RESET SẠCH
         wsManager = WebSocketManager.getInstance();
+
 
         initViews();
         setupWebSocket();
         connectWebSocket();
         setupClickListeners();
     }
-    private void updateOnlineCount() {
-        ApiService.getInstance(this).getOnlineCount(new ApiService.ApiCallback<Integer>() {
-            @Override
-            public void onSuccess(Integer count) {
-                runOnUiThread(() -> {
-                    tvOnlineCount.setText(count + " người đang online");
-                });
-            }
 
-            @Override
-            public void onError(String error) {
-                Log.e(TAG, "Failed to get online count: " + error);
-                runOnUiThread(() -> {
-                    tvOnlineCount.setText("? người đang online");
-                });
-            }
-        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        isNavigatingToMatch = false; // ⭐⭐⭐ BẮT BUỘC
+
+        setupWebSocket();
+        connectWebSocket();
     }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
+        onlineCountHandler.removeCallbacksAndMessages(null);
+        // ⚠️ KHÔNG disconnect WS – dùng chung cho nhiều màn
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        onlineCountHandler.removeCallbacksAndMessages(null); // ⭐ THÊM
+
+        if (!isNavigatingToMatch) {
+            wsManager.cancelQueue();
+            wsManager.disconnect();
+        }
+    }
+
+
+
+    // =========================================================
+    // INIT VIEW
+    // =========================================================
     private void initViews() {
         tvStatus = findViewById(R.id.tvStatus);
+        tvOnlineCount = findViewById(R.id.tvOnlineCount);
+
         btnFindMatch = findViewById(R.id.btnFindMatch);
         btnCancelQueue = findViewById(R.id.btnCancelQueue);
         btnCreateRoom = findViewById(R.id.btnCreateRoom);
@@ -76,23 +110,27 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
 
         btnCancelQueue.setVisibility(Button.GONE);
         tvStatus.setText("⏳ Đang kết nối...");
+        tvOnlineCount.setText("👥 ... người đang online");
+
         enableButtons(false);
     }
 
+    // =========================================================
+    // WEBSOCKET SETUP
+    // =========================================================
     private void setupWebSocket() {
-        // Connection listener
+
+        // ===== CONNECT / DISCONNECT =====
         wsManager.setOnConnectionListener(new WebSocketManager.OnConnectionListener() {
             @Override
             public void onConnected() {
                 runOnUiThread(() -> {
-                    Log.d(TAG, "Mở khóa nút bấm ngay bây giờ!");
+                    Log.d(TAG, "✅ WebSocket connected");
                     tvStatus.setText("✅ Đã kết nối");
                     enableButtons(true);
 
-                    // Kiểm tra thủ công từng nút nếu enableButtons không chạy
-                    btnFindMatch.setEnabled(true);
-                    btnCreateRoom.setEnabled(true);
-                    btnJoinRoom.setEnabled(true);
+                    // Bắt đầu update online count
+                    startOnlineCountUpdater();
                 });
             }
 
@@ -103,7 +141,7 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
                     tvStatus.setText("🔌 Mất kết nối");
                     enableButtons(false);
 
-                    // Auto reconnect sau 3s
+                    // Reconnect sau 3s
                     handler.postDelayed(() -> {
                         if (!wsManager.isConnected()) {
                             tvStatus.setText("🔄 Đang kết nối lại...");
@@ -114,16 +152,13 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
             }
         });
 
-        // Match found listener
+        // ===== MATCH FOUND =====
         wsManager.setOnMatchFoundListener((matchCode, opponentId, role) -> {
             runOnUiThread(() -> {
-                Log.d(TAG, "🎮 Match found: " + matchCode);
                 tvStatus.setText("🎮 Đã tìm thấy đối thủ!");
-
-                // Join match
+                isNavigatingToMatch = true;
                 wsManager.joinMatch(matchCode);
 
-                // Navigate to MatchActivity
                 handler.postDelayed(() -> {
                     Intent intent = new Intent(this, MatchResultActivity.class);
                     intent.putExtra("matchCode", matchCode);
@@ -131,36 +166,31 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
                     intent.putExtra("role", role);
                     startActivity(intent);
 
-                    // Reset UI
                     btnFindMatch.setVisibility(Button.VISIBLE);
                     btnCancelQueue.setVisibility(Button.GONE);
                 }, 1500);
             });
         });
 
-        // Room created listener
+        // ===== ROOM CREATED =====
         wsManager.setOnRoomCreatedListener(roomCode -> {
             runOnUiThread(() -> {
-                Log.d(TAG, "✅ Room created: " + roomCode);
                 tvStatus.setText("✅ Phòng đã tạo: " + roomCode);
-
                 Intent intent = new Intent(this, WaitingRoomActivity.class);
                 intent.putExtra("roomCode", roomCode);
                 startActivity(intent);
             });
         });
 
-        // Error listener
+        // ===== ERROR =====
         wsManager.setOnErrorListener(message -> {
             runOnUiThread(() -> {
-                Log.e(TAG, "❌ Error: " + message);
                 tvStatus.setText("❌ " + message);
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
                 btnFindMatch.setVisibility(Button.VISIBLE);
                 btnCancelQueue.setVisibility(Button.GONE);
 
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-
-                // Reset sau 3s
                 handler.postDelayed(() -> {
                     if (wsManager.isConnected()) {
                         tvStatus.setText("✅ Đã kết nối");
@@ -170,26 +200,61 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
         });
     }
 
+    // =========================================================
+    // CONNECT WS
+    // =========================================================
     private void connectWebSocket() {
-        if (wsManager.isConnected()) {
-            Log.d(TAG, "Already connected");
-            return;
-        }
-
         SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
         String token = prefs.getString("auth_token", "");
 
         if (token == null || token.isEmpty()) {
             Toast.makeText(this, "❌ Chưa đăng nhập", Toast.LENGTH_SHORT).show();
-            // Navigate to login
             return;
         }
 
         wsManager.connect(WS_URL, token);
     }
 
+
+    // =========================================================
+    // ONLINE COUNT
+    // =========================================================
+    private void startOnlineCountUpdater() {
+        onlineCountRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (wsManager.isConnected()) {
+                    updateOnlineCount();
+                }
+                onlineCountHandler.postDelayed(this, 2000); // 5s
+            }
+        };
+        onlineCountHandler.post(onlineCountRunnable);
+    }
+
+    private void updateOnlineCount() {
+        ApiService.getInstance(this).getOnlineCount(new ApiService.ApiCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer count) {
+                runOnUiThread(() ->
+                        tvOnlineCount.setText("👥 " + count + " người đang online")
+                );
+            }
+
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() ->
+                        tvOnlineCount.setText("👥 ? người đang online")
+                );
+            }
+        });
+    }
+
+    // =========================================================
+    // CLICK LISTENERS
+    // =========================================================
     private void setupClickListeners() {
-        // Find random match
+
         btnFindMatch.setOnClickListener(v -> {
             if (!wsManager.isConnected()) {
                 Toast.makeText(this, "❌ Chưa kết nối server", Toast.LENGTH_SHORT).show();
@@ -201,7 +266,6 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
             btnFindMatch.setVisibility(Button.GONE);
             btnCancelQueue.setVisibility(Button.VISIBLE);
 
-            // Timeout 60s
             handler.postDelayed(() -> {
                 if (btnCancelQueue.getVisibility() == Button.VISIBLE) {
                     wsManager.cancelQueue();
@@ -212,7 +276,6 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
             }, 60000);
         });
 
-        // Cancel queue
         btnCancelQueue.setOnClickListener(v -> {
             wsManager.cancelQueue();
             tvStatus.setText("✅ Đã hủy tìm trận");
@@ -220,58 +283,31 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
             btnCancelQueue.setVisibility(Button.GONE);
         });
 
-        // Create room
         btnCreateRoom.setOnClickListener(v -> {
             if (!wsManager.isConnected()) {
                 Toast.makeText(this, "❌ Chưa kết nối server", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            Intent intent = new Intent(this, CreateRoomActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, CreateRoomActivity.class));
         });
 
-        // Join room
         btnJoinRoom.setOnClickListener(v -> {
             String roomCode = etRoomCode.getText().toString().trim().toUpperCase();
-
             if (roomCode.isEmpty()) {
                 Toast.makeText(this, "⚠️ Vui lòng nhập mã phòng!", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            if (!wsManager.isConnected()) {
-                Toast.makeText(this, "❌ Chưa kết nối server", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
             wsManager.joinRoomWithCode(roomCode);
             tvStatus.setText("⏳ Đang vào phòng " + roomCode + "...");
         });
     }
 
+    // =========================================================
+    // UTIL
+    // =========================================================
     private void enableButtons(boolean enabled) {
         btnFindMatch.setEnabled(enabled);
         btnCreateRoom.setEnabled(enabled);
         btnJoinRoom.setEnabled(enabled);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Reconnect nếu mất kết nối
-        if (!wsManager.isConnected()) {
-            connectWebSocket();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        handler.removeCallbacksAndMessages(null);
-
-        // ⚠️ KHÔNG disconnect WebSocket - các activities khác có thể đang dùng
-        // Chỉ disconnect khi user logout
     }
 }
