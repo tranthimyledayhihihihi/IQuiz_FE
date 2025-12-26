@@ -1,58 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@color/bg_secondary">
+    android:fillViewport="true"
+    android:background="@color/bg_primary">
 
-    <!-- TIÊU ĐỀ -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tạo bộ câu hỏi riêng"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:textColor="@color/green_success"/>
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <!-- TÊN QUIZ -->
-    <EditText
-        android:id="@+id/et_quiz_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Tên bộ câu hỏi"
-        android:layout_marginTop="12dp"/>
+        <!-- HEADER CARD -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@color/bg_secondary"
+            android:layout_marginBottom="16dp">
 
-    <!-- MÔ TẢ -->
-    <EditText
-        android:id="@+id/et_quiz_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Mô tả bộ câu hỏi"
-        android:layout_marginTop="8dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-    <!-- THÊM CÂU HỎI -->
-    <Button
-        android:id="@+id/btn_add_question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thêm câu hỏi"
-        android:layout_marginTop="12dp"/>
+                <!-- ICON + TITLE -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
 
-    <!-- DANH SÁCH CÂU HỎI -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_questions"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="8dp"/>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_quiz"
+                        android:layout_marginEnd="12dp"
+                        app:tint="@color/green_success" />
 
-    <!-- HOÀN TẤT -->
-    <Button
-        android:id="@+id/btn_done"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hoàn tất"
-        android:layout_marginTop="8dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tạo bộ câu hỏi riêng"
+                        android:textStyle="bold"
+                        android:textSize="22sp"
+                        android:textColor="@color/text_primary"/>
 
-</LinearLayout>
+                </LinearLayout>
+
+                <!-- TÊN QUIZ -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tên bộ câu hỏi"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:startIconDrawable="@drawable/ic_title"
+                    app:hintTextColor="@color/text_hint"
+                    android:layout_marginBottom="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_quiz_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textColor="@color/text_primary"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- MÔ TẢ -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Mô tả bộ câu hỏi"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:startIconDrawable="@drawable/ic_description"
+                    app:hintTextColor="@color/text_hint"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="200">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_quiz_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="3"
+                        android:textColor="@color/text_primary"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- DANH SÁCH CÂU HỎI SECTION -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@color/bg_secondary">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- SECTION HEADER -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Danh sách câu hỏi"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/text_primary"/>
+
+                    <TextView
+                        android:id="@+id/tv_question_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 câu hỏi"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"/>
+
+                </LinearLayout>
+
+                <!-- RECYCLERVIEW -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_questions"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:padding="8dp"/>
+
+                <!-- ADD QUESTION BUTTON -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_add_question"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_margin="16dp"
+                    android:text="+ Thêm câu hỏi mới"
+                    app:icon="@drawable/ic_add"
+                    app:iconTint="@color/green_success"
+                    app:strokeColor="@color/green_success"
+                    android:textColor="@color/green_success"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- BUTTONS SECTION -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_cancel"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Hủy"
+                android:textColor="@color/text_secondary"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_done"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:layout_marginStart="8dp"
+                android:text="Hoàn tất"
+                app:icon="@drawable/ic_check"
+                app:iconTint="@android:color/white"
+                android:backgroundTint="@color/green_success"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

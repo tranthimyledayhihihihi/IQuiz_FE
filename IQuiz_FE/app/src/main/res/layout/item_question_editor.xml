@@ -3,62 +3,216 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
+    android:padding="16dp"
     android:background="@drawable/bg_card"
-    android:layout_marginBottom="8dp">
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    android:elevation="4dp"
+    android:outlineProvider="background">
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm câu hỏi mới"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:paddingBottom="8dp" />
+
+    <!-- Chủ đề -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chủ đề *"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="8dp" />
+
     <Spinner
         android:id="@+id/sp_topic"
         android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:entries="@array/topic_names"
+        android:background="@android:drawable/btn_dropdown"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_marginTop="4dp" />
+
+    <!-- Độ khó -->
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/topic_names" />
+        android:text="Độ khó *"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="12dp" />
 
     <Spinner
         android:id="@+id/sp_difficulty"
         android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:entries="@array/difficulty_names"
+        android:background="@android:drawable/btn_dropdown"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_marginTop="4dp" />
+
+    <!-- Nội dung câu hỏi -->
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/difficulty_names" />
+        android:text="Nội dung câu hỏi *"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="12dp" />
 
     <EditText
         android:id="@+id/et_question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nội dung câu hỏi"
+        android:hint="Nhập nội dung câu hỏi..."
         android:inputType="textMultiLine"
-        android:minLines="2" />
-
-    <EditText
-        android:id="@+id/et_a"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Đáp án A"
+        android:minLines="3"
+        android:maxLines="5"
+        android:padding="12dp"
+        android:background="@drawable/edittext_background"
         android:layout_marginTop="4dp" />
 
-    <EditText
-        android:id="@+id/et_b"
+    <!-- Các đáp án -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Đáp án B"
-        android:layout_marginTop="4dp" />
+        android:text="Các đáp án *"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="12dp" />
 
-    <EditText
-        android:id="@+id/et_c"
+    <!-- Đáp án A -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Đáp án C"
-        android:layout_marginTop="4dp" />
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:text="A."
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="center" />
+        <EditText
+            android:id="@+id/et_a"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:hint="Nhập đáp án A"
+            android:padding="12dp"
+            android:background="@drawable/edittext_background"
+            android:maxLines="1"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/et_d"
+    <!-- Đáp án B -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Đáp án D"
-        android:layout_marginTop="4dp" />
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:text="B."
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="center" />
+        <EditText
+            android:id="@+id/et_b"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:hint="Nhập đáp án B"
+            android:padding="12dp"
+            android:background="@drawable/edittext_background"
+            android:maxLines="1"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <!-- Đáp án C -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:text="C."
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="center" />
+        <EditText
+            android:id="@+id/et_c"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:hint="Nhập đáp án C"
+            android:padding="12dp"
+            android:background="@drawable/edittext_background"
+            android:maxLines="1"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <!-- Đáp án D -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:text="D."
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="center" />
+        <EditText
+            android:id="@+id/et_d"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:hint="Nhập đáp án D"
+            android:padding="12dp"
+            android:background="@drawable/edittext_background"
+            android:maxLines="1"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <!-- Đáp án đúng -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đáp án đúng *"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="16dp" />
 
     <Spinner
         android:id="@+id/sp_correct"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:entries="@array/correct_answers" />
+        android:layout_height="48dp"
+        android:entries="@array/correct_answers"
+        android:background="@android:drawable/btn_dropdown"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_marginTop="4dp" />
 
 </LinearLayout>
