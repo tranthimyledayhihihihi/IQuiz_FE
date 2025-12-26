@@ -80,7 +80,17 @@
           <theme>@style/Theme.IQ5</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_achievement.xml">
+        <config>
+          <theme>@style/Theme.IQ5</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_create_room.xml">
+        <config>
+          <theme>@style/Theme.IQ5</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_custom_quiz_editor.xml">
         <config>
           <theme>@style/Theme.IQ5</theme>
         </config>
@@ -145,12 +155,22 @@
           <theme>@style/Theme.IQ5</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_review_question.xml">
+        <config>
+          <theme>@style/Theme.IQ5</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_room_lobby.xml">
         <config>
           <theme>@style/Theme.IQ5</theme>
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml">
+        <config>
+          <theme>@style/Theme.IQ5</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_streak.xml">
         <config>
           <theme>@style/Theme.IQ5</theme>
         </config>
@@ -220,7 +240,17 @@
           <theme>@style/Theme.IQ5</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_custom_quiz.xml">
+        <config>
+          <theme>@style/Theme.IQ5</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_question.xml">
+        <config>
+          <theme>@style/Theme.IQ5</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_question_editor.xml">
         <config>
           <theme>@style/Theme.IQ5</theme>
         </config>
@@ -250,7 +280,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=R58RC3PL94P)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\LOQ\.android\avd\Medium_Phone.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -276,8 +306,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="layoutResourceFile" />
         <option value="resourceFile" />
+        <option value="layoutResourceFile" />
+        <option value="valueResourceFile" />
         <option value="Class" />
       </list>
     </option>
@@ -294,7 +325,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/tranthimyledayhihihihi/IQuiz_FE.git&quot;,
-    &quot;accountId&quot;: &quot;cffc95d4-d2e3-4482-ba39-ab4813f3178e&quot;
+    &quot;accountId&quot;: &quot;8603673b-b22d-4eb1-aa1e-4f31c288b4db&quot;
   }
 }</component>
   <component name="ProblemsViewState">
@@ -328,7 +359,7 @@
     "com.google.services.firebase.aqiPopupShown": "true",
     "git-widget-placeholder": "Dương-Công-Tiến",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/1HK125/ANDROID/NHOM/IQuiz_FE_CallAPI/IQuiz_FE/IQuiz_FE",
+    "last_opened_file_path": "D:/HocTap/Nam3/DTDD/FE/IQuiz_FE/IQuiz_FE",
     "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
 }]]></component>
@@ -450,12 +481,12 @@
       <map>
         <entry key="com.example.iq5">
           <value>
-            <CheckInfo lastCheckTimestamp="1766659565131" />
+            <CheckInfo lastCheckTimestamp="1766746722119" />
           </value>
         </entry>
         <entry key="com.example.iq5.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1766659565131" />
+            <CheckInfo lastCheckTimestamp="1766746722120" />
           </value>
         </entry>
       </map>

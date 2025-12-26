@@ -1,187 +1,197 @@
 package com.example.iq5.feature.specialmode.ui;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
+import android.widget.*;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.iq5.R;
+import com.example.iq5.core.network.ApiClient;
+import com.example.iq5.core.prefs.PrefsManager;
+import com.example.iq5.data.api.ApiService;
+import com.example.iq5.data.model.QuizSubmissionModel;
+import com.example.iq5.data.model.QuizSubmitResponse;
 import com.example.iq5.feature.specialmode.adapter.CustomQuestionAdapter;
-import com.example.iq5.feature.specialmode.model.CustomQuestion;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CustomQuizEditorActivity extends AppCompatActivity {
 
-    public static final String EXTRA_CUSTOM_QUIZ_ID = "CUSTOM_QUIZ_ID";
-    public static final String EXTRA_CUSTOM_QUIZ_TITLE = "CUSTOM_QUIZ_TITLE";
+    private static final String TAG = "CustomQuizEditor";
 
-    private String quizId;
-    private String quizTitle;
-
-    private TextView tvQuizTitle;
-    private TextView tvQuestionCount;
+    private EditText etTitle, etDesc;
+    private Button btnAdd, btnDone;
     private RecyclerView rvQuestions;
+
+    private final List<QuizSubmissionModel.CauHoiSubmission> questions = new ArrayList<>();
     private CustomQuestionAdapter adapter;
-    private final List<CustomQuestion> questions = new ArrayList<>();
+
+    private ApiService apiService;
+    private PrefsManager prefs;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_quiz_editor);
 
-        quizId = getIntent().getStringExtra(EXTRA_CUSTOM_QUIZ_ID);
-        quizTitle = getIntent().getStringExtra(EXTRA_CUSTOM_QUIZ_TITLE);
-
-        tvQuizTitle = findViewById(R.id.tv_quiz_title);
-        tvQuestionCount = findViewById(R.id.tv_question_count);
+        // ===== Bind view =====
+        etTitle = findViewById(R.id.et_quiz_title);
+        etDesc = findViewById(R.id.et_quiz_desc);
+        btnAdd = findViewById(R.id.btn_add_question);
+        btnDone = findViewById(R.id.btn_done);
         rvQuestions = findViewById(R.id.rv_questions);
-        View btnAddQuestion = findViewById(R.id.btn_add_question);
-        View btnDone = findViewById(R.id.btn_done);
 
-        tvQuizTitle.setText("Bộ: " + (quizTitle != null ? quizTitle : ""));
+        // ===== Init =====
+        prefs = new PrefsManager(this);
+        apiService = ApiClient.getClient(prefs).create(ApiService.class);
 
-        adapter = new CustomQuestionAdapter(new CustomQuestionAdapter.Listener() {
-            @Override
-            public void onEdit(int position, CustomQuestion question) {
-                showQuestionDialog(question, position);
-            }
-
-            @Override
-            public void onDelete(int position, CustomQuestion question) {
-                questions.remove(position);
-                adapter.submitList(new ArrayList<>(questions));
-                updateQuestionCount();
-            }
-        });
+        adapter = new CustomQuestionAdapter(questions);
+        rvQuestions.setLayoutManager(new LinearLayoutManager(this));
         rvQuestions.setAdapter(adapter);
 
-        // TODO: nếu bạn lưu vào DB / SharedPreferences thì load ở đây
-
-        btnAddQuestion.setOnClickListener(v -> showQuestionDialog(null, -1));
-
-        btnDone.setOnClickListener(v -> {
-            // TODO: lưu danh sách câu hỏi nếu cần
-            setResult(RESULT_OK);
-            finish(); // quay lại CustomQuizFragment
-        });
-
-        updateQuestionCount();
+        // ===== Events =====
+        btnAdd.setOnClickListener(v -> showAddDialog());
+        btnDone.setOnClickListener(v -> submitQuiz());
     }
 
-    private void updateQuestionCount() {
-        tvQuestionCount.setText(questions.size() + " câu hỏi");
+    // =====================================================
+    // Dialog thêm câu hỏi (có Chủ đề + Độ khó)
+    // =====================================================
+    private void showAddDialog() {
+
+        View view = getLayoutInflater()
+                .inflate(R.layout.item_question_editor, null);
+
+        EditText etQuestion = view.findViewById(R.id.et_question);
+        EditText etA = view.findViewById(R.id.et_a);
+        EditText etB = view.findViewById(R.id.et_b);
+        EditText etC = view.findViewById(R.id.et_c);
+        EditText etD = view.findViewById(R.id.et_d);
+
+        Spinner spCorrect = view.findViewById(R.id.sp_correct);
+        Spinner spTopic = view.findViewById(R.id.sp_topic);
+        Spinner spDifficulty = view.findViewById(R.id.sp_difficulty);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Thêm câu hỏi")
+                .setView(view)
+                .setPositiveButton("Thêm", (dialog, which) -> {
+
+                    // ===== Lấy đáp án đúng =====
+                    String correct;
+                    switch (spCorrect.getSelectedItemPosition()) {
+                        case 0:
+                            correct = "DapAnA";
+                            break;
+                        case 1:
+                            correct = "DapAnB";
+                            break;
+                        case 2:
+                            correct = "DapAnC";
+                            break;
+                        default:
+                            correct = "DapAnD";
+                            break;
+                    }
+
+                    // ===== Lấy ID Chủ đề + Độ khó =====
+                    int chuDeID = spTopic.getSelectedItemPosition() + 1;
+                    int doKhoID = spDifficulty.getSelectedItemPosition() + 1;
+
+                    // ===== Validate nhanh =====
+                    if (etQuestion.getText().toString().trim().isEmpty()) {
+                        Toast.makeText(this,
+                                "Nội dung câu hỏi không được trống",
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // ===== Tạo câu hỏi =====
+                    QuizSubmissionModel.CauHoiSubmission item =
+                            new QuizSubmissionModel.CauHoiSubmission(
+                                    chuDeID,
+                                    doKhoID,
+                                    etQuestion.getText().toString(),
+                                    etA.getText().toString(),
+                                    etB.getText().toString(),
+                                    etC.getText().toString(),
+                                    etD.getText().toString(),
+                                    correct
+                            );
+
+                    questions.add(item);
+                    adapter.notifyItemInserted(questions.size() - 1);
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
     }
 
-    private void showQuestionDialog(@Nullable CustomQuestion existing, int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(existing == null ? "Thêm câu hỏi" : "Sửa câu hỏi");
+    // =====================================================
+    // Submit quiz lên BE
+    // =====================================================
+    private void submitQuiz() {
 
-        View dialogView = LayoutInflater.from(this)
-                .inflate(R.layout.dialog_question_editor, null, false);
-
-        EditText etContent = dialogView.findViewById(R.id.et_content);
-        EditText etA = dialogView.findViewById(R.id.et_option_a);
-        EditText etB = dialogView.findViewById(R.id.et_option_b);
-        EditText etC = dialogView.findViewById(R.id.et_option_c);
-        EditText etD = dialogView.findViewById(R.id.et_option_d);
-        EditText etExplanation = dialogView.findViewById(R.id.et_explanation);
-        RadioGroup rgCorrect = dialogView.findViewById(R.id.rg_correct);
-        RadioButton rbA = dialogView.findViewById(R.id.rb_a);
-        RadioButton rbB = dialogView.findViewById(R.id.rb_b);
-        RadioButton rbC = dialogView.findViewById(R.id.rb_c);
-        RadioButton rbD = dialogView.findViewById(R.id.rb_d);
-
-        if (existing != null) {
-            etContent.setText(existing.content);
-            etA.setText(existing.optionA);
-            etB.setText(existing.optionB);
-            etC.setText(existing.optionC);
-            etD.setText(existing.optionD);
-            etExplanation.setText(existing.explanation);
-
-            if ("A".equals(existing.correctOption)) rbA.setChecked(true);
-            else if ("B".equals(existing.correctOption)) rbB.setChecked(true);
-            else if ("C".equals(existing.correctOption)) rbC.setChecked(true);
-            else if ("D".equals(existing.correctOption)) rbD.setChecked(true);
-        } else {
-            rbA.setChecked(true);
+        if (etTitle.getText().toString().trim().isEmpty()) {
+            Toast.makeText(this,
+                    "Vui lòng nhập tên quiz",
+                    Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        builder.setView(dialogView);
-        builder.setPositiveButton("Lưu", (dialog, which) -> {});
-        builder.setNegativeButton("Hủy", (dialog, which) -> dialog.dismiss());
+        if (questions.isEmpty()) {
+            Toast.makeText(this,
+                    "Quiz phải có ít nhất 1 câu hỏi",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        AlertDialog dialog = builder.create();
-        dialog.setOnShowListener(d -> dialog.getButton(DialogInterface.BUTTON_POSITIVE)
-                .setOnClickListener(v -> {
-                    String content = etContent.getText().toString().trim();
-                    String a = etA.getText().toString().trim();
-                    String b = etB.getText().toString().trim();
-                    String c = etC.getText().toString().trim();
-                    String d1 = etD.getText().toString().trim();
-                    String explanation = etExplanation.getText().toString().trim();
+        QuizSubmissionModel body =
+                new QuizSubmissionModel(
+                        etTitle.getText().toString(),
+                        etDesc.getText().toString(),
+                        questions
+                );
 
-                    if (TextUtils.isEmpty(content)) {
-                        etContent.setError("Không được để trống");
-                        return;
-                    }
-                    if (TextUtils.isEmpty(a) || TextUtils.isEmpty(b)
-                            || TextUtils.isEmpty(c) || TextUtils.isEmpty(d1)) {
-                        Snackbar.make(dialogView,
-                                "Các phương án A, B, C, D không được trống",
-                                Snackbar.LENGTH_SHORT).show();
-                        return;
-                    }
+        apiService.submitCustomQuiz(
+                "Bearer " + prefs.getToken(),
+                body
+        ).enqueue(new Callback<QuizSubmitResponse>() {
 
-                    int checkedId = rgCorrect.getCheckedRadioButtonId();
-                    String correct = "A";
-                    if (checkedId == rbA.getId()) correct = "A";
-                    else if (checkedId == rbB.getId()) correct = "B";
-                    else if (checkedId == rbC.getId()) correct = "C";
-                    else if (checkedId == rbD.getId()) correct = "D";
+            @Override
+            public void onResponse(Call<QuizSubmitResponse> call,
+                                   Response<QuizSubmitResponse> response) {
 
-                    if (existing == null) {
-                        CustomQuestion q = new CustomQuestion();
-                        q.id = UUID.randomUUID().toString();
-                        q.quizId = quizId;
-                        q.content = content;
-                        q.optionA = a;
-                        q.optionB = b;
-                        q.optionC = c;
-                        q.optionD = d1;
-                        q.correctOption = correct;
-                        q.explanation = explanation;
+                if (response.isSuccessful()) {
+                    Toast.makeText(CustomQuizEditorActivity.this,
+                            "🎉 Tạo quiz thành công",
+                            Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Log.e(TAG, "BE reject: " + response.code());
+                    Toast.makeText(CustomQuizEditorActivity.this,
+                            "Lỗi BE: " + response.code(),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
 
-                        questions.add(q);
-                    } else {
-                        existing.content = content;
-                        existing.optionA = a;
-                        existing.optionB = b;
-                        existing.optionC = c;
-                        existing.optionD = d1;
-                        existing.correctOption = correct;
-                        existing.explanation = explanation;
-                    }
-
-                    adapter.submitList(new ArrayList<>(questions));
-                    updateQuestionCount();
-                    dialog.dismiss();
-                }));
-
-        dialog.show();
+            @Override
+            public void onFailure(Call<QuizSubmitResponse> call, Throwable t) {
+                Log.e(TAG, "Network error", t);
+                Toast.makeText(CustomQuizEditorActivity.this,
+                        "Lỗi mạng: " + t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

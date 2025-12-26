@@ -4,98 +4,94 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Model cho Quiz Submission Request
+ * Model gửi lên API: POST /api/QuizTuyChinh/submit
+ * KHỚP DTO BACKEND
  */
 public class QuizSubmissionModel {
-    
-    @SerializedName("tieuDe")
-    private String tieuDe;
-    
-    @SerializedName("moTa")
+
+    @SerializedName("TenQuiz")
+    private String tenQuiz;
+
+    @SerializedName("MoTa")
     private String moTa;
-    
-    @SerializedName("cauHois")
-    private List<CauHoiSubmission> cauHois;
 
-    public QuizSubmissionModel(String tieuDe, String moTa, List<CauHoiSubmission> cauHois) {
-        this.tieuDe = tieuDe;
+    @SerializedName("Questions")
+    private List<CauHoiSubmission> questions;
+
+    public QuizSubmissionModel(String tenQuiz,
+                               String moTa,
+                               List<CauHoiSubmission> questions) {
+        this.tenQuiz = tenQuiz;
         this.moTa = moTa;
-        this.cauHois = cauHois;
+        this.questions = questions;
     }
 
-    public String getTieuDe() {
-        return tieuDe;
-    }
-
-    public void setTieuDe(String tieuDe) {
-        this.tieuDe = tieuDe;
-    }
-
-    public String getMoTa() {
-        return moTa;
-    }
-
-    public void setMoTa(String moTa) {
-        this.moTa = moTa;
-    }
-
-    public List<CauHoiSubmission> getCauHois() {
-        return cauHois;
-    }
-
-    public void setCauHois(List<CauHoiSubmission> cauHois) {
-        this.cauHois = cauHois;
-    }
-
-    /**
-     * Câu hỏi trong submission
-     */
+    // ================== INNER CLASS ==================
     public static class CauHoiSubmission {
-        @SerializedName("noiDung")
-        private String noiDung;
-        
-        @SerializedName("dapAn1")
-        private String dapAn1;
-        
-        @SerializedName("dapAn2")
-        private String dapAn2;
-        
-        @SerializedName("dapAn3")
-        private String dapAn3;
-        
-        @SerializedName("dapAn4")
-        private String dapAn4;
-        
-        @SerializedName("dapAnDung")
-        private int dapAnDung;
 
-        public CauHoiSubmission(String noiDung, String dapAn1, String dapAn2, 
-                               String dapAn3, String dapAn4, int dapAnDung) {
+        // ===== BẮT BUỘC THEO DB / BE =====
+        @SerializedName("ChuDeID")
+        private int chuDeID;
+
+        @SerializedName("DoKhoID")
+        private int doKhoID;
+
+        // ===== NỘI DUNG =====
+        @SerializedName("NoiDung")
+        private String noiDung;
+
+        @SerializedName("DapAnA")
+        private String dapAnA;
+
+        @SerializedName("DapAnB")
+        private String dapAnB;
+
+        @SerializedName("DapAnC")
+        private String dapAnC;
+
+        @SerializedName("DapAnD")
+        private String dapAnD;
+
+        // "DapAnA" | "DapAnB" | "DapAnC" | "DapAnD"
+        @SerializedName("DapAnDung")
+        private String dapAnDung;
+
+        @SerializedName("HinhAnh")
+        private String hinhAnh;
+
+        // =================================================
+        // CONSTRUCTOR CHUẨN – DÙNG CHO CUSTOM QUIZ
+        // =================================================
+        public CauHoiSubmission(int chuDeID,
+                                int doKhoID,
+                                String noiDung,
+                                String dapAnA,
+                                String dapAnB,
+                                String dapAnC,
+                                String dapAnD,
+                                String dapAnDung) {
+
+            this.chuDeID = chuDeID;
+            this.doKhoID = doKhoID;
             this.noiDung = noiDung;
-            this.dapAn1 = dapAn1;
-            this.dapAn2 = dapAn2;
-            this.dapAn3 = dapAn3;
-            this.dapAn4 = dapAn4;
+            this.dapAnA = dapAnA;
+            this.dapAnB = dapAnB;
+            this.dapAnC = dapAnC;
+            this.dapAnD = dapAnD;
             this.dapAnDung = dapAnDung;
+            this.hinhAnh = null; // chưa dùng ảnh
         }
 
-        // Getters and Setters
+        // =================================================
+        // GETTER (nếu Adapter cần)
+        // =================================================
+        public int getChuDeID() { return chuDeID; }
+        public int getDoKhoID() { return doKhoID; }
         public String getNoiDung() { return noiDung; }
-        public void setNoiDung(String noiDung) { this.noiDung = noiDung; }
-        
-        public String getDapAn1() { return dapAn1; }
-        public void setDapAn1(String dapAn1) { this.dapAn1 = dapAn1; }
-        
-        public String getDapAn2() { return dapAn2; }
-        public void setDapAn2(String dapAn2) { this.dapAn2 = dapAn2; }
-        
-        public String getDapAn3() { return dapAn3; }
-        public void setDapAn3(String dapAn3) { this.dapAn3 = dapAn3; }
-        
-        public String getDapAn4() { return dapAn4; }
-        public void setDapAn4(String dapAn4) { this.dapAn4 = dapAn4; }
-        
-        public int getDapAnDung() { return dapAnDung; }
-        public void setDapAnDung(int dapAnDung) { this.dapAnDung = dapAnDung; }
+        public String getDapAnA() { return dapAnA; }
+        public String getDapAnB() { return dapAnB; }
+        public String getDapAnC() { return dapAnC; }
+        public String getDapAnD() { return dapAnD; }
+        public String getDapAnDung() { return dapAnDung; }
     }
 }

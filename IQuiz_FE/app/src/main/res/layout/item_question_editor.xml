@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:background="@drawable/bg_card"
+    android:layout_marginBottom="8dp">
+    <Spinner
+        android:id="@+id/sp_topic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/topic_names" />
+
+    <Spinner
+        android:id="@+id/sp_difficulty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/difficulty_names" />
+
+    <EditText
+        android:id="@+id/et_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nội dung câu hỏi"
+        android:inputType="textMultiLine"
+        android:minLines="2" />
+
+    <EditText
+        android:id="@+id/et_a"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Đáp án A"
+        android:layout_marginTop="4dp" />
+
+    <EditText
+        android:id="@+id/et_b"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Đáp án B"
+        android:layout_marginTop="4dp" />
+
+    <EditText
+        android:id="@+id/et_c"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Đáp án C"
+        android:layout_marginTop="4dp" />
+
+    <EditText
+        android:id="@+id/et_d"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Đáp án D"
+        android:layout_marginTop="4dp" />
+
+    <Spinner
+        android:id="@+id/sp_correct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:entries="@array/correct_answers" />
+
+</LinearLayout>

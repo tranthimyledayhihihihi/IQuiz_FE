@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="correct_answers">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+    </string-array>
+    <string-array name="topic_names">
+        <item>Lịch Sử Việt Nam</item>
+        <item>Toán Học Phổ Thông</item>
+        <item>Khoa Học Tự Nhiên</item>
+    </string-array>
+
+    <string-array name="difficulty_names">
+        <item>Dễ</item>
+        <item>Trung bình</item>
+        <item>Khó</item>
+    </string-array>
+</resources>

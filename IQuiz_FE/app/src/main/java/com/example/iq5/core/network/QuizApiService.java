@@ -13,35 +13,35 @@ import retrofit2.http.Path;
 public interface QuizApiService {
     
     // Lấy danh sách chủ đề (categories)
-    @GET("chude/with-stats")
+    @GET("api/chude/with-stats")
     Call<java.util.List<CategoryResponse>> getCategories();
     
     // Test endpoint để kiểm tra backend
-    @GET("test/categories")
+    @GET("api/test/categories")
     Call<java.util.List<CategoryResponse>> getTestCategories();
     
     // Bắt đầu làm bài quiz
-    @POST("choi/start")
+    @POST("api/choi/start")
     Call<GameStartResponse> startQuiz(@Body GameStartOptions options);
     
     // Nộp đáp án
-    @POST("choi/submit")
+    @POST("api/choi/submit")
     Call<AnswerResponse> submitAnswer(@Body AnswerSubmit answer);
     
     // Lấy câu hỏi tiếp theo
-    @GET("choi/next/{attemptId}")
+    @GET("api/choi/next/{attemptId}")
     Call<Question> getNextQuestion(@Path("attemptId") int attemptId);
     
     // Kết thúc bài quiz
-    @POST("choi/end/{attemptId}")
+    @POST("api/choi/end/{attemptId}")
     Call<QuizResult> endQuiz(@Path("attemptId") int attemptId);
     
     // Lấy câu hỏi sai để ôn tập
-    @GET("cauhoi/incorrect-review")
+    @GET("api/cauhoi/incorrect-review")
     Call<IncorrectQuestionsResponse> getIncorrectQuestions();
     
     // NEW: Lấy câu hỏi theo category (không cần authentication)
-    @GET("testquiz/questions/{categoryId}")
+    @GET("api/testquiz/questions/{categoryId}")
     Call<com.example.iq5.data.model.SimpleQuizResponse> getQuestionsByCategory(@Path("categoryId") int categoryId);
     
     // Response classes

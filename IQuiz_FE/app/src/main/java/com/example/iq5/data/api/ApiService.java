@@ -1,6 +1,7 @@
 package com.example.iq5.data.api;
 
 import com.example.iq5.data.model.*;
+import com.example.iq5.feature.specialmode.model.WrongAnswersResponse;
 
 import java.util.List;
 
@@ -255,16 +256,8 @@ public interface ApiService {
      * Gửi đề xuất quiz mới
      * Endpoint: POST /api/QuizTuyChinh/submit
      */
-    @POST("api/QuizTuyChinh/submit")
-    Call<QuizSubmitResponse> submitCustomQuiz(
-        @Header("Authorization") String token,
-        @Body QuizSubmissionModel submission
-    );
 
-    /**
-     * Xóa đề xuất
-     * Endpoint: DELETE /api/QuizTuyChinh/{quizId}
-     */
+
     @DELETE("api/QuizTuyChinh/{quizId}")
     Call<ApiResponse> deleteQuizSubmission(
         @Path("quizId") int quizId,
@@ -295,5 +288,34 @@ public interface ApiService {
     Call<StreakResponse> getDailyStreak(
             @Header("Authorization") String token
     );
+    // ================= CUSTOM QUIZ =================
+
+    @GET("api/QuizTuyChinh/my-submissions")
+    Call<CustomQuizResponse> getMyCustomQuizzes(
+            @Header("Authorization") String token,
+            @Query("pageNumber") int page,
+            @Query("pageSize") int size
+    );
+
+
+
+    @POST("api/QuizTuyChinh/submit")
+    Call<QuizSubmitResponse> submitCustomQuiz(
+            @Header("Authorization") String token,
+            @Body QuizSubmissionModel body
+    );
+
+
+    @DELETE("api/QuizTuyChinh/{quizId}")
+    Call<ApiResponse> deleteCustomQuiz(
+            @Path("quizId") int quizId,
+            @Header("Authorization") String token
+    );
+    @GET("api/WrongQuestion/me")
+    Call<WrongAnswersResponse> getWrongQuestions(
+            @Header("Authorization") String token
+    );
+
+
 
 }
