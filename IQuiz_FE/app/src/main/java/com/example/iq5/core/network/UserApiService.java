@@ -9,6 +9,7 @@ import com.example.iq5.data.model.UserStreakResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.PUT;
 import retrofit2.http.POST;
 
@@ -24,7 +25,10 @@ public interface UserApiService {
     Call<ApiResponse> updateSettings(@Body UserSettingsModel settings);
     
     @POST("Account/change-password")
-    Call<ApiResponse> changePassword(@Body ChangePasswordModel changePassword);
+    Call<ApiResponse> changePassword(
+        @Header("Authorization") String token,
+        @Body ChangePasswordModel changePassword
+    );
     
     @GET("user/achievement/streak")
     Call<UserStreakResponse> getMyStreak();

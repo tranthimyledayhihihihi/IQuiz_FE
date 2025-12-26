@@ -5,8 +5,6 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@color/white">
-
-    <!-- Logo chß╗» Q -->
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="140dp"
@@ -15,7 +13,6 @@
         android:contentDescription="Logo Đấu trường tri thức"
         android:layout_marginBottom="12dp" />
 
-    <!-- T├¬n ß╗⌐ng dß╗Ñng -->
     <TextView
         android:id="@+id/tvAppName"
         android:layout_width="wrap_content"

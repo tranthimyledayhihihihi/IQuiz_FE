@@ -155,6 +155,21 @@
           <theme>@style/Theme.IQ5</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_splash.xml">
+        <config>
+          <theme>@style/Theme.IQ5</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_test_edit_profile.xml">
+        <config>
+          <theme>@style/Theme.IQ5</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_test_profile_update.xml">
+        <config>
+          <theme>@style/Theme.IQ5</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_waiting_room.xml">
         <config>
           <theme>@style/Theme.IQ5</theme>
@@ -250,7 +265,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=R58RC3PL94P)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\ADMIN\.android\avd\Pixel_3.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -328,7 +343,7 @@
     "com.google.services.firebase.aqiPopupShown": "true",
     "git-widget-placeholder": "Dương-Công-Tiến",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/1HK125/ANDROID/NHOM/IQuiz_FE_CallAPI/IQuiz_FE/IQuiz_FE",
+    "last_opened_file_path": "D:/1HK125/ANDROID/BAITAPLON_IQ5/IQuiz_FE/IQuiz_FE",
     "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
 }]]></component>
@@ -450,12 +465,12 @@
       <map>
         <entry key="com.example.iq5">
           <value>
-            <CheckInfo lastCheckTimestamp="1766659565131" />
+            <CheckInfo lastCheckTimestamp="1766758794634" />
           </value>
         </entry>
         <entry key="com.example.iq5.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1766659565131" />
+            <CheckInfo lastCheckTimestamp="1766758794636" />
           </value>
         </entry>
       </map>

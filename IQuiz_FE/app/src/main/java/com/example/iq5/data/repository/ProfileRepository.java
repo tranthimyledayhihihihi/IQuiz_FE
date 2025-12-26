@@ -62,17 +62,28 @@ public class ProfileRepository {
         String token = "Bearer " + ApiHelper.getToken(context);
         
         Log.d(TAG, "✏️ Đang cập nhật profile...");
+        Log.d(TAG, "📤 Request data: HoTen=" + profile.hoTen + ", Email=" + profile.email + ", AnhDaiDien=" + profile.anhDaiDien);
         
         Call<ApiResponse> call = apiService.updateMyProfile(token, profile);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                Log.d(TAG, "📥 Response code: " + response.code());
                 if (response.isSuccessful() && response.body() != null) {
                     Log.d(TAG, "✅ Cập nhật profile thành công!");
                     callback.onSuccess(response.body().getMessage());
                 } else {
                     Log.e(TAG, "❌ Lỗi cập nhật profile: " + response.code());
-                    callback.onError("Không thể cập nhật profile. Mã lỗi: " + response.code());
+                    String errorBody = "";
+                    try {
+                        if (response.errorBody() != null) {
+                            errorBody = response.errorBody().string();
+                            Log.e(TAG, "📄 Error body: " + errorBody);
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, "Không thể đọc error body: " + e.getMessage());
+                    }
+                    callback.onError("Không thể cập nhật profile. Mã lỗi: " + response.code() + (errorBody.isEmpty() ? "" : " - " + errorBody));
                 }
             }
             
@@ -168,12 +179,12 @@ public class ProfileRepository {
     /**
      * Đổi mật khẩu
      */
-    public void changePasswordAsync(String currentPassword, String newPassword, ChangePasswordCallback callback) {
+    public void changePasswordAsync(String currentPassword, String newPassword, String confirmNewPassword, ChangePasswordCallback callback) {
         String token = "Bearer " + ApiHelper.getToken(context);
         
         Log.d(TAG, "🔐 Đang đổi mật khẩu...");
         
-        ChangePasswordModel request = new ChangePasswordModel(currentPassword, newPassword);
+        ChangePasswordModel request = new ChangePasswordModel(currentPassword, newPassword, confirmNewPassword);
         Call<ApiResponse> call = apiService.changePassword(token, request);
         call.enqueue(new Callback<ApiResponse>() {
             @Override

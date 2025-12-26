@@ -12,10 +12,14 @@ public class ChangePasswordModel {
     
     @SerializedName("newPassword")
     private String newPassword;
+    
+    @SerializedName("confirmNewPassword")
+    private String confirmNewPassword;
 
-    public ChangePasswordModel(String currentPassword, String newPassword) {
+    public ChangePasswordModel(String currentPassword, String newPassword, String confirmNewPassword) {
         this.currentPassword = currentPassword;
         this.newPassword = newPassword;
+        this.confirmNewPassword = confirmNewPassword;
     }
 
     public String getCurrentPassword() {
@@ -32,5 +36,13 @@ public class ChangePasswordModel {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public String getConfirmNewPassword() {
+        return confirmNewPassword;
+    }
+
+    public void setConfirmNewPassword(String confirmNewPassword) {
+        this.confirmNewPassword = confirmNewPassword;
     }
 }

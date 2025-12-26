@@ -7,13 +7,13 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ProfileUpdateModel {
     
-    @SerializedName("hoTen")
+    @SerializedName("HoTen")
     public String hoTen;
     
-    @SerializedName("email")
+    @SerializedName("Email")
     public String email;
     
-    @SerializedName("anhDaiDien")
+    @SerializedName("AnhDaiDien")
     public String anhDaiDien;
     
     public ProfileUpdateModel() {}

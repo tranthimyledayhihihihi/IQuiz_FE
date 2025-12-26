@@ -3,6 +3,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
         android:usesCleartextTraffic="true"
@@ -17,6 +19,9 @@
         <!-- Launcher: SplashActivity -->
         <activity
             android:name=".feature.auth.ui.SplashActivity"
+            android:theme="@style/Theme.IQ5.Splash"
+            android:noHistory="true"
+            android:excludeFromRecents="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,6 +44,10 @@
 
         <activity
             android:name=".feature.auth.ui.ProfileActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".feature.auth.ui.EditProfileActivity"
             android:exported="false" />
 
         <activity
@@ -225,6 +234,16 @@
             android:name=".debug.TestSettingsActivity"
             android:exported="false"
             android:label="Test Settings API" />
+
+        <activity
+            android:name=".debug.TestEditProfileActivity"
+            android:exported="false"
+            android:label="Test Edit Profile" />
+
+        <activity
+            android:name=".debug.TestProfileUpdateActivity"
+            android:exported="false"
+            android:label="Test Profile Update" />
 
         <activity
             android:name=".debug.TestStatsActivity"
