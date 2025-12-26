@@ -1,36 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@color/bg_secondary">
+    android:orientation="vertical"
+    android:background="@color/bg_secondary"
+    android:padding="24dp">
 
+    <!-- Header với icon -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_quiz_creation"
+            android:layout_marginEnd="12dp"
+            app:tint="@color/green_success" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tạo bộ câu hỏi riêng"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:textColor="@color/green_success"/>
+    </LinearLayout>
+
+    <!-- Card chứa form -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/white"
+        android:layout_marginBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Tiêu đề với label -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tên bộ câu hỏi"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:layout_marginBottom="8dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutTitle"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxStrokeColor="@color/green_success"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
+                app:hintTextColor="@color/text_hint"
+                app:startIconDrawable="@drawable/ic_title"
+                app:startIconTint="@color/green_success">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_quiz_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nhập tên bộ câu hỏi"
+                    android:maxLines="1"
+                    android:textSize="16sp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Mô tả với label -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mô tả"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutDesc"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxStrokeColor="@color/green_success"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
+                app:hintTextColor="@color/text_hint"
+                app:startIconDrawable="@drawable/ic_description"
+                app:startIconTint="@color/green_success">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_quiz_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nhập mô tả cho bộ câu hỏi"
+                    android:minLines="3"
+                    android:maxLines="5"
+                    android:gravity="top"
+                    android:textSize="16sp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Nút tạo với thiết kế đẹp -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_create_quiz"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="TẠO VÀ SOẠN CÂU HỎI"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.02"
+        app:icon="@drawable/ic_create"
+        app:iconGravity="textStart"
+        app:iconPadding="12dp"
+        app:iconTint="@color/white"
+        app:cornerRadius="12dp"
+        app:backgroundTint="@color/green_success"
+        android:layout_marginTop="8dp"
+        android:elevation="4dp"
+        android:stateListAnimator="@null"/>
+
+    <!-- Thông tin hướng dẫn -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tạo bộ câu hỏi riêng"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:textColor="@color/green_success"/>
+        android:text="Sau khi tạo, bạn sẽ được chuyển đến màn hình soạn câu hỏi chi tiết"
+        android:textSize="13sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="16dp"/>
 
-    <EditText
-        android:id="@+id/et_quiz_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Tên bộ câu hỏi"
-        android:layout_marginTop="12dp"/>
-
-    <EditText
-        android:id="@+id/et_quiz_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Mô tả bộ câu hỏi"
-        android:layout_marginTop="8dp"/>
-
-    <Button
-        android:id="@+id/btn_create_quiz"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tạo  soạn câu hỏi"
-        android:layout_marginTop="16dp"/>
 </LinearLayout>
