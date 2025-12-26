@@ -1,1 +1,17 @@
-/build
+# Gradle
+.gradle/
+**/.gradle/
+build/
+
+# Android
+local.properties
+*.iml
+
+# IntelliJ / Android Studio
+.idea/
+.idea/**
+
+# Reports & cache
+**/reports/
+**/*.bin
+**/*.lock

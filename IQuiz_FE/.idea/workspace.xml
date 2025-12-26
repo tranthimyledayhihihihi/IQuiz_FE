@@ -296,7 +296,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="128cbd30-ae76-4f2c-b998-90113e609d57" name="Changes" comment="" />
+    <list default="true" id="128cbd30-ae76-4f2c-b998-90113e609d57" name="Changes" comment="Merge remote-tracking branch 'origin/Doan-Cong-Quang' into Dương-Công-Tiến&#10;&#10;# Conflicts:&#10;#&#9;IQuiz_FE/.gradle/8.13/executionHistory/executionHistory.bin&#10;#&#9;IQuiz_FE/.gradle/8.13/executionHistory/executionHistory.lock&#10;#&#9;IQuiz_FE/.gradle/8.13/fileHashes/fileHashes.bin&#10;#&#9;IQuiz_FE/.gradle/8.13/fileHashes/fileHashes.lock&#10;#&#9;IQuiz_FE/.gradle/8.13/fileHashes/resourceHashesCache.bin&#10;#&#9;IQuiz_FE/.gradle/buildOutputCleanup/buildOutputCleanup.lock&#10;#&#9;IQuiz_FE/.gradle/file-system.probe&#10;#&#9;IQuiz_FE/.idea/workspace.xml&#10;#&#9;IQuiz_FE/build/reports/problems/problems-report.html" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
