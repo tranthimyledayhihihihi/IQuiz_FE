@@ -12,19 +12,19 @@ import retrofit2.http.Path;
 public interface DailyQuizApiService {
     
     // Lấy quiz hàng ngày
-    @GET("quizngay/today")
+    @GET("api/quizngay/today")
     Call<DailyQuizDetails> getTodayQuiz();
     
     // Bắt đầu làm quiz hàng ngày
-    @POST("quizngay/start")
+    @POST("api/quizngay/start")
     Call<DailyQuizStartResponse> startTodayQuiz();
     
     // Nộp đáp án quiz hàng ngày
-    @POST("quizngay/submit")
+    @POST("api/quizngay/submit")
     Call<DailyQuizAnswerResponse> submitDailyAnswer(@Body AnswerSubmit answer);
     
     // Kết thúc quiz hàng ngày
-    @POST("quizngay/end/{attemptId}")
+    @POST("api/quizngay/end/{attemptId}")
     Call<DailyQuizResult> endTodayQuiz(@Path("attemptId") int attemptId);
     
     // Response classes

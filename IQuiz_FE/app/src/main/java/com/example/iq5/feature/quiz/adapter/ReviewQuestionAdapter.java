@@ -24,8 +24,9 @@ public class ReviewQuestionAdapter extends RecyclerView.Adapter<ReviewQuestionAd
 
     private String findOptionTextById(List<Option> options, String id) {
         if (id == null) return "Chưa trả lời";
+        if (options == null) return "Không tìm thấy";
         for (Option opt : options) {
-            if (id.equals(opt.getOption_id())) {
+            if (opt != null && id.equals(opt.getOption_id())) {
                 return opt.getOption_text();
             }
         }
@@ -41,6 +42,7 @@ public class ReviewQuestionAdapter extends RecyclerView.Adapter<ReviewQuestionAd
     @Override
     public void onBindViewHolder(ViewHolder h, int pos) {
         Question q = list.get(pos);
+
         String userSelectedId = q.getUser_selected_answer_id();
         String correctId = q.getCorrect_answer_id();
         boolean isCorrect = correctId != null && correctId.equals(userSelectedId);

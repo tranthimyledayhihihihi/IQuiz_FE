@@ -95,7 +95,7 @@ public class SelectCategoryActivity extends AppCompatActivity {
      */
     private void loadSelectionData() {
         Log.d(TAG, "🔄 Loading REAL categories from SQL Server API...");
-        Log.d(TAG, "🔗 API URL: " + ApiClient.getBaseUrl() + "chude/with-stats");
+        Log.d(TAG, "🔗 API URL: " + ApiClient.getBaseUrl() + "api/chude/with-stats");
         
         // Gọi API thật để lấy categories
         quizService.getCategories().enqueue(new Callback<List<QuizApiService.CategoryResponse>>() {

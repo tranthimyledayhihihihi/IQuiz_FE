@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.iq5.R;
@@ -21,17 +23,50 @@ public class ReviewQuestionActivity extends AppCompatActivity {
 
     private List<Question> reviewedQuestions;
 
+    // UI (mới theo layout redesign)
+    private ImageButton btnBack;
+    private TextView txtTitle;
+    private TextView txtSubtitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_question);
+
+        mapViews();
 
         if (!extractDataFromIntent()) {
             finish();
             return;
         }
 
+        bindHeader();
         setupRecyclerView();
+        setupActions();
+    }
+
+    private void mapViews() {
+        // Các view này chỉ có nếu bạn đã thay layout theo bản redesign
+        btnBack = findViewById(R.id.btnBack);
+        txtTitle = findViewById(R.id.txtTitle);
+        txtSubtitle = findViewById(R.id.txtSubtitle);
+    }
+
+    private void setupActions() {
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
+    }
+
+    private void bindHeader() {
+        int total = reviewedQuestions != null ? reviewedQuestions.size() : 0;
+
+        if (txtTitle != null) {
+            txtTitle.setText("Xem lại câu hỏi");
+        }
+        if (txtSubtitle != null) {
+            txtSubtitle.setText("Tổng " + total + " câu");
+        }
     }
 
     /**
@@ -70,6 +105,7 @@ public class ReviewQuestionActivity extends AppCompatActivity {
         RecyclerView rvReview = findViewById(R.id.recyclerReview);
 
         rvReview.setLayoutManager(new LinearLayoutManager(this));
+        rvReview.setHasFixedSize(true);
         rvReview.setAdapter(new ReviewQuestionAdapter(reviewedQuestions));
     }
 }

@@ -2,7 +2,6 @@ package com.example.iq5.feature.result.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,19 +14,14 @@ import androidx.core.content.ContextCompat;
 
 import com.example.iq5.R;
 import com.example.iq5.core.navigation.NavigationHelper;
-import com.example.iq5.feature.quiz.model.Question;
 import com.example.iq5.feature.quiz.ui.ReviewQuestionActivity;
-import com.example.iq5.feature.quiz.ui.SelectCategoryActivity;
-import com.example.iq5.feature.result.model.MatchResult;
+import com.example.iq5.feature.quiz.model.Question;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ResultActivity extends AppCompatActivity {
 
-    private static final String TAG = "ResultActivity";
-    
     private TextView tvStatus;
     private ImageView ivEmoji;
     private TextView tvScore, tvCorrect, tvIncorrect;
@@ -36,12 +30,17 @@ public class ResultActivity extends AppCompatActivity {
     private Button btnPlayAgain, btnRetry, btnShare;
     private TextView tvBadge1, tvBadge2;
 
-    private int score;
-    private int total;
-    private int correctCount;
-    private boolean isWin;
+    private int points = 0;
+    private int total = 0;
+    private int correctCount = 0;
+    private double percent = 0;
+    private boolean isWin = false;
+    private Button btnHome;
 
-    private List<Question> questionList;
+
+
+    // ✅ danh sách câu sai của lượt vừa chơi
+    private List<Question> wrongQuestionsThisRun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +49,7 @@ public class ResultActivity extends AppCompatActivity {
 
         mapViews();
         getDataFromIntent();
-        displayResult(score, correctCount, total, isWin);
+        displayResult(points, percent, correctCount, total, isWin);
         setupButtons();
     }
 
@@ -69,107 +68,74 @@ public class ResultActivity extends AppCompatActivity {
         btnPlayAgain = findViewById(R.id.btn_play_again);
         btnRetry = findViewById(R.id.btn_retry);
         btnShare = findViewById(R.id.btn_share);
+        btnHome = findViewById(R.id.btn_home);
+
     }
+
 
     @SuppressWarnings("unchecked")
     private void getDataFromIntent() {
-        questionList = (List<Question>) getIntent().getSerializableExtra("questions");
-        
-        // Try to get data from API quiz first (new format)
-        int apiCorrectAnswers = getIntent().getIntExtra("correct_answers", -1);
-        int apiTotalQuestions = getIntent().getIntExtra("total_questions", -1);
-        double apiScore = getIntent().getDoubleExtra("score", -1);
-        
-        Log.d(TAG, "🎯 RESULT ACTIVITY DEBUG:");
-        Log.d(TAG, "   📊 API correct_answers: " + apiCorrectAnswers);
-        Log.d(TAG, "   📊 API total_questions: " + apiTotalQuestions);
-        Log.d(TAG, "   📊 API score: " + apiScore);
-        
-        if (apiCorrectAnswers != -1 && apiTotalQuestions != -1) {
-            // Use API quiz data
-            correctCount = apiCorrectAnswers;
-            total = apiTotalQuestions;
-            score = (int) apiScore;
-            
-            Log.d(TAG, "   ✅ Using API data:");
-            Log.d(TAG, "      correctCount = " + correctCount);
-            Log.d(TAG, "      total = " + total);
-            Log.d(TAG, "      score = " + score);
-            
-            // Show debug toast
-            Toast.makeText(this, 
-                "🎯 API DATA: " + correctCount + "/" + total + " = " + score + "%", 
-                Toast.LENGTH_LONG).show();
-                
-        } else {
-            // Fallback to old format
-            score = getIntent().getIntExtra("score", 0);
-            total = getIntent().getIntExtra("total", 1);
+        correctCount = getIntent().getIntExtra("correct_answers", 0);
+        total = getIntent().getIntExtra("total_questions", 0);
+        percent = getIntent().getDoubleExtra("score", 0);
+        points = getIntent().getIntExtra("points", (int) Math.round(percent));
 
-            int count = 0;
-            if (questionList != null) {
-                for (Question q : questionList) {
-                    if (q.isUserAnswerCorrect()) {
-                        count++;
-                    }
-                }
-            }
-            correctCount = count;
-            
-            Log.d(TAG, "   ⚠️ Using fallback data:");
-            Log.d(TAG, "      correctCount = " + correctCount);
-            Log.d(TAG, "      total = " + total);
-            Log.d(TAG, "      score = " + score);
-            
-            // Show debug toast
-            Toast.makeText(this, 
-                "⚠️ FALLBACK DATA: " + correctCount + "/" + total + " = " + score + "%", 
-                Toast.LENGTH_LONG).show();
+        Serializable wrongData = getIntent().getSerializableExtra("wrong_questions");
+        if (wrongData instanceof List) {
+            wrongQuestionsThisRun = (List<Question>) wrongData;
         }
-        
-        isWin = correctCount >= Math.ceil(total * 0.8);
+
+        isWin = total > 0 && percent >= 80.0;
     }
 
-    private void displayResult(int score, int correct, int total, boolean isWin) {
+    private void displayResult(int points, double percent, int correct, int total, boolean isWin) {
         if (isWin) {
             int gold = ContextCompat.getColor(this, R.color.color_gold);
-            tvStatus.setText("🎉 XUẤT SẮC!");
+            tvStatus.setText("XUẤT SẮC!");
             tvStatus.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_success));
             ivEmoji.setImageResource(R.drawable.ic_trophy);
             ivEmoji.setColorFilter(gold);
             tvScore.setTextColor(gold);
 
-            btnRetry.setText("🏡 Trang chủ");
+            btnRetry.setText("Trang chủ");
             btnRetry.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_primary));
-
             updateStars(correct, total);
 
         } else {
             int error = ContextCompat.getColor(this, R.color.color_error);
-            tvStatus.setText("😞 CHƯA ĐẠT");
+            tvStatus.setText("CHƯA ĐẠT");
             tvStatus.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_error));
             ivEmoji.setImageResource(R.drawable.ic_sad_face);
             ivEmoji.setColorFilter(error);
             tvScore.setTextColor(error);
 
-            btnRetry.setText("🔄 Xem lại câu sai");
+            btnRetry.setText("Xem lại câu sai");
             btnRetry.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.color_warning));
+            layoutStars.setVisibility(View.VISIBLE);
+            updateStars(correct, total);
 
-            layoutStars.setVisibility(View.GONE);
         }
 
-        tvScore.setText(String.valueOf(score));
+        // ✅ hiển thị điểm theo POINTS
+        tvScore.setText(String.valueOf(points));
         tvCorrect.setText(correct + "/" + total);
         tvIncorrect.setText((total - correct) + "/" + total);
 
-        displayAchievementBadges(score, correct, total);
+        displayAchievementBadges(points, correct, total);
     }
 
     private void updateStars(int correct, int total) {
         int stars = 0;
-        if (correct == total) stars = 3;
-        else if (correct >= total * 0.8) stars = 2;
-        else if (correct >= total * 0.5) stars = 1;
+
+        if (total <= 0) {
+            stars = 0;
+        } else if (correct == total) {
+            stars = 3;
+        } else if (correct >= Math.ceil(total * 0.8)) {
+            stars = 2;
+        } else if (correct >= Math.ceil(total * 0.5)) {
+            stars = 1;
+        }
 
         int gold = ContextCompat.getColor(this, R.color.color_gold);
         int gray = ContextCompat.getColor(this, R.color.color_border_light);
@@ -177,19 +143,24 @@ public class ResultActivity extends AppCompatActivity {
         tvStar1.setTextColor(stars >= 1 ? gold : gray);
         tvStar2.setTextColor(stars >= 2 ? gold : gray);
         tvStar3.setTextColor(stars >= 3 ? gold : gray);
+
+        // Nếu muốn “ẩn hẳn” khi 0 sao thì dùng:
+        // layoutStars.setVisibility(stars == 0 ? View.GONE : View.VISIBLE);
     }
 
-    private void displayAchievementBadges(int score, int correct, int total) {
+
+    private void displayAchievementBadges(int points, int correct, int total) {
         tvBadge1.setVisibility(View.GONE);
         tvBadge2.setVisibility(View.GONE);
 
-        if (correct == total) {
-            tvBadge1.setText("🏆 Hoàn hảo!");
+        if (total > 0 && correct == total) {
+            tvBadge1.setText("Hoàn hảo!");
             tvBadge1.setVisibility(View.VISIBLE);
         }
 
-        if (score >= 1000) {
-            tvBadge2.setText("⭐ Điểm cao!");
+        // ví dụ badge theo POINTS
+        if (points >= 1000) {
+            tvBadge2.setText("Điểm cao!");
             tvBadge2.setVisibility(View.VISIBLE);
         }
     }
@@ -199,28 +170,36 @@ public class ResultActivity extends AppCompatActivity {
             NavigationHelper.navigateToSelectCategory(this);
             finish();
         });
+        btnHome.setOnClickListener(v -> {
+            NavigationHelper.navigateToHome(this, false);
+            finish();
+        });
+
 
         btnRetry.setOnClickListener(v -> {
             if (!isWin) {
-                openReviewIncorrect();
+                openReviewWrongThisRun();
                 return;
             }
-
             NavigationHelper.navigateToHome(this, false);
         });
 
         btnShare.setOnClickListener(v -> shareResult());
     }
 
-    private void openReviewIncorrect() {
-        // Open new Wrong Question Review Activity
-        Intent intent = new Intent(this, com.example.iq5.feature.specialmode.ui.WrongQuestionReviewActivity.class);
-        startActivity(intent);
+    private void openReviewWrongThisRun() {
+        if (wrongQuestionsThisRun == null || wrongQuestionsThisRun.isEmpty()) {
+            Toast.makeText(this, "Không có câu sai để xem lại", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent i = new Intent(this, ReviewQuestionActivity.class);
+        i.putExtra("questions", (Serializable) wrongQuestionsThisRun);
+        startActivity(i);
     }
 
     private void shareResult() {
-        String shareText = "Tôi vừa đạt " + tvScore.getText().toString() +
-                " điểm trong Quiz App! Bạn có dám thử không?";
+        String shareText = "Tôi vừa đạt " + tvScore.getText().toString() + " điểm trong Quiz App!";
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);

@@ -185,7 +185,7 @@ public class ApiSelectCategoryActivity extends AppCompatActivity {
         showLoading(true);
         
         Log.d(TAG, "🔄 Loading REAL categories from SQL Server API...");
-        Log.d(TAG, "🔗 API URL: " + ApiClient.getBaseUrl() + "chude/with-stats");
+        Log.d(TAG, "🔗 API URL: " + ApiClient.getBaseUrl() + "api/chude/with-stats");
         
         // CHỈ call API thật, KHÔNG có mock data
         loadCategoriesFromApiReal();
@@ -200,7 +200,7 @@ public class ApiSelectCategoryActivity extends AppCompatActivity {
         Log.d(TAG, "🌐 Calling REAL API to get categories from SQL Server...");
         
         // SỬ DỤNG ENDPOINT THẬT: chude/with-stats
-        Log.d(TAG, "🌐 Calling REAL API: " + ApiClient.getBaseUrl() + "chude/with-stats");
+        Log.d(TAG, "🌐 Calling REAL API: " + ApiClient.getBaseUrl() + "api/chude/with-stats");
         quizService.getCategories().enqueue(new Callback<List<QuizApiService.CategoryResponse>>() {
             @Override
             public void onResponse(Call<List<QuizApiService.CategoryResponse>> call, Response<List<QuizApiService.CategoryResponse>> response) {

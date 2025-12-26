@@ -1,284 +1,374 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_white">
+    android:background="@color/color_white"
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="24dp"
         tools:context=".feature.result.ui.ResultActivity">
 
+        <!-- ===== TOP HEADER GRADIENT ===== -->
+        <ImageView
+            android:id="@+id/imgHeader"
+            android:layout_width="0dp"
+            android:layout_height="170dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/gradient_vivid_header"
+            android:contentDescription="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- ===== STATUS PILL ===== -->
         <TextView
             android:id="@+id/tv_result_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:text="🎉 XUẤT SẮC!"
-            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="CHƯA ĐẠT"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@color/color_black"
+            android:textColor="@color/color_white"
             android:background="@drawable/bg_rounded_status"
-            android:backgroundTint="@color/color_success"
-            android:gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"/>
-
-        <ImageView
-            android:id="@+id/iv_emoji"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/happy"
-            android:contentDescription="Result Icon"
-            app:layout_constraintTop_toBottomOf="@id/tv_result_status"
+            android:backgroundTint="@color/color_error"
+            app:layout_constraintTop_toTopOf="@id/imgHeader"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <LinearLayout
-            android:id="@+id/layout_stars"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/iv_emoji"
+        <!-- ===== RESULT ICON FLOATING ===== -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardEmoji"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:layout_marginTop="18dp"
+            app:cardCornerRadius="44dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/color_white"
+            app:layout_constraintTop_toBottomOf="@id/tv_result_status"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <TextView
-                android:id="@+id/tv_star1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⭐"
-                android:textSize="32sp"
-                android:layout_marginEnd="8dp"/>
+            <ImageView
+                android:id="@+id/iv_emoji"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="18dp"
+                android:src="@drawable/ic_sad_face"
+                android:contentDescription="Result Icon"/>
+        </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/tv_star2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⭐"
-                android:textSize="32sp"
-                android:layout_marginEnd="8dp"/>
-
-            <TextView
-                android:id="@+id/tv_star3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⭐"
-                android:textSize="32sp"/>
-        </LinearLayout>
-
+        <!-- ===== MAIN CARD ===== -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_score"
-            android:layout_width="match_parent"
+            android:id="@+id/cardMain"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="14dp"
             app:cardCornerRadius="24dp"
-            app:cardElevation="4dp"
+            app:cardElevation="6dp"
             app:cardBackgroundColor="@color/color_white"
-            app:layout_constraintTop_toBottomOf="@id/layout_stars">
+            app:layout_constraintTop_toBottomOf="@id/cardEmoji"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="24dp">
+                android:padding="20dp">
 
-                <TextView
+                <!-- Stars -->
+                <LinearLayout
+                    android:id="@+id/layout_stars"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Điểm số của bạn"
-                    android:textSize="16sp"
-                    android:textColor="@color/color_black"/>
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_star1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="★"
+                        android:textSize="26sp"
+                        android:textColor="@color/color_border_light"
+                        android:layout_marginEnd="6dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_star2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="★"
+                        android:textSize="26sp"
+                        android:textColor="@color/color_border_light"
+                        android:layout_marginEnd="6dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_star3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="★"
+                        android:textSize="26sp"
+                        android:textColor="@color/color_border_light"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvScoreTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Điểm của bạn"
+                    android:textSize="14sp"
+                    android:textColor="@color/color_text_secondary"
+                    android:layout_marginTop="14dp"
+                    app:layout_constraintTop_toBottomOf="@id/layout_stars"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
                 <TextView
                     android:id="@+id/tv_final_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="100"
-                    android:textSize="56sp"
+                    android:text="0"
+                    android:textSize="54sp"
                     android:textStyle="bold"
-                    android:textColor="@color/color_result_score_win"
-                    android:layout_marginTop="8dp"/>
+                    android:textColor="@color/color_error"
+                    app:layout_constraintTop_toBottomOf="@id/tvScoreTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
                 <LinearLayout
+                    android:id="@+id/layoutBadges"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="12dp">
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_final_score"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
 
                     <TextView
                         android:id="@+id/tv_badge_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:text="Hoàn hảo"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/color_white"
                         android:background="@drawable/bg_rounded_status_win"
                         android:backgroundTint="@color/color_success"
-                        android:paddingStart="16dp"
-                        android:paddingTop="6dp"
-                        android:paddingEnd="16dp"
-                        android:paddingBottom="6dp"
-                        android:text="Xuất sắc"
-                        android:textColor="@color/color_white"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/tv_badge_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
                         android:paddingTop="6dp"
                         android:paddingBottom="6dp"
-                        android:text="Top 5%"
-                        android:textSize="14sp"
+                        android:text="Điểm cao"
+                        android:textSize="13sp"
                         android:textStyle="bold"
                         android:textColor="@color/color_white"
                         android:background="@drawable/bg_rounded_status_win"
-                        android:backgroundTint="@color/color_success"/>
+                        android:backgroundTint="@color/color_cyan_accent"
+                        android:visibility="gone"/>
                 </LinearLayout>
-            </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_stats"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="18dp"
+                    android:weightSum="2"
+                    app:layout_constraintTop_toBottomOf="@id/layoutBadges"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        app:cardCornerRadius="18dp"
+                        app:cardElevation="2dp"
+                        app:cardBackgroundColor="@color/color_white">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Đúng"
+                                android:textSize="14sp"
+                                android:textColor="@color/color_text_secondary"/>
+
+                            <TextView
+                                android:id="@+id/tv_correct_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0/0"
+                                android:textStyle="bold"
+                                android:textSize="22sp"
+                                android:textColor="@color/color_success"
+                                android:layout_marginTop="4dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        app:cardCornerRadius="18dp"
+                        app:cardElevation="2dp"
+                        app:cardBackgroundColor="@color/color_white">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Sai"
+                                android:textSize="14sp"
+                                android:textColor="@color/color_text_secondary"/>
+
+                            <TextView
+                                android:id="@+id/tv_incorrect_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0/0"
+                                android:textStyle="bold"
+                                android:textSize="22sp"
+                                android:textColor="@color/color_error"
+                                android:layout_marginTop="4dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <LinearLayout
-            android:id="@+id/layout_stats"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp"
-            android:weightSum="2"
-            app:layout_constraintTop_toBottomOf="@id/card_score">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/color_white">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Đúng"
-                        android:textSize="16sp"
-                        android:textColor="@color/color_text_secondary"/>
-
-                    <TextView
-                        android:id="@+id/tv_correct_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="10/10"
-                        android:textStyle="bold"
-                        android:textSize="24sp"
-                        android:textColor="@color/color_success"
-                        android:layout_marginTop="4dp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/color_white">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sai"
-                        android:textSize="16sp"
-                        android:textColor="@color/color_text_secondary"/>
-
-                    <TextView
-                        android:id="@+id/tv_incorrect_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0/10"
-                        android:textStyle="bold"
-                        android:textSize="24sp"
-                        android:textColor="@color/color_error"
-                        android:layout_marginTop="4dp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-        <Button
+        <!-- ===== PRIMARY BUTTON ===== -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_play_again"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginTop="24dp"
-            android:text="🔄 Chơi lại"
-            android:textSize="18sp"
+            android:layout_width="0dp"
+            android:layout_height="58dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Chơi lại"
+            android:textSize="17sp"
             android:textStyle="bold"
             android:textColor="@color/color_white"
             android:background="@drawable/bg_button_rounded_gradient"
-            app:layout_constraintTop_toBottomOf="@id/layout_stats"/>
+            app:icon="@drawable/ic_rematch"
+            app:iconGravity="textStart"
+            app:iconPadding="10dp"
+            app:iconTint="@color/color_white"
+            app:layout_constraintTop_toBottomOf="@id/cardMain"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_home"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Về trang chủ"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/color_white"
+            android:background="@drawable/bg_button_rounded_gradient"
+            android:backgroundTint="@color/color_primary"
+            app:icon="@drawable/ic_home"
+            app:iconGravity="textStart"
+            app:iconPadding="10dp"
+            app:iconTint="@color/color_white"
+            app:layout_constraintTop_toBottomOf="@id/btn_play_again"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- ===== SECONDARY BUTTONS ===== -->
         <LinearLayout
             android:id="@+id/layout_secondary_buttons"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="12dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:weightSum="2"
-            app:layout_constraintTop_toBottomOf="@id/btn_play_again">
+            app:layout_constraintTop_toBottomOf="@id/btn_home"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="20dp">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_retry"
                 android:layout_width="0dp"
-                android:layout_height="56dp"
+                android:layout_height="52dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="6dp"
-                android:text="❌ Trượt"
-                android:textSize="16sp"
+                android:text="Xem lại câu sai"
+                android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="@color/color_white"
                 android:background="@drawable/bg_button_rounded_gradient"
-                android:backgroundTint="@color/color_warning"/>
+                android:backgroundTint="@color/color_warning"
+                app:icon="@drawable/ic_refresh"
+                app:iconGravity="textStart"
+                app:iconPadding="10dp"
+                app:iconTint="@color/color_white"/>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_share"
                 android:layout_width="0dp"
-                android:layout_height="56dp"
+                android:layout_height="52dp"
                 android:layout_weight="1"
                 android:layout_marginStart="6dp"
-                android:text="🔗 Chia sẻ"
-                android:textSize="16sp"
+                android:text="Chia sẻ"
+                android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="@color/color_white"
                 android:background="@drawable/bg_button_rounded_gradient"
-                android:backgroundTint="@color/color_cyan_accent"/>
+                android:backgroundTint="@color/color_cyan_accent"
+                app:icon="@drawable/ic_share"
+                app:iconGravity="textStart"
+                app:iconPadding="10dp"
+                app:iconTint="@color/color_white"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

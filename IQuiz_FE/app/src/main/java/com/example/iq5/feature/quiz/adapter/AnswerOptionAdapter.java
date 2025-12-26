@@ -4,29 +4,44 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.iq5.R;
-import com.example.iq5.feature.quiz.model.Option; // Cần import Model Option đã tạo
+import com.example.iq5.feature.quiz.model.Option;
 
 import java.util.List;
 
 public class AnswerOptionAdapter extends RecyclerView.Adapter<AnswerOptionAdapter.ViewHolder> {
 
-    // Interface callback: PHẢI TRẢ VỀ ID (String)
     public interface OnOptionClick {
         void onSelect(Option selectedOption);
     }
 
-    private List<Option> options; // SỬA LỖI: Sử dụng List<Option>
-    private OnOptionClick listener;
-    // Thêm trường để lưu trữ ID của lựa chọn đã chọn (để highlight)
+    private final List<Option> options;
+    private final OnOptionClick listener;
+
+    // Highlight option đã chọn
     private String selectedOptionId = null;
 
-    // Constructor chính xác để nhận List<Option>
+    // KHÓA chọn 1 lần/câu (chống bấm lại)
+    private boolean selectionLocked = false;
+
     public AnswerOptionAdapter(List<Option> options, OnOptionClick listener) {
         this.options = options;
         this.listener = listener;
-        // Xóa các constructor dư thừa khác
+    }
+
+    /** Gọi khi sang câu mới */
+    public void resetSelection() {
+        selectedOptionId = null;
+        selectionLocked = false;
+        notifyDataSetChanged();
+    }
+
+    /** Activity có thể khóa ngay sau khi nhận click */
+    public void lockSelection() {
+        selectionLocked = true;
     }
 
     @Override
@@ -40,40 +55,35 @@ public class AnswerOptionAdapter extends RecyclerView.Adapter<AnswerOptionAdapte
     public void onBindViewHolder(ViewHolder h, int pos) {
         Option opt = options.get(pos);
 
-        // Hiển thị text của đáp án
-        // Ví dụ: A. git status, B. git log...
         h.txt.setText(opt.getOption_id() + ". " + opt.getOption_text());
 
-        // Logic Highlight (Tùy chọn: Highlight sau khi chọn để tạo hiệu ứng)
-        if (opt.getOption_id().equals(selectedOptionId)) {
-            // Áp dụng style/màu sắc đã chọn (ví dụ: nền xanh, chữ trắng)
+        if (opt.getOption_id() != null && opt.getOption_id().equals(selectedOptionId)) {
             h.itemView.setBackgroundResource(R.drawable.bg_answer_selected);
         } else {
-            // Áp dụng style mặc định
             h.itemView.setBackgroundResource(R.drawable.bg_answer_default);
         }
 
         h.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                // Tạm thời vô hiệu hóa click trên Adapter sau khi chọn lần đầu
-                // Lưu lại lựa chọn để highlight
-                selectedOptionId = opt.getOption_id();
-                notifyDataSetChanged(); // Cập nhật UI để highlight
+            if (selectionLocked) return;
+            if (listener == null) return;
 
-                // Trả về đối tượng Option đã chọn
-                listener.onSelect(opt);
-            }
+            selectedOptionId = opt.getOption_id();
+            selectionLocked = true; // khóa ngay
+            notifyDataSetChanged();
+
+            listener.onSelect(opt);
         });
     }
 
     @Override
-    public int getItemCount() { return options == null ? 0 : options.size(); }
+    public int getItemCount() {
+        return options == null ? 0 : options.size();
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txt;
         ViewHolder(View v) {
             super(v);
-            // Giả định ID txtOption là đúng trong item_answer_option.xml
             txt = v.findViewById(R.id.txtOption);
         }
     }

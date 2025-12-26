@@ -7,15 +7,15 @@ import retrofit2.http.POST;
 public interface AchievementApiService {
     
     // Lấy thành tựu của tôi
-    @GET("user/achievement/me")
+    @GET("api/user/achievement/me")
     Call<AchievementResponse> getMyAchievements();
     
     // Lấy chuỗi ngày chơi
-    @GET("user/achievement/streak")
+    @GET("api/user/achievement/streak")
     Call<StreakResponse> getMyStreak();
     
     // Nhận thưởng hàng ngày
-    @POST("user/achievement/daily-reward")
+    @POST("api/user/achievement/daily-reward")
     Call<DailyRewardResponse> claimDailyReward();
     
     // Model classes

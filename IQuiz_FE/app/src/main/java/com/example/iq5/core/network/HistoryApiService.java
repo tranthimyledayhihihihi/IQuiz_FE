@@ -8,22 +8,22 @@ import retrofit2.http.Query;
 public interface HistoryApiService {
     
     // Lấy lịch sử làm bài của tôi
-    @GET("lichsuchoi/my")
+    @GET("api/lichsuchoi/my")
     Call<HistoryResponse> getMyHistory(
         @Query("pageNumber") int pageNumber,
         @Query("pageSize") int pageSize
     );
     
     // Lấy chi tiết một lần làm bài
-    @GET("lichsuchoi/{attemptId}")
+    @GET("api/lichsuchoi/{attemptId}")
     Call<HistoryDetail> getHistoryDetail(@Path("attemptId") int attemptId);
     
     // Lấy chuỗi ngày chơi từ lịch sử
-    @GET("lichsuchoi/streak")
+    @GET("api/lichsuchoi/streak")
     Call<StreakInfo> getStreakFromHistory();
     
     // Lấy thành tựu từ lịch sử
-    @GET("lichsuchoi/achievements")
+    @GET("api/lichsuchoi/achievements")
     Call<java.util.List<AchievementApiService.Achievement>> getAchievementsFromHistory();
     
     // Response classes
