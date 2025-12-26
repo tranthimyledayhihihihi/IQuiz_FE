@@ -139,7 +139,7 @@ public class CreateRoomActivity extends AppCompatActivity {
         }
 
         // URL chuẩn cho WebSocket kết nối tới Backend của bạn qua cổng 5048
-        String wsUrl = "ws://172.26.93.231:5048/ws/game";
+        String wsUrl = "ws://172.26.97.66:5048/ws/game";
         Log.d(TAG, "🔌 Connecting WebSocket: " + wsUrl);
 
         wsManager.connect(wsUrl, token);
