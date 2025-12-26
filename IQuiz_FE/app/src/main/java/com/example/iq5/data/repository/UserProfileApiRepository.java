@@ -10,6 +10,7 @@ import com.example.iq5.data.model.ApiResponse;
 import com.example.iq5.data.model.ChangePasswordModel;
 import com.example.iq5.data.model.ProfileUpdateModel;
 import com.example.iq5.data.model.UserProfileModel;
+import com.example.iq5.utils.ApiHelper;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -173,12 +174,13 @@ public class UserProfileApiRepository {
     /**
      * Đổi mật khẩu
      */
-    public void changePassword(String currentPassword, String newPassword, final UpdateCallback callback) {
+    public void changePassword(String currentPassword, String newPassword, String confirmNewPassword, final UpdateCallback callback) {
         Log.d(TAG, "🔐 Đang gọi API Change Password...");
         
-        ChangePasswordModel changePasswordModel = new ChangePasswordModel(currentPassword, newPassword);
+        String token = "Bearer " + ApiHelper.getToken(context);
+        ChangePasswordModel changePasswordModel = new ChangePasswordModel(currentPassword, newPassword, confirmNewPassword);
         
-        Call<ApiResponse> call = apiService.changePassword(changePasswordModel);
+        Call<ApiResponse> call = apiService.changePassword(token, changePasswordModel);
         
         call.enqueue(new Callback<ApiResponse>() {
             @Override

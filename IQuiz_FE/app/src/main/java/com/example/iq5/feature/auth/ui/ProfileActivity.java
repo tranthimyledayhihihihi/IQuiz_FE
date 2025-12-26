@@ -3,11 +3,14 @@ package com.example.iq5.feature.auth.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,9 +27,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     TextView tvName, tvEmail, tvQuizTaken, tvAvgScore, tvRole, tvRank;
     ImageView imgAvatar;
+    ImageButton btnEdit;
     LinearLayout btnSettings, btnShare, btnLogout;
     
     private ProfileRepository profileRepository;
+    private ActivityResultLauncher<Intent> editProfileLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvRole = findViewById(R.id.tvRole);
         tvRank = findViewById(R.id.tvRank);
         imgAvatar = findViewById(R.id.imgAvatar);
+        btnEdit = findViewById(R.id.btnEdit);
         
         btnSettings = findViewById(R.id.btnSettings);
         btnShare = findViewById(R.id.btnShare);
@@ -49,11 +55,20 @@ public class ProfileActivity extends AppCompatActivity {
         // Initialize repository
         profileRepository = new ProfileRepository(this);
 
+        // Setup edit profile launcher
+        setupEditProfileLauncher();
+
         // Load profile data
         loadProfileData();
 
         // Back button
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+
+        // Edit button
+        btnEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(this, EditProfileActivity.class);
+            editProfileLauncher.launch(intent);
+        });
 
         // Settings button
         btnSettings.setOnClickListener(v -> {
@@ -69,6 +84,19 @@ public class ProfileActivity extends AppCompatActivity {
         btnLogout.setOnClickListener(v -> {
             showLogoutDialog();
         });
+    }
+
+    private void setupEditProfileLauncher() {
+        editProfileLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    // Profile was updated, reload the data
+                    Toast.makeText(this, "Hồ sơ đã được cập nhật!", Toast.LENGTH_SHORT).show();
+                    loadProfileData();
+                }
+            }
+        );
     }
 
     private void loadProfileData() {
