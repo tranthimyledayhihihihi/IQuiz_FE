@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -17,6 +18,7 @@ import com.example.iq5.feature.multiplayer.data.WebSocketManager;
 import com.example.iq5.feature.multiplayer.data.models.CauHoiDisplayModel;
 import com.example.iq5.feature.multiplayer.data.models.GameResult;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.json.JSONObject;
 import java.nio.charset.StandardCharsets;
@@ -24,9 +26,12 @@ import java.util.List;
 
 public class MatchResultActivity extends AppCompatActivity {
 
+    private static final String TAG = "MatchActivity"; // Đổi TAG để dễ lọc Logcat
+
     private WebSocketManager wsManager;
     private String matchCode;
     private int myUserId;
+
     private int yourScore = 0;
     private int opponentScore = 0;
 
@@ -54,8 +59,8 @@ public class MatchResultActivity extends AppCompatActivity {
         getUserIdFromToken();
         setupWebSocket();
 
-        // Delay 500ms rồi connect (giống web)
-        new Handler(Looper.getMainLooper()).postDelayed(this::connectToMatch, 500);
+        // ✅ GỬI LỆNH JOIN NGAY LẬP TỨC (KHÔNG DELAY)
+        connectToMatch();
     }
 
     private void initViews() {
@@ -66,305 +71,207 @@ public class MatchResultActivity extends AppCompatActivity {
         llGameArea = findViewById(R.id.llGameArea);
 
         tvMatchCode.setText(matchCode);
-        showLoading("Đang tải câu hỏi...");
+        tvYourScore.setText("0");
+        tvOpponentScore.setText("0");
+        showLoading("⏳ Đang đợi đối thủ và tải câu hỏi...");
     }
 
-    // ✅ GIẢI MÃ TOKEN ĐỂ LẤY USER ID
     private void getUserIdFromToken() {
         try {
-            String token = getSharedPreferences("app_prefs", MODE_PRIVATE)
-                    .getString("auth_token", "");
-
-            if (token.isEmpty()) {
-                Toast.makeText(this, "❌ Chưa đăng nhập!", Toast.LENGTH_SHORT).show();
-                finish();
-                return;
-            }
+            String token = getSharedPreferences("app_prefs", MODE_PRIVATE).getString("auth_token", "");
+            if (token.isEmpty()) return;
 
             String[] parts = token.split("\\.");
             if (parts.length > 1) {
-                String payload = new String(
-                        Base64.decode(parts[1], Base64.URL_SAFE),
-                        StandardCharsets.UTF_8
-                );
+                String payload = new String(Base64.decode(parts[1], Base64.URL_SAFE), StandardCharsets.UTF_8);
                 JSONObject json = new JSONObject(payload);
-                myUserId = json.getInt("nameid");
+                myUserId = json.getInt("nameid"); // Key nameid từ Backend JWT
+                Log.d(TAG, "✅ My User ID: " + myUserId);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "❌ Parse token error", e);
         }
     }
 
     private void setupWebSocket() {
         wsManager = WebSocketManager.getInstance();
 
-        // ✅ QUESTIONS RECEIVED
-        wsManager.setOnQuestionsReceivedListener(questions -> {
-            runOnUiThread(() -> {
-                currentQuestions = questions;
-                if (currentQuestions != null && !currentQuestions.isEmpty()) {
-                    displayQuestion(0);
-                }
-            });
-        });
+        // 1. NHẬN CÂU HỎI TỪ SERVER
+        wsManager.setOnQuestionsReceivedListener(questions -> runOnUiThread(() -> {
+            Log.d(TAG, "📩 Nhận được " + (questions == null ? 0 : questions.size()) + " câu hỏi");
+            currentQuestions = questions;
 
-        // ✅ SCORE UPDATE
-        wsManager.setOnScoreUpdateListener((userId, questionId, correct) -> {
-            runOnUiThread(() -> updateScores(userId, correct));
-        });
+            if (currentQuestions != null && !currentQuestions.isEmpty()) {
+                displayQuestion(0);
+            } else {
+                showLoading("⚠️ Server trả về 0 câu hỏi!");
+            }
+        }));
 
-        // ✅ GAME END
-        wsManager.setOnGameEndListener(result -> {
-            runOnUiThread(() -> {
-                if (countDownTimer != null) {
-                    countDownTimer.cancel();
+        // 2. CẬP NHẬT ĐIỂM REALTIME (GIỐNG WEB)
+        wsManager.setOnScoreUpdateListener((userId, questionId, correct) -> runOnUiThread(() -> {
+            Log.d(TAG, "📊 Score update: user=" + userId + ", correct=" + correct);
+            if (correct) {
+                if (userId == myUserId) {
+                    yourScore += 100;
+                    highlightCorrectAnswer();
+                } else {
+                    opponentScore += 100;
                 }
-                showGameResult(result);
-            });
-        });
+            } else if (userId == myUserId) {
+                highlightWrongAnswer();
+            }
+            tvYourScore.setText(String.valueOf(yourScore));
+            tvOpponentScore.setText(String.valueOf(opponentScore));
+        }));
+
+        // 3. KẾT THÚC GAME
+        wsManager.setOnGameEndListener(result -> runOnUiThread(() -> {
+            if (countDownTimer != null) countDownTimer.cancel();
+            showGameResult(result);
+        }));
     }
 
     private void connectToMatch() {
-        // Gửi message JOIN_MATCH
-        wsManager.joinMatch(matchCode);
+        if (wsManager.isConnected()) {
+            Log.d(TAG, "📤 Sending JOIN_MATCH for: " + matchCode);
+            wsManager.joinMatch(matchCode);
+        }
     }
-    // ✅ HIỂN THỊ CÂU HỎI (GIỐNG WEB)
+
     private void displayQuestion(int index) {
         if (currentQuestions == null || index >= currentQuestions.size()) {
-            showLoading("⏳ Đang chờ kết quả...");
+            showLoading("⏳ Đang chờ đối thủ hoàn thành...");
             return;
         }
 
         currentQuestionIndex = index;
         CauHoiDisplayModel q = currentQuestions.get(index);
-
-        // Clear previous content
         llGameArea.removeAllViews();
 
-        // Question number and text
-        TextView tvQuestionNumber = new TextView(this);
-        tvQuestionNumber.setText("Câu " + (index + 1) + "/" + currentQuestions.size());
-        tvQuestionNumber.setTextSize(14);
-        tvQuestionNumber.setTextColor(getResources().getColor(android.R.color.darker_gray));
-        tvQuestionNumber.setPadding(0, 0, 0, 20);
-        llGameArea.addView(tvQuestionNumber);
+        // Hiển thị số thứ tự câu hỏi
+        TextView tvNum = new TextView(this);
+        tvNum.setText("Câu " + (index + 1) + "/" + currentQuestions.size());
+        tvNum.setPadding(0, 0, 0, 20);
+        llGameArea.addView(tvNum);
 
-        TextView tvQuestionText = new TextView(this);
-        tvQuestionText.setText(q.getNoiDung());
-        tvQuestionText.setTextSize(20);
-        tvQuestionText.setTextColor(getResources().getColor(android.R.color.black));
-        tvQuestionText.setPadding(0, 0, 0, 40);
-        llGameArea.addView(tvQuestionText);
+        // Hiển thị nội dung câu hỏi
+        TextView tvQText = new TextView(this);
+        tvQText.setText(q.getNoiDung());
+        tvQText.setTextSize(20);
+        tvQText.setTextColor(getResources().getColor(android.R.color.black));
+        tvQText.setPadding(0, 0, 0, 40);
+        llGameArea.addView(tvQText);
 
-        // ✅ PARSE CacLuaChon (JSON A/B/C/D) từ backend
+        // ✅ PARSE ĐÁP ÁN LINH HOẠT (THỬ CẢ HOA VÀ THƯỜNG)
         try {
-            String rawChoices = q.getCacLuaChon();
-            if (rawChoices == null || rawChoices.trim().isEmpty()) rawChoices = "{}";
-
-            Gson gson = new Gson();
-            JsonObject choices = gson.fromJson(rawChoices, JsonObject.class);
-
+            JsonObject choices = new Gson().fromJson(q.getCacLuaChon(), JsonObject.class);
             String[] letters = {"A", "B", "C", "D"};
+            int count = 0;
+
             for (String letter : letters) {
-                if (choices != null && choices.has(letter) && !choices.get(letter).isJsonNull()) {
-                    String answerText = choices.get(letter).getAsString();
-                    if (answerText != null && !answerText.trim().isEmpty()) {
-                        Button btnAnswer = createAnswerButton(letter, answerText, q.getCauHoiID());
-                        llGameArea.addView(btnAnswer);
+                // Thử lấy key "A", nếu null thử lấy key "a"
+                JsonElement element = choices.get(letter);
+                if (element == null || element.isJsonNull()) {
+                    element = choices.get(letter.toLowerCase());
+                }
+
+                if (element != null && !element.isJsonNull()) {
+                    String text = element.getAsString();
+                    if (!text.isEmpty()) {
+                        llGameArea.addView(createAnswerButton(letter, text, q.getCauHoiID()));
+                        count++;
                     }
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            // Nếu parse lỗi thì vẫn cho user thấy thông báo thay vì crash
-            TextView tvErr = new TextView(this);
-            tvErr.setText("⚠️ Lỗi đọc đáp án (CacLuaChon).");
-            tvErr.setPadding(0, 20, 0, 0);
-            llGameArea.addView(tvErr);
+            Log.e(TAG, "❌ Error parsing answers", e);
         }
 
         startTimer();
     }
 
-    // ✅ TẠO NÚT ĐÁP ÁN
-    private Button createAnswerButton(String letter, String text, int questionId) {
+    private Button createAnswerButton(String letter, String text, int qId) {
         Button btn = new Button(this);
         btn.setText(letter + ". " + text);
         btn.setTag(R.id.tag_answer, letter);
-        btn.setTag(R.id.tag_question_id, questionId);
+        btn.setTag(R.id.tag_question_id, qId);
         btn.setBackgroundResource(R.drawable.answer_button_background);
-        btn.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        btn.setPadding(30, 40, 30, 40);
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.setMargins(0, 0, 0, 30);
-        btn.setLayoutParams(params);
-
         btn.setOnClickListener(v -> {
             disableAllAnswers();
-            btn.setSelected(true);
-            btn.setBackgroundResource(R.drawable.answer_selected_background);
-
-            String selectedAnswer = (String) btn.getTag(R.id.tag_answer);
-            int qId = (int) btn.getTag(R.id.tag_question_id);
-
-            submitAnswer(qId, selectedAnswer);
+            v.setSelected(true);
+            v.setBackgroundResource(R.drawable.answer_selected_background);
+            submitAnswer(qId, letter);
         });
 
+        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(-1, -2);
+        p.setMargins(0, 0, 0, 30);
+        btn.setLayoutParams(p);
         return btn;
     }
 
-    // ✅ DISABLE TẤT CẢ NÚT ĐÁP ÁN
-    private void disableAllAnswers() {
-        for (int i = 0; i < llGameArea.getChildCount(); i++) {
-            View child = llGameArea.getChildAt(i);
-            if (child instanceof Button) {
-                child.setEnabled(false);
-            }
-        }
-    }
-
-    // ✅ START TIMER (GIỐNG WEB)
     private void startTimer() {
         timeLeft = 15;
-        tvTimer.setText(timeLeft + "s");
-
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
-
+        if (countDownTimer != null) countDownTimer.cancel();
         countDownTimer = new CountDownTimer(15000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timeLeft = (int) (millisUntilFinished / 1000);
+            public void onTick(long ms) {
+                timeLeft = (int) (ms / 1000);
                 tvTimer.setText(timeLeft + "s");
             }
-
-            @Override
             public void onFinish() {
-                if (currentQuestions != null && currentQuestionIndex < currentQuestions.size()) {
-                    CauHoiDisplayModel q = currentQuestions.get(currentQuestionIndex);
-                    submitAnswer(q.getCauHoiID(), "");
-                }
+                submitAnswer(currentQuestions.get(currentQuestionIndex).getCauHoiID(), "");
             }
         }.start();
     }
 
-    // ✅ SUBMIT ANSWER (GIỐNG WEB)
-    private void submitAnswer(int questionId, String answer) {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
-
-        int timeSpent = 15 - timeLeft;
-        wsManager.submitAnswer(matchCode, questionId, answer);
-
-        // Delay 2s rồi hiển thị câu tiếp theo
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            displayQuestion(currentQuestionIndex + 1);
-        }, 2000);
+    private void submitAnswer(int qId, String ans) {
+        if (countDownTimer != null) countDownTimer.cancel();
+        wsManager.submitAnswer(matchCode, qId, ans);
+        new Handler(Looper.getMainLooper()).postDelayed(() -> displayQuestion(currentQuestionIndex + 1), 2000);
     }
 
-    // ✅ CẬP NHẬT ĐIỂM (TỰ TÍNH - GIỐNG WEB)
-    private void updateScores(int userId, boolean correct) {
-        if (correct) {
-            if (userId == myUserId) {
-                yourScore += 100;
-                highlightCorrectAnswer();
-            } else {
-                opponentScore += 100;
-            }
-        } else {
-            if (userId == myUserId) {
-                highlightWrongAnswer();
-            }
-        }
-
-        tvYourScore.setText(String.valueOf(yourScore));
-        tvOpponentScore.setText(String.valueOf(opponentScore));
-    }
-
-    // ✅ TÔ MÀU XANH ĐÁP ÁN ĐÚNG
     private void highlightCorrectAnswer() {
         for (int i = 0; i < llGameArea.getChildCount(); i++) {
-            View child = llGameArea.getChildAt(i);
-            if (child instanceof Button && child.isSelected()) {
-                child.setBackgroundResource(R.drawable.answer_correct_background);
-            }
+            View v = llGameArea.getChildAt(i);
+            if (v instanceof Button && v.isSelected()) v.setBackgroundResource(R.drawable.answer_correct_background);
         }
     }
 
-    // ✅ TÔ MÀU ĐỎ ĐÁP ÁN SAI
     private void highlightWrongAnswer() {
         for (int i = 0; i < llGameArea.getChildCount(); i++) {
-            View child = llGameArea.getChildAt(i);
-            if (child instanceof Button && child.isSelected()) {
-                child.setBackgroundResource(R.drawable.answer_wrong_background);
-            }
+            View v = llGameArea.getChildAt(i);
+            if (v instanceof Button && v.isSelected()) v.setBackgroundResource(R.drawable.answer_wrong_background);
         }
     }
 
-    // ✅ HIỂN THỊ KẾT QUẢ (GIỐNG WEB)
-    private void showGameResult(GameResult result) {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
+    private void disableAllAnswers() {
+        for (int i = 0; i < llGameArea.getChildCount(); i++) {
+            View v = llGameArea.getChildAt(i);
+            if (v instanceof Button) v.setEnabled(false);
         }
+    }
 
-        tvTimer.setVisibility(View.GONE);
-
-        String resultClass;
-        String resultText;
-
-        if (yourScore > opponentScore) {
-            resultClass = "winner";
-            resultText = "🎉 Bạn Chiến Thắng!";
-        } else if (yourScore < opponentScore) {
-            resultClass = "loser";
-            resultText = "😢 Bạn Thua Cuộc!";
-        } else {
-            resultClass = "draw";
-            resultText = "🤝 Hòa!";
-        }
-
+    private void showGameResult(GameResult res) {
+        String msg = (yourScore > opponentScore) ? "🎉 BẠN THẮNG!" : (yourScore < opponentScore) ? "😢 BẠN THUA!" : "🤝 HÒA!";
         new AlertDialog.Builder(this)
-                .setTitle("🏁 Trận Đấu Kết Thúc!")
-                .setMessage(resultText + "\n\n" +
-                        "🎯 Điểm của bạn: " + yourScore + "\n" +
-                        "👤 Điểm đối thủ: " + opponentScore)
-                .setPositiveButton("🏠 Trở về Lobby", (dialog, which) -> {
-                    returnToLobby();
-                })
-                .setCancelable(false)
-                .show();
+                .setTitle("🏁 Kết thúc trận đấu")
+                .setMessage(msg + "\n\nĐiểm của bạn: " + yourScore + "\nĐiểm đối thủ: " + opponentScore)
+                .setPositiveButton("🏠 Về Lobby", (d, w) -> finish())
+                .setCancelable(false).show();
     }
 
-    private void returnToLobby() {
-        if (wsManager.isConnected()) {
-            // Không cần disconnect vì còn activity khác dùng
-        }
-        finish();
-    }
-
-    private void showLoading(String message) {
+    private void showLoading(String msg) {
         llGameArea.removeAllViews();
-
-        TextView tvLoading = new TextView(this);
-        tvLoading.setText("⏳\n\n" + message);
-        tvLoading.setTextSize(20);
-        tvLoading.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        tvLoading.setPadding(40, 100, 40, 100);
-
-        llGameArea.addView(tvLoading);
+        TextView tv = new TextView(this);
+        tv.setText(msg);
+        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tv.setPadding(0, 100, 0, 0);
+        llGameArea.addView(tv);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
+        if (countDownTimer != null) countDownTimer.cancel();
     }
 }

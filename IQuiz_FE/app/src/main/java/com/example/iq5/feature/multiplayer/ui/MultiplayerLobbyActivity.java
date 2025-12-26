@@ -26,7 +26,7 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
     private Runnable onlineCountRunnable;
     private static final String TAG = "MultiplayerLobby";
 
-    private static final String WS_URL = "ws://172.26.97.66:5048/ws/game";
+    private static final String WS_URL = "ws://172.26.93.231:5048/ws/game";
 
     private WebSocketManager wsManager;
 

@@ -18,7 +18,6 @@ import com.example.iq5.feature.auth.ui.SplashActivity;
 import com.example.iq5.feature.multiplayer.ui.CreateRoomActivity;
 
 import com.example.iq5.feature.multiplayer.ui.JoinRoomActivity;
-import com.example.iq5.feature.multiplayer.ui.LeaderboardActivity;
 import com.example.iq5.feature.multiplayer.ui.MatchResultActivity;
 
 
@@ -36,7 +35,6 @@ import com.example.iq5.feature.result.ui.ResultActivity;
 import com.example.iq5.feature.result.ui.StatsActivity;
 import com.example.iq5.feature.result.ui.StreakActivity;
 import com.example.iq5.feature.specialmode.ui.CustomQuizEditorActivity;
-import com.example.iq5.feature.specialmode.ui.CustomQuizFragment;
 
 
 /**
@@ -302,10 +300,6 @@ public class NavigationHelper {
     /**
      * Chuyển đến màn hình Leaderboard
      */
-    public static void navigateToLeaderboard(Context context) {
-        Intent intent = new Intent(context, LeaderboardActivity.class);
-        context.startActivity(intent);
-    }
 
     // ----------------------------------------------------
     // ==================== UTILITY METHODS ====================
