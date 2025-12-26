@@ -52,18 +52,17 @@ public class WrongHistoryFragment extends Fragment {
         TextView tvTotalWrong = view.findViewById(R.id.tv_total_wrong);
         RecyclerView rv = view.findViewById(R.id.rv_wrong_topics);
 
-        adapter = new WrongTopicAdapter((WrongTopic topic) -> {
+        adapter = new WrongTopicAdapter(topic -> {
             Intent intent = new Intent(requireContext(), QuizActivity.class);
-            intent.putExtra("ENTRY_SOURCE", "wrong_history");
-            intent.putExtra("TOPIC_ID", topic.topicId);
-            intent.putExtra("TOPIC_NAME", topic.topicName);
-            intent.putExtra("SUGGESTED_QUIZ_ID", topic.suggestedQuizId);
+            intent.putExtra("ENTRY_MODE", "WRONG_REVIEW_RECENT");
+            intent.putExtra("TOPIC_NAME", topic.topicName); // chỉ dùng tên
             startActivity(intent);
         });
+
         rv.setAdapter(adapter);
 
         // ===============================
-        // GỌI API WRONG QUESTION (JWT)
+        // GỌI API CÂU SAI GẦN ĐÂY
         // ===============================
         repository.getWrongAnswers()
                 .enqueue(new Callback<WrongAnswersResponse>() {
@@ -73,23 +72,28 @@ public class WrongHistoryFragment extends Fragment {
 
                         if (!response.isSuccessful()
                                 || response.body() == null
-                                || !response.body().success) {
+                                || !response.body().success
+                                || response.body().data == null
+                                || response.body().data.isEmpty()) {
 
                             tvTotalWrong.setText("Không có dữ liệu câu sai");
+                            adapter.submitList(new ArrayList<>());
                             return;
                         }
 
                         List<WrongAnswerItem> data = response.body().data;
+
                         tvTotalWrong.setText(
                                 "Tổng " + data.size() + " câu sai cần ôn lại"
                         );
 
                         // ===============================
-                        // GOM THEO CHỦ ĐỀ
+                        // GOM THEO TÊN CHỦ ĐỀ
                         // ===============================
                         Map<String, WrongTopic> topicMap = new HashMap<>();
 
                         for (WrongAnswerItem item : data) {
+
                             String topicName = item.tenChuDe;
 
                             if (!topicMap.containsKey(topicName)) {
@@ -97,8 +101,6 @@ public class WrongHistoryFragment extends Fragment {
                                 topic.topicId = topicName; // dùng tên làm key
                                 topic.topicName = topicName;
                                 topic.wrongCount = 0;
-                                topic.suggestedQuizId =
-                                        String.valueOf(item.cauHoiID);
                                 topicMap.put(topicName, topic);
                             }
 
@@ -113,9 +115,7 @@ public class WrongHistoryFragment extends Fragment {
                     @Override
                     public void onFailure(Call<WrongAnswersResponse> call,
                                           Throwable t) {
-                        tvTotalWrong.setText(
-                                "Không tải được lịch sử câu sai"
-                        );
+                        tvTotalWrong.setText("Không tải được lịch sử câu sai");
                     }
                 });
     }

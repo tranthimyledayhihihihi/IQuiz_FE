@@ -24,11 +24,6 @@ public class SpecialModeRepository {
                 .getClient(prefsManager)
                 .create(ApiService.class);
     }
-
-    // ================================
-    // QUIZ TÙY CHỈNH (API THẬT)
-    // ================================
-
     public Call<CustomQuizResponse> getCustomQuizzes() {
         return apiService.getMyCustomQuizzes(
                 "Bearer " + prefsManager.getToken(),

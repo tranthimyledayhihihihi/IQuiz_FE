@@ -71,7 +71,7 @@ public final class ApiClient {
     public static Retrofit getClient(PrefsManager prefsManager) {
 
         String baseUrl = BuildConfig.BASE_URL;
-
+        Log.d("BASE_URL", "Using BASE_URL = " + baseUrl);
         if (retrofitInstance == null || lastBaseUrl == null || !lastBaseUrl.equals(baseUrl)) {
             synchronized (ApiClient.class) {
                 if (retrofitInstance == null || lastBaseUrl == null || !lastBaseUrl.equals(baseUrl)) {
@@ -80,6 +80,7 @@ public final class ApiClient {
                 }
             }
         }
+
         return retrofitInstance;
     }
 

@@ -11,18 +11,19 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.iq5.R;
-import com.example.iq5.core.navigation.NavigationHelper;
 import com.example.iq5.feature.quiz.adapter.AnswerOptionAdapter;
-import com.example.iq5.feature.quiz.data.SpecialModeRepository;
-import com.example.iq5.feature.quiz.model.CurrentQuestionResponse;
-import com.example.iq5.feature.quiz.model.HelpOptionsResponse;
-import com.example.iq5.feature.quiz.model.Lifeline;
 import com.example.iq5.feature.quiz.model.Option;
 import com.example.iq5.feature.quiz.model.Question;
+import com.example.iq5.feature.specialmode.data.SpecialModeRepository;
+import com.example.iq5.feature.specialmode.model.WrongAnswerItem;
+import com.example.iq5.feature.specialmode.model.WrongAnswersResponse;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -31,12 +32,13 @@ public class QuizActivity extends AppCompatActivity {
     private ImageButton btnLifelineHint;
     private Button btnFinish, btnSkip;
 
-    private SpecialModeRepository repository;
-    private Question currentQuestion;
-    private List<Question> questionList = new ArrayList<>();
-    private HelpOptionsResponse helpOptions;
-
     private AnswerOptionAdapter optionAdapter;
+
+    private final List<Question> questionList = new ArrayList<>();
+    private int currentIndex = 0;
+
+    private String entryMode;
+    private SpecialModeRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,20 +48,17 @@ public class QuizActivity extends AppCompatActivity {
         initViews();
 
         repository = new SpecialModeRepository(this);
-        CurrentQuestionResponse data = repository.getCurrentQuestionData();
-        helpOptions = repository.getLifelineOptions();
 
-        if (data == null || data.getQuestion() == null) {
-            txtQuestion.setText("Không thể tải câu hỏi!");
-            return;
+        entryMode = getIntent().getStringExtra("ENTRY_MODE");
+
+        if ("WRONG_REVIEW_RECENT".equals(entryMode)) {
+            loadRecentWrongQuestions();
+        } else {
+            Toast.makeText(this,
+                    "Chế độ chơi này chưa được hỗ trợ",
+                    Toast.LENGTH_SHORT).show();
+            finish();
         }
-
-        currentQuestion = data.getQuestion();
-        questionList.add(currentQuestion);
-
-        bindQuestion();
-        setupOptionAdapter();
-        setupButtons();
     }
 
     private void initViews() {
@@ -68,31 +67,83 @@ public class QuizActivity extends AppCompatActivity {
         btnLifelineHint = findViewById(R.id.btnLifelineHint);
         btnFinish = findViewById(R.id.btnFinish);
         btnSkip = findViewById(R.id.btnSkip);
-    }
-
-    private void bindQuestion() {
-        txtQuestion.setText(currentQuestion.getQuestion_text());
-    }
-
-    private void setupOptionAdapter() {
 
         rvOptions.setLayoutManager(new GridLayoutManager(this, 2));
+    }
+
+    // ===============================
+    // LOAD CÂU SAI GẦN ĐÂY
+    // ===============================
+    private void loadRecentWrongQuestions() {
+
+        repository.getWrongAnswers()
+                .enqueue(new Callback<WrongAnswersResponse>() {
+                    @Override
+                    public void onResponse(Call<WrongAnswersResponse> call,
+                                           Response<WrongAnswersResponse> response) {
+
+                        if (!response.isSuccessful()
+                                || response.body() == null
+                                || !response.body().success
+                                || response.body().data == null
+                                || response.body().data.isEmpty()) {
+
+                            Toast.makeText(
+                                    QuizActivity.this,
+                                    "Không có câu sai để ôn tập",
+                                    Toast.LENGTH_LONG
+                            ).show();
+                            finish();
+                            return;
+                        }
+
+                        for (WrongAnswerItem item : response.body().data) {
+                            questionList.add(mapToQuestion(item));
+                        }
+
+                        showQuestion();
+                        setupButtons();
+                    }
+
+                    @Override
+                    public void onFailure(Call<WrongAnswersResponse> call, Throwable t) {
+                        Toast.makeText(
+                                QuizActivity.this,
+                                "Không tải được câu sai",
+                                Toast.LENGTH_LONG
+                        ).show();
+                        finish();
+                    }
+                });
+    }
+
+    // ===============================
+    // HIỂN THỊ CÂU HỎI
+    // ===============================
+    private void showQuestion() {
+        if (currentIndex >= questionList.size()) {
+            finishReview();
+            return;
+        }
+
+        Question q = questionList.get(currentIndex);
+        txtQuestion.setText(q.getQuestion_text());
 
         optionAdapter = new AnswerOptionAdapter(
-                currentQuestion.getOptions(),
-                option -> onUserSelectOption(option)
+                q.getOptions(),
+                option -> onUserSelectOption(q, option)
         );
 
         rvOptions.setAdapter(optionAdapter);
     }
 
-    private void onUserSelectOption(Option option) {
-        currentQuestion.setUser_selected_answer_id(option.getOption_id());
+    private void onUserSelectOption(Question q, Option option) {
+        q.setUser_selected_answer_id(option.getOption_id());
 
-        if (currentQuestion.isUserAnswerCorrect()) {
+        if (q.isUserAnswerCorrect()) {
             Toast.makeText(this, "ĐÚNG!", Toast.LENGTH_SHORT).show();
         } else {
-            Option correctOpt = currentQuestion.getCorrectOption();
+            Option correctOpt = q.getCorrectOption();
             Toast.makeText(
                     this,
                     "SAI! Đáp án đúng: " +
@@ -107,88 +158,49 @@ public class QuizActivity extends AppCompatActivity {
     private void setupButtons() {
 
         btnSkip.setOnClickListener(v -> {
-            Toast.makeText(this, "Bạn đã bỏ qua câu hỏi", Toast.LENGTH_SHORT).show();
-            currentQuestion.clearUserSelection();
-            optionAdapter.notifyDataSetChanged();
+            currentIndex++;
+            showQuestion();
         });
 
-        btnFinish.setOnClickListener(v -> openReviewScreen());
+        btnFinish.setOnClickListener(v -> finishReview());
 
-        btnLifelineHint.setOnClickListener(v -> handleLifeline());
-    }
-
-    private void handleLifeline() {
-
-        if (helpOptions == null || helpOptions.getAvailableLifelines() == null) {
-            Toast.makeText(this, "Không có trợ giúp!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        LifelineDialogFragment dialog = new LifelineDialogFragment(
-                helpOptions.getAvailableLifelines(),
-                lifeline -> applyLifeline(lifeline)
+        btnLifelineHint.setOnClickListener(v ->
+                Toast.makeText(
+                        this,
+                        "Ôn tập không sử dụng trợ giúp",
+                        Toast.LENGTH_SHORT
+                ).show()
         );
-
-        dialog.show(getSupportFragmentManager(), "LifelineDialog");
     }
 
-    private void applyLifeline(Lifeline lifeline) {
-        if (lifeline.isUsedOnCurrentQuestion()) {
-            Toast.makeText(this, "Bạn đã dùng trợ giúp cho câu này rồi!", Toast.LENGTH_SHORT).show();
-            return;
-        }
+    private void finishReview() {
+        Toast.makeText(
+                this,
+                "Hoàn thành ôn tập " + questionList.size() + " câu sai",
+                Toast.LENGTH_LONG
+        ).show();
 
-        switch (lifeline.getType()) {
-
-            case "hint":
-                String hint = helpOptions.getHintContent() != null
-                        ? helpOptions.getHintContent().getText()
-                        : "Không có gợi ý";
-                Toast.makeText(this, "Gợi ý: " + hint, Toast.LENGTH_LONG).show();
-                break;
-
-            case "50:50":
-                apply5050(currentQuestion);
-                break;
-
-            case "skip":
-                currentQuestion.clearUserSelection();
-                Toast.makeText(this, "Bạn đã bỏ qua câu hỏi!", Toast.LENGTH_SHORT).show();
-                break;
-        }
-
-        lifeline.setUsedOnCurrentQuestion(true);
-        lifeline.setCountRemaining(lifeline.getCountRemaining() - 1);
-
-        optionAdapter.notifyDataSetChanged();
+        finish();
     }
 
-    private void apply5050(Question q) {
-        List<Option> options = q.getOptions();
-        String correctId = q.getCorrect_answer_id();
+    // ===============================
+    // MAP WRONG → QUESTION
+    // ===============================
+    private Question mapToQuestion(WrongAnswerItem item) {
 
-        int hiddenCount = 0;
+        Question q = new Question();
 
-        for (Option opt : options) {
-            if (!opt.getOption_id().equals(correctId) && hiddenCount < 2) {
-                opt.setHidden(true);
-                hiddenCount++;
-            }
-        }
-    }
+        q.setQuestion_text(item.cauHoi);
+        q.setCorrect_answer_id(item.dapAnChinhXac);
 
-    private void openReviewScreen() {
-        int correctCount = 0;
-        for (Question q : questionList) {
-            if (q.isUserAnswerCorrect()) correctCount++;
-        }
-        
-        Bundle resultData = new Bundle();
-        resultData.putSerializable("questions", (Serializable) questionList);
-        resultData.putInt("score", correctCount * 100);
-        resultData.putInt("total", questionList.size());
-        resultData.putInt("correct", correctCount);
-        
-        NavigationHelper.navigateToResult(this, resultData);
+        List<Option> options = new ArrayList<>();
+        options.add(new Option("A", item.dapAnA));
+        options.add(new Option("B", item.dapAnB));
+        options.add(new Option("C", item.dapAnC));
+        options.add(new Option("D", item.dapAnD));
+
+        q.setOptions(options);
+
+        return q;
     }
 }

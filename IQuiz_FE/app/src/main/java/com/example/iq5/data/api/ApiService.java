@@ -1,6 +1,7 @@
 package com.example.iq5.data.api;
 
 import com.example.iq5.data.model.*;
+import com.example.iq5.feature.quiz.data.FeaturedQuiz;
 import com.example.iq5.feature.specialmode.model.WrongAnswersResponse;
 
 import java.util.List;
@@ -317,5 +318,12 @@ public interface ApiService {
     );
 
 
+    @GET("api/quiz/featured")
+    Call<List<FeaturedQuiz>> getFeaturedQuiz();
+    @GET("api/quiz/causai/by-topic/{chuDeId}")
+    Call<WrongAnswersResponse> getWrongAnswersByTopic(
+            @Path("chuDeId") int chuDeId,
+            @Header("Authorization") String token
+    );
 
 }

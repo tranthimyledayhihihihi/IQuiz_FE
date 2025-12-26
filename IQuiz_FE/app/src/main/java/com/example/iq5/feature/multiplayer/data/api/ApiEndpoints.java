@@ -2,7 +2,7 @@ package com.example.iq5.feature.multiplayer.data.api;
 
 public class ApiEndpoints {
     // Base URL - THAY ĐỔI THEO SERVER CỦA BẠN
-    public static final String BASE_URL = "http://172.26.93.231:5048/api/";
+    public static final String BASE_URL = "http://172.26.97.66:5048/api/";
 
 
     // ===============================

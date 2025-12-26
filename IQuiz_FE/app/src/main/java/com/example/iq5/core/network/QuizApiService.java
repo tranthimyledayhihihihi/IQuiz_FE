@@ -13,7 +13,7 @@ import retrofit2.http.Path;
 public interface QuizApiService {
     
     // Lấy danh sách chủ đề (categories)
-    @GET("api/chude/with-stats")
+    @GET("api/ChuDe/with-stats")
     Call<java.util.List<CategoryResponse>> getCategories();
     
     // Test endpoint để kiểm tra backend
@@ -21,23 +21,23 @@ public interface QuizApiService {
     Call<java.util.List<CategoryResponse>> getTestCategories();
     
     // Bắt đầu làm bài quiz
-    @POST("api/choi/start")
+    @POST("api/Choi/start")
     Call<GameStartResponse> startQuiz(@Body GameStartOptions options);
     
     // Nộp đáp án
-    @POST("api/choi/submit")
+    @POST("api/Choi/submit")
     Call<AnswerResponse> submitAnswer(@Body AnswerSubmit answer);
     
     // Lấy câu hỏi tiếp theo
-    @GET("api/choi/next/{attemptId}")
+    @GET("api/Choi/next/{attemptId}")
     Call<Question> getNextQuestion(@Path("attemptId") int attemptId);
     
     // Kết thúc bài quiz
-    @POST("api/choi/end/{attemptId}")
+    @POST("api/Choi/end/{attemptId}")
     Call<QuizResult> endQuiz(@Path("attemptId") int attemptId);
     
     // Lấy câu hỏi sai để ôn tập
-    @GET("api/cauhoi/incorrect-review")
+    @GET("api/CauHoi/incorrect-review")
     Call<IncorrectQuestionsResponse> getIncorrectQuestions();
     
     // NEW: Lấy câu hỏi theo category (không cần authentication)
